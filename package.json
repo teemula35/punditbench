@@ -1,0 +1,33 @@
+{
+  "name": "punditbench",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PunditBench — LLM football prediction benchmark, 2026 World Cup edition",
+  "scripts": {
+    "dev": "next dev",
+    "build": "node --import tsx scripts/prepare-export.ts && next build",
+    "start": "next start",
+    "test": "vitest run",
+    "predict": "node --import tsx scripts/predict.ts",
+    "result": "node --import tsx scripts/record-result.ts",
+    "hash": "node --import tsx scripts/hash.ts",
+    "audit": "node --import tsx scripts/audit.ts",
+    "knockout-fixtures": "node --import tsx scripts/make-knockout-fixtures.ts"
+  },
+  "dependencies": {
+    "next": "^15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^4.1.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.1.0"
+  }
+}
