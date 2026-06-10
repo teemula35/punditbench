@@ -2,7 +2,7 @@
 
 **Can AI call the beautiful game?** 18 large language models predict every match of the 2026 World Cup — all 104 of them, stage by stage, locked in before kickoff and scored against reality.
 
-- 🌐 Site: https://punditbench.com *(during the tournament)*
+- 🌐 Site: **https://punditbench.web.app** (punditbench.com to follow)
 - 📊 Methodology: [METHODOLOGY.md](METHODOLOGY.md) — prompts, scoring, integrity rules
 - 📜 Decisions & rationale: [DECISIONS.md](DECISIONS.md) · Backlog: [BACKLOG.md](BACKLOG.md) · Ops: [OPS.md](OPS.md)
 - 🔐 Pre-registration: each stage's predictions are hashed (SHA-256) and the hash committed + tagged before kickoff (`data/hashes/`)
@@ -35,6 +35,7 @@ npm run result -- 1 2-1                    # record a result (+ prints points pe
 npm run knockout-fixtures -- --stage r32   # resolve next round fixtures from results
 npm run audit                              # re-derive everything from raw logs, verify
 npm run build                              # static site -> ./out
+firebase deploy --only hosting             # publish ./out to punditbench.web.app
 ```
 
 ## Status

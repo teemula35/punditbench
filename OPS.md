@@ -24,7 +24,7 @@ Windows 1–2 are overnight-tight (~12–18 h). Run as early in the window as po
 4. Run predictions: `npm run predict -- --stage r32`
    - Failures? `npm run predict -- --stage r32 --only-missing` retries just the failed models. Persistent provider outage → model scores 0 for the round (D5); document in CHANGELOG.md.
 5. Lock + publish: `npm run hash -- --stage r32`, then commit + tag + push as the script prints.
-6. Site rebuilds via CI on push. Spot-check one match page.
+6. Publish: `npm run build; firebase deploy --only hosting`. Spot-check one match page.
 
 ## Daily routine during the tournament (G2, ~10 min, after the day's matches)
 
@@ -33,6 +33,7 @@ npm run result -- <match> <home>-<away>          # repeat per finished match
 # knockout days: npm run result -- 77 1-1 --advances "Spain" --note "pens 4-2"
 npm test                                          # invariants still green
 git add data/results.json; git commit -m "Results <date>"; git push
+npm run build; firebase deploy --only hosting    # publish updated site
 ```
 
 `record-result` prints every model's points for the match — eyeball it against the site after CI deploys. Get the 90-minute score from two sources (e.g. FIFA + ESPN) before entering; knockout matches: the recorded score is the 90' score, NOT after extra time.

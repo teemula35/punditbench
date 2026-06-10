@@ -16,8 +16,8 @@
 |---|---|---|---|
 | 1 | **OpenRouter account + API key** (`OPENROUTER_API_KEY` in `.env`) + a few € credits | A5 full prediction run + A6 hash — **the kickoff deadline item** | **Today** |
 | 2 | D7: publishing entity (personal vs Clarity AI Oy) | Imprint text on legal page only | Whenever |
-| 3 | D-1: GCP project + billing | Public deployment (site runs locally / CI meanwhile) | Tomorrow OK |
-| 4 | Buy domain `punditbench.com` (~15 €, confirmed unregistered) | Public URL | Tomorrow OK |
+| 3 | Buy domain `punditbench.com` (~15 €, confirmed unregistered) | Custom URL only — site is already live at https://punditbench.web.app (Firebase Hosting, free tier); map domain in Firebase console after purchase | Tomorrow OK |
+| ~~4~~ | ~~D-1: GCP project + billing~~ | No longer blocks anything — hosting moved to Firebase free tier; GCP/Cloud Run path stays available in `.github/workflows/deploy.yml` if ever wanted | Optional |
 
 ---
 
@@ -117,10 +117,10 @@
 
 | ID | Item | Prio | Owner | Note |
 |---|---|---|---|---|
-| D-1 | GCP project + billing + budget alerts | P1 | **YOU** | Then Claude wires deploy |
-| D-2 | Hosting: static export → Cloud Run (nginx) — Dockerfile + deploy workflow committed, activates when D-1 + secrets exist | P1 | C+you | No Cloud SQL/Secret-Manager needed per D8 |
-| D-3 | Domain punditbench.com + DNS + TLS | P1 | C+you | You buy; Claude configures |
-| D-4 | GitHub repo + Actions CI (tests+build on push) + deploy workflow | P1 | C | `gh` is authenticated — Claude creates public repo (public = serves A6 pre-registration) |
+| D-1 | ~~GCP project + billing~~ — obsoleted by Firebase Hosting free tier | — | — | Cloud Run workflow kept as optional alternative |
+| D-2 | ✅ Hosting live: **https://punditbench.web.app** (Firebase Hosting, project `punditbench`); deploy = `npm run build; firebase deploy --only hosting` | P1 | C | Done 2026-06-10. Optional later: `firebase login:ci` token as GH secret for auto-deploy on push |
+| D-3 | Domain punditbench.com + DNS + TLS | P1 | C+you | You buy; map to Firebase Hosting (console → custom domain), then flip SITE_URL |
+| D-4 | ✅ GitHub repo (public, github.com/teemula35/punditbench) + Actions CI | P1 | C | Done 2026-06-10 |
 | D-5 | Error tracking/uptime | P1 | C | Static site → uptime ping + CI status suffice for MVP; Sentry only if dynamic parts appear |
 | D-6 | Backups | P1 | C | git history is the backup (D8); GitHub = offsite copy |
 | D-7 | CDN/cache verification | P2 | C | Static export is CDN-native |
