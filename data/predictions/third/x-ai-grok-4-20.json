@@ -1,0 +1,33 @@
+{
+  "model": "x-ai/grok-4.20",
+  "slug": "x-ai-grok-4-20",
+  "stage": "third",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:29:42.324Z",
+  "completed_at": "2026-06-10T21:29:43.018Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1562,
+    "completion_tokens": 24,
+    "total_tokens": 1586,
+    "cost_usd": 0.0019453
+  },
+  "simulated_fixtures": [
+    {
+      "match": 103,
+      "home": "Spain",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 103,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

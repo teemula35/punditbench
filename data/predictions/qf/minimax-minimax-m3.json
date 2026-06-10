@@ -1,0 +1,66 @@
+{
+  "model": "minimax/minimax-m3",
+  "slug": "minimax-minimax-m3",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:30:52.886Z",
+  "completed_at": "2026-06-10T21:31:04.024Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1605,
+    "completion_tokens": 744,
+    "total_tokens": 2349,
+    "cost_usd": 0.00134694
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "Germany",
+      "away": "Netherlands"
+    },
+    {
+      "match": 98,
+      "home": "Spain",
+      "away": "United States"
+    },
+    {
+      "match": 99,
+      "home": "Brazil",
+      "away": "England"
+    },
+    {
+      "match": 100,
+      "home": "Argentina",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

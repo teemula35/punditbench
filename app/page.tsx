@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { loadSiteData } from "@/lib/aggregate";
+import { championBoard, loadSiteData } from "@/lib/aggregate";
 import { loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { TAGLINE } from "@/lib/site";
@@ -8,6 +8,8 @@ import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
 export default function LeaderboardPage() {
   const data = loadSiteData();
   const teams = loadTeams();
+  const champions = championBoard(data);
+  const pendingBrackets = data.leaderboard.filter((e) => !e.championPick).length;
 
   const upcoming = [...data.fixtures.values()]
     .filter((f) => !data.results.has(f.match))
@@ -30,21 +32,59 @@ export default function LeaderboardPage() {
         </p>
       </section>
 
+      {/* Champion board */}
+      <section>
+        <h2 className="mb-1 text-lg font-semibold text-zinc-100">Champion board</h2>
+        <p className="mb-4 text-sm text-zinc-400">
+          Every model simulated its own tournament to the end — these are their champions.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          {champions.map((c) => (
+            <div
+              key={c.team}
+              className="max-w-xs rounded-lg border border-zinc-800 bg-zinc-900/40 px-4 py-3"
+            >
+              <p className="text-sm font-semibold text-zinc-100">
+                <TeamLabel teams={teams} name={c.team} />{" "}
+                <span className="text-emerald-400">×{c.models.length}</span>
+              </p>
+              <p className="mt-1 text-xs leading-relaxed text-zinc-500">
+                {c.models.map((m, i) => (
+                  <span key={m.slug}>
+                    {i > 0 && <span className="text-zinc-700"> · </span>}
+                    <Link href={`/models/${m.slug}/`} className="hover:text-emerald-400">
+                      {m.label}
+                    </Link>
+                  </span>
+                ))}
+              </p>
+            </div>
+          ))}
+          {pendingBrackets > 0 && (
+            <div className="flex max-w-xs items-center rounded-lg border border-dashed border-zinc-800 px-4 py-3">
+              <p className="text-xs italic text-zinc-500">
+                {pendingBrackets} bracket simulation{pendingBrackets === 1 ? "" : "s"} still being
+                collected
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* Leaderboard */}
       <section>
         <h2 className="mb-4 text-lg font-semibold text-zinc-100">Leaderboard</h2>
         <div className="overflow-x-auto rounded-lg border border-zinc-800">
-          <table className="w-full min-w-[640px] text-sm">
+          <table className="w-full min-w-[760px] text-sm">
             <thead className="border-b border-zinc-800 bg-zinc-900/60">
               <tr>
                 <th className={TH_CLS}>#</th>
                 <th className={TH_CLS}>Model</th>
-                <th className={`${TH_CLS} text-right`}>Points</th>
+                <th className={`${TH_CLS} text-right`}>Total</th>
+                <th className={`${TH_CLS} text-right`}>Group pts</th>
+                <th className={`${TH_CLS} text-right`}>Bracket pts</th>
                 <th className={`${TH_CLS} text-right`}>Exact</th>
-                <th className={`${TH_CLS} text-right`}>GD</th>
-                <th className={`${TH_CLS} text-right`}>Outcome</th>
-                <th className={`${TH_CLS} text-right`}>Adv</th>
-                <th className={`${TH_CLS} text-right`}>Scored</th>
+                <th className={TH_CLS}>Champion pick</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/70">
@@ -67,18 +107,28 @@ export default function LeaderboardPage() {
                     </div>
                   </td>
                   <td className={`${TD_CLS} text-right text-lg font-bold tabular-nums text-emerald-400`}>
+                    {e.totalPoints}
+                  </td>
+                  <td className={`${TD_CLS} text-right tabular-nums text-zinc-300`}>
                     {e.totals.points}
                   </td>
-                  <td className={`${TD_CLS} text-right tabular-nums text-zinc-300`}>{e.totals.exact}</td>
-                  <td className={`${TD_CLS} text-right tabular-nums text-zinc-300`}>{e.totals.gd}</td>
-                  <td className={`${TD_CLS} text-right tabular-nums text-zinc-300`}>
-                    {e.totals.outcome}
+                  <td
+                    className={`${TD_CLS} text-right tabular-nums text-zinc-300`}
+                    title={`advancement ${e.bracket.advancement} · matchups ${e.bracket.matchupHits} · matched scorelines ${e.bracket.matchupPoints}`}
+                  >
+                    {e.bracket.total}
                   </td>
                   <td className={`${TD_CLS} text-right tabular-nums text-zinc-300`}>
-                    {e.totals.advances}
+                    {e.exactCount}
                   </td>
-                  <td className={`${TD_CLS} text-right tabular-nums text-zinc-500`}>
-                    {e.totals.scoredMatches}
+                  <td className={`${TD_CLS} text-zinc-200`}>
+                    {e.championPick ? (
+                      <TeamLabel teams={teams} name={e.championPick} />
+                    ) : (
+                      <span className="text-xs italic text-zinc-500">
+                        {e.hasPredictions ? "no valid bracket" : "—"}
+                      </span>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -86,8 +136,12 @@ export default function LeaderboardPage() {
           </table>
         </div>
         <p className="mt-2 text-xs text-zinc-600">
-          Exact score 3 pts · correct goal difference 2 · correct outcome 1 · +1 for the advancing
-          team in knockouts. Tiebreakers: points → exacts → matches with points → advance hits.
+          Total = group match points (exact 3 · goal difference 2 · outcome 1) + bracket points:
+          advancement for every real team a model had reaching each stage (R32 1 · R16 2 · QF 3 ·
+          SF 5 · final 8 · champion 13), +1 per simulated pairing that actually occurs, and matched
+          pairings&apos; scorelines scored like normal matches. Bracket points pay out once the real
+          knockout bracket forms. Tiebreakers: points → exact scores → correct champion → correct
+          R32 qualifiers.
         </p>
       </section>
 
@@ -124,11 +178,13 @@ export default function LeaderboardPage() {
       <section className="max-w-2xl rounded-lg border border-zinc-800 bg-zinc-900/40 p-5">
         <h2 className="text-base font-semibold text-zinc-100">What is this?</h2>
         <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-          PunditBench asks 18 large language models to predict the result of every 2026 World Cup
-          match, using identical prompts and nothing but their training knowledge. Predictions are
-          locked and hash-pre-registered before kickoff, then scored against the real results.
-          The leaderboard above updates after every match — a running answer to whether AI can
-          call the beautiful game.
+          Before the opening kickoff, 33 large language models each predicted the entire 2026
+          World Cup — every group-stage score and, derived from those scores, their own group
+          tables, their own knockout bracket and their own champion. Reality then grades every
+          claim: group matches on exact score, goal difference and outcome; brackets on which real
+          teams a model had reaching each stage, on simulated pairings that actually happen, and
+          on the scorelines it attached to them. Everything was locked and SHA-256 pre-registered
+          before the first match, so nothing can be quietly edited after the fact.
         </p>
         <p className="mt-3 text-sm">
           <Link

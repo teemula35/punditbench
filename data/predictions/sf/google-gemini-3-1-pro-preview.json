@@ -1,0 +1,44 @@
+{
+  "model": "google/gemini-3.1-pro-preview",
+  "slug": "google-gemini-3-1-pro-preview",
+  "stage": "sf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:26:04.089Z",
+  "completed_at": "2026-06-10T21:26:11.493Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1525,
+    "completion_tokens": 602,
+    "total_tokens": 2127,
+    "cost_usd": 0.010274
+  },
+  "simulated_fixtures": [
+    {
+      "match": 101,
+      "home": "France",
+      "away": "Spain"
+    },
+    {
+      "match": 102,
+      "home": "Brazil",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Brazil"
+    }
+  ]
+}

@@ -35,7 +35,13 @@ for (const [slug, files] of all) {
       problems++;
       continue;
     }
-    const stageFixtures: Fixture[] = [...fixtures.values()].filter((f) => f.stage === file.stage);
+    // Simulated knockout files validate against the model's OWN pairings.
+    const stageFixtures: Fixture[] = file.simulated_fixtures
+      ? file.simulated_fixtures.map((s) => ({
+          match: s.match, stage: file.stage, home: s.home, away: s.away,
+          kickoff_utc: "", city: "",
+        }))
+      : [...fixtures.values()].filter((f) => f.stage === file.stage);
     const revalidated = validatePredictions(lastOk.response_raw!, stageFixtures);
     const same = JSON.stringify(revalidated.predictions) === JSON.stringify(file.predictions);
     if (!revalidated.ok || !same) {

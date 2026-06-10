@@ -6,7 +6,11 @@
 
 ---
 
-## 0. Status snapshot (2026-06-10)
+## 0. Status snapshot (updated 2026-06-11, pre-kickoff)
+
+**D9 design change (user):** self-consistent bracket simulation — every model predicts its own knockout tree from its own group results, all collected before kickoff. Consequences: Epic G's five knockout prompt windows are **obsolete** (ops = results entry + deploy only); scoring extended with bracket components; site v2 adds per-model predicted group tables + bracket trees and a champion board. Roster final: **33 models / 17 vendors**. GA4+consent shipped (disabled until `GA_MEASUREMENT_ID` set — needs your `G-…` ID). See DECISIONS.md D9 / CHANGELOG.md.
+
+### Original snapshot (2026-06-10)
 
 **Delegation:** Claude executes Epic 0 (D1–D4, D6, D8 decided — see DECISIONS.md), all of Epics A, B, C, E, G, and Epic D except D-1.
 **Parked (you, separately):** Epic F (brand/content/launch — you, tomorrow) · Epic H (post-tournament — you, later).

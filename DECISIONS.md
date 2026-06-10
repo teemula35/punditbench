@@ -2,6 +2,8 @@
 
 Decisions D1–D4, D6, D8 delegated to Claude on 2026-06-10; D5 adopted as default; D7 open (user).
 
+> **2026-06-11, pre-kickoff — D9 (user decision): self-consistent bracket simulation.** The knockout design changed from "models react to real pairings round by round" to "each model's own group predictions determine its own bracket, which it predicts through to its own champion — all collected before the opening kickoff". This was the user's original intent. Consequences: D1 scoring extended with bracket components (see METHODOLOGY.md v2 scoring table: advancement 1/2/3/5/8 per stage + 13 champion, +1 matchup hits, matched-pairing scorelines); D4 prompt extended with a `simulated` mode whose knockout context is the model's own predicted tournament (prompt version `sim-v1`); the five mid-tournament ops windows in OPS.md are obsolete — the only remaining operations are results entry and deploys. Third-place R32 slotting uses FIFA's official Annexe C table (495 combinations, machine-validated from the regulations PDF — ALLOCATION-NOTES.md, `data/third-allocation.json`).
+
 ## D1 — Scoring system ✅ 2026-06-10
 
 Per match, scored against the result after 90 minutes + stoppage time:
@@ -26,7 +28,7 @@ Voided/abandoned matches: 0 pts for everyone, excluded from all counts, noted in
 - ~14 models: current **flagship + one small/cheap model per major vendor** (OpenAI, Anthropic, Google, xAI, DeepSeek, Meta, Mistral, Alibaba/Qwen, Moonshot), IDs verified against the **live OpenRouter catalog** on run day — never from memory. Final list: `data/roster.json` + `ROSTER-NOTES.md`.
 - Params: `temperature: 0` where the model accepts it (recorded per call; some reasoning models reject it → run at provider default and record that), single run (n=1), no system prompt, no tools, no `:online` variants.
 - Knowledge cutoffs recorded per model (best effort from catalog/vendor docs) and displayed.
-- Roster **frozen** after the group-stage run. Models added later (if ever) are unranked exhibition entries.
+- Roster **frozen at the opening kickoff** (2026-06-11 19:00 UTC). Every ranked model predicted the full group stage pre-kickoff under identical conditions; the roster was expanded 18 → 34 on 2026-06-10, still pre-kickoff. Models added after kickoff (if ever) are unranked exhibition entries.
 
 ## D3 — API route ✅ 2026-06-10
 

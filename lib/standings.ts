@@ -74,7 +74,9 @@ export function groupTable(
     return mini;
   };
 
-  list.sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf);
+  // Final alphabetical term keeps fully-tied orders deterministic (matters for
+  // simulated brackets); head-to-head below still refines exact ties.
+  list.sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team));
   // Apply head-to-head inside groups of teams still fully tied on the three criteria.
   for (let i = 0; i < list.length; ) {
     let j = i + 1;

@@ -1,0 +1,66 @@
+{
+  "model": "cohere/command-a",
+  "slug": "cohere-command-a",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:29:56.102Z",
+  "completed_at": "2026-06-10T21:29:58.204Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1519,
+    "completion_tokens": 163,
+    "total_tokens": 1682,
+    "cost_usd": 0.0054275
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "France",
+      "away": "Netherlands"
+    },
+    {
+      "match": 98,
+      "home": "Spain",
+      "away": "Belgium"
+    },
+    {
+      "match": 99,
+      "home": "Brazil",
+      "away": "England"
+    },
+    {
+      "match": 100,
+      "home": "Argentina",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 98,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 100,
+      "home_goals": 0,
+      "away_goals": 0,
+      "advances": "Portugal"
+    }
+  ]
+}

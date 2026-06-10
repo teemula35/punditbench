@@ -1,0 +1,33 @@
+{
+  "model": "openai/gpt-5.5-pro",
+  "slug": "openai-gpt-5-5-pro",
+  "stage": "final",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:49:45.927Z",
+  "completed_at": "2026-06-10T21:50:21.315Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1469,
+    "completion_tokens": 1059,
+    "total_tokens": 2528,
+    "cost_usd": 0.23469
+  },
+  "simulated_fixtures": [
+    {
+      "match": 104,
+      "home": "Spain",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Spain"
+    }
+  ]
+}

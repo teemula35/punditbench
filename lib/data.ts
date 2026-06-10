@@ -103,6 +103,11 @@ export function loadThirdOrderOverride(): string[] | undefined {
   return readJsonIfExists<string[]>(path.join("overrides", "third-order.json"));
 }
 
+/** FIFA Annexe C: sorted 8-group key -> { match -> group whose third plays it }. */
+export function loadThirdAllocationTable(): Record<string, Record<string, string>> {
+  return readJson<Record<string, Record<string, string>>>("third-allocation.json");
+}
+
 export function writeResults(results: MatchResult[]): void {
   results.sort((a, b) => a.match - b.match);
   fs.writeFileSync(path.join(DATA, "results.json"), JSON.stringify(results, null, 2) + "\n", "utf-8");

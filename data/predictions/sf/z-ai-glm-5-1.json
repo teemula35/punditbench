@@ -1,0 +1,44 @@
+{
+  "model": "z-ai/glm-5.1",
+  "slug": "z-ai-glm-5-1",
+  "stage": "sf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:29:17.823Z",
+  "completed_at": "2026-06-10T21:29:28.745Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1456,
+    "completion_tokens": 962,
+    "total_tokens": 2418,
+    "cost_usd": 0.00533052
+  },
+  "simulated_fixtures": [
+    {
+      "match": 101,
+      "home": "Germany",
+      "away": "Spain"
+    },
+    {
+      "match": 102,
+      "home": "Brazil",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 102,
+      "home_goals": 2,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

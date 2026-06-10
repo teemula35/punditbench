@@ -1,0 +1,10 @@
+stage: all
+models: 215
+generated_at: 2026-06-10T21:55:56.698Z
+sha256: c106fe5f8c7f6fed100c47dc55d37d5ca3be5a21a74e07cec9a3b11c5b9b091f
+
+Canonical form v2: JSON array of {slug, model, stage, completed_at, simulated_fixtures?
+(sorted by match), predictions (sorted by match)}, sorted by (slug, stage), no whitespace.
+(Tags predictions-group / predictions-group-v2 used form v1: {slug, model, completed_at,
+predictions} — their recorded hashes remain valid against that form.)
+Recompute with: npm run hash -- --stage all

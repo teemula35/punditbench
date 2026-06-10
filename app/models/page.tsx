@@ -6,7 +6,7 @@ import { PageTitle, TD_CLS, TH_CLS, TierChip } from "../ui";
 
 export const metadata: Metadata = {
   title: "Models",
-  description: "The 18-model roster: every LLM competing in PunditBench, with pricing and cutoffs.",
+  description: "The 33-model roster: every LLM competing in PunditBench, with pricing and cutoffs.",
 };
 
 function price(n?: number): string {
@@ -17,13 +17,14 @@ export default function ModelsPage() {
   const roster = [...loadRoster()].sort(
     (a, b) => a.vendor.localeCompare(b.vendor) || a.label.localeCompare(b.label),
   );
+  const vendorCount = new Set(roster.map((m) => m.vendor)).size;
 
   return (
     <div>
       <PageTitle
         kicker="The roster"
         title="Models"
-        sub="18 models across 10 vendors, accessed through OpenRouter: each vendor's current flagship plus, where available, one small model. The roster was frozen at the group-stage prediction run — models added later would appear as unranked exhibition entries."
+        sub={`${roster.length} models across ${vendorCount} vendors, accessed through OpenRouter: current flagships, mid-tiers and small models. Every one predicted its own complete tournament — group scores, bracket, champion — before kickoff. The roster was frozen pre-kickoff; models added later would appear as unranked exhibition entries.`}
       />
       <div className="overflow-x-auto rounded-lg border border-zinc-800">
         <table className="w-full min-w-[720px] text-sm">

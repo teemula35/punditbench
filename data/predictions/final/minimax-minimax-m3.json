@@ -1,0 +1,33 @@
+{
+  "model": "minimax/minimax-m3",
+  "slug": "minimax-minimax-m3",
+  "stage": "final",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:31:28.926Z",
+  "completed_at": "2026-06-10T21:31:38.782Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1642,
+    "completion_tokens": 347,
+    "total_tokens": 1989,
+    "cost_usd": 0.00088164
+  },
+  "simulated_fixtures": [
+    {
+      "match": 104,
+      "home": "Spain",
+      "away": "Brazil"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    }
+  ]
+}

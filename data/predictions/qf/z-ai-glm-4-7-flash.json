@@ -1,0 +1,66 @@
+{
+  "model": "z-ai/glm-4.7-flash",
+  "slug": "z-ai-glm-4-7-flash",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:28:40.484Z",
+  "completed_at": "2026-06-10T21:28:57.484Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1440,
+    "completion_tokens": 1750,
+    "total_tokens": 3190,
+    "cost_usd": 0.00078712
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "Germany",
+      "away": "Netherlands"
+    },
+    {
+      "match": 98,
+      "home": "Spain",
+      "away": "United States"
+    },
+    {
+      "match": 99,
+      "home": "Brazil",
+      "away": "England"
+    },
+    {
+      "match": 100,
+      "home": "Argentina",
+      "away": "Canada"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

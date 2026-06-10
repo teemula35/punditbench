@@ -78,6 +78,12 @@ export interface PredictionFile {
   completed_at: string; // ISO — when the successful attempt returned (golden-rule timestamp)
   attempts: number;
   usage?: { prompt_tokens?: number; completion_tokens?: number; total_tokens?: number; cost_usd?: number };
+  /**
+   * Knockout simulation only: the model's OWN bracket pairings these
+   * predictions refer to (match numbers are structural bracket slots 73-104,
+   * teams come from the model's simulated tournament, not reality).
+   */
+  simulated_fixtures?: { match: number; home: string; away: string }[];
   predictions: Prediction[];
 }
 

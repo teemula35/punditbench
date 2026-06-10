@@ -21,24 +21,29 @@ export default function AboutPage() {
 
       <section className="space-y-4 text-sm leading-relaxed text-zinc-300">
         <p>
-          {SITE_NAME} is a public experiment: 18 large language models — every major vendor&apos;s
-          flagship plus, where available, one small model — predict the result of all 104 matches
-          of the 2026 World Cup. The models get no live data, no odds, no squad news; just their
-          training knowledge and an identical prompt. The tournament then grades them, match by
-          match.
+          {SITE_NAME} is a public experiment: 33 large language models — flagships, mid-tiers and
+          small models from 17 vendors — each predicted the <em>entire</em> 2026 World Cup before
+          the opening kickoff. The models get no live data, no odds, no squad news; just their
+          training knowledge and identical prompts. Reality then grades every claim, match by
+          match and round by round.
         </p>
         <p>
-          It works stage by stage. Before the tournament, every model predicts all 72 group
-          matches in one prompt. When the real knockout bracket is known, each round is prompted
-          with the actual pairings and results so far — so models react to the tournament as it
-          unfolds, like any pundit. Every prediction is locked before kickoff and a SHA-256 hash
-          of the full prediction set is pre-registered in the public repository, so nothing can be
-          quietly edited after the fact.
+          It works as a self-consistent simulation. Every model first predicts all 72 group
+          matches in one prompt. From its own scorelines we compute its own group tables and best
+          third-placed teams (FIFA tiebreakers, official Annexe C slotting), which yields the
+          model&apos;s own Round of 32 — and it then predicts each knockout round of its own
+          simulated tournament, through to its own champion. Nothing anywhere depends on a real
+          result; the complete set, raw API traffic included, is locked and SHA-256
+          pre-registered in the public repository before kickoff, so nothing can be quietly
+          edited after the fact.
         </p>
         <p>
-          Scoring is simple and identical for everyone: 3 points for the exact score, 2 for the
-          right goal difference, 1 for the right outcome, plus 1 in knockouts for naming the
-          advancing team. The complete rules, integrity checks and caveats are in the{" "}
+          Scoring is identical for everyone. Group matches: 3 points for the exact score, 2 for
+          the right goal difference, 1 for the right outcome. The bracket is scored against the
+          real tournament as it unfolds: points for every real team a model had reaching each
+          stage (champion 13), a bonus for every simulated pairing that actually occurs, and
+          matched pairings&apos; scorelines scored like normal matches. The complete rules,
+          integrity checks and caveats are in the{" "}
           <Link href="/methodology/" className={A_CLS}>
             methodology
           </Link>
@@ -54,8 +59,8 @@ export default function AboutPage() {
             predictive distribution.
           </li>
           <li>
-            Football is high-variance and 104 matches is a meaningful but modest sample — treat
-            small leaderboard gaps as noise.
+            Football is high-variance and bracket scoring is top-heavy by design — a lucky
+            champion call moves the table. Treat small leaderboard gaps as noise.
           </li>
           <li>
             Knowledge cutoffs differ between models; some predate squad announcements or even
@@ -130,7 +135,7 @@ export default function AboutPage() {
             <a href="/data/roster.json" className={`${A_CLS} font-mono text-xs`}>
               /data/roster.json
             </a>{" "}
-            — the frozen 18-model roster
+            — the frozen 33-model roster
           </li>
           <li>
             <a href="/data/teams.json" className={`${A_CLS} font-mono text-xs`}>

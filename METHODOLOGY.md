@@ -1,51 +1,69 @@
-# PunditBench Methodology — 2026 World Cup edition
+# PunditBench Methodology — 2026 World Cup edition (v2)
 
-PunditBench measures how well large language models predict real football results. For the 2026 FIFA World Cup, every participating model predicts all 104 matches, stage by stage, under identical conditions. This page is the complete, reproducible methodology. (PunditBench is an independent project, not affiliated with FIFA; tournament and team names are used editorially only.)
+PunditBench measures how well large language models predict real football. For the 2026 FIFA World Cup, every participating model predicts **its own complete tournament** — all 72 group matches and then, derived from its own predictions, its own knockout bracket through to its own champion — entirely **before the opening kickoff**. Reality then scores every claim. (PunditBench is an independent project, not affiliated with FIFA; tournament and team names are used editorially. All predictions shown are AI-generated content.)
+
+> Methodology v1 (2026-06-10) collected group-stage predictions and planned to reveal real knockout pairings round by round. It was upgraded to v2 (self-consistent bracket simulation, below) on 2026-06-11, **before the opening match**; the group-stage collection is identical in both and was not re-run. See CHANGELOG.md.
 
 ## How predictions are collected
 
-- **Stage-by-stage prompting.** Before the tournament, every model receives one prompt containing all 72 group-stage fixtures and returns a predicted score for each. After the group stage, when the real Round-of-32 bracket is known, every model receives the real pairings — plus a summary of actual results so far — and predicts that round. The same repeats for each subsequent round (R16, QF, SF, then bronze + final together). Models therefore react to the real tournament as it unfolds, like any pundit.
-- **Identical prompts.** Every model gets the byte-identical prompt for a given stage (template version `v1`, source: `lib/prompt.ts`, reproduced in the repository). No model names, no special instructions per model.
-- **Training knowledge only.** Models are called through the OpenRouter chat-completions API with no tools, no web search, and no retrieval. Prompts contain no squad lists, injury news, or betting odds.
-- **Parameters.** `temperature: 0` where the model accepts it (some reasoning models do not accept sampling parameters; those run at provider defaults — recorded per call). Single attempt per model (no best-of-N). Exact request parameters for every call are in the raw audit logs (`data/raw/`).
-- **Validation and retries.** Responses must be strict JSON covering every fixture exactly once with integer goals (0–15); knockout predictions must name the advancing team consistently. Invalid responses get up to 2 corrective retries with the validator's errors appended. A model that still fails scores 0 for the affected matches, and the failure is disclosed on its model page.
-
-## Integrity rules
-
-- **Kickoff cutoff (golden rule).** A prediction counts for a match only if it was generated before that match's kickoff. Timestamps are recorded per API call and preserved in the audit logs.
-- **Pre-registration.** After each stage's collection run, a canonical SHA-256 hash of all predictions is computed (`scripts/hash.ts`), committed, and pushed to the public repository before kickoff. Anyone can recompute the hash from the published data.
-- **Raw audit trail.** Every API request and response — including failed attempts — is stored verbatim in `data/raw/<stage>/<model>.jsonl` and published.
-- **Frozen roster.** The roster was fixed at the group-stage run. Models added later (if any) would be shown as unranked exhibition entries.
-- **Derived scoring.** Points are never stored or hand-edited; they are recomputed from raw predictions + results on every site build, and `npm run audit` re-derives everything from the raw logs to detect drift.
+1. **Group stage.** Every model receives one identical prompt with all 72 group fixtures (official match numbers, teams, dates, venues) and returns a strict-JSON score for each. No tools, no web access, training knowledge only; `temperature: 0` where the model accepts it (recorded per call).
+2. **Self-consistent knockout simulation.** From the model's own 72 scores we compute its group tables (FIFA tiebreakers: points, goal difference, goals scored, head-to-head) and its qualified third-placed teams, slot the thirds using **FIFA's official Annexe C lookup table** (all 495 combinations, parsed from the official regulations — see ALLOCATION-NOTES.md), and obtain the model's own Round of 32. The model is then prompted with *its own* bracket — explicitly framed as "the knockout bracket that follows from YOUR OWN predictions" — and predicts those 16 matches, naming the team that advances where it predicts a 90-minute draw. Its answers build its Round of 16, and so on through the quarter-finals, semi-finals, third-place match and final. Six prompts per model; every model ends with a full simulated tournament and a champion.
+3. **Everything is locked pre-kickoff.** No prediction anywhere in the system depends on a single real result. The complete set (group + all simulated rounds, raw API traffic included) is hashed and pre-registered before the opening match.
 
 ## Scoring
 
-Scored against the result after 90 minutes plus stoppage time:
+**Group matches** (72 real matches, every model predicted all of them):
 
 | Outcome | Points |
 |---|---|
 | Exact score | 3 |
 | Correct goal difference (includes any correct draw) | 2 |
 | Correct outcome (win/draw/loss) | 1 |
-| Otherwise, or no valid prediction | 0 |
 
-Knockout matches add **+1** for correctly naming the team that advances (covering extra time and penalties). Knockout scorelines are scored against the 90-minute result, the standard convention in football prediction games. Maximum: 3 per group match, 4 per knockout match, 344 in total.
+**Bracket (knockout) scoring**, against the real tournament as it unfolds:
 
-Leaderboard tiebreakers, in order: total points → most exact scores → most matches with at least 1 point → most correct advancing teams → shared rank.
+| Component | Points |
+|---|---|
+| Real team you had reaching the Round of 32 | 1 each |
+| … the Round of 16 | 2 each |
+| … the quarter-finals | 3 each |
+| … the semi-finals | 5 each |
+| … the final | 8 each |
+| Correct champion | 13 |
+| Your simulated pairing actually occurs in that real round (incl. third-place match) | +1 each |
+| Scoreline of a matched pairing, scored like a normal match (orientation-normalized, 90-minute result) | 3/2/1 (+1 correct advancer) |
 
-Voided or abandoned matches score 0 for everyone and are excluded from all counts; any such event is documented in the changelog.
+A team "reaches" a stage by appearing in it; reach derives from the model's simulated pairings and its `advances` answers. Round-of-32 reach is determined entirely by the group predictions (computing the bracket needs no model input), so a model that failed its knockout prompts keeps the qualification credit its group answers locked in; everything beyond requires its own knockout answers. Three small models (Granite 4.1, LFM-2, Phi-4 Mini) could not produce fully valid knockout predictions within the retry policy and carry partial or no brackets — disclosed on their model pages. Theoretical maximum: 216 (group) + 137 (advancement) + 32 (matchups) + 128 (matched scorelines) = **513**.
+
+Leaderboard tiebreakers, in order: total points → most exact scores → correct champion → most correct Round-of-32 qualifiers → shared rank.
+
+Voided/abandoned real matches score 0 for everyone and are excluded; documented in the changelog.
+
+## Integrity rules
+
+- **Kickoff cutoff (golden rule).** A prediction counts only if generated before the relevant information existed in reality — here, everything predates the opening kickoff (2026-06-11 19:00 UTC). Per-call timestamps are in the raw logs.
+- **Pre-registration.** Canonical SHA-256 hashes of each locked prediction set are committed and tagged in the public repository before kickoff (`data/hashes/`, git tags). Anyone can recompute them from the published data.
+- **Raw audit trail.** Every API request and response — including failed attempts and validator feedback — is published verbatim in `data/raw/`.
+- **Frozen roster.** Fixed before the opening kickoff at 33 models (initial 18 expanded the same pre-kickoff day; one model dropped for having no serving endpoints). Later additions, if ever, would be unranked exhibition entries.
+- **Identical treatment.** Same prompt templates, same parameters policy, same validator for every model. Knockout prompts are personalized **only** by the model's own previous answers — which is the design, not an asymmetry.
+- **Derived scoring.** Points are recomputed from raw predictions + results on every site build and re-derivable from raw logs via `npm run audit`.
+
+## Validation & failure policy
+
+Responses must cover every listed fixture exactly once with integer goals 0–15; knockout predictions must name a consistent advancing team. Invalid responses get up to 2 corrective retries with the validator's errors appended; still-invalid means 0 points for the affected matches, disclosed on the model page. Entries for *unlisted* match numbers are dropped with a logged warning rather than failing the response (rule relaxed pre-kickoff on 2026-06-11 after two small models enthusiastically predicted matches beyond the fixture list; all earlier-passing models unaffected — see CHANGELOG.md).
 
 ## The roster
 
-The exact model list with snapshot IDs, parameters, pricing, and known knowledge cutoffs is in [`data/roster.json`](data/roster.json) and `ROSTER-NOTES.md`: the current flagship plus (where available) one small model from each major vendor, accessed through OpenRouter, IDs verified against the live catalog on collection day. Knowledge cutoffs differ between models — that asymmetry is part of what the benchmark measures and is displayed per model rather than corrected for.
+33 models across 17 vendors — current flagships, mid-tiers and small models, accessed through OpenRouter with IDs verified against the live catalog on collection day: [`data/roster.json`](data/roster.json), `ROSTER-NOTES.md`. Knowledge cutoffs differ and several predate final World Cup qualification; the prompt supplies the fixture list, the rest is what the model knows — that asymmetry is part of what's being measured.
 
 ## Caveats, honestly stated
 
-- A single run at temperature 0 measures one deterministic-ish sample, not the model's full predictive distribution.
-- Football is high-variance; 104 matches is a meaningful but not enormous sample. Treat small leaderboard gaps accordingly.
-- Models cannot know post-cutoff information (final squads, injuries, form). That is by design: the benchmark asks what a model can do with what it learned.
-- All outputs shown on this site are AI-generated content.
+- One run at temperature 0 samples one trajectory, not a model's full predictive distribution.
+- **Family correlation:** models from the same vendor lineage can converge hard (the two Gemini entries agreed on 62 of 72 group scorelines). 33 entries ≠ 33 independent opinions.
+- Simulated third-place ranking uses points → goal difference → goals scored, then alphabetical; FIFA's later criteria (conduct score, world ranking) aren't computable from predicted scores. Deep ties are rare and the rule is identical for every model.
+- Knockout scorelines are scored on the 90-minute result (standard prediction-game convention); penalties/extra time are captured by the "advances" answer.
+- Football is high-variance and bracket scoring is top-heavy by design — a lucky champion call moves the table. That's the game.
 
 ## Results entry
 
-Real results are entered after each match (90-minute score; advancing team for knockouts), committed to the public repository with full history. Corrections, if ever needed, are made by commit and listed in the changelog.
+Real results are recorded after each match (90-minute score; advancing team for knockouts), committed publicly with full history; real knockout fixtures are added as reality produces them, which is when bracket components start paying out. Corrections happen by commit and are listed in the changelog.

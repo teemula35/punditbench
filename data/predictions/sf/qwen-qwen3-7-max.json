@@ -1,0 +1,44 @@
+{
+  "model": "qwen/qwen3.7-max",
+  "slug": "qwen-qwen3-7-max",
+  "stage": "sf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:27:38.705Z",
+  "completed_at": "2026-06-10T21:28:03.239Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1538,
+    "completion_tokens": 1338,
+    "total_tokens": 2876,
+    "cost_usd": 0.00694
+  },
+  "simulated_fixtures": [
+    {
+      "match": 101,
+      "home": "France",
+      "away": "Spain"
+    },
+    {
+      "match": 102,
+      "home": "Brazil",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Brazil"
+    }
+  ]
+}

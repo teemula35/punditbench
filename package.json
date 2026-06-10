@@ -10,6 +10,7 @@
     "start": "next start",
     "test": "vitest run",
     "predict": "node --import tsx scripts/predict.ts",
+    "simulate": "node --import tsx scripts/simulate.ts",
     "result": "node --import tsx scripts/record-result.ts",
     "hash": "node --import tsx scripts/hash.ts",
     "audit": "node --import tsx scripts/audit.ts",

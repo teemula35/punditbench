@@ -1,0 +1,44 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "slug": "deepseek-deepseek-v4-pro",
+  "stage": "sf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:26:53.443Z",
+  "completed_at": "2026-06-10T21:27:12.337Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1458,
+    "completion_tokens": 1145,
+    "total_tokens": 2603,
+    "cost_usd": 0.002392794
+  },
+  "simulated_fixtures": [
+    {
+      "match": 101,
+      "home": "Germany",
+      "away": "Spain"
+    },
+    {
+      "match": 102,
+      "home": "Brazil",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "model": "ibm-granite/granite-4.1-8b",
+  "slug": "ibm-granite-granite-4-1-8b",
+  "stage": "r16",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:32:43.237Z",
+  "completed_at": "2026-06-10T21:32:44.727Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 1729,
+    "completion_tokens": 164,
+    "total_tokens": 1893,
+    "cost_usd": 0.00010285
+  },
+  "simulated_fixtures": [
+    {
+      "match": 89,
+      "home": "Ecuador",
+      "away": "Norway"
+    },
+    {
+      "match": 90,
+      "home": "Mexico",
+      "away": "Netherlands"
+    },
+    {
+      "match": 91,
+      "home": "Scotland",
+      "away": "Germany"
+    },
+    {
+      "match": 92,
+      "home": "Czech Republic",
+      "away": "England"
+    },
+    {
+      "match": 93,
+      "home": "Portugal",
+      "away": "Uruguay"
+    },
+    {
+      "match": 94,
+      "home": "Turkey",
+      "away": "Belgium"
+    },
+    {
+      "match": 95,
+      "home": "Argentina",
+      "away": "United States"
+    },
+    {
+      "match": 96,
+      "home": "Switzerland",
+      "away": "Colombia"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 89,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Ecuador"
+    },
+    {
+      "match": 90,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Netherlands"
+    },
+    {
+      "match": 91,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Germany"
+    },
+    {
+      "match": 92,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 93,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Uruguay"
+    },
+    {
+      "match": 94,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Belgium"
+    },
+    {
+      "match": 95,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "United States"
+    },
+    {
+      "match": 96,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Colombia"
+    }
+  ]
+}

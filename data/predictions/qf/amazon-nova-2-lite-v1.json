@@ -1,0 +1,66 @@
+{
+  "model": "amazon/nova-2-lite-v1",
+  "slug": "amazon-nova-2-lite-v1",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:29:55.022Z",
+  "completed_at": "2026-06-10T21:29:55.883Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1462,
+    "completion_tokens": 95,
+    "total_tokens": 1557,
+    "cost_usd": 0.0006761
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "Germany",
+      "away": "Brazil"
+    },
+    {
+      "match": 98,
+      "home": "Spain",
+      "away": "Belgium"
+    },
+    {
+      "match": 99,
+      "home": "France",
+      "away": "Mexico"
+    },
+    {
+      "match": 100,
+      "home": "Argentina",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 3,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

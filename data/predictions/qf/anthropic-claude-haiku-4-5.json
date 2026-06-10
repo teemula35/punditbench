@@ -1,0 +1,66 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "slug": "anthropic-claude-haiku-4-5",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:25:17.992Z",
+  "completed_at": "2026-06-10T21:25:20.366Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1579,
+    "completion_tokens": 97,
+    "total_tokens": 1676,
+    "cost_usd": 0.002064
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "Germany",
+      "away": "Netherlands"
+    },
+    {
+      "match": 98,
+      "home": "Spain",
+      "away": "United States"
+    },
+    {
+      "match": 99,
+      "home": "Brazil",
+      "away": "Mexico"
+    },
+    {
+      "match": 100,
+      "home": "Argentina",
+      "away": "Switzerland"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 98,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Brazil"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

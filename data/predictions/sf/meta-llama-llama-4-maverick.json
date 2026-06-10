@@ -1,0 +1,44 @@
+{
+  "model": "meta-llama/llama-4-maverick",
+  "slug": "meta-llama-llama-4-maverick",
+  "stage": "sf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:26:11.235Z",
+  "completed_at": "2026-06-10T21:26:15.689Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1455,
+    "completion_tokens": 48,
+    "total_tokens": 1503,
+    "cost_usd": 0.00024705
+  },
+  "simulated_fixtures": [
+    {
+      "match": 101,
+      "home": "France",
+      "away": "Belgium"
+    },
+    {
+      "match": 102,
+      "home": "Brazil",
+      "away": "Spain"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Spain"
+    }
+  ]
+}

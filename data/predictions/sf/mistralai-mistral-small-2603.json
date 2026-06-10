@@ -1,0 +1,44 @@
+{
+  "model": "mistralai/mistral-small-2603",
+  "slug": "mistralai-mistral-small-2603",
+  "stage": "sf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:26:26.507Z",
+  "completed_at": "2026-06-10T21:26:27.000Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1560,
+    "completion_tokens": 58,
+    "total_tokens": 1618,
+    "cost_usd": 0.0002688
+  },
+  "simulated_fixtures": [
+    {
+      "match": 101,
+      "home": "Germany",
+      "away": "Spain"
+    },
+    {
+      "match": 102,
+      "home": "Brazil",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

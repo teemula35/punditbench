@@ -1,0 +1,33 @@
+{
+  "model": "z-ai/glm-4.7-flash",
+  "slug": "z-ai-glm-4-7-flash",
+  "stage": "final",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:29:25.677Z",
+  "completed_at": "2026-06-10T21:29:36.850Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1475,
+    "completion_tokens": 1026,
+    "total_tokens": 2501,
+    "cost_usd": 0.0004957
+  },
+  "simulated_fixtures": [
+    {
+      "match": 104,
+      "home": "Germany",
+      "away": "Brazil"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    }
+  ]
+}

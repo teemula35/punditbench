@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { consensus, loadSiteData, matchPredictionRows } from "@/lib/aggregate";
-import { loadFixtures, loadTeams } from "@/lib/data";
+import { consensus, loadSiteData, matchPredictionRows, matchupCalls } from "@/lib/aggregate";
+import { loadFixtures, loadRoster, loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { teamFlag } from "@/lib/prompt";
 import { isKnockout } from "@/lib/scoring";
@@ -23,7 +23,7 @@ export async function generateMetadata({
   if (!fixture) return { title: "Match not found" };
   return {
     title: `Match ${fixture.match}: ${fixture.home} vs ${fixture.away}`,
-    description: `18 LLM predictions for ${fixture.home} vs ${fixture.away} — ${STAGE_LABELS[fixture.stage]}, 2026 World Cup.`,
+    description: `${loadRoster().length} LLM predictions for ${fixture.home} vs ${fixture.away} — ${STAGE_LABELS[fixture.stage]}, 2026 World Cup.`,
   };
 }
 
@@ -39,8 +39,15 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
     result?.status === "final" && result.home_goals !== undefined && result.away_goals !== undefined;
   const voided = result?.status === "voided";
   const knockout = isKnockout(fixture.stage);
-  const rows = matchPredictionRows(data, fixture);
-  const cons = consensus(data, fixture);
+  const rows = knockout ? [] : matchPredictionRows(data, fixture);
+  const cons = knockout ? undefined : consensus(data, fixture);
+  // Knockout: models never predicted real knockout fixtures directly — show
+  // who had this exact pairing in their own simulated bracket instead.
+  const calls = knockout ? matchupCalls(data, fixture) : [];
+  const withStageFile = knockout
+    ? data.leaderboard.filter((e) => e.files.some((f) => f.stage === fixture.stage)).length
+    : 0;
+  const simPending = knockout ? data.leaderboard.length - withStageFile : 0;
 
   const stageLabel =
     fixture.stage === "group" ? `Group ${fixture.group}` : STAGE_LABELS[fixture.stage];
@@ -99,94 +106,188 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
         </div>
       </header>
 
-      <section>
-        <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="text-lg font-semibold text-zinc-100">Model predictions</h2>
-          {!played && !voided && (
+      {knockout ? (
+        /* Methodology v2: knockout pairings were never prompted from reality —
+           every model simulated its own bracket before kickoff. */
+        <section>
+          <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-lg font-semibold text-zinc-100">Who called this matchup?</h2>
             <p className="text-xs text-zinc-500">
-              Locked — all predictions were pre-registered before kickoff.
+              All bracket simulations were locked &amp; pre-registered before the opening kickoff.
+            </p>
+          </div>
+          <p className="mb-3 max-w-3xl text-sm text-zinc-400">
+            Models whose own simulated {STAGE_LABELS[fixture.stage]} contained this exact pairing
+            (in either orientation), with the scoreline they attached to it —{" "}
+            <span className="tabular-nums">{calls.length}</span> of{" "}
+            <span className="tabular-nums">{withStageFile}</span> models with a stored simulation
+            for this round.
+          </p>
+          {calls.length === 0 ? (
+            <div className="rounded-lg border border-dashed border-zinc-800 bg-zinc-900/30 p-5">
+              <p className="text-sm text-zinc-400">
+                No model&apos;s simulated bracket paired these teams in the{" "}
+                {STAGE_LABELS[fixture.stage]}. Models can still earn advancement points here for
+                having either team reach this stage — see the{" "}
+                <Link href="/methodology/" className="text-emerald-400 hover:underline">
+                  methodology
+                </Link>
+                .
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto rounded-lg border border-zinc-800">
+              <table className="w-full min-w-[480px] text-sm">
+                <thead className="border-b border-zinc-800 bg-zinc-900/60">
+                  <tr>
+                    <th className={TH_CLS}>Model</th>
+                    <th className={`${TH_CLS} text-right`}>Their call</th>
+                    <th className={TH_CLS}>Advances</th>
+                    {played && <th className={`${TH_CLS} text-right`}>Points</th>}
+                    {played && <th className={TH_CLS}>Breakdown</th>}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-800/70">
+                  {calls.map((call) => (
+                    <tr key={call.entry.slug} className="hover:bg-zinc-900/40">
+                      <td className={TD_CLS}>
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                          <Link
+                            href={`/models/${call.entry.slug}/`}
+                            className="font-medium text-zinc-100 hover:text-emerald-400"
+                          >
+                            {call.entry.model.label}
+                          </Link>
+                          <TierChip tier={call.entry.model.tier} />
+                        </div>
+                      </td>
+                      <td className={`${TD_CLS} text-right font-semibold tabular-nums text-zinc-100`}>
+                        {call.prediction ? (
+                          `${call.prediction.home_goals}-${call.prediction.away_goals}`
+                        ) : (
+                          <span className="font-normal text-zinc-600" title="no valid scoreline stored">
+                            —
+                          </span>
+                        )}
+                      </td>
+                      <td className={`${TD_CLS} text-zinc-300`}>
+                        {call.prediction?.advances ?? <span className="text-zinc-600">—</span>}
+                      </td>
+                      {played && (
+                        <td className={`${TD_CLS} text-right font-bold tabular-nums text-emerald-400`}>
+                          {call.score?.points ?? 0}
+                        </td>
+                      )}
+                      {played && (
+                        <td className={TD_CLS}>
+                          {call.score ? (
+                            <BreakdownChip
+                              breakdown={call.score.breakdown}
+                              bonus={call.score.advance_bonus}
+                            />
+                          ) : (
+                            <span className="text-zinc-600">—</span>
+                          )}
+                        </td>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          <p className="mt-2 text-xs text-zinc-600">
+            Scorelines are shown in this match&apos;s orientation (flipped when a model simulated
+            the pairing the other way around). Each listed model also earns a +1 matchup bonus;
+            scoreline points (3/2/1, +1 correct advancer) apply once the match is played.
+            {simPending > 0 &&
+              ` ${simPending} model${simPending === 1 ? "'s" : "s'"} simulation${simPending === 1 ? " is" : "s are"} still pending for this round.`}
+          </p>
+        </section>
+      ) : (
+        <section>
+          <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-lg font-semibold text-zinc-100">Model predictions</h2>
+            {!played && !voided && (
+              <p className="text-xs text-zinc-500">
+                Locked — all predictions were pre-registered before kickoff.
+              </p>
+            )}
+          </div>
+          {cons && (
+            <p className="mb-3 text-sm text-zinc-400">
+              Consensus scoreline:{" "}
+              <span className="font-semibold tabular-nums text-zinc-100">
+                {cons.home}-{cons.away}
+              </span>{" "}
+              <span className="text-zinc-500">
+                ({cons.count} of {cons.outOf} models)
+              </span>
             </p>
           )}
-        </div>
-        {cons && (
-          <p className="mb-3 text-sm text-zinc-400">
-            Consensus scoreline:{" "}
-            <span className="font-semibold tabular-nums text-zinc-100">
-              {cons.home}-{cons.away}
-            </span>{" "}
-            <span className="text-zinc-500">
-              ({cons.count} of {cons.outOf} models)
-            </span>
-          </p>
-        )}
-        <div className="overflow-x-auto rounded-lg border border-zinc-800">
-          <table className="w-full min-w-[480px] text-sm">
-            <thead className="border-b border-zinc-800 bg-zinc-900/60">
-              <tr>
-                <th className={TH_CLS}>Model</th>
-                <th className={`${TH_CLS} text-right`}>Prediction</th>
-                {knockout && <th className={TH_CLS}>Advances</th>}
-                {played && <th className={`${TH_CLS} text-right`}>Points</th>}
-                {played && <th className={TH_CLS}>Breakdown</th>}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800/70">
-              {rows.map((row) => (
-                <tr key={row.entry.slug} className="hover:bg-zinc-900/40">
-                  <td className={TD_CLS}>
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <Link
-                        href={`/models/${row.entry.slug}/`}
-                        className="font-medium text-zinc-100 hover:text-emerald-400"
-                      >
-                        {row.entry.model.label}
-                      </Link>
-                      <TierChip tier={row.entry.model.tier} />
-                    </div>
-                  </td>
-                  <td className={`${TD_CLS} text-right font-semibold tabular-nums text-zinc-100`}>
-                    {row.prediction ? (
-                      `${row.prediction.home_goals}-${row.prediction.away_goals}`
-                    ) : row.fileExists ? (
-                      <span className="font-normal text-zinc-600" title="no valid prediction">
-                        —
-                      </span>
-                    ) : (
-                      <span className="text-xs font-normal italic text-zinc-500">
-                        predictions pending
-                      </span>
-                    )}
-                  </td>
-                  {knockout && (
-                    <td className={`${TD_CLS} text-zinc-300`}>
-                      {row.prediction?.advances ?? <span className="text-zinc-600">—</span>}
-                    </td>
-                  )}
-                  {played && (
-                    <td className={`${TD_CLS} text-right font-bold tabular-nums text-emerald-400`}>
-                      {row.score?.points ?? 0}
-                    </td>
-                  )}
-                  {played && (
+          <div className="overflow-x-auto rounded-lg border border-zinc-800">
+            <table className="w-full min-w-[480px] text-sm">
+              <thead className="border-b border-zinc-800 bg-zinc-900/60">
+                <tr>
+                  <th className={TH_CLS}>Model</th>
+                  <th className={`${TH_CLS} text-right`}>Prediction</th>
+                  {played && <th className={`${TH_CLS} text-right`}>Points</th>}
+                  {played && <th className={TH_CLS}>Breakdown</th>}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-800/70">
+                {rows.map((row) => (
+                  <tr key={row.entry.slug} className="hover:bg-zinc-900/40">
                     <td className={TD_CLS}>
-                      {row.score ? (
-                        <BreakdownChip breakdown={row.score.breakdown} bonus={row.score.advance_bonus} />
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <Link
+                          href={`/models/${row.entry.slug}/`}
+                          className="font-medium text-zinc-100 hover:text-emerald-400"
+                        >
+                          {row.entry.model.label}
+                        </Link>
+                        <TierChip tier={row.entry.model.tier} />
+                      </div>
+                    </td>
+                    <td className={`${TD_CLS} text-right font-semibold tabular-nums text-zinc-100`}>
+                      {row.prediction ? (
+                        `${row.prediction.home_goals}-${row.prediction.away_goals}`
+                      ) : row.fileExists ? (
+                        <span className="font-normal text-zinc-600" title="no valid prediction">
+                          —
+                        </span>
                       ) : (
-                        <span className="text-zinc-600">—</span>
+                        <span className="text-xs font-normal italic text-zinc-500">
+                          predictions pending
+                        </span>
                       )}
                     </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="mt-2 text-xs text-zinc-600">
-          “—” means the model returned no valid prediction for this match
-          {rows.some((r) => !r.fileExists) ? "; models without a stored file are pending" : ""}. A
-          missing prediction scores 0 once the match is played.
-        </p>
-      </section>
+                    {played && (
+                      <td className={`${TD_CLS} text-right font-bold tabular-nums text-emerald-400`}>
+                        {row.score?.points ?? 0}
+                      </td>
+                    )}
+                    {played && (
+                      <td className={TD_CLS}>
+                        {row.score ? (
+                          <BreakdownChip breakdown={row.score.breakdown} bonus={row.score.advance_bonus} />
+                        ) : (
+                          <span className="text-zinc-600">—</span>
+                        )}
+                      </td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-2 text-xs text-zinc-600">
+            “—” means the model returned no valid prediction for this match
+            {rows.some((r) => !r.fileExists) ? "; models without a stored file are pending" : ""}. A
+            missing prediction scores 0 once the match is played.
+          </p>
+        </section>
+      )}
     </div>
   );
 }

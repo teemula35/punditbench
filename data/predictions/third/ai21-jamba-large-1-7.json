@@ -1,0 +1,33 @@
+{
+  "model": "ai21/jamba-large-1.7",
+  "slug": "ai21-jamba-large-1-7",
+  "stage": "third",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:32:04.362Z",
+  "completed_at": "2026-06-10T21:32:05.567Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1641,
+    "completion_tokens": 36,
+    "total_tokens": 1677,
+    "cost_usd": 0.00357
+  },
+  "simulated_fixtures": [
+    {
+      "match": 103,
+      "home": "Germany",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 103,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "model": "qwen/qwen3.6-flash",
+  "slug": "qwen-qwen3-6-flash",
+  "stage": "third",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:27:30.895Z",
+  "completed_at": "2026-06-10T21:27:39.741Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1555,
+    "completion_tokens": 1291,
+    "total_tokens": 2846,
+    "cost_usd": 0.0017439375
+  },
+  "simulated_fixtures": [
+    {
+      "match": 103,
+      "home": "Colombia",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 103,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Colombia"
+    }
+  ]
+}

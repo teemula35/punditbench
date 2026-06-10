@@ -1,0 +1,33 @@
+{
+  "model": "nvidia/nemotron-3-ultra-550b-a55b",
+  "slug": "nvidia-nemotron-3-ultra-550b-a55b",
+  "stage": "final",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:36:53.571Z",
+  "completed_at": "2026-06-10T21:37:35.042Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1577,
+    "completion_tokens": 523,
+    "total_tokens": 2100,
+    "cost_usd": 0.0020736
+  },
+  "simulated_fixtures": [
+    {
+      "match": 104,
+      "home": "France",
+      "away": "Brazil"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "model": "openai/gpt-5.4-nano",
+  "slug": "openai-gpt-5-4-nano",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:29:07.149Z",
+  "completed_at": "2026-06-10T21:29:08.343Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1438,
+    "completion_tokens": 95,
+    "total_tokens": 1533,
+    "cost_usd": 0.00040635
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "Germany",
+      "away": "Mexico"
+    },
+    {
+      "match": 98,
+      "home": "Spain",
+      "away": "United States"
+    },
+    {
+      "match": 99,
+      "home": "Brazil",
+      "away": "England"
+    },
+    {
+      "match": 100,
+      "home": "Argentina",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Mexico"
+    },
+    {
+      "match": 98,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "United States"
+    },
+    {
+      "match": 99,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

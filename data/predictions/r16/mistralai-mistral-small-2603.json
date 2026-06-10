@@ -1,0 +1,110 @@
+{
+  "model": "mistralai/mistral-small-2603",
+  "slug": "mistralai-mistral-small-2603",
+  "stage": "r16",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:26:24.606Z",
+  "completed_at": "2026-06-10T21:26:25.781Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1519,
+    "completion_tokens": 208,
+    "total_tokens": 1727,
+    "cost_usd": 0.00035265
+  },
+  "simulated_fixtures": [
+    {
+      "match": 89,
+      "home": "Germany",
+      "away": "France"
+    },
+    {
+      "match": 90,
+      "home": "Canada",
+      "away": "Netherlands"
+    },
+    {
+      "match": 91,
+      "home": "Brazil",
+      "away": "Ivory Coast"
+    },
+    {
+      "match": 92,
+      "home": "Mexico",
+      "away": "England"
+    },
+    {
+      "match": 93,
+      "home": "Colombia",
+      "away": "Spain"
+    },
+    {
+      "match": 94,
+      "home": "United States",
+      "away": "Belgium"
+    },
+    {
+      "match": 95,
+      "home": "Argentina",
+      "away": "Australia"
+    },
+    {
+      "match": 96,
+      "home": "Switzerland",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 89,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 90,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Netherlands"
+    },
+    {
+      "match": 91,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 92,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 93,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Spain"
+    },
+    {
+      "match": 94,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Belgium"
+    },
+    {
+      "match": 95,
+      "home_goals": 3,
+      "away_goals": 1,
+      "advances": "Argentina"
+    },
+    {
+      "match": 96,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Portugal"
+    }
+  ]
+}

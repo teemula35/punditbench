@@ -72,3 +72,23 @@ Step-2 rules ("flagship + small per vendor") over 9 mandatory vendors + optional
 - **Knowledge cutoffs:** OpenRouter's `knowledge_cutoff` field was null for 12/18 picks and vendor docs were only checked for Anthropic (per "easily found" rule) — marked `unknown`, not guessed. Relevant to this benchmark: Llama 4 (2024-08) and Haiku 4.5 (2025-02) predate WC qualification finals, so the prompt should supply fixtures/squad context rather than rely on model knowledge.
 - **Temperature:** OpenAI GPT-5.x and Claude Fable 5 reject `temperature`/`top_p` (not in `supported_parameters`). The harness must omit sampling params for these (or globally) or those calls 400.
 - **Fable 5 is one day old** at benchmark time — possible launch-day capacity/availability wobbles on OpenRouter.
+
+---
+
+## Addendum 2026-06-11 (pre-kickoff): expansion 18 -> 34 -> 33
+
+16 models added after a fresh live-catalog pull (mid-tier entries for the big vendors + new vendors:
+Cohere Command A, MiniMax M3, NVIDIA Nemotron 3 Ultra, Amazon Nova 2 Lite, AI21 Jamba Large 1.7,
+Microsoft Phi-4 Mini, IBM Granite 4.1 8B, Liquid LFM-2, Inception Mercury 2 [diffusion LM],
+Ai2 OLMo-3 Think) plus Claude Opus 4.8, GPT-5.5 Pro, GPT-5.4 Nano, Gemini 3.5 Flash, Grok 4.20,
+Qwen3.7 Plus. Tier vocabulary gained "mid".
+
+Removals/notes:
+- allenai/olmo-3-32b-think REMOVED: in the catalog but no serving endpoints (404 on every call; raw logs kept).
+- Perplexity excluded on principle (built-in web search violates the no-live-data rule);
+  gpt-chat-latest excluded (floating alias, not a pinned snapshot).
+- GPT-5.5 Pro: 620 s / $2.91 for the 72-match group prompt - the premium pundit.
+- Phi-4 Mini & LFM-2 initially failed by predicting past the fixture list (knockout match numbers);
+  validator now drops unlisted-match entries with a warning (CHANGELOG 2026-06-11); both passed on rerun.
+
+Final ranked roster: 33 models, 17 vendors. Group-stage run cost (33 models): ~$3.8 incl. retries.

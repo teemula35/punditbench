@@ -16,6 +16,11 @@ export function buildPrompt(
   context?: {
     groupTables?: Map<string, TableRow[]>;
     knockoutResults?: { fixture: Fixture; result: MatchResult }[];
+    /**
+     * "simulated": the knockout context is the model's OWN predicted tournament
+     * (self-consistent bracket simulation) — wording must not claim reality.
+     */
+    mode?: "real" | "simulated";
   },
 ): string {
   const knockout = isKnockout(stage);
@@ -52,7 +57,12 @@ export function buildPrompt(
   );
 
   if (knockout && context) {
-    lines.push("", "Actual tournament results so far:");
+    lines.push(
+      "",
+      context.mode === "simulated"
+        ? "You previously predicted every group-stage match of this tournament. The fixtures below are the knockout bracket that follows from YOUR OWN predictions. Your predicted tournament so far:"
+        : "Actual tournament results so far:",
+    );
     if (context.groupTables && context.groupTables.size > 0) {
       lines.push("", "Final group tables (Team: points, goal difference, goals for):");
       for (const [group, table] of [...context.groupTables.entries()].sort()) {
@@ -63,7 +73,12 @@ export function buildPrompt(
       }
     }
     if (context.knockoutResults && context.knockoutResults.length > 0) {
-      lines.push("", "Knockout results so far (90-minute score; advancing team in brackets):");
+      lines.push(
+        "",
+        context.mode === "simulated"
+          ? "Your predicted knockout results so far (90-minute score; advancing team in brackets):"
+          : "Knockout results so far (90-minute score; advancing team in brackets):",
+      );
       for (const { fixture, result } of context.knockoutResults) {
         if (result.status !== "final") continue;
         const extra = result.note ? `, ${result.note}` : "";

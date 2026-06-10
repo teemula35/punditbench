@@ -13,21 +13,27 @@ import path from "node:path";
 import { loadAllPredictions } from "../lib/data";
 import type { StageId } from "../lib/types";
 
-const stageArg = process.argv[process.argv.indexOf("--stage") + 1] as StageId | undefined;
+const stageArg = process.argv[process.argv.indexOf("--stage") + 1] as StageId | "all" | undefined;
 if (!stageArg) {
-  console.error("Usage: npm run hash -- --stage <group|r32|r16|qf|sf|third|final>");
+  console.error("Usage: npm run hash -- --stage <group|r32|r16|qf|sf|third|final|all>");
   process.exit(1);
 }
 
 const all = loadAllPredictions();
 const canonical = [...all.entries()]
-  .map(([slug, files]) => files.find((f) => f.stage === stageArg))
-  .filter((f): f is NonNullable<typeof f> => f !== undefined)
-  .sort((a, b) => a.slug.localeCompare(b.slug))
+  .flatMap(([, files]) =>
+    stageArg === "all" ? files : files.filter((f) => f.stage === stageArg),
+  )
+  .sort((a, b) => a.slug.localeCompare(b.slug) || a.stage.localeCompare(b.stage))
   .map((f) => ({
     slug: f.slug,
     model: f.model,
+    stage: f.stage,
     completed_at: f.completed_at,
+    // Simulated stages: the model's own pairings are part of the claim.
+    ...(f.simulated_fixtures
+      ? { simulated_fixtures: [...f.simulated_fixtures].sort((a, b) => a.match - b.match) }
+      : {}),
     predictions: [...f.predictions].sort((a, b) => a.match - b.match),
   }));
 
@@ -47,8 +53,11 @@ const record = [
   `generated_at: ${new Date().toISOString()}`,
   `sha256: ${hash}`,
   "",
-  "Canonical form: JSON array of {slug, model, completed_at, predictions sorted by match},",
-  "sorted by slug, no whitespace. Recompute with: npm run hash -- --stage " + stageArg,
+  "Canonical form v2: JSON array of {slug, model, stage, completed_at, simulated_fixtures?",
+  "(sorted by match), predictions (sorted by match)}, sorted by (slug, stage), no whitespace.",
+  "(Tags predictions-group / predictions-group-v2 used form v1: {slug, model, completed_at,",
+  "predictions} — their recorded hashes remain valid against that form.)",
+  "Recompute with: npm run hash -- --stage " + stageArg,
 ].join("\n");
 fs.writeFileSync(path.join(dir, `${stageArg}.txt`), record + "\n", "utf-8");
 

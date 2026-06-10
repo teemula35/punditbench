@@ -1,0 +1,44 @@
+{
+  "model": "moonshotai/kimi-k2.6",
+  "slug": "moonshotai-kimi-k2-6",
+  "stage": "sf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:28:11.331Z",
+  "completed_at": "2026-06-10T21:28:27.164Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1462,
+    "completion_tokens": 1183,
+    "total_tokens": 2645,
+    "cost_usd": 0.00585774
+  },
+  "simulated_fixtures": [
+    {
+      "match": 101,
+      "home": "Germany",
+      "away": "Spain"
+    },
+    {
+      "match": 102,
+      "home": "Brazil",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 102,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Brazil"
+    }
+  ]
+}

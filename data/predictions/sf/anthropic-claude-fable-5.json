@@ -1,0 +1,44 @@
+{
+  "model": "anthropic/claude-fable-5",
+  "slug": "anthropic-claude-fable-5",
+  "stage": "sf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:25:28.942Z",
+  "completed_at": "2026-06-10T21:25:33.348Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 2140,
+    "completion_tokens": 76,
+    "total_tokens": 2216,
+    "cost_usd": 0.0252
+  },
+  "simulated_fixtures": [
+    {
+      "match": 101,
+      "home": "France",
+      "away": "Spain"
+    },
+    {
+      "match": 102,
+      "home": "England",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Spain"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

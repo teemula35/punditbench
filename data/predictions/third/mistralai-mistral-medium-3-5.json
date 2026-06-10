@@ -1,0 +1,33 @@
+{
+  "model": "mistralai/mistral-medium-3-5",
+  "slug": "mistralai-mistral-medium-3-5",
+  "stage": "third",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:26:44.717Z",
+  "completed_at": "2026-06-10T21:26:45.880Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1574,
+    "completion_tokens": 32,
+    "total_tokens": 1606,
+    "cost_usd": 0.002601
+  },
+  "simulated_fixtures": [
+    {
+      "match": 103,
+      "home": "Spain",
+      "away": "Brazil"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 103,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Brazil"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "model": "anthropic/claude-opus-4.8",
+  "slug": "anthropic-claude-opus-4-8",
+  "stage": "final",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:28:43.585Z",
+  "completed_at": "2026-06-10T21:28:45.307Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 2177,
+    "completion_tokens": 44,
+    "total_tokens": 2221,
+    "cost_usd": 0.011985
+  },
+  "simulated_fixtures": [
+    {
+      "match": 104,
+      "home": "Spain",
+      "away": "Brazil"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Brazil"
+    }
+  ]
+}

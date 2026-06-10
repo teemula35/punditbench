@@ -1,0 +1,66 @@
+{
+  "model": "qwen/qwen3.6-flash",
+  "slug": "qwen-qwen3-6-flash",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:27:10.670Z",
+  "completed_at": "2026-06-10T21:27:22.680Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1539,
+    "completion_tokens": 2070,
+    "total_tokens": 3609,
+    "cost_usd": 0.0026173125
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "Ecuador",
+      "away": "Brazil"
+    },
+    {
+      "match": 98,
+      "home": "Colombia",
+      "away": "Turkey"
+    },
+    {
+      "match": 99,
+      "home": "France",
+      "away": "England"
+    },
+    {
+      "match": 100,
+      "home": "Argentina",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Brazil"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Colombia"
+    },
+    {
+      "match": 99,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

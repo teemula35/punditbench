@@ -1,0 +1,110 @@
+{
+  "model": "meta-llama/llama-4-maverick",
+  "slug": "meta-llama-llama-4-maverick",
+  "stage": "r16",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:25:58.504Z",
+  "completed_at": "2026-06-10T21:26:07.340Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1387,
+    "completion_tokens": 176,
+    "total_tokens": 1563,
+    "cost_usd": 0.00031365
+  },
+  "simulated_fixtures": [
+    {
+      "match": 89,
+      "home": "Ecuador",
+      "away": "France"
+    },
+    {
+      "match": 90,
+      "home": "Switzerland",
+      "away": "Netherlands"
+    },
+    {
+      "match": 91,
+      "home": "Brazil",
+      "away": "Germany"
+    },
+    {
+      "match": 92,
+      "home": "Mexico",
+      "away": "Croatia"
+    },
+    {
+      "match": 93,
+      "home": "England",
+      "away": "Uruguay"
+    },
+    {
+      "match": 94,
+      "home": "United States",
+      "away": "Belgium"
+    },
+    {
+      "match": 95,
+      "home": "Spain",
+      "away": "Australia"
+    },
+    {
+      "match": 96,
+      "home": "Canada",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 89,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "France"
+    },
+    {
+      "match": 90,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Netherlands"
+    },
+    {
+      "match": 91,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 92,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Croatia"
+    },
+    {
+      "match": 93,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "England"
+    },
+    {
+      "match": 94,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Belgium"
+    },
+    {
+      "match": 95,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 96,
+      "home_goals": 0,
+      "away_goals": 3,
+      "advances": "Portugal"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "model": "google/gemini-3.1-flash-lite",
+  "slug": "google-gemini-3-1-flash-lite",
+  "stage": "third",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T21:23:28.170Z",
+  "completed_at": "2026-06-10T21:23:28.763Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1534,
+    "completion_tokens": 27,
+    "total_tokens": 1561,
+    "cost_usd": 0.000424
+  },
+  "simulated_fixtures": [
+    {
+      "match": 103,
+      "home": "Belgium",
+      "away": "Brazil"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 103,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Brazil"
+    }
+  ]
+}

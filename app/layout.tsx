@@ -8,12 +8,12 @@ import { Wordmark } from "./ui";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — 18 LLMs predict the 2026 World Cup`,
+    default: `${SITE_NAME} — 33 LLMs predict the 2026 World Cup`,
     template: `%s · ${SITE_NAME}`,
   },
   description: TAGLINE,
   openGraph: {
-    title: `${SITE_NAME} — 18 LLMs predict the 2026 World Cup`,
+    title: `${SITE_NAME} — 33 LLMs predict the 2026 World Cup`,
     description: TAGLINE,
     url: SITE_URL,
     siteName: SITE_NAME,
