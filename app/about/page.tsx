@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { loadRoster } from "@/lib/data";
 import { modelSlug } from "@/lib/prompt";
-import { GITHUB_URL, SITE_NAME } from "@/lib/site";
+import { GA_MEASUREMENT_ID, GITHUB_URL, SITE_NAME } from "@/lib/site";
 import { PageTitle } from "../ui";
 
 export const metadata: Metadata = {
@@ -83,10 +83,27 @@ export default function AboutPage() {
             football federation. Tournament and team names are used editorially to describe real
             sporting events.
           </p>
-          <p>
-            <span className="font-medium text-zinc-200">Privacy.</span> This site sets no cookies
-            and runs no tracking. The site is fully static.
-          </p>
+          {/* The privacy text mirrors reality: while GA_MEASUREMENT_ID is empty
+              there is no banner and no analytics, so the old claim stays true. */}
+          {GA_MEASUREMENT_ID ? (
+            <p id="privacy">
+              <span className="font-medium text-zinc-200">Privacy.</span> By default this site
+              sets no cookies. If you accept in the consent banner, Google Analytics 4 counts
+              visits — pseudonymous usage statistics with anonymized IP addresses; no ads, no
+              cross-site tracking. Your choice is stored only on your device, and you can change
+              it at any time via &ldquo;Analytics settings&rdquo; in the footer. Analytics data
+              is processed by Google — see{" "}
+              <a href="https://policies.google.com/privacy" className={A_CLS}>
+                Google&apos;s privacy policy
+              </a>
+              .
+            </p>
+          ) : (
+            <p id="privacy">
+              <span className="font-medium text-zinc-200">Privacy.</span> This site sets no
+              cookies and runs no tracking. The site is fully static.
+            </p>
+          )}
           <p>
             <span className="font-medium text-zinc-200">Imprint.</span> Publisher: to be
             announced. Contact:{" "}

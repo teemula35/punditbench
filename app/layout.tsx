@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { GITHUB_URL, SITE_NAME, SITE_URL, TAGLINE } from "@/lib/site";
+import { Analytics, AnalyticsSettingsLink } from "./analytics";
 import { Wordmark } from "./ui";
 
 export const metadata: Metadata = {
@@ -76,10 +77,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/about/" className="hover:text-emerald-400">
                   About
                 </Link>
+                <AnalyticsSettingsLink />
               </p>
             </div>
           </footer>
         </div>
+        <Analytics />
       </body>
     </html>
   );
