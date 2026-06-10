@@ -13,14 +13,18 @@ export function Wordmark() {
   );
 }
 
+const TIER_STYLES: Record<RosterModel["tier"], string> = {
+  flagship: "border-emerald-400/30 bg-emerald-400/10 text-emerald-300",
+  mid: "border-sky-400/30 bg-sky-400/10 text-sky-300",
+  small: "border-zinc-700 bg-zinc-800/60 text-zinc-400",
+};
+
 export function TierChip({ tier }: { tier: RosterModel["tier"] }) {
-  return tier === "flagship" ? (
-    <span className="inline-block rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-300">
-      flagship
-    </span>
-  ) : (
-    <span className="inline-block rounded-full border border-zinc-700 bg-zinc-800/60 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
-      small
+  return (
+    <span
+      className={`inline-block rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${TIER_STYLES[tier]}`}
+    >
+      {tier}
     </span>
   );
 }

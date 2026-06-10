@@ -104,6 +104,7 @@ interface AttemptLog {
   http_status?: number;
   error?: string;
   validation_errors?: string[];
+  validation_warnings?: string[];
   ok: boolean;
 }
 
@@ -233,6 +234,7 @@ async function runModel(
       params, request_chars: attemptPrompt.length, response_raw: raw, usage,
       latency_ms: latency, http_status: status,
       validation_errors: validation.ok ? undefined : validation.errors.slice(0, 50),
+      validation_warnings: validation.warnings.length > 0 ? validation.warnings.slice(0, 20) : undefined,
       ok: validation.ok,
       ...(attempt === 1 ? { prompt } : {}),
     });

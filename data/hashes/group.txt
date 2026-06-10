@@ -1,7 +1,7 @@
 stage: group
-models: 18
-generated_at: 2026-06-10T20:47:59.840Z
-sha256: 9a7d3581919079633934c19c3173654a9f779c77cc08f1cae0ba2470dd408fbc
+models: 33
+generated_at: 2026-06-10T21:13:09.395Z
+sha256: 4afa1910405fe503bda7d752dffe8a15ec1eaa1cf2575d1c02046f01d4d3d83d
 
 Canonical form: JSON array of {slug, model, completed_at, predictions sorted by match},
 sorted by slug, no whitespace. Recompute with: npm run hash -- --stage group

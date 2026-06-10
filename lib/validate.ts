@@ -4,6 +4,8 @@ import { isKnockout } from "./scoring";
 export interface ValidationResult {
   ok: boolean;
   errors: string[];
+  /** Tolerated oddities, e.g. extra entries for unlisted match numbers (dropped). */
+  warnings: string[];
   predictions: Prediction[];
 }
 
@@ -41,13 +43,14 @@ function tryParse(s: string): unknown {
  */
 export function validatePredictions(raw: string, fixtures: Fixture[]): ValidationResult {
   const errors: string[] = [];
+  const warnings: string[] = [];
   const parsed = extractJson(raw);
   if (parsed === undefined || typeof parsed !== "object" || parsed === null) {
-    return { ok: false, errors: ["Response is not parseable JSON."], predictions: [] };
+    return { ok: false, errors: ["Response is not parseable JSON."], warnings, predictions: [] };
   }
   const list = (parsed as { predictions?: unknown }).predictions;
   if (!Array.isArray(list)) {
-    return { ok: false, errors: ['Top-level key "predictions" missing or not an array.'], predictions: [] };
+    return { ok: false, errors: ['Top-level key "predictions" missing or not an array.'], warnings, predictions: [] };
   }
 
   const byMatch = new Map<number, Fixture>(fixtures.map((f) => [f.match, f]));
@@ -61,8 +64,15 @@ export function validatePredictions(raw: string, fixtures: Fixture[]): Validatio
     }
     const e = item as Record<string, unknown>;
     const match = e.match;
-    if (typeof match !== "number" || !byMatch.has(match)) {
-      errors.push(`Unknown or missing match number: ${JSON.stringify(match)}.`);
+    if (typeof match !== "number") {
+      errors.push(`Missing or non-numeric match number: ${JSON.stringify(match)}.`);
+      continue;
+    }
+    if (!byMatch.has(match)) {
+      // Some models keep predicting past the listed fixtures (e.g. into the
+      // knockout bracket). Extra entries are noise, not a football error — drop
+      // them with a warning; coverage of the listed fixtures stays mandatory.
+      warnings.push(`Entry for unlisted match number ${match} ignored.`);
       continue;
     }
     if (seen.has(match)) {
@@ -107,7 +117,7 @@ export function validatePredictions(raw: string, fixtures: Fixture[]): Validatio
   }
 
   out.sort((a, b) => a.match - b.match);
-  return { ok: errors.length === 0, errors, predictions: out };
+  return { ok: errors.length === 0, errors, warnings, predictions: out };
 }
 
 function isValidGoals(v: unknown): boolean {

@@ -49,7 +49,7 @@ export interface RosterModel {
   id: string; // OpenRouter id, e.g. "openai/gpt-..."
   label: string;
   vendor: string;
-  tier: "flagship" | "small";
+  tier: "flagship" | "mid" | "small";
   context_length?: number;
   pricing_prompt_usd_per_m?: number;
   pricing_completion_usd_per_m?: number;

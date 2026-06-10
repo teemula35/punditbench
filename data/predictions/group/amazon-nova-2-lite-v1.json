@@ -1,0 +1,380 @@
+{
+  "model": "amazon/nova-2-lite-v1",
+  "slug": "amazon-nova-2-lite-v1",
+  "stage": "group",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-10T20:56:15.511Z",
+  "completed_at": "2026-06-10T20:56:21.812Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1611,
+    "completion_tokens": 1672,
+    "total_tokens": 3283,
+    "cost_usd": 0.0046633
+  },
+  "predictions": [
+    {
+      "match": 1,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 2,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 3,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 4,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 5,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 6,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 7,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 8,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 9,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 10,
+      "home_goals": 3,
+      "away_goals": 0
+    },
+    {
+      "match": 11,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 12,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 13,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 14,
+      "home_goals": 3,
+      "away_goals": 0
+    },
+    {
+      "match": 15,
+      "home_goals": 0,
+      "away_goals": 1
+    },
+    {
+      "match": 16,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 17,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 18,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 19,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 20,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 21,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 22,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 23,
+      "home_goals": 3,
+      "away_goals": 0
+    },
+    {
+      "match": 24,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 25,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 26,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 27,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 28,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 29,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 30,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 31,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 32,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 33,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 34,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 35,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 36,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 37,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 38,
+      "home_goals": 3,
+      "away_goals": 0
+    },
+    {
+      "match": 39,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 40,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 41,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 42,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 43,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 44,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 45,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 46,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 47,
+      "home_goals": 3,
+      "away_goals": 0
+    },
+    {
+      "match": 48,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 49,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 50,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 51,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 52,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 53,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 54,
+      "home_goals": 0,
+      "away_goals": 1
+    },
+    {
+      "match": 55,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 56,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 57,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 58,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 59,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 60,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 61,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 62,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 63,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 64,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 65,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 66,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 67,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 68,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 69,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 70,
+      "home_goals": 0,
+      "away_goals": 3
+    },
+    {
+      "match": 71,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 72,
+      "home_goals": 2,
+      "away_goals": 1
+    }
+  ]
+}

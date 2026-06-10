@@ -32,19 +32,32 @@ describe("validatePredictions — group", () => {
     expect(v.ok).toBe(true);
     expect(v.predictions).toHaveLength(2);
   });
-  it("rejects missing matches, duplicates, unknown matches and bad goals", () => {
+  it("rejects missing matches, duplicates and bad goals", () => {
     const raw = JSON.stringify({ predictions: [
       { match: 1, home_goals: 2, away_goals: 0 },
       { match: 1, home_goals: 2, away_goals: 0 },
-      { match: 99, home_goals: 1, away_goals: 0 },
       { match: 2, home_goals: 2.5, away_goals: -1 },
     ]});
     const v = validatePredictions(raw, fixtures);
     expect(v.ok).toBe(false);
     expect(v.errors.join("\n")).toMatch(/more than once/);
-    expect(v.errors.join("\n")).toMatch(/Unknown or missing match number: 99/);
     expect(v.errors.join("\n")).toMatch(/integers 0-15/);
     expect(v.errors.join("\n")).toMatch(/Match 2 .* missing/);
+  });
+
+  it("tolerates extra entries for unlisted match numbers (dropped with a warning)", () => {
+    // Some models keep predicting into the knockout bracket past the listed fixtures.
+    const raw = JSON.stringify({ predictions: [
+      { match: 1, home_goals: 2, away_goals: 0 },
+      { match: 2, home_goals: 1, away_goals: 1 },
+      { match: 73, home_goals: 2, away_goals: 1 },
+      { match: 104, home_goals: 1, away_goals: 0 },
+    ]});
+    const v = validatePredictions(raw, fixtures);
+    expect(v.ok).toBe(true);
+    expect(v.predictions).toHaveLength(2);
+    expect(v.warnings.join("\n")).toMatch(/unlisted match number 73/);
+    expect(v.warnings.join("\n")).toMatch(/unlisted match number 104/);
   });
 });
 
