@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Noto Color Emoji";
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: #09090b; /* zinc-950 */
+  color: #d4d4d8; /* zinc-300 */
+}
+
+/* Hand-rolled prose styles for the markdown pages (no typography plugin). */
+.prose {
+  max-width: 72ch;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+.prose h1 {
+  color: #fafafa;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+.prose h2 {
+  color: #fafafa;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 2.25rem 0 0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #27272a;
+}
+.prose h3 {
+  color: #f4f4f5;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 1.75rem 0 0.5rem;
+}
+.prose p {
+  margin: 0.75rem 0;
+}
+.prose ul,
+.prose ol {
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li {
+  margin: 0.4rem 0;
+}
+.prose a {
+  color: #34d399; /* emerald-400 */
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(52, 211, 153, 0.4);
+}
+.prose a:hover {
+  text-decoration-color: #34d399;
+}
+.prose strong {
+  color: #f4f4f5;
+  font-weight: 600;
+}
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: #a7f3d0; /* emerald-200 */
+  background-color: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.35rem;
+}
+.prose pre {
+  background-color: #18181b;
+  border: 1px solid #27272a;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.prose table {
+  width: auto;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-variant-numeric: tabular-nums;
+}
+.prose th,
+.prose td {
+  border: 1px solid #27272a;
+  padding: 0.4rem 0.9rem;
+  text-align: left;
+}
+.prose th {
+  color: #a1a1aa;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: #18181b;
+}
+.prose blockquote {
+  border-left: 3px solid #34d399;
+  padding-left: 1rem;
+  color: #a1a1aa;
+  margin: 1rem 0;
+}
+.prose hr {
+  border: none;
+  border-top: 1px solid #27272a;
+  margin: 2rem 0;
+}

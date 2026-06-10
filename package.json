@@ -16,6 +16,7 @@
     "knockout-fixtures": "node --import tsx scripts/make-knockout-fixtures.ts"
   },
   "dependencies": {
+    "marked": "^18.0.5",
     "next": "^15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
