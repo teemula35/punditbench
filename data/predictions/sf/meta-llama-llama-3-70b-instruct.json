@@ -1,0 +1,44 @@
+{
+  "model": "meta-llama/llama-3-70b-instruct",
+  "slug": "meta-llama-llama-3-70b-instruct",
+  "stage": "sf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:38:47.867Z",
+  "completed_at": "2026-06-11T06:38:50.855Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1474,
+    "completion_tokens": 43,
+    "total_tokens": 1517,
+    "cost_usd": 0.00078356
+  },
+  "simulated_fixtures": [
+    {
+      "match": 101,
+      "home": "France",
+      "away": "Belgium"
+    },
+    {
+      "match": 102,
+      "home": "Brazil",
+      "away": "Spain"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 2,
+      "away_goals": 2,
+      "advances": "Brazil"
+    }
+  ]
+}

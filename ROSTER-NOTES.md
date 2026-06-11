@@ -92,3 +92,28 @@ Removals/notes:
   validator now drops unlisted-match entries with a warning (CHANGELOG 2026-06-11); both passed on rerun.
 
 Final ranked roster: 33 models, 17 vendors. Group-stage run cost (33 models): ~$3.8 incl. retries.
+
+---
+
+## Addendum 2 - 2026-06-11 (pre-kickoff): legacy + oddball wings, 33 -> 44
+
+LEGACY wing (7, tier "legacy"): openai/gpt-3.5-turbo, openai/gpt-4, openai/gpt-4o,
+anthropic/claude-3-haiku, meta-llama/llama-3-70b-instruct, google/gemma-2-27b-it,
+qwen/qwen-2.5-72b-instruct. The 2023-24 era vs the 2026 frontier, same fixtures.
+
+ODDBALL wing (tier "oddball"): microsoft/wizardlm-2-8x22b (released April 2024, pulled
+within days), nousresearch/hermes-3-llama-3.1-405b (community 405B finetune),
+tencent/hunyuan-a13b-instruct (MoE), meta-llama/llama-3.2-1b-instruct (1B miniature);
+inception/mercury-2 (diffusion LM) and liquid/lfm-2-24b-a2b retagged from earlier batches.
+
+Screening: every candidate live-pinged before joining (lesson from OLMo's dead endpoint).
+
+Outcomes:
+- 10/12 valid group predictions on attempt 1 (incl. GPT-3.5 Turbo and GPT-4).
+- meta-llama/llama-3.2-1b-instruct: failed all attempts - emits well-formed JSON but stops
+  around match 48 of 72. Kept on the roster as a disclosed zero (the small-model floor is a result).
+- inflection/inflection-3-pi DROPPED: returned empty content on every attempt; sibling
+  inflection-3-productivity also returns empty via OpenRouter. Endpoint issue, not a fair
+  failure; raw logs kept in data/raw/group/.
+
+Final ranked roster: 44 models / 21 vendors. Tiers: 15 flagship, 5 mid, 11 small, 7 legacy, 6 oddball.

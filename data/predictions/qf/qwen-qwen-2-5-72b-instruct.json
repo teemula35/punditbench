@@ -1,0 +1,66 @@
+{
+  "model": "qwen/qwen-2.5-72b-instruct",
+  "slug": "qwen-qwen-2-5-72b-instruct",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:39:09.494Z",
+  "completed_at": "2026-06-11T06:39:18.138Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1502,
+    "completion_tokens": 155,
+    "total_tokens": 1657,
+    "cost_usd": 0.00060272
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "Germany",
+      "away": "Netherlands"
+    },
+    {
+      "match": 98,
+      "home": "Uruguay",
+      "away": "United States"
+    },
+    {
+      "match": 99,
+      "home": "Brazil",
+      "away": "Mexico"
+    },
+    {
+      "match": 100,
+      "home": "Argentina",
+      "away": "Colombia"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Uruguay"
+    },
+    {
+      "match": 99,
+      "home_goals": 3,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

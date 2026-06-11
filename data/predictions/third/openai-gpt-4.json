@@ -1,0 +1,33 @@
+{
+  "model": "openai/gpt-4",
+  "slug": "openai-gpt-4",
+  "stage": "third",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:38:15.312Z",
+  "completed_at": "2026-06-11T06:38:16.472Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1470,
+    "completion_tokens": 24,
+    "total_tokens": 1494,
+    "cost_usd": 0.04554
+  },
+  "simulated_fixtures": [
+    {
+      "match": 103,
+      "home": "Belgium",
+      "away": "England"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 103,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Belgium"
+    }
+  ]
+}

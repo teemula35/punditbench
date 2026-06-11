@@ -1,0 +1,198 @@
+{
+  "model": "openai/gpt-3.5-turbo",
+  "slug": "openai-gpt-3-5-turbo",
+  "stage": "r32",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:38:08.589Z",
+  "completed_at": "2026-06-11T06:38:10.771Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 1345,
+    "completion_tokens": 317,
+    "total_tokens": 1662,
+    "cost_usd": 0.001148
+  },
+  "simulated_fixtures": [
+    {
+      "match": 73,
+      "home": "Czech Republic",
+      "away": "Switzerland"
+    },
+    {
+      "match": 74,
+      "home": "Germany",
+      "away": "Turkey"
+    },
+    {
+      "match": 75,
+      "home": "Netherlands",
+      "away": "Morocco"
+    },
+    {
+      "match": 76,
+      "home": "Brazil",
+      "away": "Tunisia"
+    },
+    {
+      "match": 77,
+      "home": "France",
+      "away": "Sweden"
+    },
+    {
+      "match": 78,
+      "home": "Curaçao",
+      "away": "Norway"
+    },
+    {
+      "match": 79,
+      "home": "Mexico",
+      "away": "Ivory Coast"
+    },
+    {
+      "match": 80,
+      "home": "England",
+      "away": "Colombia"
+    },
+    {
+      "match": 81,
+      "home": "United States",
+      "away": "Austria"
+    },
+    {
+      "match": 82,
+      "home": "Belgium",
+      "away": "Spain"
+    },
+    {
+      "match": 83,
+      "home": "DR Congo",
+      "away": "Croatia"
+    },
+    {
+      "match": 84,
+      "home": "Saudi Arabia",
+      "away": "Argentina"
+    },
+    {
+      "match": 85,
+      "home": "Canada",
+      "away": "Iran"
+    },
+    {
+      "match": 86,
+      "home": "Jordan",
+      "away": "Uruguay"
+    },
+    {
+      "match": 87,
+      "home": "Portugal",
+      "away": "Ghana"
+    },
+    {
+      "match": 88,
+      "home": "Australia",
+      "away": "New Zealand"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 73,
+      "home_goals": 1,
+      "away_goals": 0,
+      "advances": "Czech Republic"
+    },
+    {
+      "match": 74,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Germany"
+    },
+    {
+      "match": 75,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Netherlands"
+    },
+    {
+      "match": 76,
+      "home_goals": 3,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 77,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "France"
+    },
+    {
+      "match": 78,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Norway"
+    },
+    {
+      "match": 79,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Mexico"
+    },
+    {
+      "match": 80,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "England"
+    },
+    {
+      "match": 81,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "United States"
+    },
+    {
+      "match": 82,
+      "home_goals": 1,
+      "away_goals": 0,
+      "advances": "Belgium"
+    },
+    {
+      "match": 83,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "DR Congo"
+    },
+    {
+      "match": 84,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    },
+    {
+      "match": 85,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Canada"
+    },
+    {
+      "match": 86,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Uruguay"
+    },
+    {
+      "match": 87,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Portugal"
+    },
+    {
+      "match": 88,
+      "home_goals": 1,
+      "away_goals": 0,
+      "advances": "Australia"
+    }
+  ]
+}

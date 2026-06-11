@@ -1,0 +1,66 @@
+{
+  "model": "microsoft/wizardlm-2-8x22b",
+  "slug": "microsoft-wizardlm-2-8x22b",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:39:46.178Z",
+  "completed_at": "2026-06-11T06:40:08.620Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1476,
+    "completion_tokens": 104,
+    "total_tokens": 1580,
+    "cost_usd": 0.0009796
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "France",
+      "away": "Netherlands"
+    },
+    {
+      "match": 98,
+      "home": "Spain",
+      "away": "United States"
+    },
+    {
+      "match": 99,
+      "home": "Brazil",
+      "away": "England"
+    },
+    {
+      "match": 100,
+      "home": "Argentina",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 98,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "United States"
+    },
+    {
+      "match": 99,
+      "home_goals": 3,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

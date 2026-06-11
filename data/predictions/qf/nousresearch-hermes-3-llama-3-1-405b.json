@@ -1,0 +1,66 @@
+{
+  "model": "nousresearch/hermes-3-llama-3.1-405b",
+  "slug": "nousresearch-hermes-3-llama-3-1-405b",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:39:37.174Z",
+  "completed_at": "2026-06-11T06:39:45.273Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1450,
+    "completion_tokens": 82,
+    "total_tokens": 1532,
+    "cost_usd": 0.001532
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "Germany",
+      "away": "Netherlands"
+    },
+    {
+      "match": 98,
+      "home": "Spain",
+      "away": "United States"
+    },
+    {
+      "match": 99,
+      "home": "Brazil",
+      "away": "England"
+    },
+    {
+      "match": 100,
+      "home": "Argentina",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    },
+    {
+      "match": 98,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "United States"
+    },
+    {
+      "match": 99,
+      "home_goals": 2,
+      "away_goals": 2,
+      "advances": "Brazil"
+    },
+    {
+      "match": 100,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Portugal"
+    }
+  ]
+}

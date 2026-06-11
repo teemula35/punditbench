@@ -1,0 +1,33 @@
+{
+  "model": "qwen/qwen-2.5-72b-instruct",
+  "slug": "qwen-qwen-2-5-72b-instruct",
+  "stage": "final",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:39:25.292Z",
+  "completed_at": "2026-06-11T06:39:28.428Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1523,
+    "completion_tokens": 46,
+    "total_tokens": 1569,
+    "cost_usd": 0.00056668
+  },
+  "simulated_fixtures": [
+    {
+      "match": 104,
+      "home": "Germany",
+      "away": "Argentina"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Germany"
+    }
+  ]
+}

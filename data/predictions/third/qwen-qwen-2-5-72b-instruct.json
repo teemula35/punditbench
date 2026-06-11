@@ -1,0 +1,33 @@
+{
+  "model": "qwen/qwen-2.5-72b-instruct",
+  "slug": "qwen-qwen-2-5-72b-instruct",
+  "stage": "third",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:39:22.034Z",
+  "completed_at": "2026-06-11T06:39:25.288Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1511,
+    "completion_tokens": 29,
+    "total_tokens": 1540,
+    "cost_usd": 0.00055556
+  },
+  "simulated_fixtures": [
+    {
+      "match": 103,
+      "home": "Uruguay",
+      "away": "Brazil"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 103,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Brazil"
+    }
+  ]
+}

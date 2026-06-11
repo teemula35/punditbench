@@ -9,6 +9,7 @@ Material events affecting scoring, data, or methodology are recorded here (C13/E
 - **Roster expanded 18 → 34 → 33:** 16 models added (live-catalog-verified); OLMo-3 removed — listed in the catalog but no provider serves it (HTTP 404 on every attempt, logged in raw/group).
 - **Validator relaxed (applies identically to all):** entries for unlisted match numbers are now dropped with a logged warning instead of failing the response. Reason: Phi-4 Mini and LFM-2 predicted past the listed fixtures into the knockout bracket; rejecting that measures formatting, not football. All previously-passing models unaffected. Both models passed on rerun.
 - Group-stage hashes: 18-model set `9a7d3581…408fbc` (tag `predictions-group`), expanded 33-model set `4afa1910…d3d83d` (tag `predictions-group-v2`). Full-tournament hash tagged after simulation completes.
+- **Roster expanded 33 → 44 (still pre-kickoff):** a legacy wing (GPT-3.5 Turbo, GPT-4, GPT-4o, Claude 3 Haiku, Llama 3 70B, Gemma 2 27B, Qwen 2.5 72B) and an oddball wing (WizardLM-2 8x22B, Hermes 3 405B, Hunyuan A13B, Llama 3.2 1B; Mercury 2 and LFM-2 retagged oddball). All candidates live-pinged before joining. Inflection dropped: both its endpoints return empty content (raw logs kept). Llama 3.2 1B failed the group-stage format in all attempts (stops near match 48) and stands as a disclosed zero entry. Final ranked roster: **44 models, 21 vendors**. Updated full-tournament hash tagged `predictions-full-tournament-v2`.
 
 ## 2026-06-10
 

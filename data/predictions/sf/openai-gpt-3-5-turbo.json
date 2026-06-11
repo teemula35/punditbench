@@ -1,0 +1,44 @@
+{
+  "model": "openai/gpt-3.5-turbo",
+  "slug": "openai-gpt-3-5-turbo",
+  "stage": "sf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:38:13.705Z",
+  "completed_at": "2026-06-11T06:38:15.265Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1461,
+    "completion_tokens": 43,
+    "total_tokens": 1504,
+    "cost_usd": 0.000795
+  },
+  "simulated_fixtures": [
+    {
+      "match": 101,
+      "home": "France",
+      "away": "Belgium"
+    },
+    {
+      "match": 102,
+      "home": "England",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Portugal"
+    }
+  ]
+}

@@ -17,6 +17,8 @@ const TIER_STYLES: Record<RosterModel["tier"], string> = {
   flagship: "border-emerald-400/30 bg-emerald-400/10 text-emerald-300",
   mid: "border-sky-400/30 bg-sky-400/10 text-sky-300",
   small: "border-zinc-700 bg-zinc-800/60 text-zinc-400",
+  legacy: "border-amber-400/30 bg-amber-400/10 text-amber-300",
+  oddball: "border-fuchsia-400/30 bg-fuchsia-400/10 text-fuchsia-300",
 };
 
 export function TierChip({ tier }: { tier: RosterModel["tier"] }) {

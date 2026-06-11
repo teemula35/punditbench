@@ -1,7 +1,7 @@
 stage: all
-models: 215
-generated_at: 2026-06-10T21:55:56.698Z
-sha256: c106fe5f8c7f6fed100c47dc55d37d5ca3be5a21a74e07cec9a3b11c5b9b091f
+models: 280
+generated_at: 2026-06-11T06:45:12.907Z
+sha256: ad35637919809be6c5347840d7a05d9e30c4dd87cd692a226cc267bb265225d2
 
 Canonical form v2: JSON array of {slug, model, stage, completed_at, simulated_fixtures?
 (sorted by match), predictions (sorted by match)}, sorted by (slug, stage), no whitespace.
