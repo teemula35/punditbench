@@ -46,4 +46,10 @@ firebase deploy --only hosting             # publish ./out to punditbench.web.ap
 - [ ] Hash tagged + pushed (pre-registration)
 - [ ] Site deployed (Cloud Run; static export)
 
+## Security
+
+**"Isn't that a Google API key in `lib/site.ts`?"** Yes — and it's meant to be public. It's a Firebase *browser* key, which is a client identifier, [not a secret](https://firebase.google.com/docs/projects/api-keys): it ships in the site's JavaScript by design. Its only job is the cookieless page-view counter, and it's locked down three ways — restricted in Google Cloud to the Firestore API only (so it can't reach any other or billable Google service), referrer-restricted to punditbench.com, and governed by [`firestore.rules`](firestore.rules), which let anyone read the counters and do nothing but `+1` them; every other read and write is denied.
+
+No private keys, service-account credentials, or model API keys live anywhere in this repo or its history. The one real secret — `OPENROUTER_API_KEY` — is read from an untracked `.env` (see [`.env.example`](.env.example)) and is never committed.
+
 *PunditBench is an independent project, not affiliated with FIFA or any federation. Tournament and team names are used editorially. Statistics & entertainment only — not betting advice. All predictions are AI-generated content.*
