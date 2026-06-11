@@ -14,6 +14,7 @@
     "result": "node --import tsx scripts/record-result.ts",
     "hash": "node --import tsx scripts/hash.ts",
     "audit": "node --import tsx scripts/audit.ts",
+    "views": "node --import tsx scripts/views.ts",
     "knockout-fixtures": "node --import tsx scripts/make-knockout-fixtures.ts"
   },
   "dependencies": {
