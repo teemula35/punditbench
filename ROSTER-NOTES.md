@@ -117,3 +117,22 @@ Outcomes:
   failure; raw logs kept in data/raw/group/.
 
 Final ranked roster: 44 models / 21 vendors. Tiers: 15 flagship, 5 mid, 11 small, 7 legacy, 6 oddball.
+
+---
+
+## Addendum 3 - 2026-06-11 (pre-kickoff): final cut, 44 -> 40
+
+After a fourth identical-failure retry cycle, the operator removed the four models that could
+not complete the task format, rather than carrying zero/partial entries:
+- ibm-granite/granite-4.1-8b - valid group + R32 + R16, but never a valid quarter-final set
+  ("advances" contradicting its own scoreline, missing matches)
+- liquid/lfm-2-24b-a2b - valid group set, never a valid R32 (missing matches, wrong team names)
+- microsoft/phi-4-mini-instruct - valid group set, never a valid R32 (duplicates, contradictions)
+- meta-llama/llama-3.2-1b-instruct - never a valid group set (well-formed JSON that always stops
+  around match 48 of 72)
+
+All raw attempts remain in data/raw/ - the small-model capability floor for sustained structured
+output is a real, documented finding even though these models no longer appear on the leaderboard.
+
+FINAL ranked roster: 40 models / 19 vendors, every one with a complete simulated tournament.
+Tiers: 15 flagship, 5 mid, 8 small, 7 legacy, 5 oddball.

@@ -348,42 +348,6 @@
     "notes": "Added 2026-06-10 pre-kickoff roster expansion; verified in live catalog (created 2025-08-08)."
   },
   {
-    "id": "microsoft/phi-4-mini-instruct",
-    "label": "Phi-4 Mini",
-    "vendor": "Microsoft",
-    "tier": "small",
-    "context_length": 131072,
-    "pricing_prompt_usd_per_m": 0.08,
-    "pricing_completion_usd_per_m": 0.35,
-    "knowledge_cutoff": "unknown",
-    "reasoning": false,
-    "notes": "Added 2026-06-10 pre-kickoff roster expansion; verified in live catalog (created 2025-10-17)."
-  },
-  {
-    "id": "ibm-granite/granite-4.1-8b",
-    "label": "Granite 4.1 8B",
-    "vendor": "IBM",
-    "tier": "small",
-    "context_length": 131072,
-    "pricing_prompt_usd_per_m": 0.05,
-    "pricing_completion_usd_per_m": 0.1,
-    "knowledge_cutoff": "unknown",
-    "reasoning": false,
-    "notes": "Added 2026-06-10 pre-kickoff roster expansion; verified in live catalog (created 2026-04-30)."
-  },
-  {
-    "id": "liquid/lfm-2-24b-a2b",
-    "label": "LFM-2 24B",
-    "vendor": "Liquid AI",
-    "tier": "oddball",
-    "context_length": 128000,
-    "pricing_prompt_usd_per_m": 0.03,
-    "pricing_completion_usd_per_m": 0.12,
-    "knowledge_cutoff": "unknown",
-    "reasoning": false,
-    "notes": "Added 2026-06-10 pre-kickoff roster expansion; verified in live catalog (created 2026-02-25)."
-  },
-  {
     "id": "inception/mercury-2",
     "label": "Mercury 2",
     "vendor": "Inception",
@@ -514,17 +478,5 @@
     "knowledge_cutoff": "unknown",
     "reasoning": false,
     "notes": "Community finetune of Llama 3.1 405B. Added 2026-06-11 pre-kickoff (legacy/oddball expansion); live-pinged before joining; catalog created 2024-08-16."
-  },
-  {
-    "id": "meta-llama/llama-3.2-1b-instruct",
-    "label": "Llama 3.2 1B",
-    "vendor": "Meta",
-    "tier": "oddball",
-    "context_length": 131072,
-    "pricing_prompt_usd_per_m": 0.03,
-    "pricing_completion_usd_per_m": 0.2,
-    "knowledge_cutoff": "unknown",
-    "reasoning": false,
-    "notes": "The smallest pundit on the roster: one billion parameters. Added 2026-06-11 pre-kickoff (legacy/oddball expansion); live-pinged before joining; catalog created 2024-09-25."
   }
 ]

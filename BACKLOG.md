@@ -8,7 +8,7 @@
 
 ## 0. Status snapshot (updated 2026-06-11, pre-kickoff)
 
-**D9 design change (user):** self-consistent bracket simulation — every model predicts its own knockout tree from its own group results, all collected before kickoff. Consequences: Epic G's five knockout prompt windows are **obsolete** (ops = results entry + deploy only); scoring extended with bracket components; site v2 adds per-model predicted group tables + bracket trees and a champion board. Roster final: **44 models / 21 vendors** (incl. legacy + oddball wings, added pre-kickoff). GA4+consent shipped (disabled until `GA_MEASUREMENT_ID` set — needs your `G-…` ID). See DECISIONS.md D9 / CHANGELOG.md.
+**D9 design change (user):** self-consistent bracket simulation — every model predicts its own knockout tree from its own group results, all collected before kickoff. Consequences: Epic G's five knockout prompt windows are **obsolete** (ops = results entry + deploy only); scoring extended with bracket components; site v2 adds per-model predicted group tables + bracket trees and a champion board. Roster final: **40 models / 19 vendors** (incl. legacy + oddball wings; 4 format-incapable models removed pre-kickoff per operator decision — every ranked model carries a complete tournament). GA4+consent shipped (disabled until `GA_MEASUREMENT_ID` set — needs your `G-…` ID). See DECISIONS.md D9 / CHANGELOG.md.
 
 ### Original snapshot (2026-06-10)
 
