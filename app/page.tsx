@@ -8,9 +8,12 @@ import {
 } from "@/lib/aggregate";
 import { loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
+import { teamFlag } from "@/lib/prompt";
 import { TAGLINE } from "@/lib/site";
+import { TodayMatches, type TodayCard } from "./today-matches";
 import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
 import type { Fixture, Team } from "@/lib/types";
+import { STAGE_LABELS } from "@/lib/types";
 
 /** One compact stat block for the hero scope strip. */
 function ScopeStat({ value, label }: { value: string; label: string }) {
@@ -82,6 +85,44 @@ export default function LeaderboardPage() {
     .sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc) || a.match - b.match)
     .slice(0, 8);
 
+  // Every fixture as a lightweight pre-rendered card; "today" is resolved in
+  // the visitor's browser (see today-matches.tsx) so the section rolls over
+  // at midnight without a redeploy.
+  const todayCards: TodayCard[] = [...data.fixtures.values()]
+    .sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc) || a.match - b.match)
+    .map((f) => {
+      const result = data.results.get(f.match);
+      const played =
+        result?.status === "final" &&
+        result.home_goals !== undefined &&
+        result.away_goals !== undefined;
+      const cons = f.stage === "group" && !played ? consensus(data, f) : undefined;
+      const split = f.stage === "group" && !played ? outcomeSplit(data, f) : undefined;
+      let splitLine: string | undefined;
+      if (split) {
+        const { home, draw, away, outOf } = split;
+        splitLine =
+          home >= away && home >= draw
+            ? `${home}/${outOf} back ${teamFlag(teams, f.home)} ${f.home}`
+            : away >= draw
+              ? `${away}/${outOf} back ${teamFlag(teams, f.away)} ${f.away}`
+              : `${draw}/${outOf} call a draw`;
+      }
+      return {
+        match: f.match,
+        kickoff_utc: f.kickoff_utc,
+        stageLabel: f.stage === "group" ? `Group ${f.group}` : STAGE_LABELS[f.stage],
+        homeLabel: `${teamFlag(teams, f.home)} ${f.home}`,
+        awayLabel: `${teamFlag(teams, f.away)} ${f.away}`,
+        kickoffLabel: fmtKickoffUtc(f.kickoff_utc),
+        scoreLabel: played ? `${result.home_goals}–${result.away_goals}` : undefined,
+        consensusLine: cons
+          ? `Consensus ${cons.home}–${cons.away} · ${cons.count} of ${cons.outOf}`
+          : undefined,
+        splitLine,
+      };
+    });
+
   return (
     <div className="space-y-12">
       {/* Hero */}
@@ -106,6 +147,9 @@ export default function LeaderboardPage() {
           matches played
         </p>
       </section>
+
+      {/* Today's matches — client-rendered, follows the visitor's local date */}
+      <TodayMatches cards={todayCards} />
 
       {/* Leaderboard */}
       <section>
