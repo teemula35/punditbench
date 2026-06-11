@@ -1,6 +1,5 @@
 export const SITE_NAME = "PunditBench";
-// punditbench.com once the domain is purchased; web.app is canonical until then.
-export const SITE_URL = "https://punditbench.web.app";
+export const SITE_URL = "https://punditbench.com";
 export const GITHUB_URL = "https://github.com/teemula35/punditbench";
 export const TAGLINE =
   "Can AI call the beautiful game? 33 LLMs predicted the entire 2026 World Cup — every match, every bracket, every champion — before the opening kickoff.";

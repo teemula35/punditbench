@@ -123,12 +123,12 @@
 |---|---|---|---|---|
 | D-1 | ~~GCP project + billing~~ — obsoleted by Firebase Hosting free tier | — | — | Cloud Run workflow kept as optional alternative |
 | D-2 | ✅ Hosting live: **https://punditbench.web.app** (Firebase Hosting, project `punditbench`); deploy = `npm run build; firebase deploy --only hosting` | P1 | C | Done 2026-06-10. Optional later: `firebase login:ci` token as GH secret for auto-deploy on push |
-| D-3 | Domain punditbench.com + DNS + TLS | P1 | C+you | You buy; map to Firebase Hosting (console → custom domain), then flip SITE_URL |
+| D-3 | ✅ punditbench.com live (bought 2026-06-11; DNS at Namecheap; apex + www→apex redirect on Firebase Hosting; SITE_URL flipped) | P1 | C+you | Done 2026-06-11 |
 | D-4 | ✅ GitHub repo (public, github.com/teemula35/punditbench) + Actions CI | P1 | C | Done 2026-06-10 |
 | D-5 | Error tracking/uptime | P1 | C | Static site → uptime ping + CI status suffice for MVP; Sentry only if dynamic parts appear |
 | D-6 | Backups | P1 | C | git history is the backup (D8); GitHub = offsite copy |
 | D-7 | CDN/cache verification | P2 | C | Static export is CDN-native |
-| D-8 | Cookieless analytics | P2 | C+you | Recommend Plausible (paid) or GoatCounter (free) — needs your account; wired in a later turn |
+| D-8 | ✅ Analytics: GA4 (G-K2LKDM8LH5) behind a Consent Mode v2 banner — user's choice over the cookieless rec; verified in Realtime | P2 | C+you | Done 2026-06-11 |
 
 ### Epic E — Legal & policy
 
