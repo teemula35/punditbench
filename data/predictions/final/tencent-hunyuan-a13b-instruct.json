@@ -1,0 +1,33 @@
+{
+  "model": "tencent/hunyuan-a13b-instruct",
+  "slug": "tencent-hunyuan-a13b-instruct",
+  "stage": "final",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:59:50.656Z",
+  "completed_at": "2026-06-11T06:59:52.696Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1554,
+    "completion_tokens": 31,
+    "total_tokens": 1585,
+    "cost_usd": 0.00023523
+  },
+  "simulated_fixtures": [
+    {
+      "match": 104,
+      "home": "Netherlands",
+      "away": "Brazil"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Netherlands"
+    }
+  ]
+}

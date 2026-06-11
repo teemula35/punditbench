@@ -158,7 +158,7 @@ function StageColumn({
         {matches ? (
           matches.map((m) => <SimCard key={m.match} m={m} teams={teams} />)
         ) : (
-          <div className={PENDING_CARD}>simulation pending</div>
+          <div className={PENDING_CARD}>no valid simulation</div>
         )}
         {children}
       </div>
@@ -243,11 +243,11 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
 
       {!entry.hasPredictions ? (
         <section className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-6">
-          <p className="text-lg font-semibold text-zinc-100">Predictions pending</p>
+          <p className="text-lg font-semibold text-zinc-100">No valid predictions</p>
           <p className="mt-2 max-w-xl text-sm text-zinc-400">
-            No prediction file has been stored for this model yet. Predictions are collected
-            stage-by-stage and pre-registered before kickoff — check back once the next collection
-            run is published.
+            This model could not produce a valid prediction set within the retry policy — every
+            attempt is preserved in the published raw audit logs. It scores 0 on every match and
+            stands on the leaderboard as a measured outcome: the task format itself defeated it.
           </p>
         </section>
       ) : (
@@ -258,7 +258,10 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               label="Total points"
               value={<span className="text-emerald-400">{entry.totalPoints}</span>}
             />
-            <Stat label="Rank" value={`#${entry.rank}`} />
+            <Stat
+              label="Rank"
+              value={anyResults || realKnockoutExists ? `#${entry.rank}` : "—"}
+            />
             <Stat label="Group pts" value={totals.points} />
             <Stat label="Bracket pts" value={bracket.total} />
             <Stat label="Exact" value={entry.exactCount} />
@@ -269,7 +272,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
                   <TeamLabel teams={teams} name={entry.championPick} />
                 ) : (
                   <span className="text-sm font-normal italic text-zinc-500">
-                    simulation pending
+                    no valid bracket
                   </span>
                 )
               }
@@ -322,7 +325,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
                   advancing team is highlighted; &ldquo;adv&rdquo; marks a predicted draw decided
                   after 90 minutes).
                   {view.pendingStages.length > 0 &&
-                    " Remaining rounds are still being collected."}
+                    " Remaining rounds failed validation within the retry policy — rounds answered (and what they determine) still count."}
                 </p>
                 <div className="overflow-x-auto pb-2">
                   <div className="flex min-w-[72rem] gap-3">
@@ -351,7 +354,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
                           </p>
                         </div>
                       ) : (
-                        <div className={PENDING_CARD}>champion pending</div>
+                        <div className={PENDING_CARD}>no champion — bracket incomplete</div>
                       )}
                       <div>
                         <p className="mb-1 text-center text-[10px] font-semibold uppercase tracking-wider text-zinc-600">
@@ -360,7 +363,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
                         {thirdMatches ? (
                           thirdMatches.map((m) => <SimCard key={m.match} m={m} teams={teams} />)
                         ) : (
-                          <div className={PENDING_CARD}>simulation pending</div>
+                          <div className={PENDING_CARD}>no valid simulation</div>
                         )}
                       </div>
                     </StageColumn>

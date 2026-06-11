@@ -201,7 +201,7 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
             the pairing the other way around). Each listed model also earns a +1 matchup bonus;
             scoreline points (3/2/1, +1 correct advancer) apply once the match is played.
             {simPending > 0 &&
-              ` ${simPending} model${simPending === 1 ? "'s" : "s'"} simulation${simPending === 1 ? " is" : "s are"} still pending for this round.`}
+              ` ${simPending} model${simPending === 1 ? "" : "s"} ${simPending === 1 ? "has" : "have"} no valid simulation for this round (retry policy exhausted — see methodology).`}
           </p>
         </section>
       ) : (
@@ -258,7 +258,7 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
                         </span>
                       ) : (
                         <span className="text-xs font-normal italic text-zinc-500">
-                          predictions pending
+                          no valid prediction
                         </span>
                       )}
                     </td>

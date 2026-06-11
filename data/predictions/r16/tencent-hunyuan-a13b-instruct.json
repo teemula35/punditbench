@@ -1,0 +1,110 @@
+{
+  "model": "tencent/hunyuan-a13b-instruct",
+  "slug": "tencent-hunyuan-a13b-instruct",
+  "stage": "r16",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:59:36.937Z",
+  "completed_at": "2026-06-11T06:59:41.885Z",
+  "attempts": 3,
+  "usage": {
+    "prompt_tokens": 1572,
+    "completion_tokens": 309,
+    "total_tokens": 1881,
+    "cost_usd": 0.00039621
+  },
+  "simulated_fixtures": [
+    {
+      "match": 89,
+      "home": "Paraguay",
+      "away": "Sweden"
+    },
+    {
+      "match": 90,
+      "home": "Mexico",
+      "away": "Netherlands"
+    },
+    {
+      "match": 91,
+      "home": "Brazil",
+      "away": "Ivory Coast"
+    },
+    {
+      "match": 92,
+      "home": "South Korea",
+      "away": "England"
+    },
+    {
+      "match": 93,
+      "home": "Uzbekistan",
+      "away": "Spain"
+    },
+    {
+      "match": 94,
+      "home": "United States",
+      "away": "Belgium"
+    },
+    {
+      "match": 95,
+      "home": "Cape Verde",
+      "away": "Turkey"
+    },
+    {
+      "match": 96,
+      "home": "Canada",
+      "away": "Portugal"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 89,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Paraguay"
+    },
+    {
+      "match": 90,
+      "home_goals": 2,
+      "away_goals": 3,
+      "advances": "Netherlands"
+    },
+    {
+      "match": 91,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Brazil"
+    },
+    {
+      "match": 92,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 93,
+      "home_goals": 1,
+      "away_goals": 0,
+      "advances": "Uzbekistan"
+    },
+    {
+      "match": 94,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "United States"
+    },
+    {
+      "match": 95,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Cape Verde"
+    },
+    {
+      "match": 96,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Canada"
+    }
+  ]
+}

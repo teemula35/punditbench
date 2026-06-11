@@ -10,6 +10,11 @@ export default function LeaderboardPage() {
   const teams = loadTeams();
   const champions = championBoard(data);
   const pendingBrackets = data.leaderboard.filter((e) => !e.championPick).length;
+  // Before any match is played (and any real knockout fixture exists) every
+  // model is tied at zero — a rank column full of "#1" is technically true
+  // but meaningless, so show a dash until there is something to rank on.
+  const rankable =
+    data.playedCount > 0 || [...data.fixtures.values()].some((f) => f.stage !== "group");
 
   const upcoming = [...data.fixtures.values()]
     .filter((f) => !data.results.has(f.match))
@@ -63,8 +68,9 @@ export default function LeaderboardPage() {
           {pendingBrackets > 0 && (
             <div className="flex max-w-xs items-center rounded-lg border border-dashed border-zinc-800 px-4 py-3">
               <p className="text-xs italic text-zinc-500">
-                {pendingBrackets} bracket simulation{pendingBrackets === 1 ? "" : "s"} still being
-                collected
+                {pendingBrackets} model{pendingBrackets === 1 ? "" : "s"} without a valid bracket —
+                couldn&apos;t produce valid knockout predictions within the retry policy (see
+                methodology)
               </p>
             </div>
           )}
@@ -90,7 +96,9 @@ export default function LeaderboardPage() {
             <tbody className="divide-y divide-zinc-800/70">
               {data.leaderboard.map((e) => (
                 <tr key={e.slug} className="hover:bg-zinc-900/40">
-                  <td className={`${TD_CLS} w-10 tabular-nums text-zinc-500`}>{e.rank}</td>
+                  <td className={`${TD_CLS} w-10 tabular-nums text-zinc-500`}>
+                    {rankable ? e.rank : "—"}
+                  </td>
                   <td className={TD_CLS}>
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                       <Link
@@ -102,7 +110,7 @@ export default function LeaderboardPage() {
                       <span className="text-xs text-zinc-500">{e.model.vendor}</span>
                       <TierChip tier={e.model.tier} />
                       {!e.hasPredictions && (
-                        <span className="text-xs italic text-zinc-500">predictions pending</span>
+                        <span className="text-xs italic text-zinc-500">no valid predictions</span>
                       )}
                     </div>
                   </td>

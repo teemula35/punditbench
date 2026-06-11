@@ -1,0 +1,66 @@
+{
+  "model": "tencent/hunyuan-a13b-instruct",
+  "slug": "tencent-hunyuan-a13b-instruct",
+  "stage": "qf",
+  "prompt_version": "sim-v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-11T06:59:41.888Z",
+  "completed_at": "2026-06-11T06:59:45.154Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1522,
+    "completion_tokens": 164,
+    "total_tokens": 1686,
+    "cost_usd": 0.00030656
+  },
+  "simulated_fixtures": [
+    {
+      "match": 97,
+      "home": "Paraguay",
+      "away": "Netherlands"
+    },
+    {
+      "match": 98,
+      "home": "Uzbekistan",
+      "away": "United States"
+    },
+    {
+      "match": 99,
+      "home": "Brazil",
+      "away": "England"
+    },
+    {
+      "match": 100,
+      "home": "Cape Verde",
+      "away": "Canada"
+    }
+  ],
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Netherlands"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Uzbekistan"
+    },
+    {
+      "match": 99,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 100,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Cape Verde"
+    }
+  ]
+}
