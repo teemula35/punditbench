@@ -8,7 +8,7 @@ import {
 } from "@/lib/aggregate";
 import { loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
-import { GITHUB_URL, TAGLINE } from "@/lib/site";
+import { TAGLINE } from "@/lib/site";
 import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
 import type { Fixture, Team } from "@/lib/types";
 
@@ -94,12 +94,9 @@ export default function LeaderboardPage() {
           <ScopeStat value={String(data.leaderboard.length)} label="models" />
           <ScopeStat value={String(data.totalFixtures)} label="matches each" />
           <ScopeStat value={String(groupCount)} label="group games + full knockout bracket" />
-          <a
-            href={GITHUB_URL}
-            className="flex items-center rounded-lg border border-emerald-400/30 bg-emerald-400/5 px-3 py-2 text-xs text-emerald-300 transition-colors hover:border-emerald-400/60"
-          >
-            locked &amp; SHA-256 pre-registered before kickoff →
-          </a>
+          <div className="flex items-center rounded-lg border border-emerald-400/30 bg-emerald-400/5 px-3 py-2 text-xs text-emerald-300">
+            locked &amp; SHA-256 pre-registered before kickoff
+          </div>
         </div>
         <p className="mt-3 text-sm text-zinc-400">
           Tournament progress:{" "}
