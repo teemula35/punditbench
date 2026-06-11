@@ -8,4 +8,4 @@ export const TAGLINE =
 // fully disabled (the site ships zero analytics markup). To enable: set to
 // "G-XXXXXXXXXX" (Firebase console → Project settings → Integrations →
 // Google Analytics) and redeploy.
-export const GA_MEASUREMENT_ID: string = "";
+export const GA_MEASUREMENT_ID: string = "G-K2LKDM8LH5";
