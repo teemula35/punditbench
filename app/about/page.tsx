@@ -21,8 +21,8 @@ export default function AboutPage() {
 
       <section className="space-y-4 text-sm leading-relaxed text-zinc-300">
         <p>
-          {SITE_NAME} is a public experiment: 33 large language models — flagships, mid-tiers and
-          small models from 17 vendors — each predicted the <em>entire</em> 2026 World Cup before
+          {SITE_NAME} is a public experiment: 40 large language models — flagships, mid-tiers and
+          small models from 19 vendors — each predicted the <em>entire</em> 2026 World Cup before
           the opening kickoff. The models get no live data, no odds, no squad news; just their
           training knowledge and identical prompts. Reality then grades every claim, match by
           match and round by round.
@@ -101,7 +101,9 @@ export default function AboutPage() {
               <a href="https://policies.google.com/privacy" className={A_CLS}>
                 Google&apos;s privacy policy
               </a>
-              .
+              . Independently of that choice, we count page views with a simple anonymous
+              counter: plain aggregate numbers with no cookies, no identifiers, and no personal
+              data of any kind (the total is shown in the footer).
             </p>
           ) : (
             <p id="privacy">
@@ -135,7 +137,7 @@ export default function AboutPage() {
             <a href="/data/roster.json" className={`${A_CLS} font-mono text-xs`}>
               /data/roster.json
             </a>{" "}
-            — the frozen 33-model roster
+            — the frozen 40-model roster
           </li>
           <li>
             <a href="/data/teams.json" className={`${A_CLS} font-mono text-xs`}>

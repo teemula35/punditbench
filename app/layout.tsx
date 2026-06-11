@@ -3,22 +3,37 @@ import Link from "next/link";
 import "./globals.css";
 import { GITHUB_URL, SITE_NAME, SITE_URL, TAGLINE } from "@/lib/site";
 import { Analytics, AnalyticsSettingsLink } from "./analytics";
+import { PageCounter, PageViewBadge } from "./counter";
 import { Wordmark } from "./ui";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — 33 LLMs predict the 2026 World Cup`,
+    default: `${SITE_NAME} — 40 LLMs predict the 2026 World Cup`,
     template: `%s · ${SITE_NAME}`,
   },
   description: TAGLINE,
   openGraph: {
-    title: `${SITE_NAME} — 33 LLMs predict the 2026 World Cup`,
+    title: `${SITE_NAME} — 40 LLMs predict the 2026 World Cup`,
     description: TAGLINE,
     url: SITE_URL,
     siteName: SITE_NAME,
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: `${SITE_URL}/og.png`,
+        width: 1200,
+        height: 630,
+        alt: `${SITE_NAME} — 40 LLMs predicted the entire 2026 World Cup before kickoff`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — 40 LLMs predict the 2026 World Cup`,
+    description: TAGLINE,
+    images: [`${SITE_URL}/og.png`],
   },
 };
 
@@ -41,7 +56,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/" className="shrink-0">
                 <Wordmark />
               </Link>
-              <nav className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+              {/* On phones the nav takes its own full-width row and scrolls
+                  horizontally instead of wrapping into a multi-line mess. */}
+              <nav className="flex basis-full items-center gap-x-4 overflow-x-auto whitespace-nowrap pb-1 text-[13px] sm:basis-auto sm:gap-x-5 sm:overflow-x-visible sm:pb-0 sm:text-sm">
                 {NAV.map((item) => (
                   <Link
                     key={item.href}
@@ -78,11 +95,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   About
                 </Link>
                 <AnalyticsSettingsLink />
+                <PageViewBadge />
               </p>
             </div>
           </footer>
         </div>
         <Analytics />
+        <PageCounter />
       </body>
     </html>
   );

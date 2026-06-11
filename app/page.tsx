@@ -1,15 +1,76 @@
 import Link from "next/link";
-import { championBoard, loadSiteData } from "@/lib/aggregate";
+import {
+  championBoard,
+  consensus,
+  loadSiteData,
+  outcomeSplit,
+  type OutcomeSplit,
+} from "@/lib/aggregate";
 import { loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
-import { TAGLINE } from "@/lib/site";
+import { GITHUB_URL, TAGLINE } from "@/lib/site";
 import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
+import type { Fixture, Team } from "@/lib/types";
+
+/** One compact stat block for the hero scope strip. */
+function ScopeStat({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="flex items-baseline gap-1.5 rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-xs text-zinc-400">
+      <span className="text-base font-bold tabular-nums text-emerald-400">{value}</span>
+      <span>{label}</span>
+    </div>
+  );
+}
+
+/** "31/40 back Mexico" / "18/40 call a draw" — the most-backed outcome. */
+function SplitLine({
+  split,
+  fixture,
+  teams,
+}: {
+  split: OutcomeSplit;
+  fixture: Fixture;
+  teams: Team[];
+}) {
+  const { home, draw, away, outOf } = split;
+  let n: number;
+  let backed: React.ReactNode;
+  if (home >= away && home >= draw) {
+    n = home;
+    backed = (
+      <>
+        back <TeamLabel teams={teams} name={fixture.home} />
+      </>
+    );
+  } else if (away >= draw) {
+    n = away;
+    backed = (
+      <>
+        back <TeamLabel teams={teams} name={fixture.away} />
+      </>
+    );
+  } else {
+    n = draw;
+    backed = "call a draw";
+  }
+  return (
+    <p className="text-xs text-zinc-500">
+      <span className="tabular-nums">
+        {n}/{outOf}
+      </span>{" "}
+      {backed}
+    </p>
+  );
+}
 
 export default function LeaderboardPage() {
   const data = loadSiteData();
   const teams = loadTeams();
   const champions = championBoard(data);
   const pendingBrackets = data.leaderboard.filter((e) => !e.championPick).length;
+  const groupCount = [...data.fixtures.values()].filter((f) => f.stage === "group").length;
+  // A model page that demonstrably contains a complete predicted tournament.
+  const exampleBracket = data.leaderboard.find((e) => e.bracketComplete && e.championPick);
   // Before any match is played (and any real knockout fixture exists) every
   // model is tied at zero — a rank column full of "#1" is technically true
   // but meaningless, so show a dash until there is something to rank on.
@@ -28,6 +89,18 @@ export default function LeaderboardPage() {
         <h1 className="max-w-3xl text-2xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
           {TAGLINE}
         </h1>
+        {/* Scope strip — the full claim in one glance: every model, every match. */}
+        <div className="mt-5 flex flex-wrap gap-2">
+          <ScopeStat value={String(data.leaderboard.length)} label="models" />
+          <ScopeStat value={String(data.totalFixtures)} label="matches each" />
+          <ScopeStat value={String(groupCount)} label="group games + full knockout bracket" />
+          <a
+            href={GITHUB_URL}
+            className="flex items-center rounded-lg border border-emerald-400/30 bg-emerald-400/5 px-3 py-2 text-xs text-emerald-300 transition-colors hover:border-emerald-400/60"
+          >
+            locked &amp; SHA-256 pre-registered before kickoff →
+          </a>
+        </div>
         <p className="mt-3 text-sm text-zinc-400">
           Tournament progress:{" "}
           <span className="font-semibold tabular-nums text-emerald-400">
@@ -37,11 +110,162 @@ export default function LeaderboardPage() {
         </p>
       </section>
 
+      {/* Leaderboard */}
+      <section>
+        <h2 className="mb-4 text-lg font-semibold text-zinc-100">Leaderboard</h2>
+        <div className="overflow-x-auto rounded-lg border border-zinc-800">
+          {/* <sm shows #, Model, Total and Champion pick; the component columns
+              reappear from sm up (hidden sm:table-cell on matching th + td). */}
+          <table className="w-full text-sm sm:min-w-[760px]">
+            <thead className="border-b border-zinc-800 bg-zinc-900/60">
+              <tr>
+                <th className={TH_CLS}>#</th>
+                <th className={TH_CLS}>Model</th>
+                <th className={`${TH_CLS} text-right`}>Total</th>
+                <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Group pts</th>
+                <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Bracket pts</th>
+                <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Exact</th>
+                <th className={TH_CLS}>Champion pick</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-800/70">
+              {data.leaderboard.map((e) => (
+                <tr key={e.slug} className="hover:bg-zinc-900/40">
+                  <td className={`${TD_CLS} w-10 tabular-nums text-zinc-500`}>
+                    {rankable ? e.rank : "—"}
+                  </td>
+                  <td className={TD_CLS}>
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                      <Link
+                        href={`/models/${e.slug}/`}
+                        className="font-medium text-zinc-100 hover:text-emerald-400"
+                      >
+                        {e.model.label}
+                      </Link>
+                      <span className="text-xs text-zinc-500">{e.model.vendor}</span>
+                      <TierChip tier={e.model.tier} />
+                      {!e.hasPredictions && (
+                        <span className="text-xs italic text-zinc-500">no valid predictions</span>
+                      )}
+                    </div>
+                  </td>
+                  <td className={`${TD_CLS} text-right text-lg font-bold tabular-nums text-emerald-400`}>
+                    {e.totalPoints}
+                  </td>
+                  <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
+                    {e.totals.points}
+                  </td>
+                  <td
+                    className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}
+                    title={`advancement ${e.bracket.advancement} · matchups ${e.bracket.matchupHits} · matched scorelines ${e.bracket.matchupPoints}`}
+                  >
+                    {e.bracket.total}
+                  </td>
+                  <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
+                    {e.exactCount}
+                  </td>
+                  <td className={`${TD_CLS} text-zinc-200`}>
+                    {e.championPick ? (
+                      <div className="max-w-28 truncate sm:max-w-none" title={e.championPick}>
+                        <TeamLabel teams={teams} name={e.championPick} />
+                      </div>
+                    ) : (
+                      <span className="text-xs italic text-zinc-500">
+                        {e.hasPredictions ? "no valid bracket" : "—"}
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-2 text-xs text-zinc-600">
+          Total = group match points (exact 3 · goal difference 2 · outcome 1) + bracket points:
+          advancement for every real team a model had reaching each stage (R32 1 · R16 2 · QF 3 ·
+          SF 5 · final 8 · champion 13), +1 per simulated pairing that actually occurs, and matched
+          pairings&apos; scorelines scored like normal matches. Bracket points pay out once the real
+          knockout bracket forms. Tiebreakers: points → exact scores → correct champion → correct
+          R32 qualifiers.
+        </p>
+      </section>
+
+      {/* Next matches */}
+      {upcoming.length > 0 && (
+        <section>
+          <h2 className="mb-1 text-lg font-semibold text-zinc-100">Next matches</h2>
+          <p className="mb-4 text-sm text-zinc-400">
+            All scorelines were locked pre-tournament — open a match to compare every model&apos;s
+            prediction for it.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {upcoming.map((f) => {
+              // Direct predictions only exist for group fixtures; knockout
+              // fixtures are covered via each model's simulated bracket.
+              const cons = f.stage === "group" ? consensus(data, f) : undefined;
+              const split = f.stage === "group" ? outcomeSplit(data, f) : undefined;
+              return (
+                <Link
+                  key={f.match}
+                  href={`/matches/${f.match}/`}
+                  className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-4 transition-colors hover:border-emerald-400/50"
+                >
+                  <p className="text-xs uppercase tracking-wider text-zinc-500">
+                    Match {f.match}
+                    {f.group ? ` · Group ${f.group}` : ""}
+                  </p>
+                  <p className="mt-2 text-sm font-medium text-zinc-100">
+                    <TeamLabel teams={teams} name={f.home} />
+                    <span className="mx-1.5 text-zinc-600">vs</span>
+                    <TeamLabel teams={teams} name={f.away} />
+                  </p>
+                  <p className="mt-2 text-xs tabular-nums text-zinc-500">
+                    {fmtKickoffUtc(f.kickoff_utc)}
+                  </p>
+                  {cons && (
+                    <div className="mt-2 space-y-0.5 border-t border-zinc-800/70 pt-2">
+                      <p className="text-xs text-zinc-500">
+                        Consensus{" "}
+                        <span className="font-semibold tabular-nums text-zinc-100">
+                          {cons.home}–{cons.away}
+                        </span>
+                        <span className="text-zinc-600"> · </span>
+                        <span className="tabular-nums">
+                          {cons.count} of {cons.outOf}
+                        </span>
+                      </p>
+                      {split && <SplitLine split={split} fixture={f} teams={teams} />}
+                    </div>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       {/* Champion board */}
       <section>
-        <h2 className="mb-1 text-lg font-semibold text-zinc-100">Champion board</h2>
-        <p className="mb-4 text-sm text-zinc-400">
-          Every model simulated its own tournament to the end — these are their champions.
+        <h2 className="mb-1 text-lg font-semibold text-zinc-100">…and their champions</h2>
+        <p className="mb-4 max-w-2xl text-sm text-zinc-400">
+          Champion picks aren&apos;t standalone guesses — each one is simply where that
+          model&apos;s complete simulated tournament ends: 72 group scores rolled into group
+          tables, then its own bracket from the Round of 32 through the final
+          {exampleBracket ? (
+            <>
+              {" "}
+              (see{" "}
+              <Link
+                href={`/models/${exampleBracket.slug}/`}
+                className="text-emerald-400 underline decoration-emerald-400/40 underline-offset-2 hover:decoration-emerald-400"
+              >
+                {exampleBracket.model.label}&apos;s full bracket
+              </Link>{" "}
+              for an example).
+            </>
+          ) : (
+            "."
+          )}
         </p>
         <div className="flex flex-wrap gap-3">
           {champions.map((c) => (
@@ -77,122 +301,16 @@ export default function LeaderboardPage() {
         </div>
       </section>
 
-      {/* Leaderboard */}
-      <section>
-        <h2 className="mb-4 text-lg font-semibold text-zinc-100">Leaderboard</h2>
-        <div className="overflow-x-auto rounded-lg border border-zinc-800">
-          <table className="w-full min-w-[760px] text-sm">
-            <thead className="border-b border-zinc-800 bg-zinc-900/60">
-              <tr>
-                <th className={TH_CLS}>#</th>
-                <th className={TH_CLS}>Model</th>
-                <th className={`${TH_CLS} text-right`}>Total</th>
-                <th className={`${TH_CLS} text-right`}>Group pts</th>
-                <th className={`${TH_CLS} text-right`}>Bracket pts</th>
-                <th className={`${TH_CLS} text-right`}>Exact</th>
-                <th className={TH_CLS}>Champion pick</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800/70">
-              {data.leaderboard.map((e) => (
-                <tr key={e.slug} className="hover:bg-zinc-900/40">
-                  <td className={`${TD_CLS} w-10 tabular-nums text-zinc-500`}>
-                    {rankable ? e.rank : "—"}
-                  </td>
-                  <td className={TD_CLS}>
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <Link
-                        href={`/models/${e.slug}/`}
-                        className="font-medium text-zinc-100 hover:text-emerald-400"
-                      >
-                        {e.model.label}
-                      </Link>
-                      <span className="text-xs text-zinc-500">{e.model.vendor}</span>
-                      <TierChip tier={e.model.tier} />
-                      {!e.hasPredictions && (
-                        <span className="text-xs italic text-zinc-500">no valid predictions</span>
-                      )}
-                    </div>
-                  </td>
-                  <td className={`${TD_CLS} text-right text-lg font-bold tabular-nums text-emerald-400`}>
-                    {e.totalPoints}
-                  </td>
-                  <td className={`${TD_CLS} text-right tabular-nums text-zinc-300`}>
-                    {e.totals.points}
-                  </td>
-                  <td
-                    className={`${TD_CLS} text-right tabular-nums text-zinc-300`}
-                    title={`advancement ${e.bracket.advancement} · matchups ${e.bracket.matchupHits} · matched scorelines ${e.bracket.matchupPoints}`}
-                  >
-                    {e.bracket.total}
-                  </td>
-                  <td className={`${TD_CLS} text-right tabular-nums text-zinc-300`}>
-                    {e.exactCount}
-                  </td>
-                  <td className={`${TD_CLS} text-zinc-200`}>
-                    {e.championPick ? (
-                      <TeamLabel teams={teams} name={e.championPick} />
-                    ) : (
-                      <span className="text-xs italic text-zinc-500">
-                        {e.hasPredictions ? "no valid bracket" : "—"}
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="mt-2 text-xs text-zinc-600">
-          Total = group match points (exact 3 · goal difference 2 · outcome 1) + bracket points:
-          advancement for every real team a model had reaching each stage (R32 1 · R16 2 · QF 3 ·
-          SF 5 · final 8 · champion 13), +1 per simulated pairing that actually occurs, and matched
-          pairings&apos; scorelines scored like normal matches. Bracket points pay out once the real
-          knockout bracket forms. Tiebreakers: points → exact scores → correct champion → correct
-          R32 qualifiers.
-        </p>
-      </section>
-
-      {/* Next matches */}
-      {upcoming.length > 0 && (
-        <section>
-          <h2 className="mb-4 text-lg font-semibold text-zinc-100">Next matches</h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {upcoming.map((f) => (
-              <Link
-                key={f.match}
-                href={`/matches/${f.match}/`}
-                className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-4 transition-colors hover:border-emerald-400/50"
-              >
-                <p className="text-xs uppercase tracking-wider text-zinc-500">
-                  Match {f.match}
-                  {f.group ? ` · Group ${f.group}` : ""}
-                </p>
-                <p className="mt-2 text-sm font-medium text-zinc-100">
-                  <TeamLabel teams={teams} name={f.home} />
-                  <span className="mx-1.5 text-zinc-600">vs</span>
-                  <TeamLabel teams={teams} name={f.away} />
-                </p>
-                <p className="mt-2 text-xs tabular-nums text-zinc-500">
-                  {fmtKickoffUtc(f.kickoff_utc)}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
       {/* Explainer */}
       <section className="max-w-2xl rounded-lg border border-zinc-800 bg-zinc-900/40 p-5">
         <h2 className="text-base font-semibold text-zinc-100">What is this?</h2>
         <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-          Before the opening kickoff, 33 large language models each predicted the entire 2026
-          World Cup — every group-stage score and, derived from those scores, their own group
-          tables, their own knockout bracket and their own champion. Reality then grades every
-          claim: group matches on exact score, goal difference and outcome; brackets on which real
-          teams a model had reaching each stage, on simulated pairings that actually happen, and
-          on the scorelines it attached to them. Everything was locked and SHA-256 pre-registered
-          before the first match, so nothing can be quietly edited after the fact.
+          Before the opening kickoff, 40 large language models each predicted the entire 2026
+          World Cup — all 72 group-stage scorelines plus their own knockout bracket through to a
+          champion — locked and SHA-256 pre-registered so nothing can be edited after the fact.
+          Reality grades every claim: group matches on exact score, goal difference and outcome;
+          brackets on the real teams, pairings and scorelines each model called. Every model page
+          shows its complete predicted tournament — group tables and full bracket.
         </p>
         <p className="mt-3 text-sm">
           <Link

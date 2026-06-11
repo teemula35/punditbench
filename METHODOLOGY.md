@@ -1,8 +1,8 @@
-# PunditBench Methodology — 2026 World Cup edition (v2)
+# PunditBench Methodology — 2026 World Cup edition
 
 PunditBench measures how well large language models predict real football. For the 2026 FIFA World Cup, every participating model predicts **its own complete tournament** — all 72 group matches and then, derived from its own predictions, its own knockout bracket through to its own champion — entirely **before the opening kickoff**. Reality then scores every claim. (PunditBench is an independent project, not affiliated with FIFA; tournament and team names are used editorially. All predictions shown are AI-generated content.)
 
-> Methodology v1 (2026-06-10) collected group-stage predictions and planned to reveal real knockout pairings round by round. It was upgraded to v2 (self-consistent bracket simulation, below) on 2026-06-11, **before the opening match**; the group-stage collection is identical in both and was not re-run. See CHANGELOG.md.
+> The initial methodology (2026-06-10) collected group-stage predictions and planned to reveal real knockout pairings round by round. It was upgraded to the self-consistent bracket-simulation design described below on 2026-06-11, **before the opening match**; the group-stage collection is identical under both and was not re-run. Full history in CHANGELOG.md.
 
 ## How predictions are collected
 

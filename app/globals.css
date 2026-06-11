@@ -99,7 +99,12 @@ body {
   padding: 0;
 }
 .prose table {
+  /* display:block + overflow lets wide markdown tables scroll within the
+     article instead of forcing body-level horizontal scroll on phones. */
+  display: block;
   width: auto;
+  max-width: 100%;
+  overflow-x: auto;
   border-collapse: collapse;
   margin: 1rem 0;
   font-variant-numeric: tabular-nums;

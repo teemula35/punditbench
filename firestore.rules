@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Cookieless page-view counters: world-readable, and the only write the
+    // public can perform is "+1 on a counter field" via a field transform.
+    // No personal data lives here — just integers.
+    match /counters/{doc} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['count'])
+                    && request.resource.data.count == 1;
+      allow update: if request.resource.data.keys().hasOnly(['count'])
+                    && request.resource.data.count == resource.data.count + 1;
+      allow delete: if false;
+    }
+    match /{path=**} {
+      allow read, write: if false;
+    }
+  }
+}

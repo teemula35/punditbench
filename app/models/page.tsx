@@ -6,7 +6,7 @@ import { PageTitle, TD_CLS, TH_CLS, TierChip } from "../ui";
 
 export const metadata: Metadata = {
   title: "Models",
-  description: "The 33-model roster: every LLM competing in PunditBench, with pricing and cutoffs.",
+  description: "The 40-model roster: every LLM competing in PunditBench, with pricing and cutoffs.",
 };
 
 function price(n?: number): string {
@@ -27,14 +27,18 @@ export default function ModelsPage() {
         sub={`${roster.length} models across ${vendorCount} vendors, accessed through OpenRouter: current flagships, mid-tiers and small models. Every one predicted its own complete tournament — group scores, bracket, champion — before kickoff. The roster was frozen pre-kickoff; models added later would appear as unranked exhibition entries.`}
       />
       <div className="overflow-x-auto rounded-lg border border-zinc-800">
-        <table className="w-full min-w-[720px] text-sm">
+        {/* <sm keeps Model, Tier and the link; vendor, cutoff and pricing
+            reappear from sm up (hidden sm:table-cell on matching th + td). */}
+        <table className="w-full text-sm sm:min-w-[720px]">
           <thead className="border-b border-zinc-800 bg-zinc-900/60">
             <tr>
               <th className={TH_CLS}>Model</th>
-              <th className={TH_CLS}>Vendor</th>
+              <th className={`${TH_CLS} hidden sm:table-cell`}>Vendor</th>
               <th className={TH_CLS}>Tier</th>
-              <th className={TH_CLS}>Knowledge cutoff</th>
-              <th className={`${TH_CLS} text-right`}>In / Out ($ per M tokens)</th>
+              <th className={`${TH_CLS} hidden sm:table-cell`}>Knowledge cutoff</th>
+              <th className={`${TH_CLS} hidden text-right sm:table-cell`}>
+                In / Out ($ per M tokens)
+              </th>
               <th className={TH_CLS}></th>
             </tr>
           </thead>
@@ -50,18 +54,20 @@ export default function ModelsPage() {
                     >
                       {m.label}
                     </Link>
-                    <p className="mt-0.5 font-mono text-xs text-zinc-600">{m.id}</p>
+                    <p className="mt-0.5 break-all font-mono text-xs text-zinc-600">{m.id}</p>
                   </td>
-                  <td className={`${TD_CLS} text-zinc-300`}>{m.vendor}</td>
+                  <td className={`${TD_CLS} hidden text-zinc-300 sm:table-cell`}>{m.vendor}</td>
                   <td className={TD_CLS}>
                     <TierChip tier={m.tier} />
                   </td>
-                  <td className={`${TD_CLS} tabular-nums text-zinc-400`}>
+                  <td className={`${TD_CLS} hidden tabular-nums text-zinc-400 sm:table-cell`}>
                     {m.knowledge_cutoff && m.knowledge_cutoff !== "unknown"
                       ? m.knowledge_cutoff
                       : "unknown"}
                   </td>
-                  <td className={`${TD_CLS} whitespace-nowrap text-right tabular-nums text-zinc-400`}>
+                  <td
+                    className={`${TD_CLS} hidden whitespace-nowrap text-right tabular-nums text-zinc-400 sm:table-cell`}
+                  >
                     {price(m.pricing_prompt_usd_per_m)} / {price(m.pricing_completion_usd_per_m)}
                   </td>
                   <td className={`${TD_CLS} text-right`}>

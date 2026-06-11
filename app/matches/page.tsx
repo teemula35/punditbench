@@ -41,7 +41,7 @@ export default function MatchesPage() {
               {fmtLongDateUtc(dayFixtures[0].kickoff_utc)}
             </h2>
             <div className="overflow-x-auto rounded-lg border border-zinc-800">
-              <table className="w-full min-w-[560px] text-sm">
+              <table className="w-full text-sm sm:min-w-[560px]">
                 <tbody className="divide-y divide-zinc-800/70">
                   {dayFixtures.map((f) => {
                     const result = data.results.get(f.match);
@@ -82,7 +82,8 @@ export default function MatchesPage() {
                         <td className={`${TD_CLS} whitespace-nowrap text-right`}>
                           <ScoreOrKickoff result={result} fixture={f} />
                         </td>
-                        <td className={`${TD_CLS} w-16 text-right`}>
+                        {/* Redundant on phones — the match itself is the link. */}
+                        <td className={`${TD_CLS} hidden w-16 text-right sm:table-cell`}>
                           <Link
                             href={`/matches/${f.match}/`}
                             className="text-xs text-emerald-400 hover:underline"

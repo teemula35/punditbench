@@ -353,6 +353,32 @@ export interface ChampionPick {
   models: { label: string; slug: string }[];
 }
 
+export interface OutcomeSplit {
+  home: number;
+  draw: number;
+  away: number;
+  outOf: number; // models with a stored prediction for this fixture
+}
+
+/**
+ * How the models split on one fixture's outcome (home win / draw / away win),
+ * counted over every stored direct prediction. Meaningful for GROUP fixtures
+ * only — knockout prediction match numbers are structural slots in each
+ * model's own simulated bracket (use matchupCalls there instead).
+ */
+export function outcomeSplit(data: SiteData, fixture: Fixture): OutcomeSplit | undefined {
+  const split: OutcomeSplit = { home: 0, draw: 0, away: 0, outOf: 0 };
+  for (const entry of data.leaderboard) {
+    const p = predictionFor(entry, fixture);
+    if (!p) continue;
+    split.outOf++;
+    if (p.home_goals > p.away_goals) split.home++;
+    else if (p.home_goals < p.away_goals) split.away++;
+    else split.draw++;
+  }
+  return split.outOf === 0 ? undefined : split;
+}
+
 /** Every stored champion pick, grouped by team, most popular first. */
 export function championBoard(data: SiteData): ChampionPick[] {
   const byTeam = new Map<string, { label: string; slug: string }[]>();

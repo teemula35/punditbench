@@ -23,18 +23,20 @@ const GROUPS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 const NUM_TD = `${TD_CLS} text-right tabular-nums`;
 
 function StandingsTable({ rows, teams }: { rows: TableRow[]; teams: ReturnType<typeof loadTeams> }) {
+  // <sm keeps #, Team, P, GD, Pts; W/D/L/GF/GA reappear from sm up
+  // (hidden sm:table-cell on matching th + td).
   return (
-    <table className="w-full min-w-[420px] text-sm">
+    <table className="w-full text-sm sm:min-w-[420px]">
       <thead className="border-b border-zinc-800 bg-zinc-900/60">
         <tr>
           <th className={TH_CLS}>#</th>
           <th className={TH_CLS}>Team</th>
           <th className={`${TH_CLS} text-right`}>P</th>
-          <th className={`${TH_CLS} text-right`}>W</th>
-          <th className={`${TH_CLS} text-right`}>D</th>
-          <th className={`${TH_CLS} text-right`}>L</th>
-          <th className={`${TH_CLS} text-right`}>GF</th>
-          <th className={`${TH_CLS} text-right`}>GA</th>
+          <th className={`${TH_CLS} hidden text-right sm:table-cell`}>W</th>
+          <th className={`${TH_CLS} hidden text-right sm:table-cell`}>D</th>
+          <th className={`${TH_CLS} hidden text-right sm:table-cell`}>L</th>
+          <th className={`${TH_CLS} hidden text-right sm:table-cell`}>GF</th>
+          <th className={`${TH_CLS} hidden text-right sm:table-cell`}>GA</th>
           <th className={`${TH_CLS} text-right`}>GD</th>
           <th className={`${TH_CLS} text-right`}>Pts</th>
         </tr>
@@ -47,11 +49,11 @@ function StandingsTable({ rows, teams }: { rows: TableRow[]; teams: ReturnType<t
               <TeamLabel teams={teams} name={row.team} />
             </td>
             <td className={`${NUM_TD} text-zinc-400`}>{row.played}</td>
-            <td className={`${NUM_TD} text-zinc-400`}>{row.won}</td>
-            <td className={`${NUM_TD} text-zinc-400`}>{row.drawn}</td>
-            <td className={`${NUM_TD} text-zinc-400`}>{row.lost}</td>
-            <td className={`${NUM_TD} text-zinc-400`}>{row.gf}</td>
-            <td className={`${NUM_TD} text-zinc-400`}>{row.ga}</td>
+            <td className={`${NUM_TD} hidden text-zinc-400 sm:table-cell`}>{row.won}</td>
+            <td className={`${NUM_TD} hidden text-zinc-400 sm:table-cell`}>{row.drawn}</td>
+            <td className={`${NUM_TD} hidden text-zinc-400 sm:table-cell`}>{row.lost}</td>
+            <td className={`${NUM_TD} hidden text-zinc-400 sm:table-cell`}>{row.gf}</td>
+            <td className={`${NUM_TD} hidden text-zinc-400 sm:table-cell`}>{row.ga}</td>
             <td className={`${NUM_TD} text-zinc-300`}>{row.gd > 0 ? `+${row.gd}` : row.gd}</td>
             <td className={`${NUM_TD} font-bold text-emerald-400`}>{row.points}</td>
           </tr>
@@ -135,7 +137,7 @@ export default function GroupsPage() {
             winners and runners-up in the Round of 32.
           </p>
           <div className="overflow-x-auto rounded-lg border border-zinc-800">
-            <table className="w-full min-w-[420px] text-sm">
+            <table className="w-full text-sm sm:min-w-[420px]">
               <thead className="border-b border-zinc-800 bg-zinc-900/60">
                 <tr>
                   <th className={TH_CLS}>#</th>

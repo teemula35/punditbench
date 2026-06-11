@@ -269,7 +269,9 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               label="Champion pick"
               value={
                 entry.championPick ? (
-                  <TeamLabel teams={teams} name={entry.championPick} />
+                  <span className="block truncate" title={entry.championPick}>
+                    <TeamLabel teams={teams} name={entry.championPick} />
+                  </span>
                 ) : (
                   <span className="text-sm font-normal italic text-zinc-500">
                     no valid bracket
@@ -327,46 +329,54 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
                   {view.pendingStages.length > 0 &&
                     " Remaining rounds failed validation within the retry policy — rounds answered (and what they determine) still count."}
                 </p>
-                <div className="overflow-x-auto pb-2">
-                  <div className="flex min-w-[72rem] gap-3">
-                    {(["r32", "r16", "qf", "sf"] as StageId[]).map((stage) => (
+                {/* The tree is wider than any phone; a right-edge fade signals
+                    that the container scrolls (hidden at xl, where it fits). */}
+                <div className="relative">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-linear-to-l from-zinc-950 to-transparent xl:hidden"
+                  />
+                  <div className="overflow-x-auto pb-2 pr-4">
+                    <div className="flex min-w-[72rem] gap-3">
+                      {(["r32", "r16", "qf", "sf"] as StageId[]).map((stage) => (
+                        <StageColumn
+                          key={stage}
+                          label={STAGE_LABELS[stage]}
+                          matches={view.stages.get(stage)}
+                          teams={teams}
+                        />
+                      ))}
                       <StageColumn
-                        key={stage}
-                        label={STAGE_LABELS[stage]}
-                        matches={view.stages.get(stage)}
+                        label={STAGE_LABELS.final}
+                        matches={view.stages.get("final")}
                         teams={teams}
-                      />
-                    ))}
-                    <StageColumn
-                      label={STAGE_LABELS.final}
-                      matches={view.stages.get("final")}
-                      teams={teams}
-                    >
-                      {view.champion ? (
-                        <div className="rounded-md border border-emerald-400/40 bg-emerald-400/10 px-3 py-2.5 text-center">
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-300/80">
-                            Predicted champion
-                          </p>
-                          <p className="mt-1 text-sm font-bold text-emerald-300">
-                            <span aria-hidden="true">🏆</span>{" "}
-                            <span aria-hidden="true">{teamFlag(teams, view.champion)}</span>{" "}
-                            {view.champion}
-                          </p>
-                        </div>
-                      ) : (
-                        <div className={PENDING_CARD}>no champion — bracket incomplete</div>
-                      )}
-                      <div>
-                        <p className="mb-1 text-center text-[10px] font-semibold uppercase tracking-wider text-zinc-600">
-                          Third-place match
-                        </p>
-                        {thirdMatches ? (
-                          thirdMatches.map((m) => <SimCard key={m.match} m={m} teams={teams} />)
+                      >
+                        {view.champion ? (
+                          <div className="rounded-md border border-emerald-400/40 bg-emerald-400/10 px-3 py-2.5 text-center">
+                            <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-300/80">
+                              Predicted champion
+                            </p>
+                            <p className="mt-1 text-sm font-bold text-emerald-300">
+                              <span aria-hidden="true">🏆</span>{" "}
+                              <span aria-hidden="true">{teamFlag(teams, view.champion)}</span>{" "}
+                              {view.champion}
+                            </p>
+                          </div>
                         ) : (
-                          <div className={PENDING_CARD}>no valid simulation</div>
+                          <div className={PENDING_CARD}>no champion — bracket incomplete</div>
                         )}
-                      </div>
-                    </StageColumn>
+                        <div>
+                          <p className="mb-1 text-center text-[10px] font-semibold uppercase tracking-wider text-zinc-600">
+                            Third-place match
+                          </p>
+                          {thirdMatches ? (
+                            thirdMatches.map((m) => <SimCard key={m.match} m={m} teams={teams} />)
+                          ) : (
+                            <div className={PENDING_CARD}>no valid simulation</div>
+                          )}
+                        </div>
+                      </StageColumn>
+                    </div>
                   </div>
                 </div>
               </>

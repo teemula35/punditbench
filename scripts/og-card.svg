@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- PunditBench Open Graph card (1200x630). Rasterized to public/og.png by
+       scripts/make-og.mjs. The football is drawn as vectors on purpose: no
+       emoji font is needed at render time. -->
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+
+  <!-- Subtle football watermark (truncated-icosahedron wireframe), right side -->
+  <g stroke="#34d399" stroke-opacity="0.13" stroke-width="3" fill="none" stroke-linejoin="round" stroke-linecap="round">
+    <circle cx="985" cy="320" r="205"/>
+    <polygon points="985,250 1051.6,298.4 1026.1,376.6 943.9,376.6 918.4,298.4" fill="#34d399" fill-opacity="0.07"/>
+    <line x1="985" y1="250" x2="985" y2="170"/>
+    <line x1="1051.6" y1="298.4" x2="1127.7" y2="273.6"/>
+    <line x1="1026.1" y1="376.6" x2="1073.2" y2="441.4"/>
+    <line x1="943.9" y1="376.6" x2="896.8" y2="441.4"/>
+    <line x1="918.4" y1="298.4" x2="842.3" y2="273.6"/>
+    <polyline points="882.5,142.5 985,170 1087.5,142.5"/>
+    <polyline points="1122.2,167.7 1127.7,273.6 1185.5,362.6"/>
+    <polyline points="1172.3,403.4 1073.2,441.4 1006.4,523.9"/>
+    <polyline points="963.6,523.9 896.8,441.4 797.7,403.4"/>
+    <polyline points="784.5,362.6 842.3,273.6 847.8,167.7"/>
+  </g>
+
+  <!-- Emerald accent bar -->
+  <rect x="82" y="128" width="56" height="6" rx="3" fill="#34d399"/>
+
+  <!-- Wordmark -->
+  <text x="80" y="238" font-family="Segoe UI, Arial, sans-serif" font-size="104" font-weight="800" letter-spacing="-3" fill="#fafafa">Pundit<tspan fill="#34d399">Bench</tspan></text>
+
+  <!-- Tagline -->
+  <text x="82" y="326" font-family="Segoe UI, Arial, sans-serif" font-size="41" font-weight="500" fill="#d4d4d8">40 LLMs predicted the entire 2026 World Cup</text>
+  <text x="82" y="384" font-family="Segoe UI, Arial, sans-serif" font-size="41" font-weight="600" fill="#34d399">— before kickoff.</text>
+
+  <!-- Domain -->
+  <text x="82" y="556" font-family="Segoe UI, Arial, sans-serif" font-size="28" font-weight="500" letter-spacing="1" fill="#71717a">punditbench.com</text>
+</svg>

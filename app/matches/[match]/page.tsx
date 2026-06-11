@@ -137,7 +137,7 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
             </div>
           ) : (
             <div className="overflow-x-auto rounded-lg border border-zinc-800">
-              <table className="w-full min-w-[480px] text-sm">
+              <table className="w-full text-sm sm:min-w-[480px]">
                 <thead className="border-b border-zinc-800 bg-zinc-900/60">
                   <tr>
                     <th className={TH_CLS}>Model</th>
@@ -226,7 +226,7 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
             </p>
           )}
           <div className="overflow-x-auto rounded-lg border border-zinc-800">
-            <table className="w-full min-w-[480px] text-sm">
+            <table className="w-full text-sm sm:min-w-[480px]">
               <thead className="border-b border-zinc-800 bg-zinc-900/60">
                 <tr>
                   <th className={TH_CLS}>Model</th>
