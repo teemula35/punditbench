@@ -1,0 +1,12 @@
+.env
+.env.*
+.git
+.github
+.firebase
+node_modules
+.next
+out
+public/data
+_fifa_regs.pdf
+*.md
+tests

@@ -2,13 +2,21 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // Cookieless page-view counters: world-readable, and the only write the
-    // public can perform is "+1 on a counter field" via a field transform.
-    // No personal data lives here — just integers.
+    // public can perform is "+1 on a counter field" via a field transform —
+    // and only on the document IDs the site actually uses (total, per-day,
+    // per-path). No personal data lives here, just integers.
     match /counters/{doc} {
+      function allowedId() {
+        return doc == 'total'
+          || doc.matches('d-[0-9]{8}')
+          || doc.matches('p-[a-z0-9~_-]{1,120}');
+      }
       allow read: if true;
-      allow create: if request.resource.data.keys().hasOnly(['count'])
+      allow create: if allowedId()
+                    && request.resource.data.keys().hasOnly(['count'])
                     && request.resource.data.count == 1;
-      allow update: if request.resource.data.keys().hasOnly(['count'])
+      allow update: if allowedId()
+                    && request.resource.data.keys().hasOnly(['count'])
                     && request.resource.data.count == resource.data.count + 1;
       allow delete: if false;
     }

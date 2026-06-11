@@ -18,11 +18,17 @@ function docName(id: string): string {
   return `projects/${COUNTER_PROJECT}/databases/(default)/documents/counters/${id}`;
 }
 
-/** "/models/openai-gpt-4/" -> "p-models~openai-gpt-4" (Firestore IDs can't contain "/"). */
+/**
+ * "/models/openai-gpt-4/" -> "p-models~openai-gpt-4". Output is forced into
+ * the exact ID shape firestore.rules allowlists (p-[a-z0-9~_-]{1,120}) —
+ * anything else would be rejected server-side anyway.
+ */
 function pathDocId(pathname: string): string {
   const cleaned = pathname.replace(/^\/+|\/+$/g, "");
-  const slug = cleaned === "" ? "home" : cleaned.replace(/\//g, "~");
-  return `p-${slug.slice(0, 120)}`;
+  const slug = (cleaned === "" ? "home" : cleaned.replace(/\//g, "~"))
+    .toLowerCase()
+    .replace(/[^a-z0-9~_-]/g, "-");
+  return `p-${slug.slice(0, 120) || "home"}`;
 }
 
 function increment(id: string): { transform: { document: string; fieldTransforms: object[] } } {
