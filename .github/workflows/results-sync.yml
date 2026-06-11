@@ -1,0 +1,76 @@
+# Hourly results auto-sync: poll ESPN's public scoreboard, enter new finished
+# group results, test, commit, rebuild, deploy. Anything needing a human
+# (knockout finals, score conflicts, mapping refusals, overdue fixtures) fails
+# the run AFTER commit+deploy so GitHub emails the owner. See OPS.md.
+name: results-sync
+
+on:
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: "Build & deploy even if no new results"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: results-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Sync results from ESPN
+        id: sync
+        run: npm run sync-results
+
+      - name: Tests
+        if: steps.sync.outputs.changed == 'true'
+        run: npm test
+
+      - name: Commit & push
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          ENTERED: ${{ steps.sync.outputs.entered }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/results.json
+          git commit -m "Results sync: $ENTERED"
+          git pull --rebase origin main
+          git push
+
+      - name: Build
+        if: steps.sync.outputs.changed == 'true' || inputs.force_deploy
+        run: npm run build
+
+      - name: Deploy
+        if: steps.sync.outputs.changed == 'true' || inputs.force_deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PUNDITBENCH }}
+          channelId: live
+          projectId: punditbench
+
+      - name: Raise alerts
+        if: steps.sync.outputs.alerts != ''
+        env:
+          ALERTS: ${{ steps.sync.outputs.alerts }}
+        run: |
+          echo "::error::$ALERTS"
+          exit 1

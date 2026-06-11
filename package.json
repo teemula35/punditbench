@@ -12,6 +12,7 @@
     "predict": "node --import tsx scripts/predict.ts",
     "simulate": "node --import tsx scripts/simulate.ts",
     "result": "node --import tsx scripts/record-result.ts",
+    "sync-results": "node --import tsx scripts/sync-results.ts",
     "hash": "node --import tsx scripts/hash.ts",
     "audit": "node --import tsx scripts/audit.ts",
     "views": "node --import tsx scripts/views.ts",

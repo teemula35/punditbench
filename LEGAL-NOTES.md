@@ -44,8 +44,20 @@ Cross-cutting hygiene (cheap, do regardless):
 - Scores are maintainer-updated roughly **once a day** during tournaments (auto-regenerated via GitHub Action from curated text source). Fine for next-morning scoring and as an independent cross-check; not live.
 - Source: https://github.com/openfootball/worldcup.json
 
-### Verdict
-- **Primary: football-data.org free tier.** Free, structured JSON, World Cup included, 10 req/min is far more than needed (104 matches; poll a few times per day). Owner action: register a free account at https://www.football-data.org/client/register and store the `X-Auth-Token` as a secret.
+### ESPN public scoreboard JSON (what the hourly sync actually uses — added 2026-06-12)
+- `site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=YYYYMMDD` — the
+  unauthenticated JSON behind espn.com scoreboards. Unofficial/undocumented (no published terms
+  for it; widely used publicly for years). Bare match results are facts; usage is polite:
+  hourly, only for dates with pending fixtures (≤ a handful of requests/run), identifying
+  User-Agent `punditbench-results-sync (+repo URL)`. ESPN was already one of the two manual
+  verification sources in OPS.md. Risk accepted: endpoint could change/disappear without notice —
+  failure mode is a loud workflow error and falling back to manual entry, not wrong data.
+- At kickoff (2026-06-11) **openfootball/worldcup.json carried no scores yet** (schedule only),
+  so it could not serve as the automated source; it remains a candidate cross-check if its
+  maintainer-updated scores appear during the tournament.
+
+### Verdict (pre-automation evaluation, 2026-06-10 — superseded by ESPN note above)
+- **Primary: football-data.org free tier.** Free, structured JSON, World Cup included, 10 req/min is far more than needed (104 matches; poll a few times per day). Owner action: register a free account at https://www.football-data.org/client/register and store the `X-Auth-Token` as a secret. (Still the hardening path if ESPN's endpoint breaks.)
 - **Fallback: openfootball/worldcup.json** (zero cost, no key, independent source — also useful to cross-validate scores before publishing standings).
 - **Paid escape hatch if either fails: API-Football Pro ($19/mo)** — owner would create an account at api-football.com (API-Sports dashboard) only if needed.
 

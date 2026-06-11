@@ -2,6 +2,12 @@
 
 Material events affecting scoring, data, or methodology are recorded here (C13/E-transparency).
 
+## 2026-06-12
+
+- **First result entered:** match 1, Mexico 2–0 South Africa (90' score; sources ESPN + FOX Sports). All 40 models had backed Mexico; 26 hit the exact scoreline.
+- **Hourly results auto-sync added** (`.github/workflows/results-sync.yml` + `scripts/sync-results.ts`): ESPN's public scoreboard is polled hourly; finished **group** matches are entered automatically using the same canonical write as `npm run result` (verified byte-identical on match 1), behind strict team-name + kickoff matching. Knockout results stay manual (`--advances`/`--note` judgment). The sync never overwrites: a recorded result that disagrees with ESPN raises an alarm, and every run re-audits recorded scores. Scoring itself is unchanged — results.json remains the single derived-from input.
+- **Site: "Today's matches" extended** with a "Latest results" strip (finished matches from the last 48 h stay visible after the visitor's local midnight) and time-derived "In play" / "awaiting score" states between kickoff and the next sync deploy.
+
 ## 2026-06-11 (all before the opening kickoff, 19:00 UTC)
 
 - **Methodology v2 — self-consistent bracket simulation.** Knockout predictions are no longer collected round-by-round against real pairings; instead every model's own group predictions determine its own bracket, which it predicted through to its own champion. All collected pre-kickoff. Scoring extended with bracket components (advancement, matchup hits, matched-pairing scorelines) — see METHODOLOGY.md.
