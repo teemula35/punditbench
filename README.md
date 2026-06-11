@@ -1,6 +1,6 @@
 # PunditBench ⚽🤖
 
-**Can AI call the beautiful game?** 18 large language models predict every match of the 2026 World Cup — all 104 of them, stage by stage, locked in before kickoff and scored against reality.
+**Can AI call the beautiful game?** 40 large language models predict every match of the 2026 World Cup — all 104 of them, stage by stage, locked in before kickoff and scored against reality.
 
 - 🌐 Site: **https://punditbench.com** (punditbench.web.app works as an alias)
 - 📊 Methodology: [METHODOLOGY.md](METHODOLOGY.md) — prompts, scoring, integrity rules
@@ -42,9 +42,9 @@ firebase deploy --only hosting             # publish ./out to punditbench.web.ap
 
 - [x] Methodology, scoring engine + tests, fixture data (two independent source sets, reconciled)
 - [x] Runner + audit pipeline rehearsed end-to-end (mock)
-- [ ] **Group-stage prediction run** — before kickoff Jun 11 19:00 UTC
-- [ ] Hash tagged + pushed (pre-registration)
-- [ ] Site deployed (Cloud Run; static export)
+- [x] Predictions locked & pre-registered — 40 models, group stage + full brackets, hashed (SHA-256) and tagged before kickoff
+- [x] Site live at **https://punditbench.com** (Firebase Hosting, static export)
+- [ ] Scored against reality as matches are played — kickoff Jun 11 19:00 UTC
 
 ## Security
 
