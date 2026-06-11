@@ -51,7 +51,7 @@ Up to 3 attempts per model per stage; attempts 2–3 append the validator's erro
 
 ## D7 — Publishing entity ⛳ OPEN (user)
 
-Personal vs Clarity AI Oy. Only blocks the imprint line on the legal page — placeholder until decided.
+Publish personally or under a company. Only blocks the imprint line on the legal page — placeholder until decided.
 
 ## D8 — Stack & architecture ✅ 2026-06-10 (revised from initial Cloud SQL sketch)
 
