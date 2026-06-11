@@ -21,6 +21,12 @@ concurrency:
   group: results-sync
   cancel-in-progress: false
 
+env:
+  # GitHub forces JS actions onto Node 24 from 2026-06-16 (mid-tournament).
+  # Opt in now so the cutover can't change behavior unattended; validated via
+  # workflow_dispatch on 2026-06-12.
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -33,6 +39,15 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      # Manual runs double as diagnostics: prove ESPN answers GitHub's runners
+      # (the hourly sync only calls it when a fixture is actually pending).
+      - name: Probe ESPN reachability
+        if: github.event_name == 'workflow_dispatch'
+        run: >
+          curl -sf -A "punditbench-results-sync (https://github.com/teemula35/punditbench)"
+          "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260611"
+          -o /dev/null -w "ESPN HTTP %{http_code}\n"
 
       - name: Sync results from ESPN
         id: sync
