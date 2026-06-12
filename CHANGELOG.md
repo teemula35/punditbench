@@ -4,6 +4,7 @@ Material events affecting scoring, data, or methodology are recorded here (C13/E
 
 ## 2026-06-12
 
+- **Methodology page now embeds the verbatim group-stage prompt** (generated from the `v1` template and verified byte-identical to the published raw logs) plus the exact knockout-prompt deltas. Transparency only — no methodology change.
 - **First result entered:** match 1, Mexico 2–0 South Africa (90' score; sources ESPN + FOX Sports). All 40 models had backed Mexico; 26 hit the exact scoreline.
 - **Hourly results auto-sync added** (`.github/workflows/results-sync.yml` + `scripts/sync-results.ts`): ESPN's public scoreboard is polled hourly; finished **group** matches are entered automatically using the same canonical write as `npm run result` (verified byte-identical on match 1), behind strict team-name + kickoff matching. Knockout results stay manual (`--advances`/`--note` judgment). The sync never overwrites: a recorded result that disagrees with ESPN raises an alarm, and every run re-audits recorded scores. Scoring itself is unchanged — results.json remains the single derived-from input.
 - **Site: "Today's matches" extended** with a "Latest results" strip (finished matches from the last 48 h stay visible after the visitor's local midnight) and time-derived "In play" / "awaiting score" states between kickoff and the next sync deploy.

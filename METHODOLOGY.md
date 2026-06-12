@@ -10,6 +10,106 @@ PunditBench measures how well large language models predict real football. For t
 2. **Self-consistent knockout simulation.** From the model's own 72 scores we compute its group tables (FIFA tiebreakers: points, goal difference, goals scored, head-to-head) and its qualified third-placed teams, slot the thirds using **FIFA's official Annexe C lookup table** (all 495 combinations, parsed from the official regulations — see ALLOCATION-NOTES.md), and obtain the model's own Round of 32. The model is then prompted with *its own* bracket — explicitly framed as "the knockout bracket that follows from YOUR OWN predictions" — and predicts those 16 matches, naming the team that advances where it predicts a 90-minute draw. Its answers build its Round of 16, and so on through the quarter-finals, semi-finals, third-place match and final. Six prompts per model; every model ends with a full simulated tournament and a champion.
 3. **Everything is locked pre-kickoff.** No prediction anywhere in the system depends on a single real result. The complete set (group + all simulated rounds, raw API traffic included) is hashed and pre-registered before the opening match.
 
+## The exact prompt
+
+Prompt template `v1` lives in [`lib/prompt.ts`](https://github.com/teemula35/punditbench/blob/main/lib/prompt.ts). The group-stage prompt below is **byte-identical for every model** and reproduced here verbatim, generated from that template — it matches the `prompt` field of every group-stage record in the published raw logs:
+
+```text
+PunditBench — a public benchmark in which language models predict football match results for the 2026 FIFA World Cup (48 teams, USA/Canada/Mexico).
+
+Your task: predict the result of every group stage match listed at the end of this prompt.
+
+Output rules (strict):
+- Respond with ONLY one JSON object. No markdown fences, no explanations, no other text.
+- Format: {"predictions":[{"match":1,"home_goals":2,"away_goals":0},...]}
+- home_goals/away_goals: integers 0-15, the final score after 90 minutes plus stoppage time (draws are possible in the group stage).
+- Exactly one entry per listed match number — all of them.
+
+Scoring (identical for all participants): exact score = 3 points; correct goal difference = 2; correct outcome (win/draw/loss) = 1.
+
+Matches to predict (match number | group | home vs away | date | city):
+1 | A | Mexico vs South Africa | 2026-06-11 | Mexico City
+2 | A | South Korea vs Czech Republic | 2026-06-12 | Zapopan
+3 | B | Canada vs Bosnia and Herzegovina | 2026-06-12 | Toronto
+4 | D | United States vs Paraguay | 2026-06-13 | Inglewood
+5 | C | Haiti vs Scotland | 2026-06-14 | Foxborough
+6 | D | Australia vs Turkey | 2026-06-14 | Vancouver
+7 | C | Brazil vs Morocco | 2026-06-13 | East Rutherford
+8 | B | Qatar vs Switzerland | 2026-06-13 | Santa Clara
+9 | E | Ivory Coast vs Ecuador | 2026-06-14 | Philadelphia
+10 | E | Germany vs Curaçao | 2026-06-14 | Houston
+11 | F | Netherlands vs Japan | 2026-06-14 | Arlington
+12 | F | Sweden vs Tunisia | 2026-06-15 | Guadalupe
+13 | H | Saudi Arabia vs Uruguay | 2026-06-15 | Miami Gardens
+14 | H | Spain vs Cape Verde | 2026-06-15 | Atlanta
+15 | G | Iran vs New Zealand | 2026-06-16 | Inglewood
+16 | G | Belgium vs Egypt | 2026-06-15 | Seattle
+17 | I | France vs Senegal | 2026-06-16 | East Rutherford
+18 | I | Iraq vs Norway | 2026-06-16 | Foxborough
+19 | J | Argentina vs Algeria | 2026-06-17 | Kansas City
+20 | J | Austria vs Jordan | 2026-06-17 | Santa Clara
+21 | L | Ghana vs Panama | 2026-06-17 | Toronto
+22 | L | England vs Croatia | 2026-06-17 | Arlington
+23 | K | Portugal vs DR Congo | 2026-06-17 | Houston
+24 | K | Uzbekistan vs Colombia | 2026-06-18 | Mexico City
+25 | A | Czech Republic vs South Africa | 2026-06-18 | Atlanta
+26 | B | Switzerland vs Bosnia and Herzegovina | 2026-06-18 | Inglewood
+27 | B | Canada vs Qatar | 2026-06-18 | Vancouver
+28 | A | Mexico vs South Korea | 2026-06-19 | Zapopan
+29 | C | Brazil vs Haiti | 2026-06-20 | Philadelphia
+30 | C | Scotland vs Morocco | 2026-06-19 | Foxborough
+31 | D | Turkey vs Paraguay | 2026-06-20 | Santa Clara
+32 | D | United States vs Australia | 2026-06-19 | Seattle
+33 | E | Germany vs Ivory Coast | 2026-06-20 | Toronto
+34 | E | Ecuador vs Curaçao | 2026-06-21 | Kansas City
+35 | F | Netherlands vs Sweden | 2026-06-20 | Houston
+36 | F | Tunisia vs Japan | 2026-06-21 | Guadalupe
+37 | H | Uruguay vs Cape Verde | 2026-06-21 | Miami Gardens
+38 | H | Spain vs Saudi Arabia | 2026-06-21 | Atlanta
+39 | G | Belgium vs Iran | 2026-06-21 | Inglewood
+40 | G | New Zealand vs Egypt | 2026-06-22 | Vancouver
+41 | I | Norway vs Senegal | 2026-06-23 | East Rutherford
+42 | I | France vs Iraq | 2026-06-22 | Philadelphia
+43 | J | Argentina vs Austria | 2026-06-22 | Arlington
+44 | J | Jordan vs Algeria | 2026-06-23 | Santa Clara
+45 | L | England vs Ghana | 2026-06-23 | Foxborough
+46 | L | Panama vs Croatia | 2026-06-23 | Toronto
+47 | K | Portugal vs Uzbekistan | 2026-06-23 | Houston
+48 | K | Colombia vs DR Congo | 2026-06-24 | Zapopan
+49 | C | Scotland vs Brazil | 2026-06-24 | Miami Gardens
+50 | C | Morocco vs Haiti | 2026-06-24 | Atlanta
+51 | B | Switzerland vs Canada | 2026-06-24 | Vancouver
+52 | B | Bosnia and Herzegovina vs Qatar | 2026-06-24 | Seattle
+53 | A | Czech Republic vs Mexico | 2026-06-25 | Mexico City
+54 | A | South Africa vs South Korea | 2026-06-25 | Guadalupe
+55 | E | Curaçao vs Ivory Coast | 2026-06-25 | Philadelphia
+56 | E | Ecuador vs Germany | 2026-06-25 | East Rutherford
+57 | F | Japan vs Sweden | 2026-06-25 | Arlington
+58 | F | Tunisia vs Netherlands | 2026-06-25 | Kansas City
+59 | D | Turkey vs United States | 2026-06-26 | Inglewood
+60 | D | Paraguay vs Australia | 2026-06-26 | Santa Clara
+61 | I | Norway vs France | 2026-06-26 | Foxborough
+62 | I | Senegal vs Iraq | 2026-06-26 | Toronto
+63 | G | Egypt vs Iran | 2026-06-27 | Seattle
+64 | G | New Zealand vs Belgium | 2026-06-27 | Vancouver
+65 | H | Cape Verde vs Saudi Arabia | 2026-06-27 | Houston
+66 | H | Uruguay vs Spain | 2026-06-27 | Zapopan
+67 | L | Panama vs England | 2026-06-27 | East Rutherford
+68 | L | Croatia vs Ghana | 2026-06-27 | Philadelphia
+69 | J | Algeria vs Austria | 2026-06-28 | Kansas City
+70 | J | Jordan vs Argentina | 2026-06-28 | Arlington
+71 | K | Colombia vs Portugal | 2026-06-27 | Miami Gardens
+72 | K | DR Congo vs Uzbekistan | 2026-06-27 | Atlanta
+```
+
+Knockout prompts reuse the same template with three differences, quoted verbatim from the template:
+
+1. The format rule becomes `{"predictions":[{"match":74,"home_goals":2,"away_goals":1,"advances":"<team name exactly as listed>"},...]}` — `"advances"` is required for every match: "the team that progresses to the next round (after extra time/penalties if your predicted 90-minute score is a draw)".
+2. The scoring line gains "correctly naming the advancing team = +1".
+3. A context block precedes the fixtures, framing the bracket as the model's own: "You previously predicted every group-stage match of this tournament. The fixtures below are the knockout bracket that follows from YOUR OWN predictions. Your predicted tournament so far:" — followed by that model's final group tables (points, goal difference, goals for) and its prior simulated knockout results, then the fixture rows as `match number | home vs away | date | city`.
+
+Because the tables and prior results are the model's own, every knockout prompt differs per model. Each one is preserved verbatim — alongside the raw response, parameters, token usage and HTTP status of every attempt — in [`data/raw/`](https://github.com/teemula35/punditbench/tree/main/data/raw) (`<stage>/<model>.jsonl`, `prompt` field).
+
 ## Scoring
 
 **Group matches** (72 real matches, every model predicted all of them):
