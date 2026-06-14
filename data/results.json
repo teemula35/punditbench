@@ -24,6 +24,18 @@
     "away_goals": 1
   },
   {
+    "match": 5,
+    "status": "final",
+    "home_goals": 0,
+    "away_goals": 1
+  },
+  {
+    "match": 6,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 0
+  },
+  {
     "match": 7,
     "status": "final",
     "home_goals": 1,
