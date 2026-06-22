@@ -16,6 +16,7 @@ import {
   loadTeams,
   resultsByMatch,
 } from "./data";
+import { computePersonalities, type Personality } from "./personality";
 import { modelSlug } from "./prompt";
 import { scoreMatch, scoreModel, totalsFor } from "./scoring";
 import type {
@@ -56,6 +57,8 @@ export interface SiteData {
   fixtures: Map<number, Fixture>;
   results: Map<number, MatchResult>;
   leaderboard: LeaderboardEntry[]; // sorted by rank, ties by label
+  /** Prediction-style metrics per model slug (group stage; locked, never moves). */
+  personalities: Map<string, Personality>;
   playedCount: number; // final, non-voided results
   totalFixtures: number;
 }
@@ -151,12 +154,14 @@ export function loadSiteData(): SiteData {
   entries.sort((a, b) => a.rank - b.rank || a.model.label.localeCompare(b.model.label));
 
   const playedCount = loadResults().filter((r) => r.status === "final").length;
+  const personalities = computePersonalities(allPredictions, groupFixtures);
 
   return {
     roster,
     fixtures,
     results,
     leaderboard: entries,
+    personalities,
     playedCount,
     totalFixtures: 104,
   };

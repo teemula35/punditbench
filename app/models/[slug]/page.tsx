@@ -6,6 +6,7 @@ import { simulateGroups } from "@/lib/bracket";
 import { bracketView, type SimMatchView } from "@/lib/bracket-view";
 import { loadRoster, loadTeams } from "@/lib/data";
 import { fmtShortDateUtc } from "@/lib/format";
+import { traitBand, type Personality, type TraitKey } from "@/lib/personality";
 import { modelSlug, teamFlag } from "@/lib/prompt";
 import type { TableRow } from "@/lib/standings";
 import type { StageId, Team } from "@/lib/types";
@@ -37,6 +38,89 @@ function Stat({ label, value }: { label: string; value: React.ReactNode }) {
     <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-4 py-3">
       <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">{label}</p>
       <p className="mt-1 text-xl font-bold tabular-nums text-zinc-50">{value}</p>
+    </div>
+  );
+}
+
+const pct = (x: number) => `${Math.round(x * 100)}%`;
+
+// Headline word per trait, indexed by band [low (-1), middle (0), high (+1)].
+const TRAIT_WORD: Record<TraitKey, [string, string, string]> = {
+  goalsPerGame: ["Cagey", "Balanced", "Attacking"],
+  drawRate: ["Decisive", "Average", "Draw-prone"],
+  chalkIndex: ["Contrarian", "Mixed", "Chalk"],
+  upsetRate: ["Backs favourites", "Even-handed", "Hunts upsets"],
+};
+
+// Sentence fragments: [low pole, high pole] for a leaning, and the matching
+// superlatives for a field-extreme (rank 1 = highest value, rank N = lowest).
+const TRAIT_CLAUSE: Record<TraitKey, [string, string]> = {
+  goalsPerGame: ["cautious in front of goal", "high-scoring"],
+  drawRate: ["slow to call a draw", "fond of a draw"],
+  chalkIndex: ["a contrarian", "a chalk-merchant"],
+  upsetRate: ["loyal to the favourites", "an upset-hunter"],
+};
+const TRAIT_SUPERLATIVE: Record<TraitKey, [string, string]> = {
+  goalsPerGame: ["the most cautious model in the field", "the most attacking model in the field"],
+  drawRate: ["the least draw-prone model in the field", "the most draw-prone model in the field"],
+  chalkIndex: ["the most contrarian model in the field", "the most chalk-hugging model in the field"],
+  upsetRate: ["the most favourite-loyal model in the field", "the most upset-hungry model in the field"],
+};
+const TRAIT_KEYS: TraitKey[] = ["goalsPerGame", "drawRate", "chalkIndex", "upsetRate"];
+
+function joinList(items: string[]): string {
+  if (items.length <= 1) return items.join("");
+  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+}
+
+/** A one-line "character" read of the model from its most extreme traits. */
+function characterLine(label: string, p: Personality): string {
+  const superlatives: string[] = [];
+  const leanings: string[] = [];
+  for (const t of TRAIT_KEYS) {
+    if (p.rank[t] === 1) superlatives.push(TRAIT_SUPERLATIVE[t][1]);
+    else if (p.rank[t] === p.fieldSize) superlatives.push(TRAIT_SUPERLATIVE[t][0]);
+    else {
+      const band = traitBand(p.rank[t], p.fieldSize);
+      if (band === 1) leanings.push(TRAIT_CLAUSE[t][1]);
+      else if (band === -1) leanings.push(TRAIT_CLAUSE[t][0]);
+    }
+  }
+  if (superlatives.length > 0) {
+    const extra = leanings.length > 0 ? `, and ${leanings[0]}` : "";
+    return `${label} is ${superlatives[0]}${extra}.`;
+  }
+  if (leanings.length === 0) {
+    return `${label} sits close to the field average across the board — a steady, unopinionated forecaster.`;
+  }
+  return `${label} leans ${joinList(leanings.slice(0, 3))}.`;
+}
+
+/** One personality trait: a character word over its supporting number. */
+function Trait({
+  trait,
+  band,
+  detail,
+}: {
+  trait: TraitKey;
+  band: -1 | 0 | 1;
+  detail: React.ReactNode;
+}) {
+  const labels: Record<TraitKey, string> = {
+    goalsPerGame: "Goals / game",
+    drawRate: "Draws",
+    chalkIndex: "Chalk vs contrarian",
+    upsetRate: "Favourite bias",
+  };
+  return (
+    <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-4 py-3">
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+        {labels[trait]}
+      </p>
+      <p className={`mt-1 text-lg font-bold ${band === 0 ? "text-zinc-300" : "text-emerald-300"}`}>
+        {TRAIT_WORD[trait][band + 1]}
+      </p>
+      <p className="mt-0.5 text-xs text-zinc-500">{detail}</p>
     </div>
   );
 }
@@ -174,6 +258,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
   if (!entry) notFound();
 
   const { model, totals, bracket, scores, files } = entry;
+  const personality = data.personalities.get(slug);
   const anyResults = data.playedCount > 0;
   const realKnockoutExists = [...data.fixtures.values()].some((f) => f.stage !== "group");
   const cutoffKnown = model.knowledge_cutoff && model.knowledge_cutoff !== "unknown";
@@ -280,6 +365,48 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               }
             />
           </section>
+
+          {/* Prediction personality — style of the locked group-stage calls */}
+          {personality && (
+            <section>
+              <h2 className="mb-1 text-lg font-semibold text-zinc-100">Prediction personality</h2>
+              <p className="mb-4 max-w-3xl text-sm text-zinc-400">{characterLine(model.label, personality)}</p>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <Trait
+                  trait="goalsPerGame"
+                  band={traitBand(personality.rank.goalsPerGame, personality.fieldSize)}
+                  detail={`${personality.goalsPerGame.toFixed(2)} goals per match`}
+                />
+                <Trait
+                  trait="drawRate"
+                  band={traitBand(personality.rank.drawRate, personality.fieldSize)}
+                  detail={`${Math.round(personality.drawRate * personality.predicted)} of ${personality.predicted} called level`}
+                />
+                <Trait
+                  trait="chalkIndex"
+                  band={traitBand(personality.rank.chalkIndex, personality.fieldSize)}
+                  detail={`sides with ${pct(personality.chalkIndex)} of the field`}
+                />
+                <Trait
+                  trait="upsetRate"
+                  band={traitBand(personality.rank.upsetRate, personality.fieldSize)}
+                  detail={
+                    personality.favMatches > 0
+                      ? `${personality.upsetPicks} of ${personality.favMatches} favourite matchups called as upsets`
+                      : "no clear-favourite matchups"
+                  }
+                />
+              </div>
+              <p className="mt-2 max-w-3xl text-xs text-zinc-600">
+                Style, not accuracy — derived from this model&apos;s {personality.predicted} locked
+                group-stage scorelines and compared with the other {personality.fieldSize - 1}{" "}
+                models; it says nothing about whether the calls are right. &ldquo;Chalk&rdquo; is how
+                often it agreed with the rest of the field; a &ldquo;favourite&rdquo; is the side the
+                field collectively rates higher (mean predicted goal difference ≥ {0.5}), not a
+                bookmaker&apos;s.
+              </p>
+            </section>
+          )}
 
           {/* The model's own universe: predicted group tables */}
           {sim && (

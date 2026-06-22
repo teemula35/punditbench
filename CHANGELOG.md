@@ -2,6 +2,10 @@
 
 Material events affecting scoring, data, or methodology are recorded here (C13/E-transparency).
 
+## 2026-06-22
+
+- **Site: "Prediction personality" added to each model page.** Four style traits derived purely from the model's locked group-stage scorelines: goals per game, draw rate, a chalk-vs-contrarian index (mean agreement with the rest of the field on each match outcome), and favourite bias (how often it backs the underdog in matchups with a clear favourite). "Favourite" is defined endogenously — each team's mean predicted goal difference across the whole field is a "silicon power rating" (Brazil, Germany, Argentina, Spain top it; Curaçao and Haiti anchor it), with a ≥ 0.5-goal gap marking a clear favourite — so no external rankings enter the system. **No effect on scoring, results, or the pre-registered predictions:** these are read-only style metrics, derived at build from the existing locked data like everything else (new pure module `lib/personality.ts`, covered by `tests/personality.test.ts`). Accuracy still lives entirely on the leaderboard.
+
 ## 2026-06-12
 
 - **Methodology page now embeds the verbatim group-stage prompt** (generated from the `v1` template and verified byte-identical to the published raw logs) plus the exact knockout-prompt deltas. Transparency only — no methodology change.
