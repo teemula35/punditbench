@@ -1,0 +1,110 @@
+{
+  "model": "mistralai/mistral-medium-3-5",
+  "slug": "mistralai-mistral-medium-3-5",
+  "stage": "r32",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-06-29T08:44:22.641Z",
+  "completed_at": "2026-06-29T08:44:26.065Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1415,
+    "completion_tokens": 495,
+    "total_tokens": 1910,
+    "cost_usd": 0.005835
+  },
+  "predictions": [
+    {
+      "match": 74,
+      "home_goals": 3,
+      "away_goals": 0,
+      "advances": "Germany"
+    },
+    {
+      "match": 75,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Netherlands"
+    },
+    {
+      "match": 76,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Brazil"
+    },
+    {
+      "match": 77,
+      "home_goals": 3,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 78,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Ivory Coast"
+    },
+    {
+      "match": 79,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Mexico"
+    },
+    {
+      "match": 80,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "England"
+    },
+    {
+      "match": 81,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "United States"
+    },
+    {
+      "match": 82,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Belgium"
+    },
+    {
+      "match": 83,
+      "home_goals": 1,
+      "away_goals": 0,
+      "advances": "Portugal"
+    },
+    {
+      "match": 84,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Spain"
+    },
+    {
+      "match": 85,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Switzerland"
+    },
+    {
+      "match": 86,
+      "home_goals": 3,
+      "away_goals": 0,
+      "advances": "Argentina"
+    },
+    {
+      "match": 87,
+      "home_goals": 1,
+      "away_goals": 0,
+      "advances": "Colombia"
+    },
+    {
+      "match": 88,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Egypt"
+    }
+  ]
+}

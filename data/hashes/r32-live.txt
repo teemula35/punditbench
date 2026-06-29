@@ -1,0 +1,11 @@
+track: round-by-round (live, real fixtures)
+stage: r32
+models: 38
+generated_at: 2026-06-29T09:16:52.644Z
+sha256: 7bbc8359a9e90db51c2a2fe84f3fe1b3fa1f46542a1c6ccc68afa82c67748631
+
+Canonical form v2: JSON array of {slug, model, stage, completed_at, simulated_fixtures?
+(sorted by match), predictions (sorted by match)}, sorted by (slug, stage), no whitespace.
+(Tags predictions-group / predictions-group-v2 used form v1: {slug, model, completed_at,
+predictions} — their recorded hashes remain valid against that form.)
+Recompute with: npm run hash -- --stage r32 --live

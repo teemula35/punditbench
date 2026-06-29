@@ -1,0 +1,14 @@
+{
+  "excluded": {
+    "73": "Kicked off before the round-by-round picks were collected."
+  },
+  "rounds": {
+    "r32": {
+      "locked_at": "2026-06-29T09:15:06.588Z",
+      "models": 38,
+      "excluded": [
+        73
+      ]
+    }
+  }
+}
