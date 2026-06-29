@@ -10,7 +10,9 @@ import { simulateGroups } from "./bracket";
 import { modelReach, scoreBracket, type BracketScore } from "./bracket-scoring";
 import {
   fixturesByMatch,
+  loadAllLivePredictions,
   loadAllPredictions,
+  loadLiveManifest,
   loadResults,
   loadRoster,
   loadTeams,
@@ -21,6 +23,7 @@ import { modelSlug } from "./prompt";
 import { scoreMatch, scoreModel, totalsFor } from "./scoring";
 import type {
   Fixture,
+  LiveManifest,
   MatchResult,
   MatchScore,
   ModelTotals,
@@ -50,6 +53,8 @@ export interface LeaderboardEntry {
   bracketComplete: boolean;
   scores: Map<number, MatchScore>;
   files: PredictionFile[];
+  /** Round-by-round (live) files: direct picks on the REAL knockout bracket. */
+  liveFiles: PredictionFile[];
 }
 
 export interface SiteData {
@@ -61,6 +66,10 @@ export interface SiteData {
   personalities: Map<string, Personality>;
   playedCount: number; // final, non-voided results
   totalFixtures: number;
+  /** Round-by-round track: knockout match number -> reason it has no live pick. */
+  liveExcluded: Map<number, string>;
+  /** Round-by-round track: per-stage lock metadata (for "pre-registered" copy). */
+  liveRounds: LiveManifest["rounds"];
 }
 
 /**
@@ -85,6 +94,8 @@ export function loadSiteData(): SiteData {
   const fixtures = fixturesByMatch();
   const results = resultsByMatch();
   const allPredictions = loadAllPredictions();
+  const allLivePredictions = loadAllLivePredictions();
+  const liveManifest = loadLiveManifest();
   const realKnockoutFixtures = [...fixtures.values()].filter((f) => f.stage !== "group");
   const teams = loadTeams();
   const groupFixtures = [...fixtures.values()].filter((f) => f.stage === "group");
@@ -141,6 +152,7 @@ export function loadSiteData(): SiteData {
       bracketComplete: KNOCKOUT_STAGES.every((s) => files.some((f) => f.stage === s)),
       scores,
       files,
+      liveFiles: allLivePredictions.get(slug) ?? [],
     };
   });
 
@@ -164,6 +176,10 @@ export function loadSiteData(): SiteData {
     personalities,
     playedCount,
     totalFixtures: 104,
+    liveExcluded: new Map(
+      Object.entries(liveManifest.excluded).map(([m, reason]) => [Number(m), reason]),
+    ),
+    liveRounds: liveManifest.rounds,
   };
 }
 
@@ -198,6 +214,68 @@ export function matchPredictionRows(data: SiteData, fixture: Fixture): MatchPred
     );
   }
   return rows;
+}
+
+/** Every roster model's direct round-by-round (live) pick for one knockout fixture. */
+export function liveMatchRows(data: SiteData, fixture: Fixture): MatchPredictionRow[] {
+  const result = data.results.get(fixture.match);
+  const rows = data.leaderboard.map((entry) => {
+    const file = entry.liveFiles.find((f) => f.stage === fixture.stage);
+    const prediction = file?.predictions.find((p) => p.match === fixture.match);
+    const score = result ? scoreMatch(prediction, result, fixture) : null;
+    return { entry, prediction, fileExists: Boolean(file), score };
+  });
+  if (result && result.status === "final") {
+    rows.sort(
+      (a, b) =>
+        (b.score?.points ?? -1) - (a.score?.points ?? -1) ||
+        a.entry.model.label.localeCompare(b.entry.model.label),
+    );
+  }
+  return rows;
+}
+
+export type LiveState = "picks" | "excluded" | "pending";
+
+export interface LiveMatchInfo {
+  /**
+   * "picks": the round's live picks were collected and this match is included;
+   * "excluded": it had already kicked off when the round was collected;
+   * "pending": the round has not been collected yet (or no live track at all).
+   */
+  state: LiveState;
+  rows: MatchPredictionRow[];
+  excludedReason?: string;
+  lockedAt?: string;
+  modelsWithPick: number; // models with a valid live scoreline for this match
+  modelsWithFile: number; // models with any live file for this round
+}
+
+/**
+ * Round-by-round status for one fixture: whether the real-bracket live picks
+ * exist for it, were deliberately excluded (already kicked off when the round
+ * was collected), or are still pending. Group fixtures are never in this track.
+ */
+export function liveMatchInfo(data: SiteData, fixture: Fixture): LiveMatchInfo {
+  if (fixture.stage === "group") {
+    return { state: "pending", rows: [], modelsWithPick: 0, modelsWithFile: 0 };
+  }
+  const excludedReason = data.liveExcluded.get(fixture.match);
+  if (excludedReason) {
+    return { state: "excluded", excludedReason, rows: [], modelsWithPick: 0, modelsWithFile: 0 };
+  }
+  const roundRun = data.leaderboard.some((e) => e.liveFiles.some((f) => f.stage === fixture.stage));
+  if (!roundRun) {
+    return { state: "pending", rows: [], modelsWithPick: 0, modelsWithFile: 0 };
+  }
+  const rows = liveMatchRows(data, fixture);
+  return {
+    state: "picks",
+    rows,
+    lockedAt: data.liveRounds[fixture.stage]?.locked_at,
+    modelsWithPick: rows.filter((r) => r.prediction).length,
+    modelsWithFile: rows.filter((r) => r.fileExists).length,
+  };
 }
 
 /**

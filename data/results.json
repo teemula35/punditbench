@@ -430,5 +430,12 @@
     "status": "final",
     "home_goals": 3,
     "away_goals": 1
+  },
+  {
+    "match": 73,
+    "status": "final",
+    "home_goals": 0,
+    "away_goals": 1,
+    "advances": "Canada"
   }
 ]

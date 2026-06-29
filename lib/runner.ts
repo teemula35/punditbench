@@ -43,8 +43,8 @@ export interface AttemptLog {
   prompt?: string;
 }
 
-export function appendRaw(stage: StageId, slug: string, entry: AttemptLog): void {
-  const dir = path.join(process.cwd(), "data", "raw", stage);
+export function appendRaw(stage: StageId, slug: string, entry: AttemptLog, base = "raw"): void {
+  const dir = path.join(process.cwd(), "data", base, stage);
   fs.mkdirSync(dir, { recursive: true });
   fs.appendFileSync(path.join(dir, `${slug}.jsonl`), JSON.stringify(entry) + "\n", "utf-8");
 }
@@ -116,6 +116,11 @@ export interface RunOptions {
   promptVersion: string;
   /** Embed the model's own (simulated) fixtures in the stored prediction file. */
   storeSimulatedFixtures?: boolean;
+  /**
+   * "live" routes storage to data/predictions-live/ + data/raw-live/ (the
+   * round-by-round real-fixture track), keeping the locked simulated tree intact.
+   */
+  variant?: "live";
 }
 
 /** One model × one fixture set: attempts → validation → persistence. */
@@ -129,6 +134,8 @@ export async function runModelOnFixtures(
 ): Promise<RunOutcome> {
   let params: Record<string, unknown> = { temperature: 0 };
   let lastErrors: string[] = [];
+  const predBase = opts.variant === "live" ? "predictions-live" : "predictions";
+  const rawBase = opts.variant === "live" ? "raw-live" : "raw";
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     const attemptPrompt =
@@ -164,7 +171,7 @@ export async function runModelOnFixtures(
           ts: requestedAt, model: model.id, stage, attempt, prompt_version: opts.promptVersion,
           params: { temperature: 0 }, request_chars: attemptPrompt.length,
           http_status: e.status, error: "temperature rejected; retrying without it", ok: false,
-        });
+        }, rawBase);
         attempt--;
         continue;
       }
@@ -173,7 +180,7 @@ export async function runModelOnFixtures(
         params, request_chars: attemptPrompt.length, http_status: e.status,
         latency_ms: e.latency, error: e.message, ok: false,
         ...(attempt === 1 ? { prompt } : {}),
-      });
+      }, rawBase);
       lastErrors = [`API error: ${e.message.slice(0, 300)}`];
       continue;
     }
@@ -188,7 +195,7 @@ export async function runModelOnFixtures(
       validation_warnings: validation.warnings.length > 0 ? validation.warnings.slice(0, 20) : undefined,
       ok: validation.ok,
       ...(attempt === 1 ? { prompt } : {}),
-    });
+    }, rawBase);
 
     if (validation.ok) {
       const costUsd = typeof usage?.cost === "number" ? (usage.cost as number) : undefined;
@@ -206,7 +213,7 @@ export async function runModelOnFixtures(
           : {}),
         predictions: validation.predictions,
       };
-      const dir = path.join(process.cwd(), "data", "predictions", stage);
+      const dir = path.join(process.cwd(), "data", predBase, stage);
       fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(path.join(dir, `${slug}.json`), JSON.stringify(file, null, 2) + "\n", "utf-8");
       return { slug, ok: true, attempts: attempt, costUsd, file };

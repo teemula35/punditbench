@@ -119,3 +119,18 @@ export interface ModelTotals {
   matchesWithPoints: number;
   perStage: Partial<Record<StageId, number>>;
 }
+
+/**
+ * Round-by-round ("live") track manifest — data/predictions-live/manifest.json.
+ * The live track is the separate benchmark in which every model predicts the
+ * REAL knockout pairings round by round (direct scoring), as opposed to the
+ * locked self-consistent bracket. `excluded` records knockout matches that had
+ * already kicked off when a round's live picks were collected, so they carry no
+ * pre-registered live prediction (shown as "not pre-registered" on the site).
+ */
+export interface LiveManifest {
+  /** match number (string key) -> human reason it has no live picks. */
+  excluded: Record<string, string>;
+  /** per-round lock metadata, for the "pre-registered before kickoff" copy. */
+  rounds: Partial<Record<StageId, { locked_at: string; models: number; excluded: number[] }>>;
+}

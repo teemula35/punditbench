@@ -2,23 +2,34 @@
  * G4 audit: verify stored predictions match the last valid attempt in the raw
  * audit logs, re-derive the leaderboard from primary data, and print it.
  *
- *   npm run audit
+ *   npm run audit            # locked (pre-kickoff) track
+ *   npm run audit -- --live  # round-by-round (real-fixture) track
  */
 import fs from "node:fs";
 import path from "node:path";
-import { fixturesByMatch, loadAllPredictions, resultsByMatch } from "../lib/data";
+import {
+  fixturesByMatch,
+  loadAllLivePredictions,
+  loadAllPredictions,
+  loadLiveManifest,
+  resultsByMatch,
+} from "../lib/data";
 import { rank, scoreModel, totalsFor } from "../lib/scoring";
 import { validatePredictions } from "../lib/validate";
 import type { Fixture, StageId } from "../lib/types";
 
+const live = process.argv.includes("--live");
 let problems = 0;
 const fixtures = fixturesByMatch();
-const all = loadAllPredictions();
+const all = live ? loadAllLivePredictions() : loadAllPredictions();
+// Live runs deliberately omit already-kicked-off matches, so revalidate live
+// files against the same reduced fixture set the model was actually asked.
+const excludedSet = new Set(live ? Object.keys(loadLiveManifest().excluded).map(Number) : []);
 
 // 1) Stored predictions must equal the last ok attempt in the raw log.
 for (const [slug, files] of all) {
   for (const file of files) {
-    const rawPath = path.join("data", "raw", file.stage, `${slug}.jsonl`);
+    const rawPath = path.join("data", live ? "raw-live" : "raw", file.stage, `${slug}.jsonl`);
     if (!fs.existsSync(rawPath)) {
       console.log(`MISSING RAW LOG: ${rawPath}`);
       problems++;
@@ -41,7 +52,9 @@ for (const [slug, files] of all) {
           match: s.match, stage: file.stage, home: s.home, away: s.away,
           kickoff_utc: "", city: "",
         }))
-      : [...fixtures.values()].filter((f) => f.stage === file.stage);
+      : [...fixtures.values()].filter(
+          (f) => f.stage === file.stage && !excludedSet.has(f.match),
+        );
     const revalidated = validatePredictions(lastOk.response_raw!, stageFixtures);
     const same = JSON.stringify(revalidated.predictions) === JSON.stringify(file.predictions);
     if (!revalidated.ok || !same) {
@@ -51,12 +64,16 @@ for (const [slug, files] of all) {
   }
 }
 
-// 2) Re-derive the leaderboard from primary data.
+// 2) Re-derive the leaderboard from primary data. For the live track, drop
+// excluded matches — a model was never asked to predict those.
 const results = resultsByMatch();
+const boardResults = live
+  ? new Map([...results].filter(([m]) => !excludedSet.has(m)))
+  : results;
 const totals = [...all.entries()].map(([slug, files]) =>
-  totalsFor(slug, scoreModel(files, fixtures, results), fixtures),
+  totalsFor(slug, scoreModel(files, fixtures, boardResults), fixtures),
 );
-console.log(`\nDerived leaderboard (${results.size} results in):`);
+console.log(`\nDerived ${live ? "round-by-round" : "locked"} leaderboard (${results.size} results in):`);
 for (const { rank: r, totals: t } of rank(totals)) {
   console.log(
     `  ${String(r).padStart(2)}. ${t.slug.padEnd(40)} ${String(t.points).padStart(4)} pts  (exact ${t.exact}, gd ${t.gd}, outcome ${t.outcome}, adv ${t.advances}, scored ${t.scoredMatches})`,

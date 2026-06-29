@@ -3,6 +3,7 @@ import path from "node:path";
 import type {
   Fixture,
   KnockoutSlot,
+  LiveManifest,
   MatchResult,
   PredictionFile,
   RosterModel,
@@ -75,14 +76,13 @@ export function loadPredictionsForModel(slug: string): PredictionFile[] {
   return out;
 }
 
-/** slug -> prediction files, for every model that has any stored predictions. */
-export function loadAllPredictions(): Map<string, PredictionFile[]> {
+/** slug -> prediction files, reading one predictions tree (locked or live). */
+function loadPredictionsTree(dir: string): Map<string, PredictionFile[]> {
   const out = new Map<string, PredictionFile[]>();
-  const dir = path.join(DATA, "predictions");
   if (!fs.existsSync(dir)) return out;
   for (const stage of fs.readdirSync(dir)) {
     const stageDir = path.join(dir, stage);
-    if (!fs.statSync(stageDir).isDirectory()) continue;
+    if (!fs.statSync(stageDir).isDirectory()) continue; // skips manifest.json
     for (const f of fs.readdirSync(stageDir)) {
       if (!f.endsWith(".json")) continue;
       const slug = f.replace(/\.json$/, "");
@@ -93,6 +93,31 @@ export function loadAllPredictions(): Map<string, PredictionFile[]> {
     }
   }
   return out;
+}
+
+/** slug -> prediction files, for every model that has any stored predictions. */
+export function loadAllPredictions(): Map<string, PredictionFile[]> {
+  return loadPredictionsTree(path.join(DATA, "predictions"));
+}
+
+/** slug -> round-by-round (live) prediction files for the real-fixture track. */
+export function loadAllLivePredictions(): Map<string, PredictionFile[]> {
+  return loadPredictionsTree(path.join(DATA, "predictions-live"));
+}
+
+/** One model's stored live (round-by-round) prediction files. */
+export function loadLivePredictionsForModel(slug: string): PredictionFile[] {
+  return loadAllLivePredictions().get(slug) ?? [];
+}
+
+/** Round-by-round track manifest (excluded matches + per-round lock metadata). */
+export function loadLiveManifest(): LiveManifest {
+  return (
+    readJsonIfExists<LiveManifest>(path.join("predictions-live", "manifest.json")) ?? {
+      excluded: {},
+      rounds: {},
+    }
+  );
 }
 
 export function loadGroupOrderOverride(): Record<string, string[]> | undefined {

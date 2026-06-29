@@ -1,6 +1,6 @@
 # PunditBench — Tournament operations runbook (v2)
 
-Since the self-consistent simulation redesign (D9, 2026-06-11) **every prediction is already collected and locked** — there are no mid-tournament prediction runs. Remaining operations: enter real results, materialize real knockout fixtures as reality produces them, deploy. All times Helsinki (EEST, UTC+3).
+Since the self-consistent simulation redesign (D9, 2026-06-11) the locked-bracket benchmark is **already collected and locked** — no mid-tournament runs for it. Remaining operations: enter real results, materialize real knockout fixtures as reality produces them, deploy. The optional **round-by-round track** (see below) adds one short, time-boxed prediction run per knockout round. All times Helsinki (EEST, UTC+3).
 
 ## Results entry is automated (group stage)
 
@@ -41,6 +41,30 @@ When a real round's pairings are final (last prerequisite match played):
 
 1. `npm run knockout-fixtures -- --stage r32` — resolves group winners/runners-up and winner slots from real results. Third-place slots (R32 only): the script asks for `--set`; copy from the official bracket, **or** cross-check what `data/third-allocation.json` (FIFA Annexe C) dictates for the real qualified-groups combination — they must agree.
 2. **Verify every pairing against the official bracket**, then commit. Bracket advancement/matchup points start flowing automatically — no prediction runs, no deadline pressure. Round timing: R32 pairings final June 27 night, R16 ~July 3, QF ~July 7, SF ~July 11, final pair ~July 15.
+
+## Round-by-round live picks (second track), per round, BEFORE kickoff
+
+A separate benchmark in which every model predicts the **real** knockout pairings of one round directly (scored like group matches), as opposed to the locked self-consistent bracket. Stored under `data/predictions-live/` + `data/raw-live/` — the locked tree is never touched. Surfaces as the "Round-by-round picks" section on each knockout match page. **Time-boxed:** picks only count if locked before the round's first kickoff, so run this in the window between the bracket being set and kickoff.
+
+```powershell
+# 1. Real fixtures for the round (see section above; R32 needs --set for thirds).
+npm run knockout-fixtures -- --stage r32
+# 2. Enter results for matches in this round that have ALREADY kicked off, so models
+#    get accurate context and we can honestly exclude them from pre-registration.
+npm run result -- 73 2-1 --advances "<team>"
+# 3. Collect live picks, excluding already-kicked-off matches (rehearse with --mock).
+npm run predict -- --stage r32 --live --exclude 73,74
+#    omit --exclude when the whole round is still upcoming (R16 onward);
+#    --only-missing retries just the models that failed; --dry-run prints the prompt.
+# 4. Pre-register BEFORE the next kickoff.
+npm run hash -- --stage r32 --live
+git add -A; git commit -m "Round-by-round r32 live picks (sha256=...)"
+git tag predictions-r32-live; git push --follow-tags
+# 5. Publish (or let the next hourly sync deploy).
+npm run build; firebase deploy --only hosting
+```
+
+Audit this track with `npm run audit -- --live` (revalidates live files against `data/raw-live/` logs; excluded matches are skipped). Cost is small — ~40 models × one short prompt per round. Repeat for r16, qf, sf, third/final. Miss the window and that round simply has no live picks (the page shows "pending" / "not pre-registered") — the locked bracket is unaffected. `--exclude` matches are recorded with a reason in `data/predictions-live/manifest.json`.
 
 ## Audits
 

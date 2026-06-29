@@ -2,12 +2,19 @@
  * PunditBench prediction runner for REAL fixtures (A1/A3/A4/A5).
  *
  *   npm run predict -- --stage group [--models all|id1,id2] [--mock] [--dry-run] [--only-missing]
+ *   npm run predict -- --stage r32 --live [--exclude 73,74] [--reason "..."]   # round-by-round track
  *
  * One identical prompt per stage for every roster model (D4); shared run
  * machinery (adapter, retries, audit logging) lives in lib/runner.ts.
- * Knockout stages here would use REAL pairings — the primary design since
- * 2026-06-11 is self-consistent bracket simulation (scripts/simulate.ts);
- * this runner remains for the group stage and as a fallback.
+ *
+ * Knockout stages have two uses:
+ *  - Locked self-consistent bracket simulation is the primary design
+ *    (scripts/simulate.ts), written to data/predictions/.
+ *  - `--live` is the ROUND-BY-ROUND track: every model predicts the REAL
+ *    knockout pairings of one round, written to data/predictions-live/ +
+ *    data/raw-live/ (a separate tree, scored directly). Pass `--exclude` for
+ *    matches that already kicked off so they aren't falsely "pre-registered";
+ *    those are recorded with a reason in the live manifest.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -17,6 +24,7 @@ import { loadEnv, runModelOnFixtures } from "../lib/runner";
 import {
   fixturesByMatch,
   loadGroupOrderOverride,
+  loadLiveManifest,
   loadResults,
   loadRoster,
   loadStageFixtures,
@@ -34,6 +42,9 @@ interface Args {
   mock: boolean;
   dryRun: boolean;
   onlyMissing: boolean;
+  live: boolean;
+  exclude: number[];
+  reason: string;
 }
 
 function parseArgs(): Args {
@@ -47,13 +58,41 @@ function parseArgs(): Args {
     console.error(`Unknown stage "${stage}".`);
     process.exit(1);
   }
+  const live = argv.includes("--live");
+  if (live && !KNOCKOUT_STAGES.includes(stage)) {
+    console.error(`--live is for knockout rounds only (got stage "${stage}").`);
+    process.exit(1);
+  }
   return {
     stage,
     models: get("--models") ?? "all",
     mock: argv.includes("--mock"),
     dryRun: argv.includes("--dry-run"),
     onlyMissing: argv.includes("--only-missing"),
+    live,
+    exclude: (get("--exclude") ?? "")
+      .split(",")
+      .map((s) => Number(s.trim()))
+      .filter((n) => Number.isInteger(n) && n > 0),
+    reason: get("--reason") ?? "Kicked off before the round-by-round picks were collected.",
   };
+}
+
+/** Merge this round into data/predictions-live/manifest.json (excluded + lock metadata). */
+function writeLiveManifest(stage: StageId, excluded: number[], reason: string): void {
+  const manifest = loadLiveManifest();
+  // Count the stored files on disk, not this run's tally — keeps the total
+  // correct across --only-missing reruns.
+  const stageDir = path.join("data", "predictions-live", stage);
+  const models = fs.existsSync(stageDir)
+    ? fs.readdirSync(stageDir).filter((f) => f.endsWith(".json")).length
+    : 0;
+  manifest.rounds[stage] = { locked_at: new Date().toISOString(), models, excluded };
+  for (const m of excluded) manifest.excluded[String(m)] = reason;
+  const dir = path.join("data", "predictions-live");
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n", "utf-8");
+  console.log(`Updated data/predictions-live/manifest.json (round ${stage}, excluded [${excluded.join(", ")}]).`);
 }
 
 /** Real-fixture knockout prompts include actual results so far (D4). */
@@ -76,7 +115,15 @@ function buildStagePrompt(stage: StageId, fixtures: Fixture[]): string {
 async function main(): Promise<void> {
   loadEnv();
   const args = parseArgs();
-  const fixtures = loadStageFixtures(args.stage);
+  let fixtures = loadStageFixtures(args.stage);
+  if (args.live && args.exclude.length > 0) {
+    const ex = new Set(args.exclude);
+    const before = fixtures.length;
+    fixtures = fixtures.filter((f) => !ex.has(f.match));
+    console.log(
+      `Live: excluding ${before - fixtures.length} already-kicked-off match(es) from pre-registration (${args.exclude.join(", ")}).`,
+    );
+  }
   const prompt = buildStagePrompt(args.stage, fixtures);
 
   if (args.dryRun) {
@@ -95,8 +142,9 @@ async function main(): Promise<void> {
     roster = roster.filter((m) => wanted.has(m.id) || wanted.has(modelSlug(m.id)));
   }
   if (args.onlyMissing) {
+    const base = args.live ? "predictions-live" : "predictions";
     roster = roster.filter(
-      (m) => !fs.existsSync(path.join("data", "predictions", args.stage, `${modelSlug(m.id)}.json`)),
+      (m) => !fs.existsSync(path.join("data", base, args.stage, `${modelSlug(m.id)}.json`)),
     );
   }
   if (roster.length === 0) {
@@ -117,6 +165,7 @@ async function main(): Promise<void> {
         const o = await runModelOnFixtures(m, modelSlug(m.id), args.stage, fixtures, prompt, {
           mock: args.mock,
           promptVersion: PROMPT_VERSION,
+          ...(args.live ? { variant: "live" as const } : {}),
         });
         outcomes.push(o);
         console.log(
@@ -133,7 +182,10 @@ async function main(): Promise<void> {
     console.log(`Failed (per D5 these score 0 unless rerun before kickoff): ${failed.map((f) => f.slug).join(", ")}`);
     process.exitCode = 2;
   }
-  console.log(`Next: npm run hash -- --stage ${args.stage}   (then commit + push)`);
+  if (args.live) {
+    writeLiveManifest(args.stage, args.exclude, args.reason);
+  }
+  console.log(`Next: npm run hash -- --stage ${args.stage}${args.live ? " --live" : ""}   (then commit + push)`);
 }
 
 main().catch((e) => {

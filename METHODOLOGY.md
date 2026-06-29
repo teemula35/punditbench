@@ -139,6 +139,16 @@ Leaderboard tiebreakers, in order: total points → most exact scores → correc
 
 Voided/abandoned real matches score 0 for everyone and are excluded; documented in the changelog.
 
+## Round-by-round track (second benchmark)
+
+Alongside the locked tournament above, PunditBench runs a second, complementary benchmark by popular request. After the group stage, as each knockout round's **real** bracket is set, every model is shown the actual pairings and the real results so far, then predicts that round's real matches directly — the Round of 32, then the Round of 16, and so on to the final. This measures a different skill from the locked bracket: in-the-moment judgement on the real draw, rather than foresight committed before a ball was kicked.
+
+- **Scored directly, like group matches:** exact score 3 / goal difference 2 / outcome 1, plus +1 for naming the correct advancing team. There is no advancement or matchup-coincidence component — the fixtures are real, so each pick is graded head-to-head against the result.
+- **Pre-registered per round.** The locked bracket was committed before the opening kickoff; round-by-round picks are necessarily made during the tournament, but each round's picks are still locked — collected, SHA-256 hashed and tagged (`predictions-<stage>-live`) before that round's first kickoff. The golden rule applies per round: a pick counts only if it predates the match.
+- **Already-played matches are excluded, openly.** If a round had already begun when this track launched, the matches that had kicked off carry no live pick; they are labelled "not pre-registered" on the site rather than quietly backfilled (recorded with a reason in `data/predictions-live/manifest.json`).
+- **Separate from the main leaderboard.** The locked self-consistent bracket remains the headline benchmark; round-by-round picks are scored on their own and shown per match — the "Round-by-round picks" section on each knockout match page.
+- Stored under [`data/predictions-live/`](https://github.com/teemula35/punditbench/tree/main/data/predictions-live) with full raw API logs in `data/raw-live/`, published like everything else and re-derivable via `npm run audit -- --live`.
+
 ## Integrity rules
 
 - **Kickoff cutoff (golden rule).** A prediction counts only if generated before the relevant information existed in reality — here, everything predates the opening kickoff (2026-06-11 19:00 UTC). Per-call timestamps are in the raw logs.

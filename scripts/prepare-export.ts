@@ -10,7 +10,15 @@ const dest = path.join(ROOT, "public", "data");
 fs.rmSync(dest, { recursive: true, force: true });
 fs.mkdirSync(dest, { recursive: true });
 
-const include = ["teams.json", "roster.json", "results.json", "fixtures", "predictions", "hashes"];
+const include = [
+  "teams.json",
+  "roster.json",
+  "results.json",
+  "fixtures",
+  "predictions",
+  "predictions-live",
+  "hashes",
+];
 for (const item of include) {
   const src = path.join(ROOT, "data", item);
   if (!fs.existsSync(src)) continue;
