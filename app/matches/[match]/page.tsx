@@ -8,6 +8,7 @@ import {
   matchPredictionRows,
   matchupCalls,
   type LiveMatchInfo,
+  type OutcomeSplit,
 } from "@/lib/aggregate";
 import { loadFixtures, loadRoster, loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
@@ -310,6 +311,14 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
   );
 }
 
+/** "26 of 38 back Germany" / "12 of 38 call a draw" — the most-backed 90' outcome. */
+function splitSummary(split: OutcomeSplit, fixture: Fixture): string {
+  const { home, draw, away, outOf } = split;
+  if (home >= away && home >= draw) return `${home} of ${outOf} back ${fixture.home}`;
+  if (away >= draw) return `${away} of ${outOf} back ${fixture.away}`;
+  return `${draw} of ${outOf} call a draw`;
+}
+
 /**
  * Round-by-round picks for one knockout fixture: the separate benchmark in which
  * every model predicts the REAL pairing directly. Three states — collected
@@ -369,6 +378,23 @@ function RoundByRoundSection({
         tie directly — <span className="tabular-nums">{info.modelsWithPick}</span> of{" "}
         <span className="tabular-nums">{info.modelsWithFile}</span> models returned a valid pick.
       </p>
+      {info.consensus && (
+        <p className="mb-3 text-sm text-zinc-400">
+          Most-predicted score:{" "}
+          <span className="font-semibold tabular-nums text-zinc-100">
+            {info.consensus.home}–{info.consensus.away}
+          </span>{" "}
+          <span className="text-zinc-500">
+            ({info.consensus.count} of {info.consensus.outOf})
+          </span>
+          {info.split && (
+            <>
+              <span className="text-zinc-600"> · </span>
+              {splitSummary(info.split, fixture)}
+            </>
+          )}
+        </p>
+      )}
       <div className="overflow-x-auto rounded-lg border border-zinc-800">
         <table className="w-full text-sm sm:min-w-[480px]">
           <thead className="border-b border-zinc-800 bg-zinc-900/60">

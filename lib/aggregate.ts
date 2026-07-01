@@ -249,6 +249,10 @@ export interface LiveMatchInfo {
   lockedAt?: string;
   modelsWithPick: number; // models with a valid live scoreline for this match
   modelsWithFile: number; // models with any live file for this round
+  /** Most-predicted 90' scoreline among the live picks (picks state only). */
+  consensus?: Consensus;
+  /** Home-win / draw / away-win split of the live picks (picks state only). */
+  split?: OutcomeSplit;
 }
 
 /**
@@ -275,6 +279,8 @@ export function liveMatchInfo(data: SiteData, fixture: Fixture): LiveMatchInfo {
     lockedAt: data.liveRounds[fixture.stage]?.locked_at,
     modelsWithPick: rows.filter((r) => r.prediction).length,
     modelsWithFile: rows.filter((r) => r.fileExists).length,
+    consensus: liveConsensus(data, fixture),
+    split: liveOutcomeSplit(data, fixture),
   };
 }
 
@@ -453,6 +459,53 @@ export function outcomeSplit(data: SiteData, fixture: Fixture): OutcomeSplit | u
   const split: OutcomeSplit = { home: 0, draw: 0, away: 0, outOf: 0 };
   for (const entry of data.leaderboard) {
     const p = predictionFor(entry, fixture);
+    if (!p) continue;
+    split.outOf++;
+    if (p.home_goals > p.away_goals) split.home++;
+    else if (p.home_goals < p.away_goals) split.away++;
+    else split.draw++;
+  }
+  return split.outOf === 0 ? undefined : split;
+}
+
+/** A model's stored round-by-round (live) pick for one knockout fixture, if any. */
+export function livePredictionFor(entry: LeaderboardEntry, fixture: Fixture): Prediction | undefined {
+  const file = entry.liveFiles.find((f) => f.stage === fixture.stage);
+  return file?.predictions.find((p) => p.match === fixture.match);
+}
+
+/**
+ * Consensus/outcome-split of the round-by-round picks, mirroring consensus()/
+ * outcomeSplit() but reading each model's DIRECT pick on the real fixture
+ * (entry.liveFiles) instead of its group/simulated files. Stage-generic — works
+ * for any knockout round once its live picks are collected.
+ */
+export function liveConsensus(data: SiteData, fixture: Fixture): Consensus | undefined {
+  const counts = new Map<string, number>();
+  let outOf = 0;
+  for (const entry of data.leaderboard) {
+    const p = livePredictionFor(entry, fixture);
+    if (!p) continue;
+    outOf++;
+    const key = `${p.home_goals}-${p.away_goals}`;
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  if (outOf === 0) return undefined;
+  const top = [...counts.entries()].sort(
+    (a, b) =>
+      b[1] - a[1] ||
+      a[0].split("-").reduce((s, n) => s + Number(n), 0) -
+        b[0].split("-").reduce((s, n) => s + Number(n), 0) ||
+      a[0].localeCompare(b[0]),
+  )[0];
+  const [home, away] = top[0].split("-").map(Number);
+  return { home, away, count: top[1], outOf };
+}
+
+export function liveOutcomeSplit(data: SiteData, fixture: Fixture): OutcomeSplit | undefined {
+  const split: OutcomeSplit = { home: 0, draw: 0, away: 0, outOf: 0 };
+  for (const entry of data.leaderboard) {
+    const p = livePredictionFor(entry, fixture);
     if (!p) continue;
     split.outOf++;
     if (p.home_goals > p.away_goals) split.home++;

@@ -2,6 +2,8 @@ import Link from "next/link";
 import {
   championBoard,
   consensus,
+  liveConsensus,
+  liveOutcomeSplit,
   loadSiteData,
   outcomeSplit,
   type OutcomeSplit,
@@ -96,8 +98,12 @@ export default function LeaderboardPage() {
         result?.status === "final" &&
         result.home_goals !== undefined &&
         result.away_goals !== undefined;
-      const cons = f.stage === "group" && !played ? consensus(data, f) : undefined;
-      const split = f.stage === "group" && !played ? outcomeSplit(data, f) : undefined;
+      const cons = played ? undefined : f.stage === "group" ? consensus(data, f) : liveConsensus(data, f);
+      const split = played
+        ? undefined
+        : f.stage === "group"
+          ? outcomeSplit(data, f)
+          : liveOutcomeSplit(data, f);
       let splitLine: string | undefined;
       if (split) {
         const { home, draw, away, outOf } = split;
@@ -236,15 +242,15 @@ export default function LeaderboardPage() {
         <section>
           <h2 className="mb-1 text-lg font-semibold text-zinc-100">Next matches</h2>
           <p className="mb-4 text-sm text-zinc-400">
-            All scorelines were locked pre-tournament — open a match to compare every model&apos;s
-            prediction for it.
+            Open a match to compare every model&apos;s prediction — group scorelines locked
+            pre-tournament, knockout ties predicted round by round.
           </p>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {upcoming.map((f) => {
               // Direct predictions only exist for group fixtures; knockout
               // fixtures are covered via each model's simulated bracket.
-              const cons = f.stage === "group" ? consensus(data, f) : undefined;
-              const split = f.stage === "group" ? outcomeSplit(data, f) : undefined;
+              const cons = f.stage === "group" ? consensus(data, f) : liveConsensus(data, f);
+              const split = f.stage === "group" ? outcomeSplit(data, f) : liveOutcomeSplit(data, f);
               return (
                 <Link
                   key={f.match}
