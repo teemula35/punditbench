@@ -437,5 +437,49 @@
     "home_goals": 0,
     "away_goals": 1,
     "advances": "Canada"
+  },
+  {
+    "match": 74,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 1,
+    "advances": "Paraguay",
+    "note": "pens 4-3"
+  },
+  {
+    "match": 75,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 1,
+    "advances": "Morocco",
+    "note": "pens 3-2"
+  },
+  {
+    "match": 76,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 1,
+    "advances": "Brazil"
+  },
+  {
+    "match": 77,
+    "status": "final",
+    "home_goals": 3,
+    "away_goals": 0,
+    "advances": "France"
+  },
+  {
+    "match": 78,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 2,
+    "advances": "Norway"
+  },
+  {
+    "match": 79,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 0,
+    "advances": "Mexico"
   }
 ]
