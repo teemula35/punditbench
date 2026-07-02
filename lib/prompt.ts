@@ -1,5 +1,5 @@
 import type { Fixture, MatchResult, StageId, Team } from "./types";
-import { STAGE_LABELS } from "./types";
+import { STAGE_LABELS, roundLabel } from "./types";
 import { isKnockout } from "./scoring";
 import type { TableRow } from "./standings";
 
@@ -83,7 +83,7 @@ export function buildPrompt(
         if (result.status !== "final") continue;
         const extra = result.note ? `, ${result.note}` : "";
         lines.push(
-          `${STAGE_LABELS[fixture.stage]}: ${fixture.home} ${result.home_goals}-${result.away_goals} ${fixture.away} [${result.advances}${extra}]`,
+          `${roundLabel(fixture.stage)}: ${fixture.home} ${result.home_goals}-${result.away_goals} ${fixture.away} [${result.advances}${extra}]`,
         );
       }
     }

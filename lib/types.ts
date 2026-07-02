@@ -12,6 +12,52 @@ export const STAGE_LABELS: Record<StageId, string> = {
   final: "Final",
 };
 
+/**
+ * League matchday key, e.g. "md01".."md38". Together with the WC StageId this
+ * forms RoundKey — the general "which round" discriminator. Matchday rounds are
+ * never knockout rounds: draws stand and `advances` never applies.
+ */
+export type MatchdayKey = `md${number}`;
+
+export type RoundKey = StageId | MatchdayKey;
+
+export function isMatchdayKey(key: string): key is MatchdayKey {
+  return /^md\d+$/.test(key);
+}
+
+/** Zero-padded matchday key for round N (1 -> "md01"); pads to 2 so keys sort lexicographically. */
+export function mdKey(round: number): MatchdayKey {
+  return `md${String(round).padStart(2, "0")}` as MatchdayKey;
+}
+
+/** Matchday number from a round key ("md07" -> 7); undefined for WC stages. */
+export function matchdayNumber(key: RoundKey): number | undefined {
+  const m = /^md(\d+)$/.exec(key);
+  return m ? Number(m[1]) : undefined;
+}
+
+/** Human label for any round key: WC stages via STAGE_LABELS, matchdays as "Matchday N". */
+export function roundLabel(key: RoundKey): string {
+  const md = matchdayNumber(key);
+  return md !== undefined ? `Matchday ${md}` : STAGE_LABELS[key as StageId];
+}
+
+/** One competition covered by the benchmark (data/competitions.json). */
+export interface Competition {
+  /** Kebab id, also the directory name under data/competitions/, e.g. "epl-2026-27". */
+  id: string;
+  kind: "league"; // future: "league-phase" (UCL) etc.
+  name: string; // "Premier League 2026-27"
+  short_name: string; // "Premier League"
+  season_label: string; // "2026-27"
+  espn_slug: string; // ESPN soccer league code, e.g. "eng.1"
+  team_count: number;
+  round_count: number; // matchdays in a full season
+  /** Only active competitions are processed by results-sync and the predict scheduler. */
+  active: boolean;
+  notes?: string;
+}
+
 export interface Team {
   name: string;
   code: string; // FIFA trigram, e.g. "RSA"
@@ -20,9 +66,11 @@ export interface Team {
 }
 
 export interface Fixture {
-  match: number; // official FIFA match number 1..104
-  stage: StageId;
-  group?: string; // group stage only
+  match: number; // unique within its competition (WC: official FIFA match number 1..104)
+  stage: RoundKey;
+  group?: string; // WC group stage only
+  round?: number; // league matchday number (mirrors stage "mdNN")
+  espn_id?: string; // ESPN event id — league fixtures are ingested from ESPN; results match by this id
   home: string; // team name; knockout fixtures resolved from slots
   away: string;
   kickoff_local?: string;
@@ -70,7 +118,7 @@ export interface Prediction {
 export interface PredictionFile {
   model: string; // OpenRouter id
   slug: string;
-  stage: StageId;
+  stage: RoundKey;
   prompt_version: string;
   /** Params actually used (after any compatibility fallbacks). */
   params: Record<string, unknown>;
@@ -117,7 +165,7 @@ export interface ModelTotals {
   advances: number;
   scoredMatches: number; // finished, non-voided matches the model was scored on
   matchesWithPoints: number;
-  perStage: Partial<Record<StageId, number>>;
+  perStage: Partial<Record<RoundKey, number>>;
 }
 
 /**
@@ -132,5 +180,5 @@ export interface LiveManifest {
   /** match number (string key) -> human reason it has no live picks. */
   excluded: Record<string, string>;
   /** per-round lock metadata, for the "pre-registered before kickoff" copy. */
-  rounds: Partial<Record<StageId, { locked_at: string; models: number; excluded: number[] }>>;
+  rounds: Partial<Record<RoundKey, { locked_at: string; models: number; excluded: number[] }>>;
 }

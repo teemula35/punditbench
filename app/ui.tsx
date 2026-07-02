@@ -1,7 +1,7 @@
 /** Small shared server-side presentational components. */
 import Link from "next/link";
 import type { Breakdown, Fixture, MatchResult, RosterModel, Team } from "@/lib/types";
-import { STAGE_LABELS } from "@/lib/types";
+import { roundLabel } from "@/lib/types";
 import { teamFlag } from "@/lib/prompt";
 import { fmtKickoffUtc } from "@/lib/format";
 
@@ -58,7 +58,7 @@ export function BreakdownChip({ breakdown, bonus }: { breakdown: Breakdown; bonu
 }
 
 export function StageBadge({ fixture }: { fixture: Fixture }) {
-  const label = fixture.stage === "group" ? `Group ${fixture.group}` : STAGE_LABELS[fixture.stage];
+  const label = fixture.stage === "group" ? `Group ${fixture.group}` : roundLabel(fixture.stage);
   return (
     <span className="inline-block whitespace-nowrap rounded border border-zinc-700 bg-zinc-800/60 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
       {label}

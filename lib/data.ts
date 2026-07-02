@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type {
+  Competition,
   Fixture,
   KnockoutSlot,
   LiveManifest,
@@ -136,4 +137,82 @@ export function loadThirdAllocationTable(): Record<string, Record<string, string
 export function writeResults(results: MatchResult[]): void {
   results.sort((a, b) => a.match - b.match);
   fs.writeFileSync(path.join(DATA, "results.json"), JSON.stringify(results, null, 2) + "\n", "utf-8");
+}
+
+/* ------------------------------------------------------------------------- */
+/* Competitions (leagues) — data/competitions.json + data/competitions/<id>/ */
+
+const COMPETITIONS_DIR = path.join(DATA, "competitions");
+
+export function loadCompetitions(): Competition[] {
+  return readJsonIfExists<Competition[]>("competitions.json") ?? [];
+}
+
+export function getCompetition(id: string): Competition {
+  const comp = loadCompetitions().find((c) => c.id === id);
+  if (!comp) throw new Error(`Unknown competition: ${id}`);
+  return comp;
+}
+
+export function activeCompetitions(): Competition[] {
+  return loadCompetitions().filter((c) => c.active);
+}
+
+/** One competition's data root relative to the repo (runner dataRoot form). */
+export function competitionDataRoot(id: string): string {
+  return path.join("data", "competitions", id);
+}
+
+function competitionDir(id: string): string {
+  return path.join(COMPETITIONS_DIR, id);
+}
+
+function readCompetitionJson<T>(id: string, rel: string): T | undefined {
+  const p = path.join(competitionDir(id), rel);
+  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf-8")) as T) : undefined;
+}
+
+/** All of one competition's fixtures (data/competitions/<id>/fixtures.json). */
+export function loadCompetitionFixtures(id: string): Fixture[] {
+  const fixtures = readCompetitionJson<Fixture[]>(id, "fixtures.json") ?? [];
+  return fixtures.sort((a, b) => a.match - b.match);
+}
+
+export function writeCompetitionFixtures(id: string, fixtures: Fixture[]): void {
+  const sorted = [...fixtures].sort((a, b) => a.match - b.match);
+  fs.mkdirSync(competitionDir(id), { recursive: true });
+  fs.writeFileSync(
+    path.join(competitionDir(id), "fixtures.json"),
+    JSON.stringify(sorted, null, 2) + "\n",
+    "utf-8",
+  );
+}
+
+export function loadCompetitionResults(id: string): MatchResult[] {
+  return readCompetitionJson<MatchResult[]>(id, "results.json") ?? [];
+}
+
+export function writeCompetitionResults(id: string, results: MatchResult[]): void {
+  const sorted = [...results].sort((a, b) => a.match - b.match);
+  fs.mkdirSync(competitionDir(id), { recursive: true });
+  fs.writeFileSync(
+    path.join(competitionDir(id), "results.json"),
+    JSON.stringify(sorted, null, 2) + "\n",
+    "utf-8",
+  );
+}
+
+/** Round-by-round manifest for one competition's live picks. */
+export function loadCompetitionLiveManifest(id: string): LiveManifest {
+  return (
+    readCompetitionJson<LiveManifest>(id, path.join("predictions-live", "manifest.json")) ?? {
+      excluded: {},
+      rounds: {},
+    }
+  );
+}
+
+/** slug -> live prediction files for one competition (round-by-round track). */
+export function loadCompetitionLivePredictions(id: string): Map<string, PredictionFile[]> {
+  return loadPredictionsTree(path.join(competitionDir(id), "predictions-live"));
 }

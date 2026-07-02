@@ -14,7 +14,7 @@ import { loadFixtures, loadRoster, loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { teamFlag } from "@/lib/prompt";
 import { isKnockout } from "@/lib/scoring";
-import { STAGE_LABELS } from "@/lib/types";
+import { roundLabel } from "@/lib/types";
 import type { Fixture } from "@/lib/types";
 import { BreakdownChip, TD_CLS, TH_CLS, TierChip } from "../../ui";
 
@@ -32,7 +32,7 @@ export async function generateMetadata({
   if (!fixture) return { title: "Match not found" };
   return {
     title: `Match ${fixture.match}: ${fixture.home} vs ${fixture.away}`,
-    description: `${loadRoster().length} LLM predictions for ${fixture.home} vs ${fixture.away} — ${STAGE_LABELS[fixture.stage]}, 2026 World Cup.`,
+    description: `${loadRoster().length} LLM predictions for ${fixture.home} vs ${fixture.away} — ${roundLabel(fixture.stage)}, 2026 World Cup.`,
   };
 }
 
@@ -62,7 +62,7 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
   const simPending = knockout ? data.leaderboard.length - withStageFile : 0;
 
   const stageLabel =
-    fixture.stage === "group" ? `Group ${fixture.group}` : STAGE_LABELS[fixture.stage];
+    fixture.stage === "group" ? `Group ${fixture.group}` : roundLabel(fixture.stage);
 
   return (
     <div className="space-y-10">
@@ -133,7 +133,7 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
             </p>
           </div>
           <p className="mb-3 max-w-3xl text-sm text-zinc-400">
-            Models whose own simulated {STAGE_LABELS[fixture.stage]} contained this exact pairing
+            Models whose own simulated {roundLabel(fixture.stage)} contained this exact pairing
             (in either orientation), with the scoreline they attached to it —{" "}
             <span className="tabular-nums">{calls.length}</span> of{" "}
             <span className="tabular-nums">{withStageFile}</span> models with a stored simulation
@@ -143,7 +143,7 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
             <div className="rounded-lg border border-dashed border-zinc-800 bg-zinc-900/30 p-5">
               <p className="text-sm text-zinc-400">
                 No model&apos;s simulated bracket paired these teams in the{" "}
-                {STAGE_LABELS[fixture.stage]}. Models can still earn advancement points here for
+                {roundLabel(fixture.stage)}. Models can still earn advancement points here for
                 having either team reach this stage — see the{" "}
                 <Link href="/methodology/" className="text-emerald-400 hover:underline">
                   methodology
@@ -334,7 +334,7 @@ function RoundByRoundSection({
   fixture: Fixture;
   played: boolean;
 }) {
-  const stageLabel = STAGE_LABELS[fixture.stage];
+  const stageLabel = roundLabel(fixture.stage);
 
   if (info.state === "excluded") {
     return (

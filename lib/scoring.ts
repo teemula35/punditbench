@@ -6,6 +6,7 @@ import type {
   ModelTotals,
   Prediction,
   PredictionFile,
+  RoundKey,
   StageId,
 } from "./types";
 import { KNOCKOUT_STAGES } from "./types";
@@ -16,8 +17,8 @@ function sign(n: number): -1 | 0 | 1 {
   return n < 0 ? -1 : n > 0 ? 1 : 0;
 }
 
-export function isKnockout(stage: StageId): boolean {
-  return KNOCKOUT_STAGES.includes(stage);
+export function isKnockout(stage: RoundKey): boolean {
+  return (KNOCKOUT_STAGES as readonly string[]).includes(stage);
 }
 
 /**

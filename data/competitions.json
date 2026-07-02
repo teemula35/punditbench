@@ -1,0 +1,62 @@
+[
+  {
+    "id": "epl-2026-27",
+    "kind": "league",
+    "name": "Premier League 2026-27",
+    "short_name": "Premier League",
+    "season_label": "2026-27",
+    "espn_slug": "eng.1",
+    "team_count": 20,
+    "round_count": 38,
+    "active": false,
+    "notes": "Flagship launch league. Opener 2026-08-21 19:00Z Coventry-Arsenal (ESPN, probed 2026-07-02)."
+  },
+  {
+    "id": "laliga-2026-27",
+    "kind": "league",
+    "name": "La Liga 2026-27",
+    "short_name": "La Liga",
+    "season_label": "2026-27",
+    "espn_slug": "esp.1",
+    "team_count": 20,
+    "round_count": 38,
+    "active": false,
+    "notes": "Earliest top-5 opener 2026-08-16 (Getafe-Alaves) — shakedown candidate if pipeline green by Aug 12."
+  },
+  {
+    "id": "seriea-2026-27",
+    "kind": "league",
+    "name": "Serie A 2026-27",
+    "short_name": "Serie A",
+    "season_label": "2026-27",
+    "espn_slug": "ita.1",
+    "team_count": 20,
+    "round_count": 38,
+    "active": false,
+    "notes": "Opener 2026-08-22 (Monza-Inter). Onboards early Sept."
+  },
+  {
+    "id": "ligue1-2026-27",
+    "kind": "league",
+    "name": "Ligue 1 2026-27",
+    "short_name": "Ligue 1",
+    "season_label": "2026-27",
+    "espn_slug": "fra.1",
+    "team_count": 18,
+    "round_count": 34,
+    "active": false,
+    "notes": "Opener 2026-08-22 (Lille-Angers). Onboards early Sept."
+  },
+  {
+    "id": "bundesliga-2026-27",
+    "kind": "league",
+    "name": "Bundesliga 2026-27",
+    "short_name": "Bundesliga",
+    "season_label": "2026-27",
+    "espn_slug": "ger.1",
+    "team_count": 18,
+    "round_count": 34,
+    "active": false,
+    "notes": "2026-27 fixtures not yet in ESPN as of 2026-07-02 — re-probe late July; onboards when published."
+  }
+]

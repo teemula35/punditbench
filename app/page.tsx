@@ -15,7 +15,7 @@ import { TAGLINE } from "@/lib/site";
 import { TodayMatches, type TodayCard } from "./today-matches";
 import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
 import type { Fixture, Team } from "@/lib/types";
-import { STAGE_LABELS } from "@/lib/types";
+import { roundLabel } from "@/lib/types";
 
 /** One compact stat block for the hero scope strip. */
 function ScopeStat({ value, label }: { value: string; label: string }) {
@@ -117,7 +117,7 @@ export default function LeaderboardPage() {
       return {
         match: f.match,
         kickoff_utc: f.kickoff_utc,
-        stageLabel: f.stage === "group" ? `Group ${f.group}` : STAGE_LABELS[f.stage],
+        stageLabel: f.stage === "group" ? `Group ${f.group}` : roundLabel(f.stage),
         homeLabel: `${teamFlag(teams, f.home)} ${f.home}`,
         awayLabel: `${teamFlag(teams, f.away)} ${f.away}`,
         kickoffLabel: fmtKickoffUtc(f.kickoff_utc),

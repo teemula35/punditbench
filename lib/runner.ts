@@ -8,7 +8,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { validatePredictions } from "./validate";
 import { isKnockout } from "./scoring";
-import type { Fixture, PredictionFile, RosterModel, StageId } from "./types";
+import type { Fixture, PredictionFile, RosterModel, RoundKey } from "./types";
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 export const MAX_ATTEMPTS = 3;
@@ -27,7 +27,7 @@ export function loadEnv(): void {
 export interface AttemptLog {
   ts: string;
   model: string;
-  stage: StageId;
+  stage: RoundKey;
   attempt: number;
   prompt_version: string;
   params: Record<string, unknown>;
@@ -43,8 +43,14 @@ export interface AttemptLog {
   prompt?: string;
 }
 
-export function appendRaw(stage: StageId, slug: string, entry: AttemptLog, base = "raw"): void {
-  const dir = path.join(process.cwd(), "data", base, stage);
+export function appendRaw(
+  stage: RoundKey,
+  slug: string,
+  entry: AttemptLog,
+  base = "raw",
+  dataRoot = "data",
+): void {
+  const dir = path.join(process.cwd(), dataRoot, base, stage);
   fs.mkdirSync(dir, { recursive: true });
   fs.appendFileSync(path.join(dir, `${slug}.jsonl`), JSON.stringify(entry) + "\n", "utf-8");
 }
@@ -121,13 +127,18 @@ export interface RunOptions {
    * round-by-round real-fixture track), keeping the locked simulated tree intact.
    */
   variant?: "live";
+  /**
+   * Base data directory relative to cwd (default "data"). League competitions
+   * pass "data/competitions/<id>" so predictions/raw land in their own tree.
+   */
+  dataRoot?: string;
 }
 
 /** One model × one fixture set: attempts → validation → persistence. */
 export async function runModelOnFixtures(
   model: RosterModel,
   slug: string,
-  stage: StageId,
+  stage: RoundKey,
   fixtures: Fixture[],
   prompt: string,
   opts: RunOptions,
@@ -171,7 +182,7 @@ export async function runModelOnFixtures(
           ts: requestedAt, model: model.id, stage, attempt, prompt_version: opts.promptVersion,
           params: { temperature: 0 }, request_chars: attemptPrompt.length,
           http_status: e.status, error: "temperature rejected; retrying without it", ok: false,
-        }, rawBase);
+        }, rawBase, opts.dataRoot);
         attempt--;
         continue;
       }
@@ -180,7 +191,7 @@ export async function runModelOnFixtures(
         params, request_chars: attemptPrompt.length, http_status: e.status,
         latency_ms: e.latency, error: e.message, ok: false,
         ...(attempt === 1 ? { prompt } : {}),
-      }, rawBase);
+      }, rawBase, opts.dataRoot);
       lastErrors = [`API error: ${e.message.slice(0, 300)}`];
       continue;
     }
@@ -213,7 +224,7 @@ export async function runModelOnFixtures(
           : {}),
         predictions: validation.predictions,
       };
-      const dir = path.join(process.cwd(), "data", predBase, stage);
+      const dir = path.join(process.cwd(), opts.dataRoot ?? "data", predBase, stage);
       fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(path.join(dir, `${slug}.json`), JSON.stringify(file, null, 2) + "\n", "utf-8");
       return { slug, ok: true, attempts: attempt, costUsd, file };
