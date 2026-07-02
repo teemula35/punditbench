@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { loadCompetitions } from "@/lib/data";
 import { fmtKickoffUtc, fmtShortDateUtc } from "@/lib/format";
 import { fixturesByRound, loadLeagueData, nextRound } from "@/lib/league-aggregate";
+import { loadSeasonPredictions, scoreSeasonTable } from "@/lib/season-prediction";
 import { mdKey, roundLabel } from "@/lib/types";
 import { PageTitle, TD_CLS, TH_CLS, TierChip } from "../../ui";
 
@@ -226,6 +227,122 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
               </p>
             </section>
           )}
+
+          {/* Pre-season table predictions (locked track), graded live */}
+          {(() => {
+            const seasonPreds = loadSeasonPredictions(data.comp.id);
+            if (seasonPreds.length === 0) return null;
+            const modelBySlug = new Map(data.leaderboard.map((e) => [e.slug, e.model]));
+            const graded = data.playedCount > 0;
+            const actualOrder = data.table.map((r) => r.team);
+            const relegationSpots = seasonPreds[0].table.length >= 20 ? 3 : 2;
+            const rows = seasonPreds
+              .map((p) => ({
+                pred: p,
+                model: modelBySlug.get(p.slug),
+                score: graded ? scoreSeasonTable(p.table, actualOrder) : undefined,
+              }))
+              .sort((a, b) =>
+                graded
+                  ? (b.score?.total ?? 0) - (a.score?.total ?? 0) || a.pred.slug.localeCompare(b.pred.slug)
+                  : (a.model?.label ?? a.pred.slug).localeCompare(b.model?.label ?? b.pred.slug),
+              );
+            const championCounts = new Map<string, number>();
+            for (const p of seasonPreds) {
+              championCounts.set(p.table[0], (championCounts.get(p.table[0]) ?? 0) + 1);
+            }
+            const topChampion = [...championCounts.entries()].sort((a, b) => b[1] - a[1])[0];
+            return (
+              <section>
+                <h2 className="mb-1 text-lg font-semibold text-zinc-100">
+                  Table predictions — locked before the season
+                </h2>
+                <p className="mb-4 max-w-3xl text-sm text-zinc-400">
+                  Every model predicted the final {data.comp.short_name} table before the opening
+                  kickoff (hashed and tagged, like everything here).{" "}
+                  {topChampion && (
+                    <>
+                      <span className="tabular-nums">{topChampion[1]}</span> of{" "}
+                      <span className="tabular-nums">{seasonPreds.length}</span> models crown{" "}
+                      <span className="font-medium text-zinc-200">{topChampion[0]}</span>.{" "}
+                    </>
+                  )}
+                  {graded
+                    ? "Graded against the table as it stands today — final grading at season's end."
+                    : "Grading starts once results arrive."}
+                </p>
+                <div className="overflow-x-auto rounded-lg border border-zinc-800">
+                  <table className="w-full text-sm sm:min-w-[720px]">
+                    <thead className="border-b border-zinc-800 bg-zinc-900/60">
+                      <tr>
+                        <th className={TH_CLS}>{graded ? "#" : ""}</th>
+                        <th className={TH_CLS}>Model</th>
+                        <th className={TH_CLS}>Champion pick</th>
+                        <th className={`${TH_CLS} hidden md:table-cell`}>Predicted top 4</th>
+                        <th className={`${TH_CLS} hidden md:table-cell`}>Predicted relegated</th>
+                        {graded && <th className={`${TH_CLS} text-right`}>Score</th>}
+                        {graded && (
+                          <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Detail</th>
+                        )}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-zinc-800/70">
+                      {rows.map((r, i) => (
+                        <tr key={r.pred.slug} className="hover:bg-zinc-900/40">
+                          <td className={`${TD_CLS} w-10 tabular-nums text-zinc-500`}>
+                            {graded ? i + 1 : ""}
+                          </td>
+                          <td className={TD_CLS}>
+                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                              <Link
+                                href={`/models/${r.pred.slug}/`}
+                                className="font-medium text-zinc-100 hover:text-emerald-400"
+                              >
+                                {r.model?.label ?? r.pred.slug}
+                              </Link>
+                              {r.model && <TierChip tier={r.model.tier} />}
+                            </div>
+                          </td>
+                          <td className={`${TD_CLS} text-zinc-200`}>
+                            {r.pred.table[0]}
+                            {graded && r.score?.champion && (
+                              <span className="ml-1 text-emerald-400">✓</span>
+                            )}
+                          </td>
+                          <td className={`${TD_CLS} hidden text-xs text-zinc-400 md:table-cell`}>
+                            {r.pred.table.slice(0, 4).join(", ")}
+                          </td>
+                          <td className={`${TD_CLS} hidden text-xs text-zinc-400 md:table-cell`}>
+                            {r.pred.table.slice(-relegationSpots).join(", ")}
+                          </td>
+                          {graded && (
+                            <td
+                              className={`${TD_CLS} text-right text-lg font-bold tabular-nums text-emerald-400`}
+                            >
+                              {r.score?.total ?? 0}
+                            </td>
+                          )}
+                          {graded && (
+                            <td
+                              className={`${TD_CLS} hidden text-right text-xs tabular-nums text-zinc-400 sm:table-cell`}
+                            >
+                              {r.score
+                                ? `${r.score.exact} exact · ${r.score.offByOne} ±1 · top4 ${r.score.topFourHits}/4 · rel ${r.score.relegationHits}/${relegationSpots}`
+                                : ""}
+                            </td>
+                          )}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="mt-2 text-xs text-zinc-600">
+                  Scoring: exact position 2 · one off 1 · champion +5 · each correct top-4 team +2 ·
+                  each correct relegated team +2. Kept separate from the matchday leaderboard.
+                </p>
+              </section>
+            );
+          })()}
 
           {/* Rounds grid */}
           <section>
