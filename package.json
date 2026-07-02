@@ -18,7 +18,8 @@
     "views": "node --import tsx scripts/views.ts",
     "knockout-fixtures": "node --import tsx scripts/make-knockout-fixtures.ts",
     "league-fixtures": "node --import tsx scripts/league-fixtures.ts",
-    "league-predict": "node --import tsx scripts/league-predict.ts"
+    "league-predict": "node --import tsx scripts/league-predict.ts",
+    "season-predict": "node --import tsx scripts/season-predict.ts"
   },
   "dependencies": {
     "marked": "^18.0.5",
