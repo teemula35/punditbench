@@ -9,6 +9,12 @@ export const TAGLINE =
 // Google Analytics) and redeploy.
 export const GA_MEASUREMENT_ID: string = "G-K2LKDM8LH5";
 
+// Buttondown newsletter username for the notify-me form. Empty string = the
+// form is fully disabled and a follow-the-repo fallback renders instead (same
+// ship-disabled pattern as GA above). To enable: create the Buttondown
+// account, set the username, redeploy.
+export const BUTTONDOWN_USERNAME: string = "";
+
 // Cookieless page-view counter (Firestore REST, no SDK). The API key is a
 // public client identifier by design — security lives in firestore.rules,
 // which only allow +1 increments on /counters/*. Empty PROJECT disables.
