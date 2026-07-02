@@ -16,7 +16,8 @@
     "hash": "node --import tsx scripts/hash.ts",
     "audit": "node --import tsx scripts/audit.ts",
     "views": "node --import tsx scripts/views.ts",
-    "knockout-fixtures": "node --import tsx scripts/make-knockout-fixtures.ts"
+    "knockout-fixtures": "node --import tsx scripts/make-knockout-fixtures.ts",
+    "league-fixtures": "node --import tsx scripts/league-fixtures.ts"
   },
   "dependencies": {
     "marked": "^18.0.5",
