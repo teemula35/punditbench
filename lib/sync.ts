@@ -211,6 +211,108 @@ export function planSync(
   return plan;
 }
 
+export interface LeagueSyncPlan {
+  /** New league results to enter (sorted by match). */
+  toEnter: { fixture: Fixture; result: MatchResult }[];
+  /** Recorded result disagrees with ESPN, or a matched event's teams drifted. */
+  conflicts: string[];
+  /** Finished events the strict mapping refused to pair (unknown id, bad score). */
+  unmapped: string[];
+  /** Pending fixtures long past kickoff with no finished ESPN event. */
+  overdue: string[];
+}
+
+/**
+ * League variant of planSync. League fixtures are ingested from the same ESPN
+ * feed results come from, so events map to fixtures by ESPN event id — exact,
+ * and immune to kickoff reshuffles. There is no knockout branch: every league
+ * result auto-enters. Team names are still cross-checked on a matched id as a
+ * guard against feed weirdness; drift is a conflict, never a silent update.
+ * Postponed matches simply go overdue until the next fixtures refresh moves
+ * their kickoff into the future, which clears the alert.
+ */
+export function planLeagueSync(
+  fixtures: Fixture[],
+  results: MatchResult[],
+  events: EspnEvent[],
+  now: Date,
+): LeagueSyncPlan {
+  const plan: LeagueSyncPlan = { toEnter: [], conflicts: [], unmapped: [], overdue: [] };
+  const resultByMatch = new Map(results.map((r) => [r.match, r]));
+  const fixtureById = new Map(fixtures.filter((f) => f.espn_id).map((f) => [f.espn_id!, f]));
+
+  const finishedFixtures = new Set<number>();
+  const seen = new Set<string>();
+  for (const ev of events) {
+    if (seen.has(ev.id)) continue;
+    seen.add(ev.id);
+    if (!ev.completed) continue;
+
+    const fixture = fixtureById.get(ev.id);
+    if (!fixture) {
+      plan.unmapped.push(`ESPN event ${ev.id} "${ev.home} vs ${ev.away}": no fixture with this id`);
+      continue;
+    }
+    if (
+      normalizeTeamName(fixture.home) !== normalizeTeamName(ev.home) ||
+      normalizeTeamName(fixture.away) !== normalizeTeamName(ev.away)
+    ) {
+      plan.conflicts.push(
+        `match ${fixture.match} (espn ${ev.id}): stored ${fixture.home} vs ${fixture.away}, ` +
+          `ESPN says ${ev.home} vs ${ev.away}`,
+      );
+      continue;
+    }
+    if (!FINAL_STATUSES.has(ev.status)) {
+      plan.unmapped.push(
+        `ESPN event ${ev.id} (match ${fixture.match}) completed with unexpected status ${ev.status}`,
+      );
+      continue;
+    }
+    if (!Number.isInteger(ev.home_score) || !Number.isInteger(ev.away_score)) {
+      plan.unmapped.push(`ESPN event ${ev.id} (match ${fixture.match}) has no numeric score`);
+      continue;
+    }
+    finishedFixtures.add(fixture.match);
+
+    const existing = resultByMatch.get(fixture.match);
+    if (existing) {
+      if (
+        existing.status === "final" &&
+        (existing.home_goals !== ev.home_score || existing.away_goals !== ev.away_score)
+      ) {
+        plan.conflicts.push(
+          `match ${fixture.match} ${fixture.home} vs ${fixture.away}: recorded ` +
+            `${existing.home_goals}-${existing.away_goals}, ESPN says ${ev.home_score}-${ev.away_score}`,
+        );
+      }
+      continue;
+    }
+
+    plan.toEnter.push({
+      fixture,
+      result: {
+        match: fixture.match,
+        status: "final",
+        home_goals: ev.home_score,
+        away_goals: ev.away_score,
+      },
+    });
+  }
+
+  for (const f of fixtures) {
+    if (resultByMatch.has(f.match) || finishedFixtures.has(f.match)) continue;
+    if (now.getTime() - Date.parse(f.kickoff_utc) > OVERDUE_MS) {
+      plan.overdue.push(
+        `match ${f.match} ${f.home} vs ${f.away} kicked off ${f.kickoff_utc} but ESPN shows no final result`,
+      );
+    }
+  }
+
+  plan.toEnter.sort((a, b) => a.fixture.match - b.fixture.match);
+  return plan;
+}
+
 /**
  * ESPN scoreboard dates (YYYYMMDD) to query: for every pending fixture whose
  * kickoff has passed, its UTC date and the day before (ESPN buckets matchdays
