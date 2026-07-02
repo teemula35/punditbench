@@ -206,7 +206,7 @@ export async function runModelOnFixtures(
       validation_warnings: validation.warnings.length > 0 ? validation.warnings.slice(0, 20) : undefined,
       ok: validation.ok,
       ...(attempt === 1 ? { prompt } : {}),
-    }, rawBase);
+    }, rawBase, opts.dataRoot);
 
     if (validation.ok) {
       const costUsd = typeof usage?.cost === "number" ? (usage.cost as number) : undefined;

@@ -1,0 +1,31 @@
+{
+  "season": "2025-26",
+  "table": [
+    "Barcelona",
+    "Real Madrid",
+    "Villarreal",
+    "Atlético Madrid",
+    "Real Betis",
+    "Celta Vigo",
+    "Getafe",
+    "Rayo Vallecano",
+    "Valencia",
+    "Real Sociedad",
+    "Espanyol",
+    "Athletic Club",
+    "Sevilla",
+    "Alavés",
+    "Elche",
+    "Levante",
+    "Osasuna",
+    "Mallorca",
+    "Girona",
+    "Real Oviedo"
+  ],
+  "promoted": [
+    "Deportivo La Coruña",
+    "Málaga",
+    "Racing Santander"
+  ],
+  "note": "Final 2025-26 table from ESPN standings API (?season=2025), fetched 2026-07-02. Promoted = 2026-27 fixture teams absent from that table."
+}

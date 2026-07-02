@@ -6,6 +6,7 @@ import {
   normalizeEspnDate,
   parseLeagueScoreboard,
   planRefresh,
+  splitRoundByKickoff,
   type LeagueEvent,
 } from "../lib/league-fixtures";
 import type { Competition, Fixture } from "../lib/types";
@@ -145,6 +146,20 @@ describe("ingestSeason", () => {
     expect(ingestSeason(COMP, season().slice(0, 11)).problems.some((p) => p.includes("Expected 12"))).toBe(
       true,
     );
+  });
+});
+
+describe("splitRoundByKickoff", () => {
+  it("separates kicked-off matches from still-predictable ones", () => {
+    const { fixtures } = ingestSeason(COMP, season());
+    const round1 = fixtures.filter((f) => f.round === 1);
+    const during = new Date("2026-08-01T13:00:00Z"); // between the two round-1 kickoffs
+    const { included, excluded } = splitRoundByKickoff(round1, during);
+    expect(excluded.map((f) => f.match)).toEqual([1]);
+    expect(included.map((f) => f.match)).toEqual([2]);
+    // Before the round: everything predictable; after: everything excluded.
+    expect(splitRoundByKickoff(round1, new Date("2026-07-30T00:00:00Z")).excluded).toEqual([]);
+    expect(splitRoundByKickoff(round1, new Date("2026-08-02T00:00:00Z")).included).toEqual([]);
   });
 });
 

@@ -223,6 +223,23 @@ export function planRefresh(fixtures: Fixture[], events: LeagueEvent[]): Refresh
   return plan;
 }
 
+/**
+ * Split one round's fixtures into still-predictable vs already kicked off at
+ * `now`. Kicked-off matches are excluded from pre-registration and recorded in
+ * the live manifest with a reason (the WC match-73 precedent).
+ */
+export function splitRoundByKickoff(
+  fixtures: Fixture[],
+  now: Date,
+): { included: Fixture[]; excluded: Fixture[] } {
+  const included: Fixture[] = [];
+  const excluded: Fixture[] = [];
+  for (const f of fixtures) {
+    (Date.parse(f.kickoff_utc) <= now.getTime() ? excluded : included).push(f);
+  }
+  return { included, excluded };
+}
+
 /** Apply the non-conflicting parts of a refresh plan; returns a new array. */
 export function applyRefresh(fixtures: Fixture[], plan: RefreshPlan): Fixture[] {
   const kickoffByMatch = new Map(plan.kickoffUpdates.map((u) => [u.match, u.to]));

@@ -1,0 +1,108 @@
+# Daily pre-registration lock for the league round-by-round track: find every
+# active competition whose next unlocked matchday kicks off inside the lock
+# window, collect all roster models' picks via OpenRouter, test, commit, tag,
+# rebuild, deploy. Anything needing a human (model failures, excluded matches)
+# fails the run AFTER commit+deploy so GitHub emails the owner. See OPS.md.
+name: predict-scheduler
+
+on:
+  schedule:
+    # Twice daily: locked rounds skip (idempotent), and the second run tightens
+    # the lock lead when kickoff times move during the day.
+    - cron: "41 5,17 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: predict-scheduler
+  cancel-in-progress: false
+
+env:
+  # GitHub forces JS actions onto Node 24 from 2026-06-16. Opted in so the
+  # cutover can't change behavior unattended (same as results-sync.yml).
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  predict:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Kickoff times shuffle all season (TV picks); refresh BEFORE deciding
+      # which rounds are due so due-detection sees reality. Conflicts (team
+      # drift, vanished events) exit 1 — recorded here, raised at the end, but
+      # never allowed to block a lock deadline.
+      - name: Refresh league fixtures
+        id: fixtures
+        continue-on-error: true
+        run: npm run league-fixtures -- --all
+
+      - name: Lock due league picks
+        id: predict
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: npm run league-predict -- --due
+
+      # Kickoff refreshes alone also need persisting (the site shows them),
+      # so gate on actual workspace changes, not just the predict output.
+      - name: Detect changes
+        id: diff
+        run: echo "dirty=$([ -n "$(git status --porcelain data/competitions)" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      # Never commit a broken tree: tests gate every commit.
+      - name: Tests
+        if: steps.diff.outputs.dirty == 'true'
+        run: npm test
+
+      - name: Commit, tag & push
+        if: steps.diff.outputs.dirty == 'true'
+        env:
+          LOCKED: ${{ steps.predict.outputs.locked }}
+          TAGS: ${{ steps.predict.outputs.tags }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/competitions
+          if [ -n "$LOCKED" ]; then
+            git commit -m "Lock league picks: $LOCKED"
+          else
+            git commit -m "League fixtures refresh (kickoff/venue updates)"
+          fi
+          git pull --rebase origin main
+          for t in $TAGS; do
+            git tag -a "$t" -m "pre-registration lock"
+          done
+          git push
+          git push --tags
+
+      - name: Build
+        if: steps.diff.outputs.dirty == 'true'
+        run: npm run build
+
+      - name: Deploy
+        if: steps.diff.outputs.dirty == 'true'
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PUNDITBENCH }}
+          channelId: live
+          projectId: punditbench
+
+      - name: Raise alerts
+        if: steps.predict.outputs.alerts != '' || steps.fixtures.outcome == 'failure'
+        env:
+          ALERTS: ${{ steps.predict.outputs.alerts }}
+          FIXTURES_OUTCOME: ${{ steps.fixtures.outcome }}
+        run: |
+          [ "$FIXTURES_OUTCOME" = "failure" ] && echo "::error::fixture refresh reported conflicts or new events — check the Refresh step log"
+          [ -n "$ALERTS" ] && echo "::error::$ALERTS"
+          exit 1

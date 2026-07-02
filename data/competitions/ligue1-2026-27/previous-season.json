@@ -1,0 +1,28 @@
+{
+  "season": "2025-26",
+  "table": [
+    "Paris Saint-Germain",
+    "Lens",
+    "Lille",
+    "Lyon",
+    "Marseille",
+    "Stade Rennais",
+    "AS Monaco",
+    "Strasbourg",
+    "Lorient",
+    "Toulouse",
+    "Paris FC",
+    "Brest",
+    "Angers",
+    "Le Havre AC",
+    "AJ Auxerre",
+    "Nice",
+    "Nantes",
+    "Metz"
+  ],
+  "promoted": [
+    "Le Mans",
+    "Troyes"
+  ],
+  "note": "Final 2025-26 table from ESPN standings API (?season=2025), fetched 2026-07-02. Promoted = 2026-27 fixture teams absent from that table."
+}

@@ -1,0 +1,31 @@
+{
+  "season": "2025-26",
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "AS Roma",
+    "Como",
+    "AC Milan",
+    "Juventus",
+    "Atalanta",
+    "Bologna",
+    "Lazio",
+    "Udinese",
+    "Sassuolo",
+    "Torino",
+    "Parma",
+    "Cagliari",
+    "Fiorentina",
+    "Genoa",
+    "Lecce",
+    "Cremonese",
+    "Hellas Verona",
+    "Pisa"
+  ],
+  "promoted": [
+    "Frosinone",
+    "Monza",
+    "Venezia"
+  ],
+  "note": "Final 2025-26 table from ESPN standings API (?season=2025), fetched 2026-07-02. Promoted = 2026-27 fixture teams absent from that table."
+}

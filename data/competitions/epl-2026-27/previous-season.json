@@ -1,0 +1,31 @@
+{
+  "season": "2025-26",
+  "table": [
+    "Arsenal",
+    "Manchester City",
+    "Manchester United",
+    "Aston Villa",
+    "Liverpool",
+    "AFC Bournemouth",
+    "Sunderland",
+    "Brighton & Hove Albion",
+    "Brentford",
+    "Chelsea",
+    "Fulham",
+    "Newcastle United",
+    "Everton",
+    "Leeds United",
+    "Crystal Palace",
+    "Nottingham Forest",
+    "Tottenham Hotspur",
+    "West Ham United",
+    "Burnley",
+    "Wolverhampton Wanderers"
+  ],
+  "promoted": [
+    "Coventry City",
+    "Hull City",
+    "Ipswich Town"
+  ],
+  "note": "Final 2025-26 table from ESPN standings API (?season=2025), fetched 2026-07-02. Promoted = 2026-27 fixture teams absent from that table."
+}
