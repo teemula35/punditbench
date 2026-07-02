@@ -4,6 +4,7 @@ import "./globals.css";
 import { GITHUB_URL, SITE_NAME, SITE_URL, TAGLINE } from "@/lib/site";
 import { Analytics, AnalyticsSettingsLink } from "./analytics";
 import { PageCounter, PageViewBadge } from "./counter";
+import { SeasonBanner } from "./season-banner";
 import { Wordmark } from "./ui";
 
 export const metadata: Metadata = {
@@ -72,12 +73,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </header>
 
+          <SeasonBanner />
+
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6">{children}</main>
 
           <footer className="border-t border-zinc-800/80">
             <div className="mx-auto max-w-6xl space-y-4 px-4 py-8 text-xs leading-relaxed text-zinc-500 sm:px-6">
               <p>
-                Statistics &amp; entertainment only — not betting advice. · All predictions are
+                Statistics &amp; entertainment only — not betting advice; if you bet, do it
+                responsibly (18+). · All predictions are
                 AI-generated content. · {SITE_NAME} is an independent project, not affiliated with
                 FIFA or any federation; tournament and team names are used editorially.
               </p>
