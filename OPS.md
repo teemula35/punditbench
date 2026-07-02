@@ -78,6 +78,56 @@ Audit this track with `npm run audit -- --live` (revalidates live files against 
 - **Match abandoned/replayed:** `npm run result -- <match> --voided` (excluded for everyone), CHANGELOG.md; record the replay on the same match number with a note.
 - **Group tie the standings code can't break** (needs conduct/world-ranking data): put the official order in `data/overrides/group-order.json` (or `third-order.json`), commit. Applies to REAL standings only — simulated brackets are already locked.
 
+## League operations (2026-27 season — near-zero-touch)
+
+From August 2026 PunditBench covers the big European leagues (`data/competitions.json`;
+only entries with `active: true` are processed). Everything below data-entry level is
+automated; the human surface is red-run emails.
+
+**What runs itself:**
+
+- **Picks** — `.github/workflows/predict-scheduler.yml` (05:41 + 17:41 UTC daily):
+  refreshes fixtures from ESPN (kickoff/TV reshuffles), then for every active
+  competition whose next unlocked matchday kicks off within 36 h collects all models'
+  form-aware picks (current table + last-5 form from our own results in the prompt),
+  writes `data/competitions/<id>/predictions-live/<round>/`, manifest, round hash —
+  then tests → commit → annotated tag `predictions-<id>-<round>-live` → deploy.
+  Locked rounds are skipped, so reruns are safe. Matches that already kicked off are
+  auto-excluded with a reason (shown as "not pre-registered").
+- **Results** — the existing hourly `results-sync.yml` loops active competitions after
+  the WC block. League results match fixtures by **ESPN event id** and ALL auto-enter
+  (leagues have no knockout-pending). Recorded scores are re-audited hourly, same as WC.
+- **Postponements** — resolve themselves: the match goes `OVERDUE`, the next scheduler
+  run refreshes its kickoff into the future, the alert clears. Locked picks stand and
+  score whenever the match is eventually played.
+
+**Red run means one of:** `MODEL FAILED` (rerun `npm run league-predict -- --comp <id>
+--round <mdNN> --only-missing` before kickoff, else that model shows "no pick");
+fixture-refresh conflicts (team drift / event vanished / unknown new event — inspect the
+Refresh step log; NEVER auto-resolved); a round locked with ZERO picks (scheduler was
+down for a whole round — post-mortem); plus the WC-era `CONFLICT`/`OVERDUE` meanings.
+
+**Onboarding a league** (per the rollout ladder): 1) if new, `npm run league-fixtures --
+--comp <id>` (ingest validates round structure and refuses on problems); 2) BEFORE the
+opener run the pre-season locked track: `npm run season-predict -- --comp <id>` → commit
++ tag `predictions-<id>-season`; 3) flip `active: true` in `data/competitions.json`,
+commit — the schedulers take over.
+
+**Manual cheat sheet:**
+
+```powershell
+npm run league-fixtures -- --all --dry            # plan fixture refresh, write nothing
+npm run league-predict -- --comp epl-2026-27 --round md05 --dry-run   # print the exact prompt
+npm run league-predict -- --due --mock            # rehearse the scheduler path
+npm run hash -- --comp epl-2026-27 --round md05   # recompute a round's hash
+npm run season-predict -- --comp epl-2026-27 --hash-only   # recompute season-table hash
+```
+
+**Secrets:** `OPENROUTER_API_KEY` (spend-capped key, Actions secret — NOT the local .env
+key) + the existing `FIREBASE_SERVICE_ACCOUNT_PUNDITBENCH`. Epic H update: the
+results-sync workflow and its service account now STAY post-tournament (they serve the
+leagues); only WC-specific cleanup remains.
+
 ## Status (2026-06-12)
 
 - [x] Group predictions: hashed + tagged; knockout simulations: hashed + tagged (`predictions-full-tournament-v4`, 40/40)

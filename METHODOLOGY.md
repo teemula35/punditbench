@@ -149,6 +149,52 @@ Alongside the locked tournament above, PunditBench runs a second, complementary 
 - **Separate from the main leaderboard.** The locked self-consistent bracket remains the headline benchmark; round-by-round picks are scored on their own and shown per match — the "Round-by-round picks" section on each knockout match page.
 - Stored under [`data/predictions-live/`](https://github.com/teemula35/punditbench/tree/main/data/predictions-live) with full raw API logs in `data/raw-live/`, published like everything else and re-derivable via `npm run audit -- --live`.
 
+## League seasons (2026-27 →): the form-aware weekly benchmark
+
+From August 2026 PunditBench continues past the World Cup into the big European leagues
+(Premier League, La Liga, Serie A, Bundesliga, Ligue 1 — each a separate competition with
+its own leaderboard, never merged with the World Cup totals). Two tracks per league,
+mirroring the tournament design:
+
+- **Weekly live picks.** Before every matchday, all models predict every match of that
+  round (exact score 3 / goal difference 2 / outcome 1 — no advancement bonus; leagues
+  have none). Season leaderboards show cumulative points and points-per-match.
+- **Pre-season table predictions.** Before each league's opening kickoff, every model
+  predicts the final table, locked for the whole season and graded continuously as "if
+  the season ended today": exact position 2, one position off 1, correct champion +5,
+  each correct top-4 team +2, each correct relegated team +2 (max 59 for a 20-team
+  league, 53 for 18).
+
+**The methodological shift — league prompts are form-aware.** World Cup prompts were
+knowledge-only: fixture list in, training knowledge out. League prompts additionally
+contain the current league table and every team's last five results, computed
+deterministically from our own recorded results at lock time (matchday 1 gets the
+previous season's final table and the promoted teams instead). This is a deliberate
+change in what is measured: without shared context, a mid-season pick mostly measures
+how stale a model's training data is, and the gap grows all season. With it, every
+model — including the legacy wing, which has never heard of some promoted teams —
+reasons over the same evidence, and the benchmark measures football judgement rather
+than knowledge recency. The context is identical for every model, byte for byte,
+derives only from results already recorded in this repository, and is preserved
+verbatim in the published raw logs. No editorial data enters the prompt: no injuries,
+no lineups, no odds, no news — only results, because only results are reproducible and
+uncontestable. **World Cup numbers and league numbers are therefore different
+benchmarks and should not be compared.**
+
+League integrity mechanics, briefly: fixtures are ingested from the same public ESPN
+feed that results are read from, so every fixture carries its ESPN event id and results
+match by id; matchday structure is recovered structurally (within a round every team
+plays exactly once) and verified against the league's shape before anything is written.
+Each round's picks are locked, hashed and tagged (`predictions-<competition>-<round>-live`)
+before the round's first kickoff — collected automatically ~36 hours ahead. Matches that
+kick off before a lock are excluded and labelled "not pre-registered", never backfilled.
+The season roster freezes at each league's launch; a model whose API endpoint dies
+mid-season shows "no pick" from that point (points-per-match keeps it comparable), and
+new models may join only at the winter break, flagged, never backfilled. One honest
+approximation: displayed tables and prompt context break ties by points → goal
+difference → goals for; some leagues' official rules differ (La Liga uses head-to-head).
+The rule is identical for every model and noted here rather than hidden.
+
 ## Integrity rules
 
 - **Kickoff cutoff (golden rule).** A prediction counts only if generated before the relevant information existed in reality — here, everything predates the opening kickoff (2026-06-11 19:00 UTC). Per-call timestamps are in the raw logs.
