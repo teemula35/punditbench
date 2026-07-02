@@ -18,6 +18,8 @@ const include = [
   "predictions",
   "predictions-live",
   "hashes",
+  "competitions.json",
+  "competitions",
 ];
 for (const item of include) {
   const src = path.join(ROOT, "data", item);
