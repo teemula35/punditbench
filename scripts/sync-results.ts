@@ -15,10 +15,18 @@
 import fs from "node:fs";
 import { loadAllPredictions, loadFixtures, loadResults, loadTeams, writeResults } from "../lib/data";
 import { scoreMatch } from "../lib/scoring";
-import { datesToQuery, parseScoreboard, planSync, type EspnEvent } from "../lib/sync";
+import {
+  EXTRA_TIME_STATUSES,
+  datesToQuery,
+  parseScoreboard,
+  parseSummaryScore90,
+  planSync,
+  type EspnEvent,
+} from "../lib/sync";
 import type { Fixture, MatchResult } from "../lib/types";
 
 const SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
+const SUMMARY = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary";
 const USER_AGENT = "punditbench-results-sync (https://github.com/teemula35/punditbench)";
 
 const dry = process.argv.includes("--dry");
@@ -74,6 +82,30 @@ if (dates.length === 0) {
 console.log(`Pending fixtures past kickoff — querying ESPN dates: ${dates.join(", ")}`);
 const events: EspnEvent[] = [];
 for (const d of dates) events.push(...(await fetchEvents(d)));
+
+// Extra-time finals: the scoreboard has no period scores, so pull each such
+// event's summary to derive the 90-minute score the benchmark records.
+const score90ById = new Map<string, { home_90: number; away_90: number } | undefined>();
+for (const e of events) {
+  if (!e.completed || !EXTRA_TIME_STATUSES.has(e.status)) continue;
+  if (!score90ById.has(e.id)) {
+    let parsed: { home_90: number; away_90: number } | undefined;
+    try {
+      const res = await fetch(`${SUMMARY}?event=${e.id}`, { headers: { "User-Agent": USER_AGENT } });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      parsed = parseSummaryScore90(await res.json());
+      if (!parsed) console.log(`note: summary for event ${e.id} has no period linescores — 90' score unknown`);
+    } catch (err) {
+      console.log(`note: summary fetch failed for event ${e.id} (${(err as Error).message}) — 90' score unknown`);
+    }
+    score90ById.set(e.id, parsed);
+  }
+  const s = score90ById.get(e.id);
+  if (s) {
+    e.home_score_90 = s.home_90;
+    e.away_score_90 = s.away_90;
+  }
+}
 
 const plan = planSync(fixtures, results, events, teams, now);
 

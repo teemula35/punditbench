@@ -14,6 +14,13 @@
  * Already-recorded matches seen in a fetch are re-checked against ESPN — a
  * score mismatch raises a conflict alert and is never overwritten (corrections
  * stay human, per the incident runbook).
+ *
+ * Extra-time finals (STATUS_FINAL_AET / STATUS_FINAL_PEN): ESPN's cumulative
+ * score includes extra time, but the benchmark records the 90-minute score
+ * (OPS.md). The scoreboard payload carries no period scores, so the script
+ * layer fetches those events' summaries into home_score_90/away_score_90;
+ * planning then audits the 90' pair and the advancing team against ESPN's
+ * winner flag, never the cumulative score.
  */
 import type { Fixture, MatchResult, Team } from "./types";
 
@@ -53,6 +60,12 @@ export interface EspnEvent {
   completed: boolean;
   status: string; // e.g. "STATUS_FULL_TIME", "STATUS_SCHEDULED"
   detail: string; // e.g. "FT"
+  /** ESPN's winner flags (both false for group draws and unfinished games). */
+  home_winner: boolean;
+  away_winner: boolean;
+  /** 90-minute score for extra-time finals, filled from the summary linescores by the script layer. */
+  home_score_90?: number;
+  away_score_90?: number;
 }
 
 /** Defensive extraction from the scoreboard payload; throws on shape surprises. */
@@ -67,6 +80,7 @@ export function parseScoreboard(payload: unknown): EspnEvent[] {
         competitors?: {
           homeAway?: string;
           score?: unknown;
+          winner?: unknown;
           team?: { displayName?: unknown };
         }[];
         status?: { type?: { name?: unknown; completed?: unknown; detail?: unknown } };
@@ -89,12 +103,41 @@ export function parseScoreboard(payload: unknown): EspnEvent[] {
       completed: status?.completed === true,
       status: String(status?.name ?? ""),
       detail: String(status?.detail ?? ""),
+      home_winner: home.winner === true,
+      away_winner: away.winner === true,
     };
   });
 }
 
+/**
+ * 90-minute score from an ESPN summary payload's period linescores (two
+ * halves, then extra-time periods, then a shootout entry for pens — so an
+ * extra-time final has 4-5 entries). Returns undefined on any shape surprise;
+ * callers then fall back to auditing the advancing team only.
+ */
+export function parseSummaryScore90(payload: unknown): { home_90: number; away_90: number } | undefined {
+  const comp = (payload as { header?: { competitions?: unknown[] } }).header?.competitions?.[0] as
+    | { competitors?: { homeAway?: string; linescores?: { displayValue?: unknown }[] }[] }
+    | undefined;
+  const side = (which: string): number | undefined => {
+    const ls = comp?.competitors?.find((c) => c.homeAway === which)?.linescores;
+    if (!Array.isArray(ls) || ls.length < 4) return undefined; // regulation finishes have 2 — wrong endpoint use
+    const halves = ls.slice(0, 2).map((p) => Number(p?.displayValue));
+    return halves.every((n) => Number.isInteger(n)) ? halves[0] + halves[1] : undefined;
+  };
+  const home_90 = side("home");
+  const away_90 = side("away");
+  return home_90 !== undefined && away_90 !== undefined ? { home_90, away_90 } : undefined;
+}
+
 /** Statuses we accept as a finished match (alongside completed === true). */
-const FINAL_STATUSES = new Set(["STATUS_FULL_TIME", "STATUS_FINAL"]);
+const FINAL_STATUSES = new Set(["STATUS_FULL_TIME", "STATUS_FINAL", "STATUS_FINAL_AET", "STATUS_FINAL_PEN"]);
+/**
+ * Finals whose ESPN cumulative score includes extra time. The benchmark
+ * records the 90-minute score for these (OPS.md), so the cumulative score is
+ * never entered or audited directly.
+ */
+export const EXTRA_TIME_STATUSES = new Set(["STATUS_FINAL_AET", "STATUS_FINAL_PEN"]);
 
 /** A fixture only ESPN can know is finished this much later is worth an alarm. */
 const OVERDUE_MS = 12 * 60 * 60 * 1000;
@@ -164,16 +207,32 @@ export function planSync(
     }
     finishedFixtures.add(fixture.match);
 
+    // Extra-time finals: audit/report the 90' pair, never the cumulative score.
+    const beyond90 = EXTRA_TIME_STATUSES.has(ev.status);
+    const has90 = Number.isInteger(ev.home_score_90) && Number.isInteger(ev.away_score_90);
+    const home_goals = beyond90 ? (has90 ? ev.home_score_90 : undefined) : ev.home_score;
+    const away_goals = beyond90 ? (has90 ? ev.away_score_90 : undefined) : ev.away_score;
+    const winner = ev.home_winner ? fixture.home : ev.away_winner ? fixture.away : undefined;
+
     const existing = resultByMatch.get(fixture.match);
     if (existing) {
       // Audit pass: recorded result must agree with what ESPN shows now.
       if (
         existing.status === "final" &&
-        (existing.home_goals !== ev.home_score || existing.away_goals !== ev.away_score)
+        home_goals !== undefined &&
+        away_goals !== undefined &&
+        (existing.home_goals !== home_goals || existing.away_goals !== away_goals)
       ) {
         plan.conflicts.push(
           `match ${fixture.match} ${fixture.home} vs ${fixture.away}: recorded ` +
-            `${existing.home_goals}-${existing.away_goals}, ESPN says ${ev.home_score}-${ev.away_score}`,
+            `${existing.home_goals}-${existing.away_goals}, ESPN says ${home_goals}-${away_goals}` +
+            (beyond90 ? " after 90'" : ""),
+        );
+      }
+      if (existing.status === "final" && beyond90 && winner && existing.advances && existing.advances !== winner) {
+        plan.conflicts.push(
+          `match ${fixture.match} ${fixture.home} vs ${fixture.away}: recorded advances ` +
+            `${existing.advances}, ESPN winner is ${winner}`,
         );
       }
       continue;
@@ -181,9 +240,19 @@ export function planSync(
 
     if (fixture.stage !== "group") {
       plan.knockoutPending.push(
-        `match ${fixture.match} ${fixture.home} vs ${fixture.away} finished ` +
-          `${ev.home_score}-${ev.away_score} (${ev.detail}) — knockout, enter manually with --advances`,
+        beyond90
+          ? `match ${fixture.match} ${fixture.home} vs ${fixture.away} finished ` +
+              `${has90 ? `${home_goals}-${away_goals} after 90'` : "beyond 90' (90' score unavailable — check the summary linescores)"} ` +
+              `(${ev.home_score}-${ev.away_score} ${ev.detail}${winner ? `, ${winner} through` : ""}) — knockout, enter the 90' score manually with --advances`
+          : `match ${fixture.match} ${fixture.home} vs ${fixture.away} finished ` +
+              `${ev.home_score}-${ev.away_score} (${ev.detail}) — knockout, enter manually with --advances`,
       );
+      continue;
+    }
+
+    if (beyond90) {
+      // A group match cannot go to extra time — never auto-enter one that claims to.
+      plan.unmapped.push(`ESPN event ${ev.id} (match ${fixture.match}) is a group match with status ${ev.status}`);
       continue;
     }
 
