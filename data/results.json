@@ -481,5 +481,48 @@
     "home_goals": 2,
     "away_goals": 0,
     "advances": "Mexico"
+  },
+  {
+    "match": 80,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 1,
+    "advances": "England"
+  },
+  {
+    "match": 81,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 0,
+    "advances": "United States"
+  },
+  {
+    "match": 82,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 2,
+    "advances": "Belgium",
+    "note": "3-2 a.e.t."
+  },
+  {
+    "match": 83,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 1,
+    "advances": "Portugal"
+  },
+  {
+    "match": 84,
+    "status": "final",
+    "home_goals": 3,
+    "away_goals": 0,
+    "advances": "Spain"
+  },
+  {
+    "match": 85,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 0,
+    "advances": "Switzerland"
   }
 ]
