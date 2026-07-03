@@ -81,9 +81,13 @@ async function processCompetition(comp: Competition, dry: boolean): Promise<bool
   if (existing.length === 0) {
     const { fixtures, problems } = ingestSeason(comp, events);
     if (problems.length > 0) {
-      console.error(`INGEST BLOCKED — ${problems.length} integrity problem(s):`);
-      for (const p of problems) console.error(`  - ${p}`);
-      return false;
+      // A never-ingested competition has no operational state to corrupt, and
+      // ESPN publishes some seasons in tranches (Bundesliga 2026-27 appeared
+      // as matchdays 1-19 first) — an incomplete feed pre-onboarding is
+      // expected, not an alert. Ingest happens on the first clean validation.
+      console.log(`NOT READY — ${comp.id} feed fails season validation (${problems.length} problem(s)); not ingesting yet:`);
+      for (const p of problems) console.log(`  - ${p}`);
+      return true;
     }
     const rounds = new Set(fixtures.map((f) => f.round)).size;
     console.log(

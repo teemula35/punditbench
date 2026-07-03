@@ -26,6 +26,10 @@ env:
 
 jobs:
   predict:
+    # Ops crons run only on the canonical public repo: a mirror (e.g. the
+    # private dev remote) would double-lock picks, double-commit to itself and
+    # double-deploy. Manual dispatch still works anywhere.
+    if: github.event_name != 'schedule' || github.repository == 'teemula35/punditbench'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

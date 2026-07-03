@@ -103,15 +103,19 @@ automated; the human surface is red-run emails.
 
 **Red run means one of:** `MODEL FAILED` (rerun `npm run league-predict -- --comp <id>
 --round <mdNN> --only-missing` before kickoff, else that model shows "no pick");
-fixture-refresh conflicts (team drift / event vanished / unknown new event — inspect the
-Refresh step log; NEVER auto-resolved); a round locked with ZERO picks (scheduler was
-down for a whole round — post-mortem); plus the WC-era `CONFLICT`/`OVERDUE` meanings.
+fixture-refresh conflicts on an INGESTED league (team drift / event vanished / unknown
+new event — inspect the Refresh step log; NEVER auto-resolved); a round locked with ZERO
+picks (scheduler was down for a whole round — post-mortem); plus the WC-era
+`CONFLICT`/`OVERDUE` meanings. A never-ingested league whose feed fails season
+validation prints `NOT READY` and is NOT red — ESPN publishes some seasons in tranches
+(Bundesliga 2026-27 appeared as matchdays 1–19 first); it auto-ingests on the first
+sweep where the full season validates.
 
 **Onboarding a league** (per the rollout ladder): 1) if new, `npm run league-fixtures --
---comp <id>` (ingest validates round structure and refuses on problems); 2) BEFORE the
-opener run the pre-season locked track: `npm run season-predict -- --comp <id>` → commit
-+ tag `predictions-<id>-season`; 3) flip `active: true` in `data/competitions.json`,
-commit — the schedulers take over.
+--comp <id>` (ingest validates round structure; prints `NOT READY` and writes nothing
+on problems); 2) BEFORE the opener run the pre-season locked track:
+`npm run season-predict -- --comp <id>` → commit + tag `predictions-<id>-season`;
+3) flip `active: true` in `data/competitions.json`, commit — the schedulers take over.
 
 **Manual cheat sheet:**
 
