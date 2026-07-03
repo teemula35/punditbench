@@ -29,6 +29,8 @@ function event(over: Partial<EspnEvent> = {}): EspnEvent {
     completed: true,
     status: "STATUS_FULL_TIME",
     detail: "FT",
+    home_winner: true,
+    away_winner: false,
     ...over,
   };
 }
@@ -91,6 +93,18 @@ describe("planLeagueSync", () => {
     const plan = planLeagueSync([fixture()], [], [event({ status: "STATUS_ABANDONED" })], NOW);
     expect(plan.toEnter).toEqual([]);
     expect(plan.unmapped.some((u) => u.includes("STATUS_ABANDONED"))).toBe(true);
+  });
+
+  it("never auto-enters an extra-time final — the cumulative score is not the 90' score", () => {
+    const plan = planLeagueSync(
+      [fixture()],
+      [],
+      [event({ status: "STATUS_FINAL_PEN", detail: "FT-Pens", home_score: 2, away_score: 2 })],
+      NOW,
+    );
+    expect(plan.toEnter).toEqual([]);
+    expect(plan.unmapped).toHaveLength(1);
+    expect(plan.unmapped[0]).toContain("enter the 90' score manually");
   });
 
   it("marks fixtures overdue 12h after kickoff with no finished event", () => {

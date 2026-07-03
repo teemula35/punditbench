@@ -26,11 +26,20 @@ import {
   writeResults,
 } from "../lib/data";
 import { scoreMatch } from "../lib/scoring";
-import { datesToQuery, parseScoreboard, planLeagueSync, planSync, type EspnEvent } from "../lib/sync";
+import {
+  EXTRA_TIME_STATUSES,
+  datesToQuery,
+  parseScoreboard,
+  parseSummaryScore90,
+  planLeagueSync,
+  planSync,
+  type EspnEvent,
+} from "../lib/sync";
 import { roundLabel } from "../lib/types";
 import type { Fixture, MatchResult } from "../lib/types";
 
 const SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard";
+const SUMMARY = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary";
 const USER_AGENT = "punditbench-results-sync (https://github.com/teemula35/punditbench)";
 
 const dry = process.argv.includes("--dry");
@@ -48,6 +57,34 @@ async function fetchEvents(scoreboard: string, date: string): Promise<EspnEvent[
   });
   if (!res.ok) throw new Error(`ESPN scoreboard ${date}: HTTP ${res.status}`);
   return parseScoreboard(await res.json());
+}
+
+/**
+ * Extra-time finals: the scoreboard has no period scores, so pull each such
+ * event's summary to derive the 90-minute score the benchmark records.
+ */
+async function attachScore90(events: EspnEvent[]): Promise<void> {
+  const byId = new Map<string, { home_90: number; away_90: number } | undefined>();
+  for (const e of events) {
+    if (!e.completed || !EXTRA_TIME_STATUSES.has(e.status)) continue;
+    if (!byId.has(e.id)) {
+      let parsed: { home_90: number; away_90: number } | undefined;
+      try {
+        const res = await fetch(`${SUMMARY}?event=${e.id}`, { headers: { "User-Agent": USER_AGENT } });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        parsed = parseSummaryScore90(await res.json());
+        if (!parsed) console.log(`note: summary for event ${e.id} has no period linescores — 90' score unknown`);
+      } catch (err) {
+        console.log(`note: summary fetch failed for event ${e.id} (${(err as Error).message}) — 90' score unknown`);
+      }
+      byId.set(e.id, parsed);
+    }
+    const s = byId.get(e.id);
+    if (s) {
+      e.home_score_90 = s.home_90;
+      e.away_score_90 = s.away_90;
+    }
+  }
 }
 
 /** Same sanity printout record-result.ts gives: every model's points for the match. */
@@ -105,6 +142,7 @@ const allAlerts: string[] = [];
     console.log(`WC: pending fixtures past kickoff — querying ESPN dates: ${dates.join(", ")}`);
     const events: EspnEvent[] = [];
     for (const d of dates) events.push(...(await fetchEvents(SCOREBOARD, d)));
+    await attachScore90(events);
 
     const plan = planSync(fixtures, results, events, teams, now);
     if (plan.toEnter.length > 0) {
