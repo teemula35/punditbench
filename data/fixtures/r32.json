@@ -70,9 +70,9 @@
     "stage": "r32",
     "home": "Mexico",
     "away": "Ecuador",
-    "kickoff_local": "2026-06-30T19:00",
+    "kickoff_local": "2026-06-30T20:00",
     "tz": "America/Mexico_City",
-    "kickoff_utc": "2026-07-01T01:00:00Z",
+    "kickoff_utc": "2026-07-01T02:00:00Z",
     "city": "Mexico City",
     "stadium": "Estadio Azteca"
   },
