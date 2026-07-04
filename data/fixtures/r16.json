@@ -1,0 +1,90 @@
+[
+  {
+    "match": 89,
+    "stage": "r16",
+    "home": "Paraguay",
+    "away": "France",
+    "kickoff_local": "2026-07-04T17:00",
+    "tz": "America/New_York",
+    "kickoff_utc": "2026-07-04T21:00:00Z",
+    "city": "Philadelphia",
+    "stadium": "Lincoln Financial Field"
+  },
+  {
+    "match": 90,
+    "stage": "r16",
+    "home": "Canada",
+    "away": "Morocco",
+    "kickoff_local": "2026-07-04T12:00",
+    "tz": "America/Chicago",
+    "kickoff_utc": "2026-07-04T17:00:00Z",
+    "city": "Houston",
+    "stadium": "NRG Stadium"
+  },
+  {
+    "match": 91,
+    "stage": "r16",
+    "home": "Brazil",
+    "away": "Norway",
+    "kickoff_local": "2026-07-05T16:00",
+    "tz": "America/New_York",
+    "kickoff_utc": "2026-07-05T20:00:00Z",
+    "city": "East Rutherford",
+    "stadium": "MetLife Stadium"
+  },
+  {
+    "match": 92,
+    "stage": "r16",
+    "home": "Mexico",
+    "away": "England",
+    "kickoff_local": "2026-07-05T18:00",
+    "tz": "America/Mexico_City",
+    "kickoff_utc": "2026-07-06T00:00:00Z",
+    "city": "Mexico City",
+    "stadium": "Estadio Azteca"
+  },
+  {
+    "match": 93,
+    "stage": "r16",
+    "home": "Portugal",
+    "away": "Spain",
+    "kickoff_local": "2026-07-06T14:00",
+    "tz": "America/Chicago",
+    "kickoff_utc": "2026-07-06T19:00:00Z",
+    "city": "Arlington",
+    "stadium": "AT&T Stadium"
+  },
+  {
+    "match": 94,
+    "stage": "r16",
+    "home": "United States",
+    "away": "Belgium",
+    "kickoff_local": "2026-07-06T17:00",
+    "tz": "America/Los_Angeles",
+    "kickoff_utc": "2026-07-07T00:00:00Z",
+    "city": "Seattle",
+    "stadium": "Lumen Field"
+  },
+  {
+    "match": 95,
+    "stage": "r16",
+    "home": "Argentina",
+    "away": "Egypt",
+    "kickoff_local": "2026-07-07T12:00",
+    "tz": "America/New_York",
+    "kickoff_utc": "2026-07-07T16:00:00Z",
+    "city": "Atlanta",
+    "stadium": "Mercedes-Benz Stadium"
+  },
+  {
+    "match": 96,
+    "stage": "r16",
+    "home": "Switzerland",
+    "away": "Colombia",
+    "kickoff_local": "2026-07-07T13:00",
+    "tz": "America/Vancouver",
+    "kickoff_utc": "2026-07-07T20:00:00Z",
+    "city": "Vancouver",
+    "stadium": "BC Place"
+  }
+]
