@@ -524,5 +524,28 @@
     "home_goals": 2,
     "away_goals": 0,
     "advances": "Switzerland"
+  },
+  {
+    "match": 86,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 1,
+    "advances": "Argentina",
+    "note": "3-2 a.e.t."
+  },
+  {
+    "match": 87,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 0,
+    "advances": "Colombia"
+  },
+  {
+    "match": 88,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 1,
+    "advances": "Egypt",
+    "note": "pens 4-2"
   }
 ]
