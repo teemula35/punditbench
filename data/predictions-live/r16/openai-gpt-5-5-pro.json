@@ -1,0 +1,68 @@
+{
+  "model": "openai/gpt-5.5-pro",
+  "slug": "openai-gpt-5-5-pro",
+  "stage": "r16",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-04T07:15:13.650Z",
+  "completed_at": "2026-07-04T07:20:48.813Z",
+  "attempts": 3,
+  "usage": {
+    "prompt_tokens": 4259,
+    "completion_tokens": 6635,
+    "total_tokens": 10894,
+    "cost_usd": 1.32207
+  },
+  "predictions": [
+    {
+      "match": 89,
+      "home_goals": 0,
+      "away_goals": 2,
+      "advances": "France"
+    },
+    {
+      "match": 90,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Morocco"
+    },
+    {
+      "match": 91,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 92,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Mexico"
+    },
+    {
+      "match": 93,
+      "home_goals": 0,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 94,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "United States"
+    },
+    {
+      "match": 95,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Argentina"
+    },
+    {
+      "match": 96,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Colombia"
+    }
+  ]
+}

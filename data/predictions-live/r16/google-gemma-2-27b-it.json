@@ -1,0 +1,68 @@
+{
+  "model": "google/gemma-2-27b-it",
+  "slug": "google-gemma-2-27b-it",
+  "stage": "r16",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-04T07:09:41.585Z",
+  "completed_at": "2026-07-04T07:09:45.672Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 1552,
+    "completion_tokens": 199,
+    "total_tokens": 1751,
+    "cost_usd": 0.00113815
+  },
+  "predictions": [
+    {
+      "match": 89,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "France"
+    },
+    {
+      "match": 90,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Morocco"
+    },
+    {
+      "match": 91,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Brazil"
+    },
+    {
+      "match": 92,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 93,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Spain"
+    },
+    {
+      "match": 94,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "United States"
+    },
+    {
+      "match": 95,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    },
+    {
+      "match": 96,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Colombia"
+    }
+  ]
+}
