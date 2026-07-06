@@ -547,5 +547,33 @@
     "away_goals": 1,
     "advances": "Egypt",
     "note": "pens 4-2"
+  },
+  {
+    "match": 89,
+    "status": "final",
+    "home_goals": 0,
+    "away_goals": 1,
+    "advances": "France"
+  },
+  {
+    "match": 90,
+    "status": "final",
+    "home_goals": 0,
+    "away_goals": 3,
+    "advances": "Morocco"
+  },
+  {
+    "match": 91,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 2,
+    "advances": "Norway"
+  },
+  {
+    "match": 92,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 3,
+    "advances": "England"
   }
 ]
