@@ -1,0 +1,44 @@
+{
+  "model": "meta-llama/llama-4-maverick",
+  "slug": "meta-llama-llama-4-maverick",
+  "stage": "qf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-08T15:20:38.727Z",
+  "completed_at": "2026-07-08T15:20:42.997Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1458,
+    "completion_tokens": 91,
+    "total_tokens": 1549,
+    "cost_usd": 0.0002733
+  },
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 98,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Belgium"
+    },
+    {
+      "match": 99,
+      "home_goals": 0,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 100,
+      "home_goals": 1,
+      "away_goals": 0,
+      "advances": "Argentina"
+    }
+  ]
+}

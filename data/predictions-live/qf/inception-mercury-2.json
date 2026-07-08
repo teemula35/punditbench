@@ -1,0 +1,44 @@
+{
+  "model": "inception/mercury-2",
+  "slug": "inception-mercury-2",
+  "stage": "qf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-08T15:22:06.613Z",
+  "completed_at": "2026-07-08T15:22:07.835Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1717,
+    "completion_tokens": 443,
+    "total_tokens": 2160,
+    "cost_usd": 0.00069535
+  },
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Morocco"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 0,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 100,
+      "home_goals": 3,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

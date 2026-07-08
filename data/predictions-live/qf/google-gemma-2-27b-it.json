@@ -1,0 +1,44 @@
+{
+  "model": "google/gemma-2-27b-it",
+  "slug": "google-gemma-2-27b-it",
+  "stage": "qf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-08T15:22:14.865Z",
+  "completed_at": "2026-07-08T15:22:17.258Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 1603,
+    "completion_tokens": 108,
+    "total_tokens": 1711,
+    "cost_usd": 0.00111215
+  },
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Argentina"
+    }
+  ]
+}

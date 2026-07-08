@@ -1,0 +1,44 @@
+{
+  "model": "openai/gpt-5.4-mini",
+  "slug": "openai-gpt-5-4-mini",
+  "stage": "qf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-08T15:20:26.778Z",
+  "completed_at": "2026-07-08T15:20:28.176Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1460,
+    "completion_tokens": 94,
+    "total_tokens": 1554,
+    "cost_usd": 0.001518
+  },
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

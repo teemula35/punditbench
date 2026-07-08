@@ -1,0 +1,44 @@
+{
+  "model": "x-ai/grok-4.3",
+  "slug": "x-ai-grok-4-3",
+  "stage": "qf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-08T15:20:29.376Z",
+  "completed_at": "2026-07-08T15:20:35.863Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1626,
+    "completion_tokens": 412,
+    "total_tokens": 2038,
+    "cost_usd": 0.0029281
+  },
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Argentina"
+    }
+  ]
+}
