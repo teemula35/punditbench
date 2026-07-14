@@ -1,0 +1,32 @@
+{
+  "model": "moonshotai/kimi-k2.6",
+  "slug": "moonshotai-kimi-k2-6",
+  "stage": "sf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-14T07:18:22.642Z",
+  "completed_at": "2026-07-14T07:20:05.880Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1503,
+    "completion_tokens": 3589,
+    "total_tokens": 5092,
+    "cost_usd": 0.012799692
+  },
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "England"
+    }
+  ]
+}

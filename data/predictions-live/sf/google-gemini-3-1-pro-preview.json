@@ -1,0 +1,32 @@
+{
+  "model": "google/gemini-3.1-pro-preview",
+  "slug": "google-gemini-3-1-pro-preview",
+  "stage": "sf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-14T07:17:59.883Z",
+  "completed_at": "2026-07-14T07:18:05.633Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1571,
+    "completion_tokens": 569,
+    "total_tokens": 2140,
+    "cost_usd": 0.00997
+  },
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Spain"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "England"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "model": "anthropic/claude-fable-5",
+  "slug": "anthropic-claude-fable-5",
+  "stage": "sf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-14T07:17:58.057Z",
+  "completed_at": "2026-07-14T07:18:04.308Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 2164,
+    "completion_tokens": 74,
+    "total_tokens": 2238,
+    "cost_usd": 0.02534
+  },
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "model": "amazon/nova-2-lite-v1",
+  "slug": "amazon-nova-2-lite-v1",
+  "stage": "sf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-14T07:18:59.830Z",
+  "completed_at": "2026-07-14T07:19:00.728Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1506,
+    "completion_tokens": 53,
+    "total_tokens": 1559,
+    "cost_usd": 0.0005843
+  },
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 2,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}
