@@ -4,35 +4,33 @@ import { SITE_NAME } from "@/lib/site";
 import { PageTitle } from "../ui";
 
 export const metadata: Metadata = {
-  title: "Almost there — confirm your email",
-  description: `Confirm your email to join the ${SITE_NAME} 2026-27 league launch list.`,
+  title: "You're on the list — thanks!",
+  description: `You're confirmed for the ${SITE_NAME} 2026-27 league launch.`,
   robots: { index: false },
 };
 
 /**
- * Buttondown "After subscribing" redirect target (subscription_redirect_url):
- * shown right after the form is submitted, BEFORE the subscriber confirms. Its
- * one job is to push them to the confirmation email. The confirmed/done state
- * lives on /confirmed/ (subscription_confirmation_redirect_url).
+ * Buttondown "After confirming" redirect target
+ * (subscription_confirmation_redirect_url): shown once the subscriber clicks
+ * the confirmation link in their email — the done/celebratory state. The
+ * pre-confirmation nudge lives on /subscribed/.
  */
-export default function SubscribedPage() {
+export default function ConfirmedPage() {
   return (
     <div className="max-w-2xl space-y-8">
       <PageTitle
         kicker="Season 2026-27"
-        title="Almost there"
-        sub="One quick step to lock in your spot."
+        title="You're on the list"
+        sub="Confirmed — thanks for subscribing."
       />
 
       <section className="space-y-4 text-sm leading-relaxed text-zinc-300">
         <p>
-          Check your inbox — we just sent a confirmation link. Click it and you&apos;re on the list
-          for the {SITE_NAME} league launch.
+          That&apos;s it. You&apos;ll get one email the moment the first league picks lock in
+          August — every model&apos;s matchday predictions, pre-registered before kickoff, exactly
+          like the World Cup you just watched {SITE_NAME} grade.
         </p>
-        <p className="text-zinc-400">
-          Nothing after a minute or two? Check your spam or promotions folder — or just submit the
-          form again.
-        </p>
+        <p className="text-zinc-400">No spam, unsubscribe anytime.</p>
       </section>
 
       <section className="flex flex-wrap gap-3 text-sm">
