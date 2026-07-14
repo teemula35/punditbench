@@ -1,0 +1,24 @@
+[
+  {
+    "match": 101,
+    "stage": "sf",
+    "home": "France",
+    "away": "Spain",
+    "kickoff_local": "2026-07-14T14:00",
+    "tz": "America/Chicago",
+    "kickoff_utc": "2026-07-14T19:00:00Z",
+    "city": "Arlington",
+    "stadium": "AT&T Stadium"
+  },
+  {
+    "match": 102,
+    "stage": "sf",
+    "home": "England",
+    "away": "Argentina",
+    "kickoff_local": "2026-07-15T15:00",
+    "tz": "America/New_York",
+    "kickoff_utc": "2026-07-15T19:00:00Z",
+    "city": "Atlanta",
+    "stadium": "Mercedes-Benz Stadium"
+  }
+]
