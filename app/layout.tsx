@@ -41,6 +41,9 @@ export const metadata: Metadata = {
       "application/rss+xml": `${SITE_URL}/feed.xml`,
     },
   },
+  verification: {
+    google: "MNgcCfsWSDY0LJ32Zfw_JD2W1-73PBl2Ihu03pEyTsY",
+  },
 };
 
 const NAV = [
