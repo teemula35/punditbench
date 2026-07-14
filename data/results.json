@@ -604,5 +604,35 @@
     "away_goals": 0,
     "advances": "Switzerland",
     "note": "pens 4-3"
+  },
+  {
+    "match": 97,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 0,
+    "advances": "France"
+  },
+  {
+    "match": 98,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 1,
+    "advances": "Spain"
+  },
+  {
+    "match": 99,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 1,
+    "advances": "England",
+    "note": "1-2 a.e.t."
+  },
+  {
+    "match": 100,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 1,
+    "advances": "Argentina",
+    "note": "3-1 a.e.t."
   }
 ]
