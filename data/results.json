@@ -634,5 +634,12 @@
     "away_goals": 1,
     "advances": "Argentina",
     "note": "3-1 a.e.t."
+  },
+  {
+    "match": 101,
+    "status": "final",
+    "home_goals": 0,
+    "away_goals": 2,
+    "advances": "Spain"
   }
 ]
