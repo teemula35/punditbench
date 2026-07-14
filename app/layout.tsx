@@ -36,6 +36,11 @@ export const metadata: Metadata = {
     description: TAGLINE,
     images: [`${SITE_URL}/og.png`],
   },
+  alternates: {
+    types: {
+      "application/rss+xml": `${SITE_URL}/feed.xml`,
+    },
+  },
 };
 
 const NAV = [

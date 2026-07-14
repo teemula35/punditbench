@@ -7,6 +7,7 @@ out/
 next-env.d.ts
 .DS_Store
 public/data/
+public/feed.xml
 
 .firebase/
 _fifa_regs.pdf

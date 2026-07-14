@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/methodology/",
     "/changelog/",
     "/about/",
+    "/season-2026-27/",
   ];
   const matchRoutes = loadFixtures().map((f) => `/matches/${f.match}/`);
   const modelRoutes = loadRoster().map((m) => `/models/${modelSlug(m.id)}/`);
