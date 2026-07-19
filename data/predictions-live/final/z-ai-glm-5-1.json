@@ -1,0 +1,26 @@
+{
+  "model": "z-ai/glm-5.1",
+  "slug": "z-ai-glm-5-1",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:15:36.329Z",
+  "completed_at": "2026-07-19T12:15:48.765Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1517,
+    "completion_tokens": 615,
+    "total_tokens": 2132,
+    "cost_usd": 0.00338086
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    }
+  ]
+}

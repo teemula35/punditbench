@@ -24,6 +24,11 @@
       "locked_at": "2026-07-14T07:23:11.663Z",
       "models": 39,
       "excluded": []
+    },
+    "final": {
+      "locked_at": "2026-07-19T12:21:13.863Z",
+      "models": 39,
+      "excluded": []
     }
   }
 }

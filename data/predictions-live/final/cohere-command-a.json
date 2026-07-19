@@ -1,0 +1,26 @@
+{
+  "model": "cohere/command-a",
+  "slug": "cohere-command-a",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:16:01.810Z",
+  "completed_at": "2026-07-19T12:16:04.274Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1592,
+    "completion_tokens": 49,
+    "total_tokens": 1641,
+    "cost_usd": 0.00447
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    }
+  ]
+}

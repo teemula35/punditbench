@@ -1,0 +1,26 @@
+{
+  "model": "openai/gpt-3.5-turbo",
+  "slug": "openai-gpt-3-5-turbo",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:16:12.736Z",
+  "completed_at": "2026-07-19T12:16:13.775Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1520,
+    "completion_tokens": 23,
+    "total_tokens": 1543,
+    "cost_usd": 0.0007945
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    }
+  ]
+}

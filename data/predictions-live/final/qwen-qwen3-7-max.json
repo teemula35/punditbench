@@ -1,0 +1,26 @@
+{
+  "model": "qwen/qwen3.7-max",
+  "slug": "qwen-qwen3-7-max",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:15:28.073Z",
+  "completed_at": "2026-07-19T12:15:46.368Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1602,
+    "completion_tokens": 972,
+    "total_tokens": 2574,
+    "cost_usd": 0.00666405
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "model": "tencent/hunyuan-a13b-instruct",
+  "slug": "tencent-hunyuan-a13b-instruct",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:16:17.916Z",
+  "completed_at": "2026-07-19T12:16:21.096Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1564,
+    "completion_tokens": 30,
+    "total_tokens": 1594,
+    "cost_usd": 0.00023606
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    }
+  ]
+}

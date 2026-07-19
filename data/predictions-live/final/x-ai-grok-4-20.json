@@ -1,0 +1,26 @@
+{
+  "model": "x-ai/grok-4.20",
+  "slug": "x-ai-grok-4-20",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:15:55.672Z",
+  "completed_at": "2026-07-19T12:15:56.642Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1666,
+    "completion_tokens": 24,
+    "total_tokens": 1690,
+    "cost_usd": 0.0020081
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

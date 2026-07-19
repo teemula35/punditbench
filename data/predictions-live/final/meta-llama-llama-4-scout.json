@@ -1,0 +1,26 @@
+{
+  "model": "meta-llama/llama-4-scout",
+  "slug": "meta-llama-llama-4-scout",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:15:26.854Z",
+  "completed_at": "2026-07-19T12:15:27.237Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1511,
+    "completion_tokens": 27,
+    "total_tokens": 1538,
+    "cost_usd": 0.00017539
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

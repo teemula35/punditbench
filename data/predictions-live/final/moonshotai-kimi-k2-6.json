@@ -1,0 +1,26 @@
+{
+  "model": "moonshotai/kimi-k2.6",
+  "slug": "moonshotai-kimi-k2-6",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:15:28.879Z",
+  "completed_at": "2026-07-19T12:16:36.569Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1526,
+    "completion_tokens": 3135,
+    "total_tokens": 4661,
+    "cost_usd": 0.01183402
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    }
+  ]
+}
