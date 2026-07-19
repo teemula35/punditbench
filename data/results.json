@@ -641,5 +641,19 @@
     "home_goals": 0,
     "away_goals": 2,
     "advances": "Spain"
+  },
+  {
+    "match": 102,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 2,
+    "advances": "Argentina"
+  },
+  {
+    "match": 103,
+    "status": "final",
+    "home_goals": 4,
+    "away_goals": 6,
+    "advances": "England"
   }
 ]
