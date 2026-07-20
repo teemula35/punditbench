@@ -655,5 +655,13 @@
     "home_goals": 4,
     "away_goals": 6,
     "advances": "England"
+  },
+  {
+    "match": 104,
+    "status": "final",
+    "home_goals": 0,
+    "away_goals": 0,
+    "advances": "Spain",
+    "note": "1-0 a.e.t."
   }
 ]
