@@ -20,7 +20,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { getCompetition, loadCompetitionFixtures, loadRoster } from "../lib/data";
 import { sha256 } from "../lib/hashing";
-import { loadPreviousSeason } from "../lib/league-context";
+import { loadPreseasonContext, loadPreviousSeason } from "../lib/league-context";
 import { modelSlug } from "../lib/prompt";
 import { callOpenRouter, loadEnv, MAX_ATTEMPTS } from "../lib/runner";
 import {
@@ -280,7 +280,8 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  const prompt = buildSeasonPrompt(comp, teams, loadPreviousSeason(comp.id));
+  const preseason = loadPreseasonContext(comp.id);
+  const prompt = buildSeasonPrompt(comp, teams, loadPreviousSeason(comp.id), preseason);
 
   if (args.dryRun) {
     console.log(prompt);
@@ -313,8 +314,11 @@ async function main(): Promise<void> {
     return;
   }
 
+  const ctx = preseason
+    ? `transfers=${preseason.transfers.length}, injuries=${preseason.injuries.length} (as of ${preseason.as_of})`
+    : "no preseason-context.json";
   console.log(
-    `season-predict — ${comp.name}: teams=${teams.length}, models=${roster.length}, mock=${args.mock}, prompt=${SEASON_PROMPT_VERSION} (${prompt.length} chars)`,
+    `season-predict — ${comp.name}: teams=${teams.length}, models=${roster.length}, mock=${args.mock}, prompt=${SEASON_PROMPT_VERSION} (${prompt.length} chars); ${ctx}`,
   );
 
   const queue = [...roster];

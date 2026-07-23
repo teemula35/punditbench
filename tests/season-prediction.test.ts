@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { PreviousSeason } from "../lib/league-context";
+import type { PreseasonContext, PreviousSeason } from "../lib/league-context";
 import {
   buildSeasonPrompt,
   scoreSeasonTable,
@@ -161,12 +161,21 @@ describe("buildSeasonPrompt", () => {
     note: "Sunderland won the playoff final.",
   };
 
+  const PRESEASON: PreseasonContext = {
+    as_of: "2026-08-14",
+    transfers: ["Arsenal signed Alpha from Beta FC.", "Chelsea sold Gamma to Delta United."],
+    injuries: ["Everton: Omega out until October (knee)."],
+    source: "Compiled from the club sites on 2026-08-14.",
+  };
+
   it("exports the season prompt version", () => {
-    expect(SEASON_PROMPT_VERSION).toBe("season-v1");
+    expect(SEASON_PROMPT_VERSION).toBe("season-v2");
   });
 
   it("is deterministic — identical arguments give an identical string", () => {
-    expect(buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV)).toBe(buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV));
+    expect(buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV, PRESEASON)).toBe(
+      buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV, PRESEASON),
+    );
   });
 
   it("opens like the league prompt and states the whole-season task", () => {
@@ -210,6 +219,49 @@ describe("buildSeasonPrompt", () => {
 
   it("omits the previous-season section when none is provided", () => {
     expect(buildSeasonPrompt(COMP, TEAMS_UNSORTED)).not.toContain("Previous season");
+  });
+
+  it("renders the transfer/injury block with both sub-lists, dated, but never the source", () => {
+    const p = buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV, PRESEASON);
+    expect(p).toContain(
+      "Summer 2026 squad changes and injuries (confirmed as of 2026-08-14) — the latest available information:",
+    );
+    expect(p).toContain("Transfers:");
+    expect(p).toContain("- Arsenal signed Alpha from Beta FC.");
+    expect(p).toContain("- Chelsea sold Gamma to Delta United.");
+    expect(p).toContain("Injuries and unavailable players:");
+    expect(p).toContain("- Everton: Omega out until October (knee).");
+    // source is provenance for auditors — never model-facing (like PREV.note).
+    expect(p).not.toContain(PRESEASON.source!);
+  });
+
+  it("sits between the previous-season table and the team list", () => {
+    const p = buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV, PRESEASON);
+    const prevIdx = p.indexOf("Previous season (2025-26) final table:");
+    const ctxIdx = p.indexOf("Summer 2026 squad changes");
+    const teamsIdx = p.indexOf("Teams (predict all of them):");
+    expect(prevIdx).toBeLessThan(ctxIdx);
+    expect(ctxIdx).toBeLessThan(teamsIdx);
+  });
+
+  it("shows only the sub-lists that have entries", () => {
+    const transfersOnly = buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV, {
+      as_of: "2026-08-14",
+      transfers: ["Arsenal signed Alpha from Beta FC."],
+      injuries: [],
+    });
+    expect(transfersOnly).toContain("Transfers:");
+    expect(transfersOnly).not.toContain("Injuries and unavailable players:");
+  });
+
+  it("omits the whole block when absent or empty, leaving no bare header", () => {
+    expect(buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV)).not.toContain("Summer 2026 squad changes");
+    const empty = buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV, {
+      as_of: "2026-08-14",
+      transfers: [],
+      injuries: [],
+    });
+    expect(empty).not.toContain("Summer 2026 squad changes");
   });
 });
 

@@ -103,3 +103,29 @@ export function loadPreviousSeason(compId: string): PreviousSeason | undefined {
   const p = path.join(process.cwd(), "data", "competitions", compId, "previous-season.json");
   return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf-8")) as PreviousSeason) : undefined;
 }
+
+/**
+ * Summer transfer + injury context for the pre-season table prompt. Like
+ * PreviousSeason it is sourced MANUALLY from a verifiable feed and never
+ * generated — the season table is locked for pre-registration, so a hallucinated
+ * transfer would poison every model's prompt identically. Both lists reach every
+ * model (including the frozen legacy wing) through the shared prompt, so the
+ * benchmark still measures reasoning over shared evidence.
+ */
+export interface PreseasonContext {
+  as_of: string; // ISO date the notes were compiled — shown to models, not the clock
+  transfers: string[]; // notable confirmed moves, one factual line each
+  injuries: string[]; // players out/unavailable for the season start, one line each
+  source?: string; // provenance for auditors; never model-facing (like PreviousSeason.note)
+}
+
+/**
+ * data/competitions/<compId>/preseason-context.json if present. Same manual
+ * provenance and per-call cwd resolution as loadPreviousSeason; absent for any
+ * competition whose summer context has not been compiled yet (the season prompt
+ * simply omits the block then).
+ */
+export function loadPreseasonContext(compId: string): PreseasonContext | undefined {
+  const p = path.join(process.cwd(), "data", "competitions", compId, "preseason-context.json");
+  return fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf-8")) as PreseasonContext) : undefined;
+}

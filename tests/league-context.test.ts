@@ -2,7 +2,12 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { formByTeam, leagueTable, loadPreviousSeason } from "../lib/league-context";
+import {
+  formByTeam,
+  leagueTable,
+  loadPreseasonContext,
+  loadPreviousSeason,
+} from "../lib/league-context";
 import { mdKey } from "../lib/types";
 import type { Fixture, MatchResult } from "../lib/types";
 
@@ -162,6 +167,30 @@ describe("loadPreviousSeason", () => {
       process.chdir(dir);
       expect(loadPreviousSeason("test-league")).toEqual(stored);
       expect(loadPreviousSeason("other-league")).toBeUndefined();
+    } finally {
+      process.chdir(prevCwd);
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  });
+});
+
+describe("loadPreseasonContext", () => {
+  it("reads data/competitions/<id>/preseason-context.json under cwd; undefined when absent", () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "punditbench-ctx-"));
+    const prevCwd = process.cwd();
+    try {
+      const compDir = path.join(dir, "data", "competitions", "test-league");
+      fs.mkdirSync(compDir, { recursive: true });
+      const stored = {
+        as_of: "2026-08-14",
+        transfers: ["Arsenal signed Alpha from Beta FC."],
+        injuries: ["Everton: Omega out until October (knee)."],
+        source: "Compiled from the club sites on 2026-08-14.",
+      };
+      fs.writeFileSync(path.join(compDir, "preseason-context.json"), JSON.stringify(stored), "utf-8");
+      process.chdir(dir);
+      expect(loadPreseasonContext("test-league")).toEqual(stored);
+      expect(loadPreseasonContext("other-league")).toBeUndefined();
     } finally {
       process.chdir(prevCwd);
       fs.rmSync(dir, { recursive: true, force: true });

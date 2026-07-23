@@ -9,11 +9,13 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import type { PreviousSeason } from "./league-context";
+import type { PreseasonContext, PreviousSeason } from "./league-context";
 import type { Competition } from "./types";
 import { extractJson } from "./validate";
 
-export const SEASON_PROMPT_VERSION = "season-v1";
+// v2 adds the optional summer transfer/injury block after the previous-season
+// table. v1 (no such block) was never run, so no stored artifacts carry it.
+export const SEASON_PROMPT_VERSION = "season-v2";
 
 /** One model's stored season-table prediction (data/competitions/<id>/predictions-season/<slug>.json). */
 export interface SeasonPredictionFile {
@@ -36,13 +38,16 @@ export interface SeasonPredictionFile {
  * One prompt per competition, byte-identical for every model: content derives
  * ONLY from the arguments — no clock, no randomness, no model names. The
  * previous-season section carries the final table and promoted teams when
- * available; PreviousSeason.note is file provenance for auditors and is never
+ * available; the pre-season context section carries confirmed summer transfers
+ * and injuries as of a compiled date. PreviousSeason.note and
+ * PreseasonContext.source are file provenance for auditors and are never
  * rendered.
  */
 export function buildSeasonPrompt(
   comp: Competition,
   teams: string[],
   previousSeason?: PreviousSeason,
+  preseason?: PreseasonContext,
 ): string {
   const lines: string[] = [];
 
@@ -66,6 +71,22 @@ export function buildSeasonPrompt(
       lines.push(`Promoted this season: ${previousSeason.promoted.join(", ")}.`);
     }
     // previousSeason.note is file provenance for auditors — never model-facing.
+  }
+
+  // Summer transfers + injuries, when compiled. Only sub-lists with content are
+  // rendered, and the whole block is skipped if both are empty, so an
+  // as-yet-unpopulated file never emits a bare header. source is never rendered.
+  if (preseason && (preseason.transfers.length > 0 || preseason.injuries.length > 0)) {
+    lines.push(
+      "",
+      `Summer 2026 squad changes and injuries (confirmed as of ${preseason.as_of}) — the latest available information:`,
+    );
+    if (preseason.transfers.length > 0) {
+      lines.push("Transfers:", ...preseason.transfers.map((t) => `- ${t}`));
+    }
+    if (preseason.injuries.length > 0) {
+      lines.push("Injuries and unavailable players:", ...preseason.injuries.map((i) => `- ${i}`));
+    }
   }
 
   const sorted = [...teams].sort((a, b) => a.localeCompare(b));

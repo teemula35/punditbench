@@ -163,7 +163,8 @@ mirroring the tournament design:
   predicts the final table, locked for the whole season and graded continuously as "if
   the season ended today": exact position 2, one position off 1, correct champion +5,
   each correct top-4 team +2, each correct relegated team +2 (max 59 for a 20-team
-  league, 53 for 18).
+  league, 53 for 18). This prompt carries the previous season's final table, the promoted
+  teams, and a dated list of the summer's confirmed transfers and injuries (see below).
 
 **The methodological shift — league prompts are form-aware.** World Cup prompts were
 knowledge-only: fixture list in, training knowledge out. League prompts additionally
@@ -176,10 +177,22 @@ model — including the legacy wing, which has never heard of some promoted team
 reasons over the same evidence, and the benchmark measures football judgement rather
 than knowledge recency. The context is identical for every model, byte for byte,
 derives only from results already recorded in this repository, and is preserved
-verbatim in the published raw logs. No editorial data enters the prompt: no injuries,
-no lineups, no odds, no news — only results, because only results are reproducible and
-uncontestable. **World Cup numbers and league numbers are therefore different
-benchmarks and should not be compared.**
+verbatim in the published raw logs. Into the **weekly matchday** prompt no editorial
+data enters — no injuries, no lineups, no odds, no news, only results — because
+mid-season that context is recoverable from the recorded table and form, and only
+results are reproducible and uncontestable.
+
+The **pre-season table** prompt is the one deliberate exception. Before a ball is kicked
+there is no form to show, and the things that actually swing a title or relegation race —
+the summer's confirmed transfers and the injuries carried into the opener — cannot be
+recovered from results that do not yet exist. So that single prompt additionally carries
+a short, dated list of confirmed summer transfers and notable injuries. It is held to the
+same bar as everything else: manually compiled from verifiable feeds (never model-
+generated), byte-identical for every model — the frozen legacy wing included, which is
+how they learn of moves that postdate their training — published verbatim in the raw
+logs, and fixed in the pre-registration hash before the opener. Only confirmed, checkable
+facts; nothing speculative, no odds, no lineups. **World Cup numbers and league numbers
+are therefore different benchmarks and should not be compared.**
 
 League integrity mechanics, briefly: fixtures are ingested from the same public ESPN
 feed that results are read from, so every fixture carries its ESPN event id and results
