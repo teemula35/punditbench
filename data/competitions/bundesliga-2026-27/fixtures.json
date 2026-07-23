@@ -16,7 +16,7 @@
     "round": 1,
     "home": "SV Elversberg",
     "away": "Bayer Leverkusen",
-    "kickoff_utc": "2026-08-29T18:00:00Z",
+    "kickoff_utc": "2026-08-29T13:30:00Z",
     "city": "Spiesen-Elversberg",
     "stadium": "URSAPHARM-Arena an der Kaiserlinde",
     "espn_id": "401884809"
@@ -27,7 +27,7 @@
     "round": 1,
     "home": "FC Cologne",
     "away": "TSG Hoffenheim",
-    "kickoff_utc": "2026-08-29T18:00:00Z",
+    "kickoff_utc": "2026-08-29T13:30:00Z",
     "city": "Cologne",
     "stadium": "RheinEnergieStadion",
     "espn_id": "401884810"
@@ -38,7 +38,7 @@
     "round": 1,
     "home": "1. FC Union Berlin",
     "away": "Eintracht Frankfurt",
-    "kickoff_utc": "2026-08-29T18:00:00Z",
+    "kickoff_utc": "2026-08-29T13:30:00Z",
     "city": "Berlin",
     "stadium": "Stadion An der Alten Försterei",
     "espn_id": "401884811"
@@ -49,7 +49,7 @@
     "round": 1,
     "home": "Mainz",
     "away": "SC Paderborn 07",
-    "kickoff_utc": "2026-08-29T18:00:00Z",
+    "kickoff_utc": "2026-08-29T13:30:00Z",
     "city": "Mainz",
     "stadium": "MEWA ARENA",
     "espn_id": "401884812"
@@ -60,7 +60,7 @@
     "round": 1,
     "home": "FC Augsburg",
     "away": "Schalke 04",
-    "kickoff_utc": "2026-08-29T18:00:00Z",
+    "kickoff_utc": "2026-08-30T15:30:00Z",
     "city": "Augsburg",
     "stadium": "WWK Arena",
     "espn_id": "401884813"
@@ -71,7 +71,7 @@
     "round": 1,
     "home": "SC Freiburg",
     "away": "Werder Bremen",
-    "kickoff_utc": "2026-08-29T18:00:00Z",
+    "kickoff_utc": "2026-08-30T13:30:00Z",
     "city": "Freiburg im Breisgau",
     "stadium": "Europa-Park Stadion",
     "espn_id": "401884814"
@@ -82,7 +82,7 @@
     "round": 1,
     "home": "RB Leipzig",
     "away": "Borussia Mönchengladbach",
-    "kickoff_utc": "2026-08-29T18:00:00Z",
+    "kickoff_utc": "2026-08-29T13:30:00Z",
     "city": "Leipzig",
     "stadium": "Red Bull Arena",
     "espn_id": "401884815"
@@ -93,7 +93,7 @@
     "round": 1,
     "home": "Borussia Dortmund",
     "away": "Hamburg SV",
-    "kickoff_utc": "2026-08-29T18:00:00Z",
+    "kickoff_utc": "2026-08-29T16:30:00Z",
     "city": "Aue",
     "stadium": "Signal Iduna Park",
     "espn_id": "401884816"
@@ -104,7 +104,7 @@
     "round": 2,
     "home": "SC Paderborn 07",
     "away": "SC Freiburg",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-05T13:30:00Z",
     "city": "Paderborn",
     "stadium": "Home Deluxe Arena",
     "espn_id": "401884800"
@@ -115,7 +115,7 @@
     "round": 2,
     "home": "Schalke 04",
     "away": "Bayern Munich",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-05T16:30:00Z",
     "city": "Gelsenkirchen",
     "stadium": "Veltins Arena",
     "espn_id": "401884801"
@@ -126,7 +126,7 @@
     "round": 2,
     "home": "Werder Bremen",
     "away": "RB Leipzig",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-05T13:30:00Z",
     "city": "Bremen",
     "stadium": "Weserstadion",
     "espn_id": "401884802"
@@ -137,7 +137,7 @@
     "round": 2,
     "home": "Hamburg SV",
     "away": "Mainz",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-06T13:30:00Z",
     "city": "Hamburg Norderstedt",
     "stadium": "Volksparkstadion",
     "espn_id": "401884803"
@@ -148,7 +148,7 @@
     "round": 2,
     "home": "Borussia Mönchengladbach",
     "away": "SV Elversberg",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-05T13:30:00Z",
     "city": "Mönchengladbach",
     "stadium": "BORUSSIA-PARK",
     "espn_id": "401884804"
@@ -159,7 +159,7 @@
     "round": 2,
     "home": "Eintracht Frankfurt",
     "away": "FC Augsburg",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-06T15:30:00Z",
     "city": "Frankfurt",
     "stadium": "Deutsche Bank Park",
     "espn_id": "401884805"
@@ -170,7 +170,7 @@
     "round": 2,
     "home": "Bayer Leverkusen",
     "away": "1. FC Union Berlin",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-05T13:30:00Z",
     "city": "Leverkusen",
     "stadium": "BayArena",
     "espn_id": "401884806"
@@ -181,7 +181,7 @@
     "round": 2,
     "home": "TSG Hoffenheim",
     "away": "Borussia Dortmund",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-05T13:30:00Z",
     "city": "Sinsheim",
     "stadium": "PreZero Arena",
     "espn_id": "401884807"
@@ -192,7 +192,7 @@
     "round": 2,
     "home": "VfB Stuttgart",
     "away": "FC Cologne",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-04T18:30:00Z",
     "city": "Stuttgart",
     "stadium": "MHPArena",
     "espn_id": "401884808"
@@ -203,7 +203,7 @@
     "round": 3,
     "home": "SV Elversberg",
     "away": "Bayern Munich",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-13T15:30:00Z",
     "city": "Spiesen-Elversberg",
     "stadium": "URSAPHARM-Arena an der Kaiserlinde",
     "espn_id": "401884791"
@@ -214,7 +214,7 @@
     "round": 3,
     "home": "FC Cologne",
     "away": "Werder Bremen",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T16:30:00Z",
     "city": "Cologne",
     "stadium": "RheinEnergieStadion",
     "espn_id": "401884792"
@@ -225,7 +225,7 @@
     "round": 3,
     "home": "1. FC Union Berlin",
     "away": "Schalke 04",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-11T18:30:00Z",
     "city": "Berlin",
     "stadium": "Stadion An der Alten Försterei",
     "espn_id": "401884793"
@@ -236,7 +236,7 @@
     "round": 3,
     "home": "Mainz",
     "away": "Eintracht Frankfurt",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T13:30:00Z",
     "city": "Mainz",
     "stadium": "MEWA ARENA",
     "espn_id": "401884794"
@@ -247,7 +247,7 @@
     "round": 3,
     "home": "FC Augsburg",
     "away": "Bayer Leverkusen",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T13:30:00Z",
     "city": "Augsburg",
     "stadium": "WWK Arena",
     "espn_id": "401884795"
@@ -258,7 +258,7 @@
     "round": 3,
     "home": "SC Freiburg",
     "away": "Borussia Mönchengladbach",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T13:30:00Z",
     "city": "Freiburg im Breisgau",
     "stadium": "Europa-Park Stadion",
     "espn_id": "401884796"
@@ -269,7 +269,7 @@
     "round": 3,
     "home": "TSG Hoffenheim",
     "away": "VfB Stuttgart",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T13:30:00Z",
     "city": "Sinsheim",
     "stadium": "PreZero Arena",
     "espn_id": "401884797"
@@ -280,7 +280,7 @@
     "round": 3,
     "home": "RB Leipzig",
     "away": "Hamburg SV",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-13T13:30:00Z",
     "city": "Leipzig",
     "stadium": "Red Bull Arena",
     "espn_id": "401884798"
@@ -291,7 +291,7 @@
     "round": 3,
     "home": "Borussia Dortmund",
     "away": "SC Paderborn 07",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T13:30:00Z",
     "city": "Aue",
     "stadium": "Signal Iduna Park",
     "espn_id": "401884799"
@@ -302,7 +302,7 @@
     "round": 4,
     "home": "SC Paderborn 07",
     "away": "TSG Hoffenheim",
-    "kickoff_utc": "2026-09-19T18:00:00Z",
+    "kickoff_utc": "2026-09-20T17:30:00Z",
     "city": "Paderborn",
     "stadium": "Home Deluxe Arena",
     "espn_id": "401884782"
@@ -313,7 +313,7 @@
     "round": 4,
     "home": "Schalke 04",
     "away": "SV Elversberg",
-    "kickoff_utc": "2026-09-19T18:00:00Z",
+    "kickoff_utc": "2026-09-20T15:30:00Z",
     "city": "Gelsenkirchen",
     "stadium": "Veltins Arena",
     "espn_id": "401884783"
@@ -324,7 +324,7 @@
     "round": 4,
     "home": "Werder Bremen",
     "away": "FC Augsburg",
-    "kickoff_utc": "2026-09-19T18:00:00Z",
+    "kickoff_utc": "2026-09-19T13:30:00Z",
     "city": "Bremen",
     "stadium": "Weserstadion",
     "espn_id": "401884784"
@@ -335,7 +335,7 @@
     "round": 4,
     "home": "Hamburg SV",
     "away": "FC Cologne",
-    "kickoff_utc": "2026-09-19T18:00:00Z",
+    "kickoff_utc": "2026-09-19T13:30:00Z",
     "city": "Hamburg Norderstedt",
     "stadium": "Volksparkstadion",
     "espn_id": "401884785"
@@ -346,7 +346,7 @@
     "round": 4,
     "home": "Borussia Mönchengladbach",
     "away": "Mainz",
-    "kickoff_utc": "2026-09-19T18:00:00Z",
+    "kickoff_utc": "2026-09-19T13:30:00Z",
     "city": "Mönchengladbach",
     "stadium": "BORUSSIA-PARK",
     "espn_id": "401884786"
@@ -357,7 +357,7 @@
     "round": 4,
     "home": "Eintracht Frankfurt",
     "away": "SC Freiburg",
-    "kickoff_utc": "2026-09-19T18:00:00Z",
+    "kickoff_utc": "2026-09-19T13:30:00Z",
     "city": "Frankfurt",
     "stadium": "Deutsche Bank Park",
     "espn_id": "401884787"
@@ -368,7 +368,7 @@
     "round": 4,
     "home": "Bayer Leverkusen",
     "away": "RB Leipzig",
-    "kickoff_utc": "2026-09-19T18:00:00Z",
+    "kickoff_utc": "2026-09-20T13:30:00Z",
     "city": "Leverkusen",
     "stadium": "BayArena",
     "espn_id": "401884788"
@@ -379,7 +379,7 @@
     "round": 4,
     "home": "VfB Stuttgart",
     "away": "Borussia Dortmund",
-    "kickoff_utc": "2026-09-19T18:00:00Z",
+    "kickoff_utc": "2026-09-19T16:30:00Z",
     "city": "Stuttgart",
     "stadium": "MHPArena",
     "espn_id": "401884789"
@@ -390,7 +390,7 @@
     "round": 4,
     "home": "Bayern Munich",
     "away": "1. FC Union Berlin",
-    "kickoff_utc": "2026-09-19T18:00:00Z",
+    "kickoff_utc": "2026-09-18T18:30:00Z",
     "city": "München",
     "stadium": "Allianz Arena",
     "espn_id": "401884790"
