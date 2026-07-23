@@ -102,71 +102,76 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
                 </p>
               </div>
             )}
-            <div className="overflow-x-auto rounded-lg border border-zinc-800">
-              {/* <sm shows #, Model, Points and Pts/match; the component columns
-                  reappear from sm up (hidden sm:table-cell on matching th + td). */}
-              <table className="w-full text-sm sm:min-w-[760px]">
-                <thead className="border-b border-zinc-800 bg-zinc-900/60">
-                  <tr>
-                    <th className={TH_CLS}>#</th>
-                    <th className={TH_CLS}>Model</th>
-                    <th className={`${TH_CLS} text-right`}>Points</th>
-                    <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Exact</th>
-                    <th className={`${TH_CLS} hidden text-right sm:table-cell`}>GD</th>
-                    <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Outcome</th>
-                    <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Picks</th>
-                    <th className={`${TH_CLS} text-right`}>Pts/match</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-800/70">
-                  {data.leaderboard.map((e) => (
-                    <tr key={e.slug} className="hover:bg-zinc-900/40">
-                      <td className={`${TD_CLS} w-10 tabular-nums text-zinc-500`}>
-                        {anyScored ? e.rank : "—"}
-                      </td>
-                      <td className={TD_CLS}>
-                        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                          <Link
-                            href={`/models/${e.slug}/`}
-                            className="font-medium text-zinc-100 hover:text-emerald-400"
+            {/* Before the first round is scored every row is a zero, which reads
+                as broken rather than as "not started" — the note above says it
+                better, so the board only appears once there is something on it. */}
+            {anyScored && (
+              <>
+                <div className="overflow-x-auto rounded-lg border border-zinc-800">
+                  {/* <sm shows #, Model, Points and Pts/match; the component columns
+                      reappear from sm up (hidden sm:table-cell on matching th + td). */}
+                  <table className="w-full text-sm sm:min-w-[760px]">
+                    <thead className="border-b border-zinc-800 bg-zinc-900/60">
+                      <tr>
+                        <th className={TH_CLS}>#</th>
+                        <th className={TH_CLS}>Model</th>
+                        <th className={`${TH_CLS} text-right`}>Points</th>
+                        <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Exact</th>
+                        <th className={`${TH_CLS} hidden text-right sm:table-cell`}>GD</th>
+                        <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Outcome</th>
+                        <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Picks</th>
+                        <th className={`${TH_CLS} text-right`}>Pts/match</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-zinc-800/70">
+                      {data.leaderboard.map((e) => (
+                        <tr key={e.slug} className="hover:bg-zinc-900/40">
+                          <td className={`${TD_CLS} w-10 tabular-nums text-zinc-500`}>{e.rank}</td>
+                          <td className={TD_CLS}>
+                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                              <Link
+                                href={`/models/${e.slug}/`}
+                                className="font-medium text-zinc-100 hover:text-emerald-400"
+                              >
+                                {e.model.label}
+                              </Link>
+                              <span className="text-xs text-zinc-500">{e.model.vendor}</span>
+                              <TierChip tier={e.model.tier} />
+                            </div>
+                          </td>
+                          <td
+                            className={`${TD_CLS} text-right text-lg font-bold tabular-nums text-emerald-400`}
                           >
-                            {e.model.label}
-                          </Link>
-                          <span className="text-xs text-zinc-500">{e.model.vendor}</span>
-                          <TierChip tier={e.model.tier} />
-                        </div>
-                      </td>
-                      <td
-                        className={`${TD_CLS} text-right text-lg font-bold tabular-nums text-emerald-400`}
-                      >
-                        {e.totals.points}
-                      </td>
-                      <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
-                        {e.totals.exact}
-                      </td>
-                      <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
-                        {e.totals.gd}
-                      </td>
-                      <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
-                        {e.totals.outcome}
-                      </td>
-                      <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
-                        {e.picksCount}
-                      </td>
-                      <td className={`${TD_CLS} text-right tabular-nums text-zinc-300`}>
-                        {e.pointsPerMatch.toFixed(2)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="mt-2 text-xs text-zinc-600">
-              Exact score 3 · goal difference 2 · outcome 1. Pts/match = points per scored match —
-              a model is scored on every match of a round it locked picks for, including any it
-              failed to predict. Tiebreakers: points → exact scores → matches with points; models
-              without any stored picks rank below participants.
-            </p>
+                            {e.totals.points}
+                          </td>
+                          <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
+                            {e.totals.exact}
+                          </td>
+                          <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
+                            {e.totals.gd}
+                          </td>
+                          <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
+                            {e.totals.outcome}
+                          </td>
+                          <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
+                            {e.picksCount}
+                          </td>
+                          <td className={`${TD_CLS} text-right tabular-nums text-zinc-300`}>
+                            {e.pointsPerMatch.toFixed(2)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="mt-2 text-xs text-zinc-600">
+                  Exact score 3 · goal difference 2 · outcome 1. Pts/match = points per scored
+                  match — a model is scored on every match of a round it locked picks for,
+                  including any it failed to predict. Tiebreakers: points → exact scores → matches
+                  with points; models without any stored picks rank below participants.
+                </p>
+              </>
+            )}
           </section>
 
           {/* The real league table — appears once results exist */}

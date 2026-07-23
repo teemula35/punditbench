@@ -1,9 +1,11 @@
 import Link from "next/link";
 
 /**
- * Site-wide announcement strip for the 2026-27 league expansion. Ships during
- * the World Cup's final week to convert peak traffic into return visitors;
- * removed (or repointed at /leagues/) when the league pages go live.
+ * Site-wide announcement strip for the 2026-27 league expansion. Shipped during
+ * the World Cup's final week to convert peak traffic into return visitors; now
+ * that the league pages exist it points at them instead of the teaser, and the
+ * home page carries the fuller pitch (see the league bridge in app/page.tsx),
+ * so this stays a one-line pointer rather than repeating it.
  */
 export function SeasonBanner() {
   return (
@@ -13,12 +15,11 @@ export function SeasonBanner() {
           Season 2026-27
         </span>
         <span className="text-zinc-300">
-          The benchmark continues after the final: Premier League, La Liga &amp; the top European
-          leagues — every matchday, picks locked before kickoff, from{" "}
-          <span className="tabular-nums">Aug 16</span>.
+          Premier League, La Liga &amp; the top European leagues — every matchday, picks locked
+          before kickoff, from <span className="tabular-nums">Aug 16</span>.
         </span>
-        <Link href="/season-2026-27/" className="text-emerald-400 hover:underline">
-          What&apos;s coming →
+        <Link href="/leagues/" className="text-emerald-400 hover:underline">
+          Explore the leagues →
         </Link>
       </div>
     </div>

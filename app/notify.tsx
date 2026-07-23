@@ -39,7 +39,8 @@ export function NotifyForm() {
         Notify me
       </button>
       <p className="basis-full text-xs text-zinc-600">
-        Season launch + the World Cup final report. No spam, unsubscribe anytime.
+        One email when the first league picks lock, then a note per matchday round. No spam,
+        unsubscribe anytime.
       </p>
     </form>
   );

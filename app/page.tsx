@@ -11,7 +11,9 @@ import {
 import { loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { teamFlag } from "@/lib/prompt";
+import { reportCards } from "@/lib/report-card";
 import { TAGLINE } from "@/lib/site";
+import { NotifyForm } from "./notify";
 import { TodayMatches, type TodayCard } from "./today-matches";
 import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
 import type { Fixture, Team } from "@/lib/types";
@@ -23,6 +25,35 @@ function ScopeStat({ value, label }: { value: string; label: string }) {
     <div className="flex items-baseline gap-1.5 rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2 text-xs text-zinc-400">
       <span className="text-base font-bold tabular-nums text-emerald-400">{value}</span>
       <span>{label}</span>
+    </div>
+  );
+}
+
+/** A named result in the verdict strip — label above, who/what below. */
+function VerdictStat({
+  label,
+  value,
+  note,
+  href,
+}: {
+  label: string;
+  value: React.ReactNode;
+  note?: string;
+  href?: string;
+}) {
+  return (
+    <div className="min-w-[10rem] flex-1 rounded-lg border border-zinc-800 bg-zinc-900/40 px-4 py-3">
+      <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500">{label}</p>
+      <p className="mt-1 text-sm font-semibold text-zinc-100">
+        {href ? (
+          <Link href={href} className="hover:text-emerald-400">
+            {value}
+          </Link>
+        ) : (
+          value
+        )}
+      </p>
+      {note && <p className="mt-0.5 text-xs text-zinc-500">{note}</p>}
     </div>
   );
 }
@@ -87,6 +118,29 @@ export default function LeaderboardPage() {
     .sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc) || a.match - b.match)
     .slice(0, 8);
 
+  // Once the tournament is over the front page leads with the verdict rather
+  // than the pre-kickoff pitch. Everything below is derived from the same
+  // snapshot the leaderboard uses, so a corrected result reshapes the hero
+  // instead of stranding hand-written copy; if the final is ever missing or
+  // unplayed the original tagline hero renders instead.
+  const finalFixture = [...data.fixtures.values()].find((f) => f.stage === "final");
+  const finalResult = finalFixture ? data.results.get(finalFixture.match) : undefined;
+  const champion = finalResult?.status === "final" ? finalResult.advances : undefined;
+  const calledIt = champion
+    ? data.leaderboard.filter((e) => e.championPick === champion).length
+    : 0;
+  const cards = reportCards(data);
+  const lockedWinner = data.leaderboard.find((e) => e.rank === 1);
+  const liveField = [...cards.values()].filter((c) => c.liveRank !== undefined);
+  const liveWinner = liveField.find((c) => c.liveRank === 1);
+  const lockedWinnerLive = lockedWinner ? cards.get(lockedWinner.slug) : undefined;
+  // The headline finding only holds if the two tracks actually disagree.
+  const tracksDisagree =
+    lockedWinner !== undefined &&
+    liveWinner !== undefined &&
+    lockedWinnerLive?.liveRank !== undefined &&
+    liveWinner.slug !== lockedWinner.slug;
+
   // Every fixture as a lightweight pre-rendered card; "today" is resolved in
   // the visitor's browser (see today-matches.tsx) so the section rolls over
   // at midnight without a redeploy.
@@ -131,27 +185,117 @@ export default function LeaderboardPage() {
 
   return (
     <div className="space-y-12">
-      {/* Hero */}
-      <section>
-        <h1 className="max-w-3xl text-2xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
-          {TAGLINE}
-        </h1>
-        {/* Scope strip — the full claim in one glance: every model, every match. */}
-        <div className="mt-5 flex flex-wrap gap-2">
-          <ScopeStat value={String(data.leaderboard.length)} label="models" />
-          <ScopeStat value={String(data.totalFixtures)} label="matches each" />
-          <ScopeStat value={String(groupCount)} label="group games + full knockout bracket" />
-          <div className="flex items-center rounded-lg border border-emerald-400/30 bg-emerald-400/5 px-3 py-2 text-xs text-emerald-300">
-            locked &amp; SHA-256 pre-registered before kickoff
+      {/* Hero — the verdict once the tournament is complete, the pitch before */}
+      {champion ? (
+        <section>
+          <p className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
+            2026 World Cup · Complete
+          </p>
+          <h1 className="mt-2 max-w-3xl text-2xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
+            <TeamLabel teams={teams} name={champion} /> won the World Cup. {calledIt} of{" "}
+            {data.leaderboard.length} models called it.
+          </h1>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400">
+            Every model predicted all {data.totalFixtures} matches before the opening kickoff —
+            locked and SHA-256 pre-registered — and then predicted each knockout round again as
+            the real bracket emerged. Two tracks, two different winners.
+          </p>
+
+          <div className="mt-5 flex flex-wrap gap-3">
+            <VerdictStat
+              label="Champion"
+              value={<TeamLabel teams={teams} name={champion} />}
+              note={`Picked by ${calledIt} of ${data.leaderboard.length} models`}
+            />
+            {lockedWinner && (
+              <VerdictStat
+                label="Locked benchmark"
+                value={lockedWinner.model.label}
+                note={`${lockedWinner.totalPoints} pts · picked ${lockedWinner.championPick ?? "no champion"}`}
+                href={`/models/${lockedWinner.slug}/`}
+              />
+            )}
+            {liveWinner && (
+              <VerdictStat
+                label="Round by round"
+                value={liveWinner.label}
+                note={`${liveWinner.livePoints} pts · #${liveWinner.lockedRank} on the locked board`}
+                href={`/models/${liveWinner.slug}/`}
+              />
+            )}
           </div>
+
+          {tracksDisagree && (
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-300">
+              The two boards disagree.{" "}
+              <Link
+                href={`/models/${lockedWinner.slug}/`}
+                className="text-emerald-400 underline decoration-emerald-400/40 underline-offset-2 hover:decoration-emerald-400"
+              >
+                {lockedWinner.model.label}
+              </Link>{" "}
+              won the locked benchmark on {lockedWinner.totalPoints} points, then finished{" "}
+              <span className="tabular-nums">#{lockedWinnerLive.liveRank}</span> of{" "}
+              <span className="tabular-nums">{liveField.length}</span> once it had to call each
+              round as it came — the track{" "}
+              <Link
+                href={`/models/${liveWinner.slug}/`}
+                className="text-emerald-400 underline decoration-emerald-400/40 underline-offset-2 hover:decoration-emerald-400"
+              >
+                {liveWinner.label}
+              </Link>{" "}
+              won.
+            </p>
+          )}
+        </section>
+      ) : (
+        <section>
+          <h1 className="max-w-3xl text-2xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
+            {TAGLINE}
+          </h1>
+          {/* Scope strip — the full claim in one glance: every model, every match. */}
+          <div className="mt-5 flex flex-wrap gap-2">
+            <ScopeStat value={String(data.leaderboard.length)} label="models" />
+            <ScopeStat value={String(data.totalFixtures)} label="matches each" />
+            <ScopeStat value={String(groupCount)} label="group games + full knockout bracket" />
+            <div className="flex items-center rounded-lg border border-emerald-400/30 bg-emerald-400/5 px-3 py-2 text-xs text-emerald-300">
+              locked &amp; SHA-256 pre-registered before kickoff
+            </div>
+          </div>
+          <p className="mt-3 text-sm text-zinc-400">
+            Tournament progress:{" "}
+            <span className="font-semibold tabular-nums text-emerald-400">
+              {data.playedCount} of {data.totalFixtures}
+            </span>{" "}
+            matches played
+          </p>
+        </section>
+      )}
+
+      {/* League bridge — the front page's job between the final and August is
+          converting an arriving visitor into a returning one, so this sits
+          above the leaderboard rather than at the foot of the page. */}
+      <section className="rounded-lg border border-emerald-400/20 bg-emerald-400/5 p-5 sm:p-6">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+          <p className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
+            Next · Season 2026-27
+          </p>
+          <Link href="/leagues/" className="text-sm text-emerald-400 hover:underline">
+            Explore the leagues →
+          </Link>
         </div>
-        <p className="mt-3 text-sm text-zinc-400">
-          Tournament progress:{" "}
-          <span className="font-semibold tabular-nums text-emerald-400">
-            {data.playedCount} of {data.totalFixtures}
-          </span>{" "}
-          matches played
+        <h2 className="mt-2 text-lg font-semibold text-zinc-100">
+          The same benchmark moves to the European leagues
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">
+          Premier League, La Liga, Serie A and Ligue 1 from August 16, with the Bundesliga and
+          Champions League following. Every matchday, all {data.leaderboard.length} models predict
+          every scoreline — this time shown the current table and each team&apos;s recent form —
+          locked and hashed about 36 hours before the first kickoff.
         </p>
+        <div className="mt-4">
+          <NotifyForm />
+        </div>
       </section>
 
       {/* Today's matches — client-rendered, follows the visitor's local date */}
