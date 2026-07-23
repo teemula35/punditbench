@@ -1,0 +1,26 @@
+{
+  "model": "anthropic/claude-3-haiku",
+  "slug": "anthropic-claude-3-haiku",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:16:14.835Z",
+  "completed_at": "2026-07-19T12:16:16.059Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1664,
+    "completion_tokens": 29,
+    "total_tokens": 1693,
+    "cost_usd": 0.00045225
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

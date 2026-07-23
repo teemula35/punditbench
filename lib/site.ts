@@ -13,7 +13,7 @@ export const GA_MEASUREMENT_ID: string = "G-K2LKDM8LH5";
 // form is fully disabled and a follow-the-repo fallback renders instead (same
 // ship-disabled pattern as GA above). To enable: create the Buttondown
 // account, set the username, redeploy.
-export const BUTTONDOWN_USERNAME: string = "";
+export const BUTTONDOWN_USERNAME: string = "teemu";
 
 // Cookieless page-view counter (Firestore REST, no SDK). The API key is a
 // public client identifier by design — security lives in firestore.rules,

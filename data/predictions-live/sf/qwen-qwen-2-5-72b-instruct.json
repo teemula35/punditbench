@@ -1,0 +1,32 @@
+{
+  "model": "qwen/qwen-2.5-72b-instruct",
+  "slug": "qwen-qwen-2-5-72b-instruct",
+  "stage": "sf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-14T07:19:39.400Z",
+  "completed_at": "2026-07-14T07:20:00.508Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 1576,
+    "completion_tokens": 46,
+    "total_tokens": 1622,
+    "cost_usd": 0.00058576
+  },
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

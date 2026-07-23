@@ -1,0 +1,26 @@
+{
+  "model": "z-ai/glm-4.7-flash",
+  "slug": "z-ai-glm-4-7-flash",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:15:46.304Z",
+  "completed_at": "2026-07-19T12:16:01.057Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1517,
+    "completion_tokens": 971,
+    "total_tokens": 2488,
+    "cost_usd": 0.00049447
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

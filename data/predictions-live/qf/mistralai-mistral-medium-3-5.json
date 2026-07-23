@@ -1,0 +1,44 @@
+{
+  "model": "mistralai/mistral-medium-3-5",
+  "slug": "mistralai-mistral-medium-3-5",
+  "stage": "qf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-08T15:20:40.606Z",
+  "completed_at": "2026-07-08T15:20:43.535Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1578,
+    "completion_tokens": 136,
+    "total_tokens": 1714,
+    "cost_usd": 0.003387
+  },
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 98,
+      "home_goals": 1,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "Argentina"
+    }
+  ]
+}

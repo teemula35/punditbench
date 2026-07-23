@@ -1,0 +1,32 @@
+{
+  "model": "ai21/jamba-large-1.7",
+  "slug": "ai21-jamba-large-1-7",
+  "stage": "sf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-14T07:19:27.386Z",
+  "completed_at": "2026-07-14T07:19:29.968Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1677,
+    "completion_tokens": 110,
+    "total_tokens": 1787,
+    "cost_usd": 0.004234
+  },
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Spain"
+    },
+    {
+      "match": 102,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "England"
+    }
+  ]
+}

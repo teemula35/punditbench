@@ -1,12 +1,34 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { NotifyForm } from "../notify";
 import { PageTitle } from "../ui";
 
+const OG_TITLE = `${SITE_NAME} — LLMs predict the 2026-27 European leagues`;
+const OG_DESCRIPTION =
+  "From August 16 the benchmark moves to the Premier League, La Liga and Europe's other top flights: every matchday, all models, picks locked before kickoff.";
+
+// The layout's openGraph/twitter blocks are World Cup flavoured, so league
+// links unfurled as tournament news. These override both (og:* and twitter:*
+// are set separately — X prefers the latter); the card itself comes from the
+// sibling opengraph-image.tsx, which wins over any images listed here.
 export const metadata: Metadata = {
   title: "Season 2026-27 — the benchmark continues",
   description:
     "After the World Cup, PunditBench moves to the top European leagues: every matchday, all models, picks pre-registered before kickoff — plus locked pre-season table predictions.",
+  openGraph: {
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+    url: `${SITE_URL}/season-2026-27/`,
+    siteName: SITE_NAME,
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
+  },
 };
 
 /**

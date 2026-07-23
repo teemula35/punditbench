@@ -1,0 +1,32 @@
+{
+  "model": "qwen/qwen3.7-plus",
+  "slug": "qwen-qwen3-7-plus",
+  "stage": "sf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-14T07:18:52.688Z",
+  "completed_at": "2026-07-14T07:19:28.251Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1581,
+    "completion_tokens": 1912,
+    "total_tokens": 3493,
+    "cost_usd": 0.00295328
+  },
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 1,
+      "away_goals": 0,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "England"
+    }
+  ]
+}

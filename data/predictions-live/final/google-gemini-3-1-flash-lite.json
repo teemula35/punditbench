@@ -1,0 +1,26 @@
+{
+  "model": "google/gemini-3.1-flash-lite",
+  "slug": "google-gemini-3-1-flash-lite",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:15:21.582Z",
+  "completed_at": "2026-07-19T12:15:22.280Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1592,
+    "completion_tokens": 27,
+    "total_tokens": 1619,
+    "cost_usd": 0.0004385
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

@@ -34,7 +34,14 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE_NAME} — 40 LLMs predict the 2026 World Cup`,
     description: TAGLINE,
-    images: [`${SITE_URL}/og.png`],
+  },
+  alternates: {
+    types: {
+      "application/rss+xml": `${SITE_URL}/feed.xml`,
+    },
+  },
+  verification: {
+    google: "MNgcCfsWSDY0LJ32Zfw_JD2W1-73PBl2Ihu03pEyTsY",
   },
 };
 

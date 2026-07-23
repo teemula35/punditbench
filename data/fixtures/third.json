@@ -1,0 +1,13 @@
+[
+  {
+    "match": 103,
+    "stage": "third",
+    "home": "France",
+    "away": "England",
+    "kickoff_local": "2026-07-18T17:00",
+    "tz": "America/New_York",
+    "kickoff_utc": "2026-07-18T21:00:00Z",
+    "city": "Miami Gardens",
+    "stadium": "Hard Rock Stadium"
+  }
+]

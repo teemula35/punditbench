@@ -1,0 +1,32 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "slug": "deepseek-deepseek-v4-flash",
+  "stage": "sf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-14T07:18:04.474Z",
+  "completed_at": "2026-07-14T07:18:12.192Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1490,
+    "completion_tokens": 475,
+    "total_tokens": 1965,
+    "cost_usd": 0.00023912
+  },
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 102,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "England"
+    }
+  ]
+}

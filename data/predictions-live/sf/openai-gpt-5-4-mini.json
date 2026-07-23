@@ -1,0 +1,32 @@
+{
+  "model": "openai/gpt-5.4-mini",
+  "slug": "openai-gpt-5-4-mini",
+  "stage": "sf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-14T07:17:58.057Z",
+  "completed_at": "2026-07-14T07:17:59.879Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1487,
+    "completion_tokens": 52,
+    "total_tokens": 1539,
+    "cost_usd": 0.00134925
+  },
+  "predictions": [
+    {
+      "match": 101,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Spain"
+    },
+    {
+      "match": 102,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

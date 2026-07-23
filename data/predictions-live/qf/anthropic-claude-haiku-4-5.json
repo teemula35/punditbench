@@ -1,0 +1,44 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "slug": "anthropic-claude-haiku-4-5",
+  "stage": "qf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-08T15:20:26.779Z",
+  "completed_at": "2026-07-08T15:20:28.588Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1594,
+    "completion_tokens": 97,
+    "total_tokens": 1691,
+    "cost_usd": 0.002079
+  },
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "France"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}

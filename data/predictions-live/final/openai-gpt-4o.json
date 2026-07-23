@@ -1,0 +1,26 @@
+{
+  "model": "openai/gpt-4o",
+  "slug": "openai-gpt-4o",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:16:13.985Z",
+  "completed_at": "2026-07-19T12:16:14.833Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1509,
+    "completion_tokens": 28,
+    "total_tokens": 1537,
+    "cost_usd": 0.0040525
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

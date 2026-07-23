@@ -1,0 +1,26 @@
+{
+  "model": "minimax/minimax-m3",
+  "slug": "minimax-minimax-m3",
+  "stage": "final",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-19T12:16:04.275Z",
+  "completed_at": "2026-07-19T12:16:09.191Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1673,
+    "completion_tokens": 324,
+    "total_tokens": 1997,
+    "cost_usd": 0.00085998
+  },
+  "predictions": [
+    {
+      "match": 104,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "Argentina"
+    }
+  ]
+}

@@ -37,9 +37,9 @@
     "stage": "r16",
     "home": "Mexico",
     "away": "England",
-    "kickoff_local": "2026-07-05T18:00",
+    "kickoff_local": "2026-07-05T19:00",
     "tz": "America/Mexico_City",
-    "kickoff_utc": "2026-07-06T00:00:00Z",
+    "kickoff_utc": "2026-07-06T01:00:00Z",
     "city": "Mexico City",
     "stadium": "Estadio Azteca"
   },

@@ -1,0 +1,13 @@
+[
+  {
+    "match": 104,
+    "stage": "final",
+    "home": "Spain",
+    "away": "Argentina",
+    "kickoff_local": "2026-07-19T15:00",
+    "tz": "America/New_York",
+    "kickoff_utc": "2026-07-19T19:00:00Z",
+    "city": "East Rutherford",
+    "stadium": "MetLife Stadium"
+  }
+]

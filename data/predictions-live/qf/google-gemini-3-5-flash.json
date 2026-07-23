@@ -1,0 +1,44 @@
+{
+  "model": "google/gemini-3.5-flash",
+  "slug": "google-gemini-3-5-flash",
+  "stage": "qf",
+  "prompt_version": "v1",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-07-08T15:21:21.391Z",
+  "completed_at": "2026-07-08T15:21:22.683Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1540,
+    "completion_tokens": 93,
+    "total_tokens": 1633,
+    "cost_usd": 0.003147
+  },
+  "predictions": [
+    {
+      "match": 97,
+      "home_goals": 2,
+      "away_goals": 0,
+      "advances": "France"
+    },
+    {
+      "match": 98,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Spain"
+    },
+    {
+      "match": 99,
+      "home_goals": 1,
+      "away_goals": 2,
+      "advances": "England"
+    },
+    {
+      "match": 100,
+      "home_goals": 2,
+      "away_goals": 1,
+      "advances": "Argentina"
+    }
+  ]
+}
