@@ -8,6 +8,7 @@ import { loadRoster, loadTeams } from "@/lib/data";
 import { fmtShortDateUtc } from "@/lib/format";
 import { traitBand, type Personality, type TraitKey } from "@/lib/personality";
 import { modelSlug, teamFlag } from "@/lib/prompt";
+import { reportCardFor, type ReportCard } from "@/lib/report-card";
 import type { TableRow } from "@/lib/standings";
 import type { StageId, Team } from "@/lib/types";
 import { KNOCKOUT_STAGES, STAGE_LABELS } from "@/lib/types";
@@ -43,6 +44,146 @@ function Stat({ label, value }: { label: string; value: React.ReactNode }) {
 }
 
 const pct = (x: number) => `${Math.round(x * 100)}%`;
+
+/** Inference spend at a readable precision: "$8.15", "$0.003", "<$0.001". */
+function fmtCost(usd: number): string {
+  if (!Number.isFinite(usd) || usd <= 0) return "$0.00";
+  if (usd >= 1) return `$${usd.toFixed(2)}`;
+  if (usd >= 0.001) return `$${usd.toFixed(3)}`;
+  return "<$0.001";
+}
+
+/** One report-card tile: a headline figure over the line that supports it. */
+function ReportStat({
+  label,
+  value,
+  detail,
+  tone = "plain",
+}: {
+  label: string;
+  value: React.ReactNode;
+  detail: React.ReactNode;
+  /** Colour-codes the two tracks: emerald = locked bracket, sky = round-by-round. */
+  tone?: "plain" | "locked" | "live";
+}) {
+  const valueCls =
+    tone === "locked" ? "text-emerald-400" : tone === "live" ? "text-sky-300" : "text-zinc-50";
+  return (
+    <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-4 py-3">
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">{label}</p>
+      <p className={`mt-1 text-xl font-bold tabular-nums ${valueCls}`}>{value}</p>
+      <p className="mt-0.5 text-xs text-zinc-500">{detail}</p>
+    </div>
+  );
+}
+
+/**
+ * End-of-tournament summary: the verdict, what actually became of the champion
+ * pick, and the model's two placings — the tournament it locked in before
+ * kickoff against its round-by-round picks on the real bracket.
+ */
+function ReportCardSection({ card, teams }: { card: ReportCard; teams: Team[] }) {
+  const hasLive = card.liveRank !== undefined || card.livePoints !== undefined;
+  // Ranks count upward from 1, so a positive gap means the live track placed better.
+  const rankGap = card.liveRank !== undefined ? card.lockedRank - card.liveRank : undefined;
+  return (
+    <section>
+      <h2 className="mb-2 text-lg font-semibold text-zinc-100">World Cup report card</h2>
+      <p className="mb-4 max-w-3xl border-l-2 border-emerald-400/50 pl-3 text-base font-medium leading-snug text-zinc-200">
+        {card.verdict}
+      </p>
+
+      <div
+        className={`mb-3 rounded-lg border px-4 py-3 ${
+          card.championCorrect
+            ? "border-emerald-400/30 bg-emerald-400/5"
+            : "border-zinc-800 bg-zinc-900/40"
+        }`}
+      >
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
+          Champion pick
+        </p>
+        {card.championPick ? (
+          <>
+            <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+              <span className="text-lg font-bold text-zinc-50">
+                <span aria-hidden="true">🏆</span>{" "}
+                <TeamLabel teams={teams} name={card.championPick} />
+              </span>
+              <span
+                className={`inline-block rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+                  card.championCorrect
+                    ? "border-emerald-400/40 bg-emerald-400/10 text-emerald-300"
+                    : "border-rose-400/30 bg-rose-400/10 text-rose-300"
+                }`}
+              >
+                {card.championCorrect ? "correct" : "wrong"}
+              </span>
+            </div>
+            {card.championFate && (
+              <p className="mt-1.5 max-w-3xl text-sm text-zinc-400">{card.championFate}</p>
+            )}
+          </>
+        ) : (
+          <p className="mt-1 text-sm italic text-zinc-500">
+            No champion pick — this model never produced a valid final.
+          </p>
+        )}
+      </div>
+
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <ReportStat
+          label="Locked bracket"
+          value={`#${card.lockedRank}`}
+          detail={`${card.lockedPoints} pts · locked pre-kickoff`}
+          tone="locked"
+        />
+        <ReportStat
+          label="Round-by-round"
+          value={card.liveRank !== undefined ? `#${card.liveRank}` : "—"}
+          detail={
+            card.livePoints !== undefined
+              ? `${card.livePoints} pts · picked each round`
+              : "no live picks"
+          }
+          tone={card.liveRank !== undefined ? "live" : "plain"}
+        />
+        <ReportStat label="Exact scorelines" value={card.exactCount} detail="called to the goal" />
+        <ReportStat
+          label="Inference cost"
+          value={fmtCost(card.costUsd)}
+          detail="every prompt, every round"
+        />
+      </div>
+
+      {rankGap !== undefined ? (
+        <p className="mt-3 max-w-3xl text-sm text-zinc-400">
+          {rankGap === 0
+            ? `The same placing on both tracks — #${card.lockedRank} whether it committed to a whole tournament up front or picked each real round as it came.`
+            : `${Math.abs(rankGap)} place${Math.abs(rankGap) === 1 ? "" : "s"} ${
+                rankGap > 0 ? "better" : "worse"
+              } picking the real bracket round by round (#${card.liveRank}) than in the tournament it locked in before kickoff (#${card.lockedRank}).`}
+        </p>
+      ) : (
+        !hasLive && (
+          <p className="mt-3 max-w-3xl text-sm text-zinc-400">
+            No round-by-round picks for this model — it stands on the tournament it locked in
+            before the opening kickoff.
+          </p>
+        )
+      )}
+
+      <p className="mt-2 max-w-3xl text-xs text-zinc-600">
+        Two separate benchmarks. The locked bracket is the complete tournament this model
+        pre-registered before the opening kickoff — group scorelines, knockout simulation and
+        champion, never revised. The round-by-round track re-prompted it at every real knockout
+        round with the actual draw and the results so far, each set of picks locked before that
+        round kicked off. Cost is this model&apos;s total inference spend across every prompt it
+        answered.
+      </p>
+    </section>
+  );
+}
 
 // Headline word per trait, indexed by band [low (-1), middle (0), high (+1)].
 const TRAIT_WORD: Record<TraitKey, [string, string, string]> = {
@@ -259,6 +400,7 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
 
   const { model, totals, bracket, scores, files } = entry;
   const personality = data.personalities.get(slug);
+  const reportCard = reportCardFor(data, slug);
   const anyResults = data.playedCount > 0;
   const realKnockoutExists = [...data.fixtures.values()].some((f) => f.stage !== "group");
   const cutoffKnown = model.knowledge_cutoff && model.knowledge_cutoff !== "unknown";
@@ -365,6 +507,9 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               }
             />
           </section>
+
+          {/* How the whole tournament went: verdict, champion fate, both tracks */}
+          {reportCard && <ReportCardSection card={reportCard} teams={teams} />}
 
           {/* Prediction personality — style of the locked group-stage calls */}
           {personality && (
