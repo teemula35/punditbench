@@ -165,6 +165,7 @@ describe("buildSeasonPrompt", () => {
     as_of: "2026-08-14",
     transfers: ["Arsenal signed Alpha from Beta FC.", "Chelsea sold Gamma to Delta United."],
     injuries: ["Everton: Omega out until October (knee)."],
+    managers: ["Everton appointed Sigma as head coach (replacing Tau)."],
     source: "Compiled from the club sites on 2026-08-14.",
   };
 
@@ -221,16 +222,18 @@ describe("buildSeasonPrompt", () => {
     expect(buildSeasonPrompt(COMP, TEAMS_UNSORTED)).not.toContain("Previous season");
   });
 
-  it("renders the transfer/injury block with both sub-lists, dated, but never the source", () => {
+  it("renders the squad-change block with all three sub-lists, dated, but never the source", () => {
     const p = buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV, PRESEASON);
     expect(p).toContain(
-      "Summer 2026 squad changes and injuries (confirmed as of 2026-08-14) — the latest available information:",
+      "Summer 2026 squad changes, injuries and managerial changes (confirmed as of 2026-08-14) — the latest available information:",
     );
     expect(p).toContain("Transfers:");
     expect(p).toContain("- Arsenal signed Alpha from Beta FC.");
     expect(p).toContain("- Chelsea sold Gamma to Delta United.");
     expect(p).toContain("Injuries and unavailable players:");
     expect(p).toContain("- Everton: Omega out until October (knee).");
+    expect(p).toContain("Managerial changes:");
+    expect(p).toContain("- Everton appointed Sigma as head coach (replacing Tau).");
     // source is provenance for auditors — never model-facing (like PREV.note).
     expect(p).not.toContain(PRESEASON.source!);
   });
@@ -252,6 +255,25 @@ describe("buildSeasonPrompt", () => {
     });
     expect(transfersOnly).toContain("Transfers:");
     expect(transfersOnly).not.toContain("Injuries and unavailable players:");
+    expect(transfersOnly).not.toContain("Managerial changes:"); // managers undefined
+  });
+
+  it("renders the block for a managers-only context (empty transfers and injuries)", () => {
+    const managersOnly = buildSeasonPrompt(COMP, TEAMS_UNSORTED, PREV, {
+      as_of: "2026-08-14",
+      transfers: [],
+      injuries: [],
+      managers: ["Sunderland appointed Phi as manager."],
+      source: "Compiled 2026-08-14.",
+    });
+    expect(managersOnly).toContain(
+      "Summer 2026 squad changes, injuries and managerial changes (confirmed as of 2026-08-14) — the latest available information:",
+    );
+    expect(managersOnly).toContain("Managerial changes:");
+    expect(managersOnly).toContain("- Sunderland appointed Phi as manager.");
+    expect(managersOnly).not.toContain("Transfers:");
+    expect(managersOnly).not.toContain("Injuries and unavailable players:");
+    expect(managersOnly).not.toContain("Compiled 2026-08-14."); // source stays auditor-only
   });
 
   it("omits the whole block when absent or empty, leaving no bare header", () => {
@@ -260,6 +282,7 @@ describe("buildSeasonPrompt", () => {
       as_of: "2026-08-14",
       transfers: [],
       injuries: [],
+      managers: [],
     });
     expect(empty).not.toContain("Summer 2026 squad changes");
   });

@@ -49,6 +49,12 @@ const FORM = new Map<string, string[]>([
   ["Everton", []],
 ]);
 
+const REST = new Map<string, number>([
+  ["Arsenal", 7],
+  ["Chelsea", 4],
+  ["Derby", 1], // singular "1 day"; Everton omitted (no prior finished match)
+]);
+
 const PREV: PreviousSeason = {
   season: "2025-26",
   table: ["Liverpool", "Arsenal", "Manchester City"],
@@ -67,12 +73,12 @@ const MD1_FIXTURES = [
 const ZERO_TABLE = TABLE.map((r) => row(r.team));
 
 function inSeason(): string {
-  return buildLeaguePrompt(COMP, "md05", FIXTURES, { table: TABLE, form: FORM });
+  return buildLeaguePrompt(COMP, "md05", FIXTURES, { table: TABLE, form: FORM, rest: REST });
 }
 
 describe("buildLeaguePrompt", () => {
   it("exports the league prompt version", () => {
-    expect(LEAGUE_PROMPT_VERSION).toBe("league-v1");
+    expect(LEAGUE_PROMPT_VERSION).toBe("league-v2");
   });
 
   it("is deterministic — identical arguments give an identical string", () => {
@@ -87,9 +93,9 @@ describe("buildLeaguePrompt", () => {
     expect(p).toContain(
       "Your task: predict the result of every Matchday 5 match listed at the end of this prompt.",
     );
-    expect(buildLeaguePrompt(COMP, "md01", MD1_FIXTURES, { table: ZERO_TABLE, form: new Map() })).toContain(
-      "every Matchday 1 match",
-    );
+    expect(
+      buildLeaguePrompt(COMP, "md01", MD1_FIXTURES, { table: ZERO_TABLE, form: new Map(), rest: new Map() }),
+    ).toContain("every Matchday 1 match");
   });
 
   it("keeps the strict output rules and league scoring, with no advancer anywhere", () => {
@@ -129,9 +135,30 @@ describe("buildLeaguePrompt", () => {
       ["Zebra Town", ["W 1-0 vs Aardvark City (H)"]],
       ["Aardvark City", ["L 0-1 vs Zebra Town (A)"]],
     ]);
-    const p = buildLeaguePrompt(COMP, "md01", MD1_FIXTURES, { table: [], form });
+    const p = buildLeaguePrompt(COMP, "md01", MD1_FIXTURES, { table: [], form, rest: new Map() });
     expect(p.indexOf("Aardvark City:")).toBeGreaterThan(-1);
     expect(p.indexOf("Aardvark City:")).toBeLessThan(p.indexOf("Zebra Town:"));
+  });
+
+  it("renders rest days after the form section, ordered by table position, with singular '1 day'", () => {
+    const p = inSeason();
+    expect(p).toContain("Rest (days since last match):");
+    expect(p).toContain("Arsenal: 7 days");
+    expect(p).toContain("Chelsea: 4 days");
+    expect(p).toContain("Derby: 1 day"); // singular when N === 1
+    expect(p).not.toContain("Everton:"); // omitted from the rest map (no prior finished match)
+    // Ordered exactly like the form section (by table position).
+    expect(p.indexOf("Arsenal: 7 days")).toBeLessThan(p.indexOf("Chelsea: 4 days"));
+    expect(p.indexOf("Chelsea: 4 days")).toBeLessThan(p.indexOf("Derby: 1 day"));
+    // The section sits after Recent form and before the fixture list.
+    expect(p.indexOf("Recent form")).toBeLessThan(p.indexOf("Rest (days since last match):"));
+    expect(p.indexOf("Rest (days since last match):")).toBeLessThan(p.indexOf("Matches to predict"));
+  });
+
+  it("omits the rest section entirely when the rest map is empty", () => {
+    const p = buildLeaguePrompt(COMP, "md05", FIXTURES, { table: TABLE, form: FORM, rest: new Map() });
+    expect(p).not.toContain("Rest (days since last match):");
+    expect(p).toContain("Recent form (most recent first):"); // form still renders
   });
 
   it("lists each fixture exactly once and ends at the fixture list", () => {
@@ -149,6 +176,7 @@ describe("buildLeaguePrompt", () => {
     const p = buildLeaguePrompt(COMP, "md01", MD1_FIXTURES, {
       table: ZERO_TABLE,
       form: new Map(),
+      rest: new Map(),
       previousSeason: PREV,
     });
     expect(p).not.toContain("Current league table");
@@ -162,7 +190,7 @@ describe("buildLeaguePrompt", () => {
   });
 
   it("omits the previous-season section when none is provided", () => {
-    const p = buildLeaguePrompt(COMP, "md01", MD1_FIXTURES, { table: ZERO_TABLE, form: new Map() });
+    const p = buildLeaguePrompt(COMP, "md01", MD1_FIXTURES, { table: ZERO_TABLE, form: new Map(), rest: new Map() });
     expect(p).not.toContain("Current league table");
     expect(p).not.toContain("Previous season");
   });
@@ -171,6 +199,7 @@ describe("buildLeaguePrompt", () => {
     const p = buildLeaguePrompt(COMP, "md05", FIXTURES, {
       table: TABLE,
       form: FORM,
+      rest: REST,
       previousSeason: PREV,
     });
     expect(p).toContain("Current league table");

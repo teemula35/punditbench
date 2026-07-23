@@ -1,5 +1,5 @@
 {
-  "_README": "TEMPLATE — copy to data/competitions/<comp-id>/preseason-context.json and fill with CONFIRMED facts before locking that league's season table. Sourced manually from a verifiable feed, never generated: a hallucinated transfer poisons every model's prompt identically. Both lists reach every model (including the legacy wing) through the shared prompt. Delete this _README key in the real file. `source` is provenance for auditors and is never shown to the models.",
+  "_README": "TEMPLATE — copy to data/competitions/<comp-id>/preseason-context.json and fill with CONFIRMED facts before locking that league's season table. Sourced manually from a verifiable feed, never generated: a hallucinated transfer poisons every model's prompt identically. Every list reaches every model (including the legacy wing) through the shared prompt. Delete this _README key in the real file. `managers` is optional. `source` is provenance for auditors and is never shown to the models.",
   "as_of": "2026-08-14",
   "transfers": [
     "<Team> signed <Player> from <Club> (fee).",
@@ -8,6 +8,9 @@
   ],
   "injuries": [
     "<Team>: <Player> out until <month> (<injury>)."
+  ],
+  "managers": [
+    "<Team> appointed <Manager> (replacing <Predecessor>)."
   ],
   "source": "Where these were compiled from and when — e.g. 'club official sites + <feed>, checked 2026-08-14'."
 }

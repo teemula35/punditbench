@@ -85,6 +85,41 @@ export function formByTeam(fixtures: Fixture[], results: MatchResult[], n = 5): 
   return out;
 }
 
+/**
+ * Whole days of rest before each roundFixtures team's match this round: the
+ * floor of the gap between that fixture's kickoff and the team's most recent
+ * FINISHED match (final result with both goals recorded) whose kickoff is
+ * strictly earlier. A team with no prior finished match — a season opener — is
+ * OMITTED (no entry), unlike formByTeam which keeps an empty array. Pure and
+ * clock-free: every timestamp comes from differencing two kickoff_utc ISO
+ * strings via new Date(iso).getTime(), never the wall clock, so the signal is
+ * byte-identical for every model at lock time.
+ */
+export function restDaysByTeam(
+  fixtures: Fixture[],
+  results: MatchResult[],
+  roundFixtures: Fixture[],
+): Map<string, number> {
+  const out = new Map<string, number>();
+  const scores = finalScoresByMatch(results);
+  const finished = fixtures
+    .filter((f) => scores.has(f.match))
+    .sort((a, b) => b.kickoff_utc.localeCompare(a.kickoff_utc) || b.match - a.match);
+  for (const rf of roundFixtures) {
+    const kickoff = new Date(rf.kickoff_utc).getTime();
+    for (const team of [rf.home, rf.away]) {
+      // finished is newest-first, so the first match this team played strictly
+      // before kickoff is its most recent one; no prior match → team omitted.
+      const prev = finished.find(
+        (f) => (f.home === team || f.away === team) && new Date(f.kickoff_utc).getTime() < kickoff,
+      );
+      if (!prev) continue;
+      out.set(team, Math.floor((kickoff - new Date(prev.kickoff_utc).getTime()) / 86_400_000));
+    }
+  }
+  return out;
+}
+
 /** Previous season's final table + promotions, for the pre-season (MD1) prompt. */
 export interface PreviousSeason {
   season: string; // e.g. "2025-26"
@@ -116,6 +151,7 @@ export interface PreseasonContext {
   as_of: string; // ISO date the notes were compiled — shown to models, not the clock
   transfers: string[]; // notable confirmed moves, one factual line each
   injuries: string[]; // players out/unavailable for the season start, one line each
+  managers?: string[]; // confirmed summer managerial changes, one line each (optional)
   source?: string; // provenance for auditors; never model-facing (like PreviousSeason.note)
 }
 

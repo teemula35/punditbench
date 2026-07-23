@@ -27,7 +27,7 @@ import {
   loadRoster,
 } from "../lib/data";
 import { canonicalPayload, sha256 } from "../lib/hashing";
-import { formByTeam, leagueTable, loadPreviousSeason } from "../lib/league-context";
+import { formByTeam, leagueTable, loadPreviousSeason, restDaysByTeam } from "../lib/league-context";
 import { splitRoundByKickoff } from "../lib/league-fixtures";
 import { buildLeaguePrompt, LEAGUE_PROMPT_VERSION } from "../lib/league-prompt";
 import { dueRounds } from "../lib/league-schedule";
@@ -156,6 +156,7 @@ async function runRound(comp: Competition, round: MatchdayKey, args: Args): Prom
   const prompt = buildLeaguePrompt(comp, round, included, {
     table: leagueTable(allFixtures, results),
     form: formByTeam(allFixtures, results),
+    rest: restDaysByTeam(allFixtures, results, included),
     previousSeason: loadPreviousSeason(comp.id),
   });
 

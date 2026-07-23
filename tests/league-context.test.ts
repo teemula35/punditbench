@@ -7,6 +7,7 @@ import {
   leagueTable,
   loadPreseasonContext,
   loadPreviousSeason,
+  restDaysByTeam,
 } from "../lib/league-context";
 import { mdKey } from "../lib/types";
 import type { Fixture, MatchResult } from "../lib/types";
@@ -147,6 +148,53 @@ describe("formByTeam", () => {
     expect(form.get("Grimsby")).toEqual([]);
     expect(form.get("Hull")).toEqual([]);
     expect(form.get("Ipswich")).toEqual([]);
+  });
+});
+
+describe("restDaysByTeam", () => {
+  it("counts whole days (floored) from each team's most recent finished match to this round's kickoff", () => {
+    const fixtures = [
+      fx(1, 1, "Arsenal", "Blackburn", "2026-08-21T19:00:00Z"),
+      fx(2, 1, "Chelsea", "Derby", "2026-08-22T14:00:00Z"),
+      fx(3, 2, "Arsenal", "Chelsea", "2026-08-28T19:00:00Z"), // the round being predicted
+    ];
+    const results = [final(1, 3, 1), final(2, 2, 0)];
+    const rest = restDaysByTeam(fixtures, results, [fixtures[2]]);
+    expect(rest.get("Arsenal")).toBe(7); // 08-21T19:00 → 08-28T19:00 = exactly 7 days
+    expect(rest.get("Chelsea")).toBe(6); // 08-22T14:00 → 08-28T19:00 = 6d 5h → floored to 6
+    expect(rest.size).toBe(2);
+  });
+
+  it("differences against the MOST RECENT finished match strictly before kickoff, ignoring older and later ones", () => {
+    const fixtures = [
+      fx(1, 1, "Arsenal", "Blackburn", "2026-08-15T19:00:00Z"), // older finished match
+      fx(2, 2, "Arsenal", "Chelsea", "2026-08-22T19:00:00Z"), // most recent finished match before the round
+      fx(3, 3, "Arsenal", "Derby", "2026-08-29T19:00:00Z"), // the round being predicted (not yet played)
+      fx(4, 4, "Arsenal", "Everton", "2026-09-05T19:00:00Z"), // a LATER final — must be ignored
+    ];
+    const results = [final(1, 1, 0), final(2, 2, 0), final(4, 3, 0)];
+    const rest = restDaysByTeam(fixtures, results, [fixtures[2]]);
+    expect(rest.get("Arsenal")).toBe(7); // 08-22 → 08-29, not the 08-15 or 09-05 matches
+  });
+
+  it("omits a team with no prior finished match (voided or unplayed does not count)", () => {
+    const fixtures = [
+      fx(1, 1, "Arsenal", "Blackburn", "2026-08-21T19:00:00Z"), // voided — not finished
+      fx(2, 2, "Arsenal", "Chelsea", "2026-08-28T19:00:00Z"), // the round being predicted
+    ];
+    const results: MatchResult[] = [{ match: 1, status: "voided", home_goals: 1, away_goals: 0 }];
+    const rest = restDaysByTeam(fixtures, results, [fixtures[1]]);
+    expect(rest.has("Arsenal")).toBe(false); // its only prior match was voided
+    expect(rest.has("Chelsea")).toBe(false); // no prior match at all
+    expect(rest.size).toBe(0);
+  });
+
+  it("returns an empty map at the season opener (no finished matches yet)", () => {
+    const fixtures = [
+      fx(1, 1, "Arsenal", "Blackburn", "2026-08-21T19:00:00Z"),
+      fx(2, 1, "Chelsea", "Derby", "2026-08-21T14:00:00Z"),
+    ];
+    expect(restDaysByTeam(fixtures, [], fixtures).size).toBe(0);
   });
 });
 

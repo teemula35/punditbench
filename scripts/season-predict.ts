@@ -315,7 +315,7 @@ async function main(): Promise<void> {
   }
 
   const ctx = preseason
-    ? `transfers=${preseason.transfers.length}, injuries=${preseason.injuries.length} (as of ${preseason.as_of})`
+    ? `transfers=${preseason.transfers.length}, injuries=${preseason.injuries.length}, managers=${preseason.managers?.length ?? 0} (as of ${preseason.as_of})`
     : "no preseason-context.json";
   console.log(
     `season-predict — ${comp.name}: teams=${teams.length}, models=${roster.length}, mock=${args.mock}, prompt=${SEASON_PROMPT_VERSION} (${prompt.length} chars); ${ctx}`,

@@ -3,13 +3,16 @@ import { roundLabel } from "./types";
 import type { TableRow } from "./standings";
 import type { PreviousSeason } from "./league-context";
 
-export const LEAGUE_PROMPT_VERSION = "league-v1";
+// Bumped v1 → v2 when the deterministic "days of rest" section was added. No
+// league-v1 artifacts exist to migrate: the leagues are inactive and no round
+// was ever run under v1.
+export const LEAGUE_PROMPT_VERSION = "league-v2";
 
 /**
  * One prompt per matchday, byte-identical for every model: content derives
  * ONLY from the arguments — no clock, no randomness, no model names. Unlike
  * the knowledge-only WC prompts, league prompts are form-aware: they carry the
- * current table and recent form built deterministically from our synced
+ * current table, recent form, and days of rest built deterministically from our synced
  * results at lock time, so every model reasons over the same shared evidence.
  * Matchdays are never knockout rounds — draws stand, so there is no
  * "advances" field and no advancer bonus.
@@ -18,7 +21,7 @@ export function buildLeaguePrompt(
   comp: Competition,
   round: MatchdayKey,
   fixtures: Fixture[],
-  context: { table: TableRow[]; form: Map<string, string[]>; previousSeason?: PreviousSeason },
+  context: { table: TableRow[]; form: Map<string, string[]>; rest: Map<string, number>; previousSeason?: PreviousSeason },
 ): string {
   const lines: string[] = [];
 
@@ -67,6 +70,16 @@ export function buildLeaguePrompt(
     if (entries && entries.length > 0) formLines.push(`${team}: ${entries.join(" | ")}`);
   }
   if (formLines.length > 0) lines.push("", "Recent form (most recent first):", ...formLines);
+
+  // Rest days since each team's last match, ordered exactly like the form
+  // section (same order+extras); teams with no prior finished match were omitted
+  // from the map upstream, so the whole section drops when it is empty.
+  const restLines: string[] = [];
+  for (const team of [...order, ...extras]) {
+    const days = context.rest.get(team);
+    if (days !== undefined) restLines.push(`${team}: ${days} ${days === 1 ? "day" : "days"}`);
+  }
+  if (restLines.length > 0) lines.push("", "Rest (days since last match):", ...restLines);
 
   lines.push("", "Matches to predict (match number | home vs away | date | city):");
   for (const f of fixtures) {

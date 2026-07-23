@@ -117,8 +117,8 @@ on problems); 2) ensure `data/competitions/<id>/previous-season.json` exists (la
 season's final table + promoted teams; manually sourced, never generated); 3) close to
 the opener, once the window and injuries have settled, compile
 `data/competitions/<id>/preseason-context.json` (copy `preseason-context.example.json`;
-CONFIRMED transfers + injuries only — a hallucinated line poisons every model's prompt,
-and the block is verbatim in the pre-registration hash) — optional, the block is skipped
+CONFIRMED transfers, injuries + managerial changes only — a hallucinated line poisons
+every model's prompt, and the block is verbatim in the pre-registration hash) — optional, the block is skipped
 when the file is absent; 4) BEFORE the opener run the pre-season locked track:
 `npm run season-predict -- --comp <id>` (the log line reports the transfer/injury counts
 it loaded — eyeball with `--dry-run` first) → commit + tag `predictions-<id>-season`;

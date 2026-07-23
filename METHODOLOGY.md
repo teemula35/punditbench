@@ -168,8 +168,9 @@ mirroring the tournament design:
 
 **The methodological shift — league prompts are form-aware.** World Cup prompts were
 knowledge-only: fixture list in, training knowledge out. League prompts additionally
-contain the current league table and every team's last five results, computed
-deterministically from our own recorded results at lock time (matchday 1 gets the
+contain the current league table, every team's last five results, and how many days of
+rest each side has had since its previous match — all computed deterministically from
+our own recorded results and the fixture calendar at lock time (matchday 1 gets the
 previous season's final table and the promoted teams instead). This is a deliberate
 change in what is measured: without shared context, a mid-season pick mostly measures
 how stale a model's training data is, and the gap grows all season. With it, every
@@ -186,7 +187,8 @@ The **pre-season table** prompt is the one deliberate exception. Before a ball i
 there is no form to show, and the things that actually swing a title or relegation race —
 the summer's confirmed transfers and the injuries carried into the opener — cannot be
 recovered from results that do not yet exist. So that single prompt additionally carries
-a short, dated list of confirmed summer transfers and notable injuries. It is held to the
+a short, dated list of confirmed summer transfers, notable injuries, and managerial
+changes. It is held to the
 same bar as everything else: manually compiled from verifiable feeds (never model-
 generated), byte-identical for every model — the frozen legacy wing included, which is
 how they learn of moves that postdate their training — published verbatim in the raw
