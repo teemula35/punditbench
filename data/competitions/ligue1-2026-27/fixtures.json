@@ -302,7 +302,7 @@
     "round": 4,
     "home": "Strasbourg",
     "away": "AS Monaco",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T15:15:00Z",
     "city": "Strasbourg",
     "stadium": "Stade de la Meinau",
     "espn_id": "401876458"
@@ -313,7 +313,7 @@
     "round": 4,
     "home": "Stade Rennais",
     "away": "Marseille",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-11T18:45:00Z",
     "city": "Rennes",
     "stadium": "Roazhon Park",
     "espn_id": "401876459"
@@ -324,7 +324,7 @@
     "round": 4,
     "home": "Paris FC",
     "away": "Lyon",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T18:45:00Z",
     "city": "Paris",
     "stadium": "Stade Jean Bouin",
     "espn_id": "401876460"
@@ -335,7 +335,7 @@
     "round": 4,
     "home": "Lorient",
     "away": "Toulouse",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T18:45:00Z",
     "city": "Lorient",
     "stadium": "Stade du Moustoir - Yves Allainmat",
     "espn_id": "401876461"
@@ -346,7 +346,7 @@
     "round": 4,
     "home": "Lille",
     "away": "Troyes",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-13T13:00:00Z",
     "city": "Lille",
     "stadium": "Decathlon Arena - Stade Pierre-Mauroy",
     "espn_id": "401876462"
@@ -357,7 +357,7 @@
     "round": 4,
     "home": "Le Mans",
     "away": "Lens",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-13T15:15:00Z",
     "city": "Le Mans",
     "stadium": "Stade Marie-Marvingt",
     "espn_id": "401876463"
@@ -368,7 +368,7 @@
     "round": 4,
     "home": "Le Havre AC",
     "away": "Angers",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T18:45:00Z",
     "city": "Le Havre",
     "stadium": "Stade Océane",
     "espn_id": "401876464"
@@ -379,7 +379,7 @@
     "round": 4,
     "home": "Brest",
     "away": "Paris Saint-Germain",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-13T18:45:00Z",
     "city": "Brest",
     "stadium": "Stade Francis-Le Blé",
     "espn_id": "401876465"
@@ -390,7 +390,7 @@
     "round": 4,
     "home": "AJ Auxerre",
     "away": "Nice",
-    "kickoff_utc": "2026-09-12T18:00:00Z",
+    "kickoff_utc": "2026-09-12T18:45:00Z",
     "city": "Auxerre",
     "stadium": "Stade de l'Abbé-Deschamps",
     "espn_id": "401876466"
