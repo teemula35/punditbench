@@ -203,7 +203,7 @@
     "round": 3,
     "home": "Troyes",
     "away": "Strasbourg",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-06T13:00:00Z",
     "city": "Paris",
     "stadium": "Stade de l'Aube",
     "espn_id": "401876467"
@@ -214,7 +214,7 @@
     "round": 3,
     "home": "Toulouse",
     "away": "Lille",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-03T18:45:00Z",
     "city": "Toulouse",
     "stadium": "Stadium Municipal de Toulouse",
     "espn_id": "401876468"
@@ -225,7 +225,7 @@
     "round": 3,
     "home": "Paris Saint-Germain",
     "away": "AS Monaco",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-04T18:45:00Z",
     "city": "Paris",
     "stadium": "Parc des Princes",
     "espn_id": "401876469"
@@ -236,7 +236,7 @@
     "round": 3,
     "home": "Nice",
     "away": "Le Mans",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-05T18:45:00Z",
     "city": "Nice",
     "stadium": "Allianz Riviera",
     "espn_id": "401876470"
@@ -247,7 +247,7 @@
     "round": 3,
     "home": "Marseille",
     "away": "Paris FC",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-06T18:45:00Z",
     "city": "Marseille",
     "stadium": "Stade Vélodrome",
     "espn_id": "401876471"
@@ -269,7 +269,7 @@
     "round": 3,
     "home": "Lens",
     "away": "Lorient",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-05T15:15:00Z",
     "city": "Lens",
     "stadium": "Stade Bollaert-Delelis",
     "espn_id": "401876473"
@@ -280,7 +280,7 @@
     "round": 3,
     "home": "Le Havre AC",
     "away": "Brest",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-05T18:45:00Z",
     "city": "Le Havre",
     "stadium": "Stade Océane",
     "espn_id": "401876474"
@@ -291,7 +291,7 @@
     "round": 3,
     "home": "Angers",
     "away": "Stade Rennais",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-06T15:15:00Z",
     "city": "Angers",
     "stadium": "Stade Raymond Kopa",
     "espn_id": "401876475"
