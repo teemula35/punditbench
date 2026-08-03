@@ -1,0 +1,45 @@
+# TEMPORARY smoke test for the OPENROUTER_API_KEY Actions secret.
+# workflow_dispatch only (never runs on its own). Delete after it goes green.
+name: verify-openrouter-secret
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Secret wired + key valid + cap + balance
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          if [ -z "${OPENROUTER_API_KEY:-}" ]; then
+            echo "::error::OPENROUTER_API_KEY secret is EMPTY — not stored, or the secret name is mistyped"
+            exit 1
+          fi
+          echo "Secret is present in the Actions env (value hidden by GitHub)."
+          echo "--- GET /api/v1/key (validity + cap + usage) ---"
+          kc=$(curl -s -o key.json -w '%{http_code}' https://openrouter.ai/api/v1/key \
+            -H "Authorization: Bearer $OPENROUTER_API_KEY")
+          echo "HTTP $kc"; cat key.json; echo
+          [ "$kc" = "200" ] || { echo "::error::key rejected (HTTP $kc) — invalid/revoked key or wrong secret value"; exit 1; }
+          echo "--- GET /api/v1/credits (balance reachable by this key/workspace) ---"
+          cc=$(curl -s -o credits.json -w '%{http_code}' https://openrouter.ai/api/v1/credits \
+            -H "Authorization: Bearer $OPENROUTER_API_KEY")
+          echo "HTTP $cc"; cat credits.json; echo
+
+      - name: Real inference + funds reachable (one cheap model)
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          echo "--- POST /api/v1/chat/completions (deepseek/deepseek-v4-flash, max_tokens 16) ---"
+          ic=$(curl -s -o chat.json -w '%{http_code}' https://openrouter.ai/api/v1/chat/completions \
+            -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"model":"deepseek/deepseek-v4-flash","messages":[{"role":"user","content":"Reply with one word: ok"}],"max_tokens":16}')
+          echo "HTTP $ic"; cat chat.json; echo
+          [ "$ic" = "200" ] || {
+            echo "::error::inference failed (HTTP $ic) — 402 = no funds reachable by this key/workspace; 403/404 = model not accessible in this workspace"
+            exit 1
+          }
+          echo "Inference OK — the key can invoke a model and funds are reachable from this workspace."
