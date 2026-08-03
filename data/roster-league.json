@@ -1,15 +1,15 @@
 [
   {
-    "id": "openai/gpt-5.5",
-    "label": "GPT-5.5",
+    "id": "openai/gpt-5.6-sol",
+    "label": "GPT-5.6 Sol",
     "vendor": "OpenAI",
     "tier": "flagship",
     "context_length": 1050000,
     "pricing_prompt_usd_per_m": 5,
     "pricing_completion_usd_per_m": 30,
-    "knowledge_cutoff": "2025-12",
+    "knowledge_cutoff": "unknown",
     "reasoning": true,
-    "notes": "No temperature/top_p support (reasoning-only sampling) - harness must not send temperature. Max output 128K. Cutoff from OpenRouter catalog field (2025-12-01)."
+    "notes": "Upgraded 2026-08-03 from gpt-5.5 to OpenAI's current flagship (catalog: \"the flagship model in OpenAI's GPT-5.6 series\"; 2026-07-09). No temperature support (reasoning-only sampling)."
   },
   {
     "id": "openai/gpt-5.6-luna",
@@ -228,16 +228,16 @@
     "notes": "Upgraded 2026-08-03 from claude-opus-4.8 (newer generation, same $5/$25; catalog 2026-07-24). No temperature/top_p."
   },
   {
-    "id": "openai/gpt-5.5-pro",
-    "label": "GPT-5.5 Pro",
+    "id": "openai/gpt-5.6-sol-pro",
+    "label": "GPT-5.6 Sol Pro",
     "vendor": "OpenAI",
     "tier": "flagship",
     "context_length": 1050000,
-    "pricing_prompt_usd_per_m": 30,
-    "pricing_completion_usd_per_m": 180,
+    "pricing_prompt_usd_per_m": 5,
+    "pricing_completion_usd_per_m": 30,
     "knowledge_cutoff": "unknown",
     "reasoning": true,
-    "notes": "Added 2026-06-10 pre-kickoff roster expansion; verified in live catalog (created 2026-04-24)."
+    "notes": "Upgraded 2026-08-03 from gpt-5.5-pro (previous-gen premium at $30/$180) to the current flagship in pro reasoning mode: same Sol model as gpt-5.6-sol served with reasoning.mode=pro, $5/$30 (~6x cheaper). 2026-07-09. No temperature support."
   },
   {
     "id": "openai/gpt-5.4-nano",
