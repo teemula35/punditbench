@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { loadCompetitions, loadRoster } from "@/lib/data";
+import { loadCompetitions, loadLeagueRoster } from "@/lib/data";
 import { fmtKickoffUtc, fmtShortDateUtc } from "@/lib/format";
 import { loadLeagueData, nextRound, type LeagueData } from "@/lib/league-aggregate";
 import { PageTitle } from "../ui";
@@ -28,7 +28,7 @@ function statusLine(data: LeagueData): string {
 }
 
 export default function LeaguesPage() {
-  const rosterCount = loadRoster().length;
+  const rosterCount = loadLeagueRoster().length;
   const cards = loadCompetitions().map((comp) => ({ comp, data: loadLeagueData(comp.id) }));
 
   return (

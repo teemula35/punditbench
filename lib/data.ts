@@ -33,6 +33,17 @@ export function loadRoster(): RosterModel[] {
   return readJson<RosterModel[]>("roster.json");
 }
 
+/**
+ * League-season roster (data/roster-league.json). The World Cup's roster.json
+ * stays frozen as the tournament's historical field — its model pages, report
+ * cards and leaderboard are generated from it — so the league season carries its
+ * own evolving roster instead of mutating that archive. Falls back to the World
+ * Cup roster when the league file is absent, so nothing breaks before it exists.
+ */
+export function loadLeagueRoster(): RosterModel[] {
+  return readJsonIfExists<RosterModel[]>("roster-league.json") ?? loadRoster();
+}
+
 export function loadKnockoutTemplate(): KnockoutSlot[] {
   return readJson<KnockoutSlot[]>(path.join("fixtures", "knockout-template.json"));
 }

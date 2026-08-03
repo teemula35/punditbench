@@ -3,6 +3,7 @@
  *
  *   npm exec tsx scripts/roster-availability.ts            # ping every roster id (needs OPENROUTER_API_KEY)
  *   node --import tsx scripts/roster-availability.ts --catalog   # auth-free: diff roster vs live /models catalog
+ *   node --import tsx scripts/roster-availability.ts --league    # check data/roster-league.json instead of the WC roster
  *   node --import tsx scripts/roster-availability.ts --models openai/gpt-5.5,meta-llama/llama-3-70b-instruct
  *   node --import tsx scripts/roster-availability.ts --json report.json
  *
@@ -28,7 +29,7 @@
  * honest signal ("endpoint answered, but investigate"), never a false death.
  */
 import fs from "node:fs";
-import { loadRoster } from "../lib/data";
+import { loadLeagueRoster, loadRoster } from "../lib/data";
 import { modelSlug } from "../lib/prompt";
 import { callOpenRouter, loadEnv } from "../lib/runner";
 import type { RosterModel } from "../lib/types";
@@ -52,6 +53,7 @@ interface Result {
 
 interface Args {
   catalog: boolean;
+  league: boolean;
   models?: Set<string>;
   json?: string;
 }
@@ -65,6 +67,7 @@ function parseArgs(): Args {
   const models = get("--models");
   return {
     catalog: argv.includes("--catalog"),
+    league: argv.includes("--league"),
     models: models ? new Set(models.split(",").map((s) => s.trim())) : undefined,
     json: get("--json"),
   };
@@ -166,7 +169,7 @@ async function main(): Promise<void> {
   loadEnv();
   const args = parseArgs();
 
-  let roster = loadRoster();
+  let roster = args.league ? loadLeagueRoster() : loadRoster();
   if (args.models) {
     roster = roster.filter((m) => args.models!.has(m.id) || args.models!.has(modelSlug(m.id)));
   }

@@ -18,7 +18,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { getCompetition, loadCompetitionFixtures, loadRoster } from "../lib/data";
+import { getCompetition, loadCompetitionFixtures, loadLeagueRoster } from "../lib/data";
 import { sha256 } from "../lib/hashing";
 import { loadPreseasonContext, loadPreviousSeason } from "../lib/league-context";
 import { modelSlug } from "../lib/prompt";
@@ -296,7 +296,7 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  let roster = loadRoster();
+  let roster = loadLeagueRoster();
   if (args.models !== "all") {
     const wanted = new Set(args.models.split(",").map((s) => s.trim()));
     roster = roster.filter((m) => wanted.has(m.id) || wanted.has(modelSlug(m.id)));

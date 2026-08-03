@@ -12,7 +12,7 @@ import {
   loadCompetitionLiveManifest,
   loadCompetitionLivePredictions,
   loadCompetitionResults,
-  loadRoster,
+  loadLeagueRoster,
 } from "./data";
 import { leagueTable } from "./league-context";
 import { modelSlug } from "./prompt";
@@ -129,7 +129,7 @@ export function assembleLeagueData(
 export function loadLeagueData(compId: string): LeagueData {
   return assembleLeagueData(
     getCompetition(compId),
-    loadRoster(),
+    loadLeagueRoster(),
     loadCompetitionFixtures(compId),
     loadCompetitionResults(compId),
     loadCompetitionLiveManifest(compId),

@@ -16,6 +16,7 @@ fs.mkdirSync(dest, { recursive: true });
 const include = [
   "teams.json",
   "roster.json",
+  "roster-league.json",
   "results.json",
   "fixtures",
   "predictions",

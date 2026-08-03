@@ -24,7 +24,7 @@ import {
   loadCompetitionLiveManifest,
   loadCompetitionLivePredictions,
   loadCompetitionResults,
-  loadRoster,
+  loadLeagueRoster,
 } from "../lib/data";
 import { canonicalPayload, sha256 } from "../lib/hashing";
 import { formByTeam, leagueTable, loadPreviousSeason, restDaysByTeam } from "../lib/league-context";
@@ -175,7 +175,7 @@ async function runRound(comp: Competition, round: MatchdayKey, args: Args): Prom
     return out;
   }
 
-  let roster = loadRoster();
+  let roster = loadLeagueRoster();
   if (args.models !== "all") {
     const wanted = new Set(args.models.split(",").map((s) => s.trim()));
     roster = roster.filter((m) => wanted.has(m.id) || wanted.has(modelSlug(m.id)));

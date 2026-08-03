@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { loadCompetitionFixtures, loadCompetitions, loadRoster } from "@/lib/data";
+import { loadCompetitionFixtures, loadCompetitions, loadLeagueRoster } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { leagueMatchInfo, loadLeagueData, type LeagueMatchInfo } from "@/lib/league-aggregate";
 import { roundLabel } from "@/lib/types";
@@ -25,7 +25,7 @@ export async function generateMetadata({
   if (!c || !fixture) return { title: "Match not found" };
   return {
     title: `${c.short_name} ${roundLabel(fixture.stage)}: ${fixture.home} vs ${fixture.away}`,
-    description: `${loadRoster().length} LLM picks for ${fixture.home} vs ${fixture.away} — ${roundLabel(fixture.stage)}, ${c.name}.`,
+    description: `${loadLeagueRoster().length} LLM picks for ${fixture.home} vs ${fixture.away} — ${roundLabel(fixture.stage)}, ${c.name}.`,
   };
 }
 
