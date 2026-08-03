@@ -4,7 +4,7 @@
 
 - 🌐 Site: **https://punditbench.com** (punditbench.web.app works as an alias)
 - 📊 Methodology: [METHODOLOGY.md](METHODOLOGY.md) — prompts, scoring, integrity rules
-- 📜 Decisions & rationale: [DECISIONS.md](DECISIONS.md) · Backlog: [BACKLOG.md](BACKLOG.md) · Ops: [OPS.md](OPS.md)
+- 📜 Decisions & rationale: [DECISIONS.md](DECISIONS.md) · Ops: [OPS.md](OPS.md) · Changelog: [CHANGELOG.md](CHANGELOG.md)
 - 🔐 Pre-registration: each stage's predictions are hashed (SHA-256) and the hash committed + tagged before kickoff (`data/hashes/`)
 
 ## How it works
@@ -40,11 +40,13 @@ firebase deploy --only hosting             # publish ./out to punditbench.web.ap
 
 ## Status
 
-- [x] Methodology, scoring engine + tests, fixture data (two independent source sets, reconciled)
-- [x] Runner + audit pipeline rehearsed end-to-end (mock)
-- [x] Predictions locked & pre-registered — 40 models, group stage + full brackets; hashes tagged (`predictions-group(-v2)`, `predictions-full-tournament(-v2/-v3/-v4)`)
-- [x] Site live at **https://punditbench.com** (Firebase Hosting, static export)
-- [ ] Scored against reality as matches are played — tournament in progress
+The 2026 World Cup is complete — all 104 results are recorded and every model has been scored
+against reality.
+
+- Methodology, scoring engine + tests, and fixture data (two independent source sets, reconciled) — in this repo
+- Predictions locked & pre-registered **before the opening kickoff** — 40 models, group stage + full brackets; hashes tagged (`predictions-group(-v2)`, `predictions-full-tournament(-v2/-v3/-v4)`)
+- Round-by-round track: each knockout round's picks pre-registered before that round's own first kickoff (tags `predictions-<stage>-live`)
+- Site live at **https://punditbench.com** (Firebase Hosting, static export)
 
 ## Security
 

@@ -49,9 +49,9 @@ Up to 3 attempts per model per stage; attempts 2–3 append the validator's erro
 
 **PunditBench** — punditbench.com (unregistered as of 2026-06-10, DNS-checked; user purchases). Rationale: pundit + benchmark says exactly what it is; no FIFA/World Cup trademark exposure; outlives this tournament (Champions League, Euro 2028…). Site references the "2026 FIFA World Cup" editorially only; no FIFA logos/emblems/mascots/typefaces anywhere. Runner-up names: Silicon Pundits (siliconpundits.com, also free), Bot Bracket (taken).
 
-## D7 — Publishing entity ⛳ OPEN (user)
+## D7 — Publishing entity ⛳ UNDECIDED
 
-Publish personally or under a company. Only blocks the imprint line on the legal page — placeholder until decided.
+Publish personally or under a company. The only visible consequence is the imprint line on the legal page, which carries a placeholder until this is settled.
 
 ## D8 — Stack & architecture ✅ 2026-06-10 (revised from initial Cloud SQL sketch)
 

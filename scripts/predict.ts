@@ -132,7 +132,7 @@ async function main(): Promise<void> {
     return;
   }
   if (!args.mock && !process.env.OPENROUTER_API_KEY) {
-    console.error("OPENROUTER_API_KEY missing. Copy .env.example to .env and set it (see BACKLOG §0).");
+    console.error("OPENROUTER_API_KEY missing. Copy .env.example to .env and set it.");
     process.exit(1);
   }
 
