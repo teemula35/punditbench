@@ -12,16 +12,16 @@
     "notes": "No temperature/top_p support (reasoning-only sampling) - harness must not send temperature. Max output 128K. Cutoff from OpenRouter catalog field (2025-12-01)."
   },
   {
-    "id": "openai/gpt-5.4-mini",
-    "label": "GPT-5.4 Mini",
+    "id": "openai/gpt-5.6-luna",
+    "label": "GPT-5.6 Luna",
     "vendor": "OpenAI",
     "tier": "small",
-    "context_length": 400000,
-    "pricing_prompt_usd_per_m": 0.75,
-    "pricing_completion_usd_per_m": 4.5,
-    "knowledge_cutoff": "2025-08",
+    "context_length": 1050000,
+    "pricing_prompt_usd_per_m": 0.1,
+    "pricing_completion_usd_per_m": 0.6,
+    "knowledge_cutoff": "unknown",
     "reasoning": true,
-    "notes": "Newest mini tier (no 5.5-mini exists yet). No temperature support. Max output 128K. gpt-5.4-nano ($0.20/$1.25) is a cheaper alternative."
+    "notes": "Upgraded 2026-08-03 from gpt-5.4-mini (newer 5.6-gen cheap tier, cheaper AND newer at $0.10/$0.60; catalog 2026-07-09). No temperature support (reasoning-only sampling)."
   },
   {
     "id": "anthropic/claude-fable-5",
@@ -108,16 +108,16 @@
     "notes": "284B total / 13B active MoE - same V4 generation as Pro. Max output 131,072. Price refreshed 2026-08-03 (was $0.098/$0.197, ~+42%); no longer the roster's cheapest (qwen3.7-flash is)."
   },
   {
-    "id": "meta-llama/llama-4-maverick",
-    "label": "Llama 4 Maverick",
+    "id": "meta/muse-spark-1.1",
+    "label": "Muse Spark 1.1",
     "vendor": "Meta",
     "tier": "flagship",
     "context_length": 1048576,
-    "pricing_prompt_usd_per_m": 0.2,
-    "pricing_completion_usd_per_m": 0.8,
-    "knowledge_cutoff": "2024-08",
-    "reasoning": false,
-    "notes": "Meta's top model on OpenRouter (400B total / 17B active, 128 experts) - no 2026 Llama release in catalog; lineup is stale. Non-reasoning. 2024-08 cutoff predates all WC qualification. Max output 16,384. (price/ctx refreshed 2026-08-03.)"
+    "pricing_prompt_usd_per_m": 1.25,
+    "pricing_completion_usd_per_m": 4.25,
+    "knowledge_cutoff": "unknown",
+    "reasoning": true,
+    "notes": "Upgraded 2026-08-03 from llama-4-maverick — Meta's current reasoning frontier, replacing the stale non-reasoning Llama 4 (catalog 2026-07-16). Different Meta line (muse-spark), reasoning-capable."
   },
   {
     "id": "meta-llama/llama-4-scout",
@@ -180,16 +180,16 @@
     "notes": "Upgraded 2026-08-03 from qwen3.6-flash (newer AND cheaper; catalog 2026-07-27). Now the roster's cheapest model."
   },
   {
-    "id": "moonshotai/kimi-k2.6",
-    "label": "Kimi K2.6",
+    "id": "moonshotai/kimi-k3",
+    "label": "Kimi K3",
     "vendor": "Moonshot",
     "tier": "flagship",
-    "context_length": 262144,
-    "pricing_prompt_usd_per_m": 0.68,
-    "pricing_completion_usd_per_m": 3.41,
+    "context_length": 1048576,
+    "pricing_prompt_usd_per_m": 3,
+    "pricing_completion_usd_per_m": 15,
     "knowledge_cutoff": "unknown",
     "reasoning": true,
-    "notes": "Moonshot serves only K2-family (1T-class MoE) models - NO small Kimi exists on OpenRouter; flagship only. Supports reasoning_effort. Max output 262,142."
+    "notes": "Upgraded 2026-08-03 from kimi-k2.6 (newer K-series frontier; catalog 2026-07-16; pricier at $3/$15, chosen despite cost). Supports reasoning_effort."
   },
   {
     "id": "z-ai/glm-5.2",
