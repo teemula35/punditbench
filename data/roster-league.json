@@ -108,16 +108,16 @@
     "notes": "284B total / 13B active MoE - same V4 generation as Pro. Max output 131,072. Price refreshed 2026-08-03 (was $0.098/$0.197, ~+42%); no longer the roster's cheapest (qwen3.7-flash is)."
   },
   {
-    "id": "meta/muse-spark-1.1",
-    "label": "Muse Spark 1.1",
+    "id": "meta-llama/llama-4-maverick",
+    "label": "Llama 4 Maverick",
     "vendor": "Meta",
     "tier": "flagship",
     "context_length": 1048576,
-    "pricing_prompt_usd_per_m": 1.25,
-    "pricing_completion_usd_per_m": 4.25,
-    "knowledge_cutoff": "unknown",
-    "reasoning": true,
-    "notes": "Upgraded 2026-08-03 from llama-4-maverick — Meta's current reasoning frontier, replacing the stale non-reasoning Llama 4 (catalog 2026-07-16). Different Meta line (muse-spark), reasoning-capable."
+    "pricing_prompt_usd_per_m": 0.2,
+    "pricing_completion_usd_per_m": 0.8,
+    "knowledge_cutoff": "2024-08",
+    "reasoning": false,
+    "notes": "Reverted 2026-08-03: the muse-spark-1.1 reasoning upgrade is geofenced US-only (live API returned 403 'only available in the United States' from a non-US test run) — unreliable for the automated scheduler, so restored the global non-reasoning Meta anchor. 400B total / 17B active MoE; price $0.2/$0.8; catalog created 2025-04-05."
   },
   {
     "id": "meta-llama/llama-4-scout",
