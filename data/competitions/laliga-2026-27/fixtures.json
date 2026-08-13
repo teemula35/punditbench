@@ -346,7 +346,7 @@
     "round": 4,
     "home": "Valencia",
     "away": "Barcelona",
-    "kickoff_utc": "2026-09-06T18:00:00Z",
+    "kickoff_utc": "2026-09-06T14:15:00Z",
     "city": "Manises",
     "stadium": "Mestalla Stadium",
     "espn_id": "401882888"
@@ -357,7 +357,7 @@
     "round": 4,
     "home": "Rayo Vallecano",
     "away": "Racing Santander",
-    "kickoff_utc": "2026-09-06T18:00:00Z",
+    "kickoff_utc": "2026-09-05T16:30:00Z",
     "city": "Madrid",
     "stadium": "Estadio de Vallecas",
     "espn_id": "401882889"
@@ -368,7 +368,7 @@
     "round": 4,
     "home": "Málaga",
     "away": "Levante",
-    "kickoff_utc": "2026-09-06T18:00:00Z",
+    "kickoff_utc": "2026-09-06T16:30:00Z",
     "city": "Malaga",
     "stadium": "La Rosaleda",
     "espn_id": "401882890"
@@ -379,7 +379,7 @@
     "round": 4,
     "home": "Getafe",
     "away": "Celta Vigo",
-    "kickoff_utc": "2026-09-06T18:00:00Z",
+    "kickoff_utc": "2026-09-07T17:00:00Z",
     "city": "Getafe",
     "stadium": "Estadio Coliseum",
     "espn_id": "401882891"
@@ -390,7 +390,7 @@
     "round": 4,
     "home": "Espanyol",
     "away": "Sevilla",
-    "kickoff_utc": "2026-09-06T18:00:00Z",
+    "kickoff_utc": "2026-09-06T19:00:00Z",
     "city": "Barcelona",
     "stadium": "RCDE Stadium",
     "espn_id": "401882892"
@@ -401,7 +401,7 @@
     "round": 4,
     "home": "Elche",
     "away": "Real Sociedad",
-    "kickoff_utc": "2026-09-06T18:00:00Z",
+    "kickoff_utc": "2026-09-07T19:30:00Z",
     "city": "Elche",
     "stadium": "Estadio Martínez Valero",
     "espn_id": "401882893"
@@ -412,7 +412,7 @@
     "round": 4,
     "home": "Real Betis",
     "away": "Real Madrid",
-    "kickoff_utc": "2026-09-06T18:00:00Z",
+    "kickoff_utc": "2026-09-04T19:00:00Z",
     "city": "Sevilla",
     "stadium": "Estadio La Cartuja",
     "espn_id": "401882894"
@@ -423,7 +423,7 @@
     "round": 4,
     "home": "Athletic Club",
     "away": "Atlético Madrid",
-    "kickoff_utc": "2026-09-06T18:00:00Z",
+    "kickoff_utc": "2026-09-05T14:15:00Z",
     "city": "Bilbao",
     "stadium": "San Mamés",
     "espn_id": "401882895"
@@ -434,7 +434,7 @@
     "round": 4,
     "home": "Alavés",
     "away": "Osasuna",
-    "kickoff_utc": "2026-09-06T18:00:00Z",
+    "kickoff_utc": "2026-09-06T16:30:00Z",
     "city": "Vitoria-Gasteiz",
     "stadium": "Mendizorrotza",
     "espn_id": "401882896"
@@ -555,7 +555,7 @@
     "round": 6,
     "home": "Real Sociedad",
     "away": "Celta Vigo",
-    "kickoff_utc": "2026-09-16T18:00:00Z",
+    "kickoff_utc": "2026-09-03T19:00:00Z",
     "city": "San Sebastian",
     "stadium": "Reale Arena",
     "espn_id": "401882867"
