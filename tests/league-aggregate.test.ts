@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { loadLeagueRoster, loadModelProfiles } from "../lib/data";
+import { loadLeagueRoster, loadModelProfiles, loadRoster } from "../lib/data";
 import {
   assembleLeagueData,
   fixturesByRound,
@@ -226,6 +226,13 @@ describe("leagueMatchInfo — consensus and split", () => {
       manifest([1]), new Map(),
     );
     expect(nextRound(done)).toBeUndefined();
+  });
+});
+
+describe("league roster retirement policy", () => {
+  it("excludes retired Jamba from every league leaderboard while preserving the World Cup archive", () => {
+    expect(loadLeagueRoster().map((model) => model.id)).not.toContain("ai21/jamba-large-1.7");
+    expect(loadRoster().map((model) => model.id)).toContain("ai21/jamba-large-1.7");
   });
 });
 

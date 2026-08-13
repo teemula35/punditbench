@@ -336,18 +336,6 @@
     "notes": "Added 2026-06-10 pre-kickoff roster expansion; verified in live catalog (created 2026-06-04). (price/ctx refreshed 2026-08-03.)"
   },
   {
-    "id": "ai21/jamba-large-1.7",
-    "label": "Jamba Large 1.7",
-    "vendor": "AI21",
-    "tier": "flagship",
-    "context_length": 256000,
-    "pricing_prompt_usd_per_m": 2,
-    "pricing_completion_usd_per_m": 8,
-    "knowledge_cutoff": "unknown",
-    "reasoning": false,
-    "notes": "Added 2026-06-10 pre-kickoff roster expansion; verified in live catalog (created 2025-08-08)."
-  },
-  {
     "id": "inception/mercury-2",
     "label": "Mercury 2",
     "vendor": "Inception",
