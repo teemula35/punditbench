@@ -1,0 +1,15 @@
+{
+  "as_of": "2026-08-13",
+  "transfers": [
+    "Manchester City signed midfielder Elliot Anderson.",
+    "Manchester City signed goalkeeper Gerónimo Rulli from Marseille.",
+    "Hull City signed defender Nobel Mendy from Rayo Vallecano for a club-record fee.",
+    "Fulham signed midfielder Shea Charles from Southampton on a five-year contract.",
+    "Everton signed Brennan Johnson and Crystal Palace signed Dwight McNeil in a completed player swap."
+  ],
+  "injuries": [],
+  "managers": [
+    "Matthias Jaissle became Newcastle United head coach, replacing Eddie Howe."
+  ],
+  "source": "Compiled 2026-08-13 from ESPN's Premier League news feed: https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/news?limit=100. Directly checkable confirmations: Elliot Anderson to Manchester City (article 49591202, published 2026-08-12); Gerónimo Rulli to Manchester City (49588946, 2026-08-12); Nobel Mendy to Hull City (49591558, 2026-08-12); Shea Charles to Fulham (49580789, 2026-08-11); completed Brennan Johnson/Everton and Dwight McNeil/Crystal Palace moves (49580612, 2026-08-11); Matthias Jaissle replacing Eddie Howe at Newcastle (49583279, 2026-08-11). Narrow scope is intentional: no rumour, inferred absence, or unverified report is included."
+}
