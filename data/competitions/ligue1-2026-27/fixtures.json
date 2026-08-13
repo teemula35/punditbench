@@ -225,7 +225,7 @@
     "round": 3,
     "home": "Paris Saint-Germain",
     "away": "AS Monaco",
-    "kickoff_utc": "2026-09-04T18:45:00Z",
+    "kickoff_utc": "2026-09-04T19:05:00Z",
     "city": "Paris",
     "stadium": "Parc des Princes",
     "espn_id": "401876469"
@@ -258,7 +258,7 @@
     "round": 3,
     "home": "Lyon",
     "away": "AJ Auxerre",
-    "kickoff_utc": "2026-09-05T18:00:00Z",
+    "kickoff_utc": "2026-09-04T17:00:00Z",
     "city": "Lyon",
     "stadium": "Groupama Stadium",
     "espn_id": "401876472"
