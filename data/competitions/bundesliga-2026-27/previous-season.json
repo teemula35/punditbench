@@ -1,0 +1,29 @@
+{
+  "season": "2025-26",
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "VfB Stuttgart",
+    "TSG Hoffenheim",
+    "Bayer Leverkusen",
+    "SC Freiburg",
+    "Eintracht Frankfurt",
+    "FC Augsburg",
+    "Mainz",
+    "1. FC Union Berlin",
+    "Borussia Mönchengladbach",
+    "Hamburg SV",
+    "FC Cologne",
+    "Werder Bremen",
+    "VfL Wolfsburg",
+    "1. FC Heidenheim 1846",
+    "St. Pauli"
+  ],
+  "promoted": [
+    "SV Elversberg",
+    "SC Paderborn 07",
+    "Schalke 04"
+  ],
+  "note": "Final 2025-26 table from ESPN standings API (?season=2025), fetched 2026-08-13. Promoted = 2026-27 fixture teams absent from that table."
+}
