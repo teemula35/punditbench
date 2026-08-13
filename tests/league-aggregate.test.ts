@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { loadRoster } from "../lib/data";
+import { loadLeagueRoster } from "../lib/data";
 import {
   assembleLeagueData,
   fixturesByRound,
@@ -234,7 +234,7 @@ describe("loadLeagueData (disk wiring)", () => {
     const epl = loadLeagueData("epl-2026-27");
     expect(epl.comp.short_name).toBe("Premier League");
     expect(epl.totalFixtures).toBe(380);
-    expect(epl.leaderboard).toHaveLength(loadRoster().length);
+    expect(epl.leaderboard).toHaveLength(loadLeagueRoster().length);
     expect(epl.table).toHaveLength(20);
   });
 });
