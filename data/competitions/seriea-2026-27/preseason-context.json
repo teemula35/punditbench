@@ -1,0 +1,16 @@
+{
+  "as_of": "2026-08-13",
+  "transfers": [
+    "Inter Milan signed defender John Stones after his Manchester City exit.",
+    "Juventus completed Randal Kolo Muani's return.",
+    "AC Milan signed forward Gonçalo Ramos from Paris Saint-Germain.",
+    "Napoli signed striker Rasmus Højlund from Manchester United."
+  ],
+  "injuries": [],
+  "managers": [
+    "Napoli appointed Massimiliano Allegri as head coach, replacing Antonio Conte.",
+    "AC Milan appointed Ruben Amorim as head coach.",
+    "Atalanta appointed Maurizio Sarri as coach."
+  ],
+  "source": "Compiled 2026-08-13 from ESPN's Serie A news feed: https://site.api.espn.com/apis/site/v2/sports/soccer/ita.1/news?limit=100. Directly checkable confirmations: John Stones joined Inter Milan after leaving Manchester City (article 49464977, published 2026-07-30); Randal Kolo Muani sealed his return to Juventus (49527508, 2026-08-04); AC Milan signed Gonçalo Ramos from PSG (49226010, 2026-06-30); Rasmus Højlund joined Napoli from Manchester United (48955010, 2026-06-03); Napoli appointed Massimiliano Allegri after Antonio Conte's departure (49258287, 2026-07-03); AC Milan appointed Ruben Amorim (49070225, 2026-06-16); Atalanta hired Maurizio Sarri (49072675, 2026-06-15). Narrow scope is intentional: no rumour, inferred absence, or unverified report is included."
+}
