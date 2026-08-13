@@ -1,0 +1,41 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "slug": "deepseek-deepseek-v4-pro",
+  "competition": "laliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-13T10:52:33.964Z",
+  "completed_at": "2026-08-13T10:52:36.146Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 477,
+    "completion_tokens": 83,
+    "total_tokens": 560,
+    "cost_usd": 0.000727233
+  },
+  "table": [
+    "Real Madrid",
+    "Barcelona",
+    "Atlético Madrid",
+    "Villarreal",
+    "Real Betis",
+    "Athletic Club",
+    "Real Sociedad",
+    "Valencia",
+    "Celta Vigo",
+    "Sevilla",
+    "Rayo Vallecano",
+    "Getafe",
+    "Espanyol",
+    "Osasuna",
+    "Alavés",
+    "Deportivo",
+    "Málaga",
+    "Elche",
+    "Levante",
+    "Racing Santander"
+  ]
+}

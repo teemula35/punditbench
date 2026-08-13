@@ -1,0 +1,41 @@
+{
+  "model": "anthropic/claude-sonnet-5",
+  "slug": "anthropic-claude-sonnet-5",
+  "competition": "laliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-13T10:54:44.802Z",
+  "completed_at": "2026-08-13T10:54:48.231Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 802,
+    "completion_tokens": 138,
+    "total_tokens": 940,
+    "cost_usd": 0.002984
+  },
+  "table": [
+    "Real Madrid",
+    "Barcelona",
+    "Atlético Madrid",
+    "Villarreal",
+    "Real Betis",
+    "Athletic Club",
+    "Celta Vigo",
+    "Real Sociedad",
+    "Getafe",
+    "Rayo Vallecano",
+    "Sevilla",
+    "Valencia",
+    "Espanyol",
+    "Osasuna",
+    "Alavés",
+    "Elche",
+    "Deportivo",
+    "Levante",
+    "Racing Santander",
+    "Málaga"
+  ]
+}

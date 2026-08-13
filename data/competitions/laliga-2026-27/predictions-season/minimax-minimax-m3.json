@@ -1,0 +1,41 @@
+{
+  "model": "minimax/minimax-m3",
+  "slug": "minimax-minimax-m3",
+  "competition": "laliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-13T10:53:56.430Z",
+  "completed_at": "2026-08-13T10:54:11.676Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 621,
+    "completion_tokens": 2234,
+    "total_tokens": 2855,
+    "cost_usd": 0.00283638
+  },
+  "table": [
+    "Real Madrid",
+    "Barcelona",
+    "Atlético Madrid",
+    "Villarreal",
+    "Athletic Club",
+    "Real Betis",
+    "Real Sociedad",
+    "Celta Vigo",
+    "Getafe",
+    "Rayo Vallecano",
+    "Sevilla",
+    "Valencia",
+    "Espanyol",
+    "Deportivo",
+    "Osasuna",
+    "Alavés",
+    "Elche",
+    "Levante",
+    "Málaga",
+    "Racing Santander"
+  ]
+}

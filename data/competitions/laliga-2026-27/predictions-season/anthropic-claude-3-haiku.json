@@ -1,0 +1,41 @@
+{
+  "model": "anthropic/claude-3-haiku",
+  "slug": "anthropic-claude-3-haiku",
+  "competition": "laliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-13T10:54:21.423Z",
+  "completed_at": "2026-08-13T10:54:23.453Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 540,
+    "completion_tokens": 96,
+    "total_tokens": 636,
+    "cost_usd": 0.000255
+  },
+  "table": [
+    "Barcelona",
+    "Real Madrid",
+    "Atlético Madrid",
+    "Villarreal",
+    "Real Betis",
+    "Celta Vigo",
+    "Real Sociedad",
+    "Getafe",
+    "Rayo Vallecano",
+    "Valencia",
+    "Athletic Club",
+    "Espanyol",
+    "Sevilla",
+    "Alavés",
+    "Osasuna",
+    "Levante",
+    "Deportivo",
+    "Málaga",
+    "Elche",
+    "Racing Santander"
+  ]
+}

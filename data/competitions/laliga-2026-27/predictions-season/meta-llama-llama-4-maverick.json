@@ -1,0 +1,41 @@
+{
+  "model": "meta-llama/llama-4-maverick",
+  "slug": "meta-llama-llama-4-maverick",
+  "competition": "laliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-13T10:52:38.303Z",
+  "completed_at": "2026-08-13T10:52:39.592Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 453,
+    "completion_tokens": 72,
+    "total_tokens": 525,
+    "cost_usd": 0.00023055
+  },
+  "table": [
+    "Real Madrid",
+    "Barcelona",
+    "Atlético Madrid",
+    "Villarreal",
+    "Real Sociedad",
+    "Athletic Club",
+    "Real Betis",
+    "Valencia",
+    "Sevilla",
+    "Celta Vigo",
+    "Rayo Vallecano",
+    "Getafe",
+    "Osasuna",
+    "Espanyol",
+    "Deportivo",
+    "Alavés",
+    "Levante",
+    "Málaga",
+    "Racing Santander",
+    "Elche"
+  ]
+}

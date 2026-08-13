@@ -1,0 +1,41 @@
+{
+  "model": "openai/gpt-5.6-sol",
+  "slug": "openai-gpt-5-6-sol",
+  "competition": "laliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-13T10:52:24.901Z",
+  "completed_at": "2026-08-13T10:52:38.489Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 455,
+    "completion_tokens": 464,
+    "total_tokens": 919,
+    "cost_usd": 0.016195
+  },
+  "table": [
+    "Barcelona",
+    "Real Madrid",
+    "Atlético Madrid",
+    "Villarreal",
+    "Real Betis",
+    "Athletic Club",
+    "Real Sociedad",
+    "Celta Vigo",
+    "Valencia",
+    "Sevilla",
+    "Getafe",
+    "Rayo Vallecano",
+    "Espanyol",
+    "Osasuna",
+    "Alavés",
+    "Deportivo",
+    "Elche",
+    "Levante",
+    "Racing Santander",
+    "Málaga"
+  ]
+}

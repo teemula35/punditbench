@@ -1,0 +1,41 @@
+{
+  "model": "inception/mercury-2",
+  "slug": "inception-mercury-2",
+  "competition": "laliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-13T10:54:15.054Z",
+  "completed_at": "2026-08-13T10:54:17.905Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 766,
+    "completion_tokens": 599,
+    "total_tokens": 1365,
+    "cost_usd": 0.000572575
+  },
+  "table": [
+    "Barcelona",
+    "Real Madrid",
+    "Atlético Madrid",
+    "Villarreal",
+    "Real Betis",
+    "Sevilla",
+    "Real Sociedad",
+    "Athletic Club",
+    "Valencia",
+    "Rayo Vallecano",
+    "Getafe",
+    "Celta Vigo",
+    "Espanyol",
+    "Alavés",
+    "Deportivo",
+    "Málaga",
+    "Racing Santander",
+    "Levante",
+    "Osasuna",
+    "Elche"
+  ]
+}

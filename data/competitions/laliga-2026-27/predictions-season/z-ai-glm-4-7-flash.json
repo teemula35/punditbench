@@ -1,0 +1,41 @@
+{
+  "model": "z-ai/glm-4.7-flash",
+  "slug": "z-ai-glm-4-7-flash",
+  "competition": "laliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-13T10:54:39.577Z",
+  "completed_at": "2026-08-13T10:55:48.641Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 585,
+    "completion_tokens": 1748,
+    "total_tokens": 2333,
+    "cost_usd": 0.0007343
+  },
+  "table": [
+    "Barcelona",
+    "Real Madrid",
+    "Villarreal",
+    "Atlético Madrid",
+    "Real Betis",
+    "Celta Vigo",
+    "Getafe",
+    "Rayo Vallecano",
+    "Valencia",
+    "Real Sociedad",
+    "Espanyol",
+    "Athletic Club",
+    "Sevilla",
+    "Alavés",
+    "Elche",
+    "Levante",
+    "Osasuna",
+    "Deportivo",
+    "Málaga",
+    "Racing Santander"
+  ]
+}

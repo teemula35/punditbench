@@ -1,0 +1,9 @@
+track: locked (pre-season final table)
+competition: laliga-2026-27
+models: 40
+generated_at: 2026-08-13T11:04:46.592Z
+sha256: 6391fe797885c28d18b5af7175522dd644e278b4bbad1066011d627d17c6b116
+
+Canonical form: JSON array of {slug, model, competition, completed_at, table},
+sorted by slug, no whitespace.
+Recompute with: npm run season-predict -- --comp laliga-2026-27 --hash-only

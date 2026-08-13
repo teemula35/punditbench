@@ -1,0 +1,41 @@
+{
+  "model": "mistralai/mistral-small-2603",
+  "slug": "mistralai-mistral-small-2603",
+  "competition": "laliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-13T10:52:40.658Z",
+  "completed_at": "2026-08-13T10:52:41.661Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 501,
+    "completion_tokens": 77,
+    "total_tokens": 578,
+    "cost_usd": 0.00012135
+  },
+  "table": [
+    "Real Madrid",
+    "Barcelona",
+    "Atlético Madrid",
+    "Villarreal",
+    "Real Betis",
+    "Athletic Club",
+    "Valencia",
+    "Sevilla",
+    "Real Sociedad",
+    "Celta Vigo",
+    "Getafe",
+    "Espanyol",
+    "Alavés",
+    "Rayo Vallecano",
+    "Deportivo",
+    "Málaga",
+    "Osasuna",
+    "Levante",
+    "Racing Santander",
+    "Elche"
+  ]
+}

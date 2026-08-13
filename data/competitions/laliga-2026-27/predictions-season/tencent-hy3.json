@@ -1,0 +1,41 @@
+{
+  "model": "tencent/hy3",
+  "slug": "tencent-hy3",
+  "competition": "laliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-13T10:54:41.290Z",
+  "completed_at": "2026-08-13T10:56:09.409Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 503,
+    "completion_tokens": 3189,
+    "total_tokens": 3692,
+    "cost_usd": 0.00192004
+  },
+  "table": [
+    "Barcelona",
+    "Real Madrid",
+    "Villarreal",
+    "Atlético Madrid",
+    "Real Betis",
+    "Celta Vigo",
+    "Getafe",
+    "Rayo Vallecano",
+    "Valencia",
+    "Real Sociedad",
+    "Espanyol",
+    "Athletic Club",
+    "Sevilla",
+    "Alavés",
+    "Elche",
+    "Levante",
+    "Osasuna",
+    "Deportivo",
+    "Racing Santander",
+    "Málaga"
+  ]
+}
