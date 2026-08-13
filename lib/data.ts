@@ -44,6 +44,17 @@ export function loadLeagueRoster(): RosterModel[] {
   return readJsonIfExists<RosterModel[]>("roster-league.json") ?? loadRoster();
 }
 
+/**
+ * Models with a public profile. The World Cup roster remains the archive source
+ * for World Cup pages; league-only entrants join it here so league leaderboard
+ * links never resolve to a missing profile.
+ */
+export function loadModelProfiles(): RosterModel[] {
+  const byId = new Map<string, RosterModel>();
+  for (const model of [...loadRoster(), ...loadLeagueRoster()]) byId.set(model.id, model);
+  return [...byId.values()].sort((a, b) => a.label.localeCompare(b.label));
+}
+
 export function loadKnockoutTemplate(): KnockoutSlot[] {
   return readJson<KnockoutSlot[]>(path.join("fixtures", "knockout-template.json"));
 }

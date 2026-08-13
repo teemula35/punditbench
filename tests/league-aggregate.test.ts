@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { loadLeagueRoster } from "../lib/data";
+import { loadLeagueRoster, loadModelProfiles } from "../lib/data";
 import {
   assembleLeagueData,
   fixturesByRound,
@@ -236,5 +236,15 @@ describe("loadLeagueData (disk wiring)", () => {
     expect(epl.totalFixtures).toBe(380);
     expect(epl.leaderboard).toHaveLength(loadLeagueRoster().length);
     expect(epl.table).toHaveLength(20);
+  });
+});
+
+describe("loadModelProfiles", () => {
+  it("includes every league-roster model, including models absent from the World Cup archive", () => {
+    const profileSlugs = new Set(loadModelProfiles().map((m) => modelSlug(m.id)));
+
+    for (const leagueModel of loadLeagueRoster()) {
+      expect(profileSlugs).toContain(modelSlug(leagueModel.id));
+    }
   });
 });
