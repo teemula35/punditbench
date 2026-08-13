@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { loadRoster } from "@/lib/data";
+import { loadModelProfiles } from "@/lib/data";
 import { modelSlug } from "@/lib/prompt";
 import { PageTitle, TD_CLS, TH_CLS, TierChip } from "../ui";
 
 export const metadata: Metadata = {
   title: "Models",
-  description: "The 40-model roster: every LLM competing in PunditBench, with pricing and cutoffs.",
+  description: "Every LLM with a PunditBench profile, including World Cup archive and league-season entrants.",
 };
 
 function price(n?: number): string {
@@ -14,7 +14,7 @@ function price(n?: number): string {
 }
 
 export default function ModelsPage() {
-  const roster = [...loadRoster()].sort(
+  const roster = [...loadModelProfiles()].sort(
     (a, b) => a.vendor.localeCompare(b.vendor) || a.label.localeCompare(b.label),
   );
   const vendorCount = new Set(roster.map((m) => m.vendor)).size;
@@ -24,7 +24,7 @@ export default function ModelsPage() {
       <PageTitle
         kicker="The roster"
         title="Models"
-        sub={`${roster.length} models across ${vendorCount} vendors, accessed through OpenRouter: current flagships, mid-tiers and small models. Every one predicted its own complete tournament — group scores, bracket, champion — before kickoff. The roster was frozen pre-kickoff; models added later would appear as unranked exhibition entries.`}
+        sub={`${roster.length} models across ${vendorCount} vendors, accessed through OpenRouter: current flagships, mid-tiers and small models. World Cup entrants predicted a complete tournament before kickoff; league-season entrants have matchday picks locked before each round.`}
       />
       <div className="overflow-x-auto rounded-lg border border-zinc-800">
         {/* <sm keeps Model, Tier and the link; vendor, cutoff and pricing

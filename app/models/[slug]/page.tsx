@@ -4,8 +4,9 @@ import { notFound } from "next/navigation";
 import { loadSiteData, predictionFor } from "@/lib/aggregate";
 import { simulateGroups } from "@/lib/bracket";
 import { bracketView, type SimMatchView } from "@/lib/bracket-view";
-import { loadRoster, loadTeams } from "@/lib/data";
+import { loadCompetitions, loadModelProfiles, loadTeams } from "@/lib/data";
 import { fmtShortDateUtc } from "@/lib/format";
+import { loadLeagueData } from "@/lib/league-aggregate";
 import { traitBand, type Personality, type TraitKey } from "@/lib/personality";
 import { modelSlug, teamFlag } from "@/lib/prompt";
 import { reportCardFor, type ReportCard } from "@/lib/report-card";
@@ -17,7 +18,7 @@ import { BreakdownChip, MatchLink, TD_CLS, TH_CLS, TeamLabel, TierChip } from ".
 const STAGE_ORDER: StageId[] = ["group", ...KNOCKOUT_STAGES];
 
 export function generateStaticParams() {
-  return loadRoster().map((m) => ({ slug: modelSlug(m.id) }));
+  return loadModelProfiles().map((m) => ({ slug: modelSlug(m.id) }));
 }
 
 export async function generateMetadata({
@@ -26,7 +27,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const model = loadRoster().find((m) => modelSlug(m.id) === slug);
+  const model = loadModelProfiles().find((m) => modelSlug(m.id) === slug);
   if (!model) return { title: "Model not found" };
   return {
     title: model.label,
@@ -396,9 +397,50 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
   const data = loadSiteData();
   const teams = loadTeams();
   const entry = data.leaderboard.find((e) => e.slug === slug);
-  if (!entry) notFound();
+  const model = loadModelProfiles().find((m) => modelSlug(m.id) === slug);
+  if (!model) notFound();
 
-  const { model, totals, bracket, scores, files } = entry;
+  const leagueEntries = loadCompetitions().flatMap((comp) => {
+    const leagueEntry = loadLeagueData(comp.id).leaderboard.find((e) => e.slug === slug);
+    return leagueEntry ? [{ comp, entry: leagueEntry }] : [];
+  });
+
+  if (!entry) {
+    return (
+      <div className="space-y-10">
+        <header>
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-2xl font-bold tracking-tight text-zinc-50 sm:text-3xl">{model.label}</h1>
+            <TierChip tier={model.tier} />
+          </div>
+          <div className="mt-3 space-y-1 text-sm text-zinc-400">
+            <p>{model.vendor} · <span className="font-mono text-xs text-zinc-500">{model.id}</span></p>
+          </div>
+        </header>
+        <section className="rounded-lg border border-zinc-800 bg-zinc-900/40 p-6">
+          <h2 className="text-lg font-semibold text-zinc-100">League benchmark profile</h2>
+          <p className="mt-2 max-w-2xl text-sm text-zinc-400">
+            This model joined PunditBench after the 2026 World Cup archive. Its record begins with
+            the 2026–27 league season; each matchday&apos;s picks are locked before kickoff.
+          </p>
+          <ul className="mt-4 space-y-2 text-sm">
+            {leagueEntries.map(({ comp, entry: leagueEntry }) => (
+              <li key={comp.id}>
+                <Link href={`/leagues/${comp.id}/`} className="text-emerald-400 hover:underline">
+                  {comp.name}
+                </Link>{" "}
+                <span className="text-zinc-500">
+                  · {leagueEntry.picksCount} locked picks · {leagueEntry.totals.points} points
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    );
+  }
+
+  const { totals, bracket, scores, files } = entry;
   const personality = data.personalities.get(slug);
   const reportCard = reportCardFor(data, slug);
   const anyResults = data.playedCount > 0;

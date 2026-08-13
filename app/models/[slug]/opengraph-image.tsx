@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { loadSiteData } from "@/lib/aggregate";
-import { loadRoster } from "@/lib/data";
+import { loadModelProfiles } from "@/lib/data";
 import { modelSlug } from "@/lib/prompt";
 import { reportCardFor } from "@/lib/report-card";
 import { SITE_NAME } from "@/lib/site";
@@ -14,7 +14,7 @@ export const contentType = "image/png";
 export const alt = `${SITE_NAME} model report card`;
 
 export function generateStaticParams() {
-  return loadRoster().map((m) => ({ slug: modelSlug(m.id) }));
+  return loadModelProfiles().map((m) => ({ slug: modelSlug(m.id) }));
 }
 
 const ACCENT = "#34d399";
@@ -47,14 +47,14 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   const card = reportCardFor(data, slug);
   // Fall back to the roster row if the report card can't be built, so the card
   // still renders as a branded, named model page rather than a blank frame.
-  const model = data.roster.find((m) => modelSlug(m.id) === slug);
+  const model = loadModelProfiles().find((m) => modelSlug(m.id) === slug);
 
   const label = card?.label ?? model?.label ?? SITE_NAME;
   const kicker = [card?.vendor ?? model?.vendor, card?.tier ?? model?.tier]
     .filter(Boolean)
     .join(" · ");
   const verdict = clip(
-    card?.verdict ?? "One of 40 LLMs that predicted the entire 2026 World Cup before a ball was kicked.",
+    card?.verdict ?? "A PunditBench model profile with pre-registered prediction records.",
     150,
   );
 

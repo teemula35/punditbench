@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { loadFixtures, loadRoster } from "@/lib/data";
+import { loadFixtures, loadModelProfiles } from "@/lib/data";
 import { modelSlug } from "@/lib/prompt";
 import { SITE_URL } from "@/lib/site";
 
@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/season-2026-27/",
   ];
   const matchRoutes = loadFixtures().map((f) => `/matches/${f.match}/`);
-  const modelRoutes = loadRoster().map((m) => `/models/${modelSlug(m.id)}/`);
+  const modelRoutes = loadModelProfiles().map((m) => `/models/${modelSlug(m.id)}/`);
 
   return [...staticRoutes, ...matchRoutes, ...modelRoutes].map((route) => ({
     url: `${SITE_URL}${route}`,
