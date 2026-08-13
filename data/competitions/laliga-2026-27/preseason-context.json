@@ -1,0 +1,8 @@
+{
+  "as_of": "2026-08-13",
+  "transfers": [
+    "Barcelona loaned defender Ronald Araújo to Liverpool for the 2026-27 season; Liverpool hold a €55m permanent option."
+  ],
+  "injuries": [],
+  "source": "Compiled 2026-08-13 from ESPN's La Liga news feed: https://site.api.espn.com/apis/site/v2/sports/soccer/esp.1/news?limit=100 (article published 2026-08-10: 'Liverpool sign Barcelona defender Ronald Araújo on loan with €55m permanent option'). The narrow scope is intentional: no other transfer, injury, or manager-change entry was included without a directly checkable confirmation."
+}
