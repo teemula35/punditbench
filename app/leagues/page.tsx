@@ -43,7 +43,9 @@ export default function LeaguesPage() {
         Unlike the knowledge-only World Cup prompts, league picks are form-aware: before each
         round every model is shown the current table and each team&apos;s recent results, then
         predicts every scoreline of the matchday. Picks lock ~36h before each round&apos;s first
-        kickoff and are SHA-256 pre-registered, so nothing can be edited after the fact. Scoring:
+        kickoff and are SHA-256 pre-registered, so nothing can be edited after the fact. A round
+        locks as one unit, so where a matchday is split across weeks by a deferred fixture, its
+        later matches are pre-registered further ahead than its opener. Scoring:
         exact score 3 · goal difference 2 · outcome 1.{" "}
         <Link
           href="/methodology/"

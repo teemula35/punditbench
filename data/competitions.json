@@ -8,7 +8,7 @@
     "espn_slug": "eng.1",
     "team_count": 20,
     "round_count": 38,
-    "active": false,
+    "active": true,
     "notes": "Flagship launch league. Opener 2026-08-21 19:00Z Coventry-Arsenal (ESPN, probed 2026-07-02)."
   },
   {
@@ -20,7 +20,7 @@
     "espn_slug": "esp.1",
     "team_count": 20,
     "round_count": 38,
-    "active": false,
+    "active": true,
     "notes": "Earliest top-5 opener 2026-08-16 (Getafe-Alaves) — shakedown candidate if pipeline green by Aug 12."
   },
   {
@@ -32,7 +32,7 @@
     "espn_slug": "ita.1",
     "team_count": 20,
     "round_count": 38,
-    "active": false,
+    "active": true,
     "notes": "Opener 2026-08-22 (Monza-Inter). Onboards early Sept."
   },
   {
@@ -44,7 +44,7 @@
     "espn_slug": "fra.1",
     "team_count": 18,
     "round_count": 34,
-    "active": false,
+    "active": true,
     "notes": "Opener 2026-08-22 (Lille-Angers). Onboards early Sept."
   },
   {
@@ -56,7 +56,7 @@
     "espn_slug": "ger.1",
     "team_count": 18,
     "round_count": 34,
-    "active": false,
+    "active": true,
     "notes": "2026-27 fixtures not yet in ESPN as of 2026-07-02 — re-probe late July; onboards when published."
   }
 ]
