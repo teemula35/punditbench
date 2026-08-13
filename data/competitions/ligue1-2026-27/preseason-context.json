@@ -1,0 +1,13 @@
+{
+  "as_of": "2026-08-13",
+  "transfers": [
+    "Paris Saint-Germain signed winger Maghnes Akliouche from AS Monaco on a five-year contract.",
+    "Strasbourg signed midfielder Gio Reyna from Borussia Mönchengladbach.",
+    "Paris FC signed forward Lassine Sinayoko."
+  ],
+  "injuries": [],
+  "managers": [
+    "Marseille appointed Bruno Génésio as manager following Habib Beye's exit."
+  ],
+  "source": "Compiled 2026-08-13 from ESPN's Ligue 1 news feed: https://site.api.espn.com/apis/site/v2/sports/soccer/fra.1/news?limit=100. Directly checkable confirmations: PSG signed Maghnes Akliouche from Monaco on a five-year contract (article 49546455, published 2026-08-06); Gio Reyna completed a move to Strasbourg from Borussia Mönchengladbach (49527707, 2026-08-04); Paris FC signed Lassine Sinayoko (49416590, 2026-07-21); Marseille appointed Bruno Génésio following Habib Beye's exit (49236027, 2026-07-01). Narrow scope is intentional: no rumour, inferred absence, or unverified report is included."
+}
