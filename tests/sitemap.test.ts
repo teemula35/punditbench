@@ -5,6 +5,8 @@ import { sitemapRoutes } from "../lib/sitemap";
 describe("sitemapRoutes", () => {
   it("includes the opening-round brief and complete free sample", () => {
     expect(sitemapRoutes()).toContain("/briefs/opening-round-2026/");
+    expect(sitemapRoutes()).toContain("/briefs/opening-round-2026/refunds/");
+    expect(sitemapRoutes()).toContain("/briefs/opening-round-2026/privacy/");
   });
 
   it("includes every league landing page and every league fixture page", () => {
