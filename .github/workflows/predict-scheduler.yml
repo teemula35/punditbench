@@ -90,6 +90,17 @@ jobs:
 
       - name: Build
         if: steps.diff.outputs.dirty == 'true'
+        env:
+          PB_BRIEF_CHECKOUT_URL: ${{ secrets.PB_BRIEF_CHECKOUT_URL }}
+          PB_BRIEF_SELLER_NAME: ${{ secrets.PB_BRIEF_SELLER_NAME }}
+          PB_BRIEF_SELLER_ADDRESS: ${{ secrets.PB_BRIEF_SELLER_ADDRESS }}
+          PB_BRIEF_SELLER_ID: ${{ secrets.PB_BRIEF_SELLER_ID }}
+          PB_BRIEF_SUPPORT_EMAIL: ${{ secrets.PB_BRIEF_SUPPORT_EMAIL }}
+          PB_BRIEF_VAT_NOTICE: ${{ secrets.PB_BRIEF_VAT_NOTICE }}
+          PB_BRIEF_DELIVERY_METHOD: ${{ secrets.PB_BRIEF_DELIVERY_METHOD }}
+          PB_BRIEF_TERMS_URL: ${{ secrets.PB_BRIEF_TERMS_URL }}
+          PB_BRIEF_PRIVACY_URL: ${{ secrets.PB_BRIEF_PRIVACY_URL }}
+          PB_BRIEF_REFUNDS_URL: ${{ secrets.PB_BRIEF_REFUNDS_URL }}
         run: npm run build
 
       - name: Deploy
