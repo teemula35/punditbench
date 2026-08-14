@@ -6,6 +6,10 @@ import { scoreMatch } from "../lib/scoring";
 
 const samplePath = path.join(process.cwd(), "content", "briefs", "opening-round-2026-sample.md");
 
+// Git checkouts on Windows deliver CRLF; the assertions below match against \n
+// blank lines and would capture stray \r into groups otherwise.
+const readText = (filePath: string) => fs.readFileSync(filePath, "utf8").replace(/\r\n/g, "\n");
+
 describe("opening-round brief sample evidence", () => {
   it("keeps the published R16 scorecard aligned with the locked files", () => {
     const fixtures = new Map(loadStageFixtures("r16").map((fixture) => [fixture.match, fixture]));
@@ -22,7 +26,7 @@ describe("opening-round brief sample evidence", () => {
     const count = (breakdown: string) => scores.filter((score) => score.breakdown === breakdown).length;
     const basePoints = scores.reduce((total, score) => total + score.points - score.advance_bonus, 0);
     const advancePoints = scores.reduce((total, score) => total + score.advance_bonus, 0);
-    const sample = fs.readFileSync(samplePath, "utf8");
+    const sample = readText(samplePath);
 
     expect(loadRoster()).toHaveLength(40);
     expect(files).toHaveLength(38);
@@ -52,7 +56,7 @@ describe("opening-round brief sample evidence", () => {
     const manifest = JSON.parse(
       fs.readFileSync(path.join(process.cwd(), "data", "predictions-live", "manifest.json"), "utf8"),
     ) as { rounds: { r16: { locked_at: string } } };
-    const hashRecord = fs.readFileSync(path.join(process.cwd(), "data", "hashes", "r16-live.txt"), "utf8");
+    const hashRecord = readText(path.join(process.cwd(), "data", "hashes", "r16-live.txt"));
     const hashValues = {
       track: hashRecord.match(/^track: (.+)$/m)?.[1],
       stage: hashRecord.match(/^stage: (.+)$/m)?.[1],
@@ -60,7 +64,7 @@ describe("opening-round brief sample evidence", () => {
       generatedAt: hashRecord.match(/^generated_at: (.+)$/m)?.[1],
       digest: hashRecord.match(/^sha256: ([a-f0-9]{64})$/m)?.[1],
     };
-    const sample = fs.readFileSync(samplePath, "utf8");
+    const sample = readText(samplePath);
     const audit = sample.match(
       /## 4\. Lock and hash audit\n\n([\s\S]*?)\n\nGit records the annotated tag/,
     )?.[1];
