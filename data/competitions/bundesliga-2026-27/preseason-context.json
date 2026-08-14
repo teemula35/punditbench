@@ -1,0 +1,10 @@
+{
+  "as_of": "2026-08-14",
+  "transfers": [
+    "Bayer Leverkusen signed Spanish left back Miguel Gutiérrez from Napoli.",
+    "Bayern Munich signed left back Nathaniel Brown from Eintracht Frankfurt.",
+    "Bayern Munich signed midfielder Ismael Saibari."
+  ],
+  "injuries": [],
+  "source": "Compiled 2026-08-14 from ESPN's Bundesliga news feed: https://site.api.espn.com/apis/site/v2/sports/soccer/ger.1/news?limit=100. Directly checkable confirmations: Bayer Leverkusen signed Miguel Gutiérrez from Napoli (article 49539233, published 2026-08-05); Bayern Munich completed Nathaniel Brown's signing from Eintracht Frankfurt (49258291, 2026-07-03); Ismael Saibari joined Bayern Munich (49238268, 2026-07-01). Narrow scope is intentional: no rumour, inferred absence, or unverified report is included."
+}
