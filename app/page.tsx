@@ -15,6 +15,7 @@ import { reportCards } from "@/lib/report-card";
 import { TAGLINE } from "@/lib/site";
 import { NotifyForm } from "./notify";
 import { TodayMatches, type TodayCard } from "./today-matches";
+import { OpeningRoundBriefCard } from "./briefs/opening-round-2026/card";
 import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
 import type { Fixture, Team } from "@/lib/types";
 import { roundLabel } from "@/lib/types";
@@ -297,6 +298,8 @@ export default function LeaderboardPage() {
           <NotifyForm />
         </div>
       </section>
+
+      <OpeningRoundBriefCard />
 
       {/* Today's matches — client-rendered, follows the visitor's local date */}
       <TodayMatches cards={todayCards} />
