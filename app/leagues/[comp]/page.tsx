@@ -45,7 +45,7 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
       <PageTitle
         kicker={`League benchmark · ${data.comp.season_label}`}
         title={data.comp.name}
-        sub={`${data.leaderboard.length} models predict every ${data.comp.short_name} scoreline one matchday at a time — shown the current table and each team's recent form, locked ~36h before each round's first kickoff. Exact score 3 · goal difference 2 · outcome 1.`}
+        sub={`${data.leaderboard.length} models are tracked one matchday at a time — shown the current table and each team's recent form, with eligible picks locked ~36h before each round's first kickoff. Later entrants are flagged and never backfilled. Exact score 3 · goal difference 2 · outcome 1.`}
       />
 
       {data.totalFixtures === 0 ? (
@@ -96,9 +96,9 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
               <div className="mb-4 max-w-3xl rounded-lg border border-dashed border-zinc-800 bg-zinc-900/30 p-4">
                 <p className="text-sm text-zinc-400">
                   No rounds scored yet — the season starts{" "}
-                  {firstFixture ? fmtShortDateUtc(firstFixture.kickoff_utc) : "soon"}. All{" "}
-                  {data.leaderboard.length} models&apos; picks lock before every matchday and the
-                  board fills in as the rounds are played.
+                  {firstFixture ? fmtShortDateUtc(firstFixture.kickoff_utc) : "soon"}. Eligible
+                  models&apos; picks lock before each matchday and the board fills in as the rounds
+                  are played; a model is unranked until its first eligible result.
                 </p>
               </div>
             )}
@@ -108,25 +108,28 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
             {anyScored && (
               <>
                 <div className="overflow-x-auto rounded-lg border border-zinc-800">
-                  {/* <sm shows #, Model, Points and Pts/match; the component columns
+                  {/* <sm shows #, Model, Pts/match and Points; the component columns
                       reappear from sm up (hidden sm:table-cell on matching th + td). */}
                   <table className="w-full text-sm sm:min-w-[760px]">
                     <thead className="border-b border-zinc-800 bg-zinc-900/60">
                       <tr>
                         <th className={TH_CLS}>#</th>
                         <th className={TH_CLS}>Model</th>
+                        <th className={`${TH_CLS} text-right`}>Pts/match</th>
+                        <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Scored</th>
                         <th className={`${TH_CLS} text-right`}>Points</th>
                         <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Exact</th>
                         <th className={`${TH_CLS} hidden text-right sm:table-cell`}>GD</th>
                         <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Outcome</th>
                         <th className={`${TH_CLS} hidden text-right sm:table-cell`}>Picks</th>
-                        <th className={`${TH_CLS} text-right`}>Pts/match</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-zinc-800/70">
                       {data.leaderboard.map((e) => (
                         <tr key={e.slug} className="hover:bg-zinc-900/40">
-                          <td className={`${TD_CLS} w-10 tabular-nums text-zinc-500`}>{e.rank}</td>
+                          <td className={`${TD_CLS} w-10 tabular-nums text-zinc-500`}>
+                            {e.rank ?? "—"}
+                          </td>
                           <td className={TD_CLS}>
                             <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                               <Link
@@ -137,11 +140,22 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
                               </Link>
                               <span className="text-xs text-zinc-500">{e.model.vendor}</span>
                               <TierChip tier={e.model.tier} />
+                              {e.joinedRound !== "md01" && (
+                                <span className="rounded border border-amber-400/30 bg-amber-400/5 px-1.5 py-0.5 text-[10px] font-semibold text-amber-300">
+                                  since {roundLabel(e.joinedRound)}
+                                </span>
+                              )}
                             </div>
                           </td>
                           <td
                             className={`${TD_CLS} text-right text-lg font-bold tabular-nums text-emerald-400`}
                           >
+                            {e.totals.scoredMatches > 0 ? e.pointsPerMatch.toFixed(2) : "—"}
+                          </td>
+                          <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
+                            {e.totals.scoredMatches}
+                          </td>
+                          <td className={`${TD_CLS} text-right font-semibold tabular-nums text-zinc-300`}>
                             {e.totals.points}
                           </td>
                           <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
@@ -156,9 +170,6 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
                           <td className={`${TD_CLS} hidden text-right tabular-nums text-zinc-300 sm:table-cell`}>
                             {e.picksCount}
                           </td>
-                          <td className={`${TD_CLS} text-right tabular-nums text-zinc-300`}>
-                            {e.pointsPerMatch.toFixed(2)}
-                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -166,9 +177,10 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
                 </div>
                 <p className="mt-2 text-xs text-zinc-600">
                   Exact score 3 · goal difference 2 · outcome 1. Pts/match = points per scored
-                  match — a model is scored on every match of a round it locked picks for,
-                  including any it failed to predict. Tiebreakers: points → exact scores → matches
-                  with points; models without any stored picks rank below participants.
+                  match and is the primary ranking metric, so later entrants remain comparable.
+                  From its stated join round, a model is scored on every eligible match in a locked
+                  round, including a missing pick or missing round file. Tiebreakers: cumulative
+                  points → exact scores → matches with points. Pre-join rounds are never backfilled.
                 </p>
               </>
             )}
@@ -263,8 +275,10 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
                   Table predictions — locked before the season
                 </h2>
                 <p className="mb-4 max-w-3xl text-sm text-zinc-400">
-                  Every model predicted the final {data.comp.short_name} table before the opening
-                  kickoff (hashed and tagged, like everything here).{" "}
+                  <span className="tabular-nums">{seasonPreds.length}</span> models predicted the
+                  final {data.comp.short_name} table before the opening kickoff (hashed and tagged,
+                  like everything here). Later matchday entrants are not added to this locked
+                  pre-season field. {" "}
                   {topChampion && (
                     <>
                       <span className="tabular-nums">{topChampion[1]}</span> of{" "}
@@ -353,8 +367,8 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
           <section>
             <h2 className="mb-1 text-lg font-semibold text-zinc-100">Matchdays</h2>
             <p className="mb-4 text-sm text-zinc-400">
-              Every round of the season. Open a matchday to compare all{" "}
-              {data.leaderboard.length} models&apos; picks match by match.
+              Every round of the season. Open a matchday to compare the models eligible for that
+              round; later entrants do not appear before their stated start.
             </p>
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
               {[...rounds.entries()].map(([round, fixtures]) => {

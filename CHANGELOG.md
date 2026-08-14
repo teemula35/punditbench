@@ -2,6 +2,12 @@
 
 Material events affecting scoring, data, or methodology are recorded here (C13/E-transparency).
 
+## 2026-08-14
+
+- **Qwen3.8 Max joined the league benchmark as a new entrant.** The exact OpenRouter ID is `qwen/qwen3.8-max` (stable general-availability model, 1,000,000-token context, catalog price $2/M prompt and $6/M completion tokens; catalog verified 2026-08-14). It does not replace `qwen/qwen3.7-max`, whose existing record remains separate.
+- **No locked record was revised.** La Liga's season-table field and Matchday 1 were already locked, so Qwen3.8 Max starts La Liga at Matchday 2 and is absent from the old pages and denominators. The other listed leagues had not locked Matchday 1, so it starts those competitions at Matchday 1. No prediction, hash, manifest, or tag was backfilled.
+- **Partial-season participation is explicit.** The evolving league roster now stores a per-competition join round. League tables rank by points per scored match, show each denominator, flag later starts, and leave a model unranked until its first eligible result. Once eligible, missing picks or a missing whole round file score zero and count in that denominator.
+
 ## 2026-06-29
 
 - **New benchmark — a round-by-round ("live") track.** By follower request, alongside the locked self-consistent bracket every model now also predicts the **real** knockout pairings of each round directly, as reality produces them. Scored like group matches (exact 3 / GD 2 / outcome 1, +1 correct advancer), kept **separate** from the headline leaderboard and surfaced as a "Round-by-round picks" section on each knockout match page. Stored in its own tree (`data/predictions-live/`, raw logs in `data/raw-live/`) so the pre-kickoff locked predictions are untouched. Each round is hashed and tagged before its first kickoff (`predictions-<stage>-live`); the golden rule applies per round. See METHODOLOGY.md and OPS.md.

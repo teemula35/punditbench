@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { loadCompetitionFixtures, loadCompetitions, loadLeagueRoster } from "@/lib/data";
+import { loadCompetitionFixtures, loadCompetitions } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { leagueMatchInfo, loadLeagueData, type LeagueMatchInfo } from "@/lib/league-aggregate";
-import { roundLabel } from "@/lib/types";
+import { leagueMatchMetadataPickSummary } from "@/lib/league-match-metadata";
+import { modelEligibleForLeagueRound } from "@/lib/league-participation";
+import { isMatchdayKey, roundLabel } from "@/lib/types";
 import type { Competition, Fixture } from "@/lib/types";
 import { BreakdownChip, TD_CLS, TH_CLS, TierChip } from "../../../../ui";
 
@@ -21,11 +23,20 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { comp, match } = await params;
   const c = loadCompetitions().find((x) => x.id === comp);
-  const fixture = c && loadCompetitionFixtures(c.id).find((f) => f.match === Number(match));
-  if (!c || !fixture) return { title: "Match not found" };
+  const data = c ? loadLeagueData(c.id) : undefined;
+  const fixture = data?.fixtures.get(Number(match));
+  if (!c || !data || !fixture) return { title: "Match not found" };
+  const info = leagueMatchInfo(data, fixture);
+  let eligibleCount = 0;
+  if (info.state === "pending" && isMatchdayKey(fixture.stage)) {
+    const stage = fixture.stage;
+    eligibleCount = data.leaderboard.filter((entry) =>
+      modelEligibleForLeagueRound(entry.model, c.id, stage),
+    ).length;
+  }
   return {
     title: `${c.short_name} ${roundLabel(fixture.stage)}: ${fixture.home} vs ${fixture.away}`,
-    description: `${loadLeagueRoster().length} LLM picks for ${fixture.home} vs ${fixture.away} — ${roundLabel(fixture.stage)}, ${c.name}.`,
+    description: `${leagueMatchMetadataPickSummary(info, eligibleCount)}: ${fixture.home} vs ${fixture.away} — ${roundLabel(fixture.stage)}, ${c.name}.`,
   };
 }
 
@@ -146,7 +157,7 @@ function PicksSection({
         <h2 className="mb-3 text-lg font-semibold text-zinc-100">Model picks</h2>
         <div className="rounded-lg border border-dashed border-zinc-800 bg-zinc-900/30 p-5">
           <p className="text-sm text-zinc-400">
-            Picks lock ~36h before this round&apos;s first kickoff. Every model is shown the
+            Picks lock ~36h before this round&apos;s first kickoff. Every eligible model is shown the
             current {comp.short_name} table and each team&apos;s recent form, then predicts this
             exact scoreline — locked &amp; SHA-256 pre-registered before the round begins. The
             picks appear here once the {stageLabel} round locks.

@@ -83,7 +83,11 @@ export default function ModelsPage() {
       </div>
       <p className="mt-3 text-xs text-zinc-600">
         Knowledge cutoffs differ between models; that asymmetry is part of what the benchmark
-        measures and is shown rather than corrected for. Full snapshot details in{" "}
+        measures and is shown rather than corrected for. Current league snapshot in{" "}
+        <a href="/data/roster-league.json" className="text-emerald-400 hover:underline">
+          data/roster-league.json
+        </a>
+        ; frozen World Cup snapshot in{" "}
         <a href="/data/roster.json" className="text-emerald-400 hover:underline">
           data/roster.json
         </a>

@@ -6,7 +6,7 @@ import { PageTitle } from "../ui";
 
 const OG_TITLE = `${SITE_NAME} — LLMs predict the 2026-27 European leagues`;
 const OG_DESCRIPTION =
-  "From August 16 the benchmark moves to the Premier League, La Liga and Europe's other top flights: every matchday, all models, picks locked before kickoff.";
+  "From August 16 the benchmark moves to the Premier League, La Liga and Europe's other top flights: every matchday, the eligible model field, picks locked before kickoff.";
 
 // The layout's openGraph/twitter blocks are World Cup flavoured, so league
 // links unfurled as tournament news. These override both (og:* and twitter:*
@@ -15,7 +15,7 @@ const OG_DESCRIPTION =
 export const metadata: Metadata = {
   title: "Season 2026-27 — the benchmark continues",
   description:
-    "After the World Cup, PunditBench moves to the top European leagues: every matchday, all models, picks pre-registered before kickoff — plus locked pre-season table predictions.",
+    "After the World Cup, PunditBench moves to the top European leagues: every matchday, the eligible model field, picks pre-registered before kickoff — plus locked pre-season table predictions.",
   openGraph: {
     title: OG_TITLE,
     description: OG_DESCRIPTION,
@@ -67,14 +67,14 @@ export default function SeasonAnnouncementPage() {
         <ul className="list-disc space-y-2 pl-5 text-zinc-400">
           <li>
             <span className="font-medium text-zinc-200">Weekly matchday picks.</span> Before
-            every round, all models predict every match — shown the current league table and
+            every round, every eligible model predicts every match — shown the current league table and
             each team&apos;s recent form, so the benchmark measures football judgement rather
             than whose training data is freshest. Picks lock ~36 hours before each round&apos;s
             first kickoff, hashed and tagged in the public repository.
           </li>
           <li>
             <span className="font-medium text-zinc-200">Pre-season table predictions.</span>{" "}
-            Before each league&apos;s opener, every model commits a full final-table
+            Before each league&apos;s opener, the launch roster is asked to commit a full final-table
             prediction — graded live all season as &quot;if it ended today&quot;.
           </li>
         </ul>

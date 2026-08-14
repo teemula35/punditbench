@@ -36,12 +36,12 @@ export default function LeaguesPage() {
       <PageTitle
         kicker="Season 2026-27"
         title="Leagues"
-        sub={`After the World Cup, the benchmark moves to club football: ${rosterCount} LLMs predict Europe's top leagues one matchday at a time, all season long.`}
+        sub={`After the World Cup, the benchmark moves to club football: ${rosterCount} LLMs are tracked across Europe's top leagues one matchday at a time, each from its disclosed competition start.`}
       />
 
       <p className="max-w-3xl text-sm leading-relaxed text-zinc-400">
         Unlike the knowledge-only World Cup prompts, league picks are form-aware: before each
-        round every model is shown the current table and each team&apos;s recent results, then
+        round every eligible model is shown the current table and each team&apos;s recent results, then
         predicts every scoreline of the matchday. Picks lock ~36h before each round&apos;s first
         kickoff and are SHA-256 pre-registered, so nothing can be edited after the fact. A round
         locks as one unit, so where a matchday is split across weeks by a deferred fixture, its
@@ -98,9 +98,9 @@ export default function LeaguesPage() {
       </div>
 
       <p className="max-w-3xl text-xs text-zinc-600">
-        Every competition runs the same roster and the same scoring, so points-per-match is
-        comparable across leagues. The 2026 World Cup benchmark stays fully browsable as the
-        archived season zero.
+        Every competition uses the same scoring. Competition-specific starts are flagged, earlier
+        rounds are never backfilled, and points per scored match keeps partial-season records
+        comparable. The 2026 World Cup benchmark stays fully browsable as the archived season zero.
       </p>
     </div>
   );

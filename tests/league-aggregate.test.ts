@@ -23,8 +23,8 @@ const comp: Competition = {
   season_label: "2026-27", espn_slug: "tst.1", team_count: 4, round_count: 2, active: true,
 };
 
-function model(id: string, label: string): RosterModel {
-  return { id, label, vendor: "test", tier: "mid" };
+function model(id: string, label: string, overrides: Partial<RosterModel> = {}): RosterModel {
+  return { id, label, vendor: "test", tier: "mid", ...overrides };
 }
 
 // Passed deliberately out of label order — assembly must sort by label.
@@ -94,14 +94,15 @@ describe("assembleLeagueData — season leaderboard", () => {
       points: 6, exact: 1, gd: 1, outcome: 1, scoredMatches: 3, matchesWithPoints: 3,
     });
     expect(bySlug.get("test-beta")!.totals).toMatchObject({
-      points: 5, exact: 1, gd: 1, outcome: 0, scoredMatches: 2,
+      points: 5, exact: 1, gd: 1, outcome: 0, scoredMatches: 3,
     });
   });
 
-  it("computes points-per-match over each model's own scored matches (0 when none)", () => {
+  it("counts every finished match in an eligible locked round, including a missing round file", () => {
     expect(bySlug.get("test-alpha")!.pointsPerMatch).toBe(2); // 6 / 3
-    expect(bySlug.get("test-beta")!.pointsPerMatch).toBe(2.5); // 5 / 2 — fewer rounds, higher rate
-    expect(bySlug.get("test-gamma")!.pointsPerMatch).toBe(0); // 0 / 0 stays 0
+    expect(bySlug.get("test-beta")!.pointsPerMatch).toBeCloseTo(5 / 3); // missing MD2 = 0 / 1
+    expect(bySlug.get("test-gamma")!.pointsPerMatch).toBe(0);
+    expect(bySlug.get("test-gamma")!.totals.scoredMatches).toBe(3);
   });
 
   it("counts picksCount as stored prediction entries; a file's missing match still scores 0", () => {
@@ -109,17 +110,177 @@ describe("assembleLeagueData — season leaderboard", () => {
     expect(bySlug.get("test-beta")!.picksCount).toBe(2);
     const delta = bySlug.get("test-delta")!;
     expect(delta.picksCount).toBe(1);
-    // Delta locked an MD1 file, so it is scored on BOTH MD1 matches (missing pick = 0).
-    expect(delta.totals).toMatchObject({ points: 0, scoredMatches: 2 });
+    // Delta is eligible for both locked rounds, so its omitted MD1 pick and
+    // missing MD2 file both score 0 once those fixtures finish.
+    expect(delta.totals).toMatchObject({ points: 0, scoredMatches: 3 });
   });
 
-  it("ranks zero-pick models below every participant, sharing a rank when fully tied", () => {
+  it("ranks zero-pick eligible models below valid participants, sharing a rank when tied", () => {
     expect(data.leaderboard.map((e) => e.slug)).toEqual([
       "test-alpha", "test-beta", "test-delta", "test-gamma", "test-omega",
     ]);
-    expect(data.leaderboard.map((e) => e.rank)).toEqual([1, 2, 3, 4, 4]);
+    expect(data.leaderboard.map((e) => e.rank)).toEqual([1, 2, 3, 3, 3]);
     expect(bySlug.get("test-gamma")!.picksCount).toBe(0);
     expect(bySlug.get("test-omega")!.picksCount).toBe(0);
+  });
+});
+
+describe("assembleLeagueData — competition-specific join rounds", () => {
+  const joinedRoster = [
+    model("test/early", "Early"),
+    model("test/late", "Late", { league_joined_round: { "test-league": "md02" } }),
+  ];
+  const joinedFixtures = [
+    fx(1, 1, "A", "B", "2026-08-21T19:00:00Z"),
+    fx(2, 2, "C", "D", "2026-08-28T19:00:00Z"),
+  ];
+  const joinedResults = [final(1, 2, 1), final(2, 1, 0)];
+  const joinedPredictions = new Map([
+    [
+      "test-early",
+      [pfile("test/early", 1, [[1, 1, 0]]), pfile("test/early", 2, [[2, 0, 2]])],
+    ],
+    [
+      "test-late",
+      [
+        pfile("test/late", 1, [[1, 2, 1]]), // stray pre-join file must never count
+        pfile("test/late", 2, [[2, 1, 0]]),
+      ],
+    ],
+  ]);
+  const joinedData = assembleLeagueData(
+    comp,
+    joinedRoster,
+    joinedFixtures,
+    joinedResults,
+    manifest([1, 2]),
+    joinedPredictions,
+  );
+
+  it("ignores pre-join files and scores the entrant only from its join round", () => {
+    const late = joinedData.leaderboard.find((entry) => entry.slug === "test-late")!;
+    expect(late.joinedRound).toBe("md02");
+    expect(late.picksCount).toBe(1);
+    expect(late.totals).toMatchObject({ points: 3, scoredMatches: 1 });
+    expect(late.pointsPerMatch).toBe(3);
+  });
+
+  it("ranks by points per scored match before cumulative points", () => {
+    expect(joinedData.leaderboard.map((entry) => entry.slug)).toEqual(["test-late", "test-early"]);
+    expect(joinedData.leaderboard.map((entry) => entry.rank)).toEqual([1, 2]);
+  });
+
+  it("excludes the entrant from pre-join match rows but includes it after joining", () => {
+    expect(leagueMatchInfo(joinedData, joinedFixtures[0]).rows.map((row) => row.slug)).toEqual([
+      "test-early",
+    ]);
+    expect(leagueMatchInfo(joinedData, joinedFixtures[1]).rows.map((row) => row.slug)).toEqual([
+      "test-late",
+      "test-early",
+    ]);
+  });
+
+  it("leaves a not-yet-started entrant unranked rather than assigning a zero", () => {
+    const beforeJoin = assembleLeagueData(
+      comp,
+      joinedRoster,
+      [joinedFixtures[0]],
+      [joinedResults[0]],
+      manifest([1]),
+      new Map([["test-early", [pfile("test/early", 1, [[1, 1, 0]])]]]),
+    );
+    const late = beforeJoin.leaderboard.find((entry) => entry.slug === "test-late")!;
+    expect(late.totals.scoredMatches).toBe(0);
+    expect(late.rank).toBeNull();
+  });
+});
+
+describe("assembleLeagueData — ranking regressions", () => {
+  it("breaks equal points-per-match rates by cumulative points", () => {
+    const cumulative = model("test/cumulative", "Zulu", {
+      league_joined_round: { "test-league": "md01" },
+    });
+    const oneRound = model("test/one-round", "Alpha", {
+      league_joined_round: { "test-league": "md02" },
+    });
+    const rankingFixtures = [
+      fx(1, 1, "A", "B", "2026-08-21T19:00:00Z"),
+      fx(2, 2, "C", "D", "2026-08-28T19:00:00Z"),
+    ];
+    const rankingData = assembleLeagueData(
+      comp,
+      [oneRound, cumulative],
+      rankingFixtures,
+      [final(1, 2, 0), final(2, 2, 0)],
+      manifest([1, 2]),
+      new Map([
+        ["test-cumulative", [pfile(cumulative.id, 1, [[1, 1, 0]]), pfile(cumulative.id, 2, [[2, 1, 0]])]],
+        ["test-one-round", [pfile(oneRound.id, 2, [[2, 1, 0]])]],
+      ]),
+    );
+
+    expect(rankingData.leaderboard.map((entry) => entry.pointsPerMatch)).toEqual([1, 1]);
+    expect(rankingData.leaderboard.map((entry) => entry.totals.points)).toEqual([2, 1]);
+    expect(rankingData.leaderboard.map((entry) => entry.slug)).toEqual([
+      "test-cumulative",
+      "test-one-round",
+    ]);
+    expect(rankingData.leaderboard.map((entry) => entry.rank)).toEqual([1, 2]);
+  });
+
+  it("gives fully tied entries a shared rank", () => {
+    const tiedRoster = [
+      model("test/beta", "Beta"),
+      model("test/alpha", "Alpha"),
+      model("test/gamma", "Gamma"),
+    ];
+    const rankingFixture = fx(1, 1, "A", "B", "2026-08-21T19:00:00Z");
+    const rankingData = assembleLeagueData(
+      comp,
+      tiedRoster,
+      [rankingFixture],
+      [final(1, 2, 0)],
+      manifest([1]),
+      new Map([
+        ["test-alpha", [pfile("test/alpha", 1, [[1, 1, 0]])]],
+        ["test-beta", [pfile("test/beta", 1, [[1, 1, 0]])]],
+        ["test-gamma", [pfile("test/gamma", 1, [[1, 0, 1]])]],
+      ]),
+    );
+
+    expect(rankingData.leaderboard.map((entry) => entry.slug)).toEqual([
+      "test-alpha",
+      "test-beta",
+      "test-gamma",
+    ]);
+    expect(rankingData.leaderboard.map((entry) => entry.rank)).toEqual([1, 1, 3]);
+  });
+
+  it("sorts ranked entries before a null-ranked entrant", () => {
+    const winner = model("test/winner", "Zulu");
+    const runnerUp = model("test/runner-up", "Middle");
+    const notStarted = model("test/not-started", "Alpha", {
+      league_joined_round: { "test-league": "md02" },
+    });
+    const rankingFixture = fx(1, 1, "A", "B", "2026-08-21T19:00:00Z");
+    const rankingData = assembleLeagueData(
+      comp,
+      [notStarted, runnerUp, winner],
+      [rankingFixture],
+      [final(1, 2, 0)],
+      manifest([1]),
+      new Map([
+        ["test-winner", [pfile(winner.id, 1, [[1, 2, 0]])]],
+        ["test-runner-up", [pfile(runnerUp.id, 1, [[1, 1, 0]])]],
+      ]),
+    );
+
+    expect(rankingData.leaderboard.map((entry) => entry.slug)).toEqual([
+      "test-winner",
+      "test-runner-up",
+      "test-not-started",
+    ]);
+    expect(rankingData.leaderboard.map((entry) => entry.rank)).toEqual([1, 2, null]);
   });
 });
 
@@ -253,5 +414,20 @@ describe("loadModelProfiles", () => {
     for (const leagueModel of loadLeagueRoster()) {
       expect(profileSlugs).toContain(modelSlug(leagueModel.id));
     }
+  });
+
+  it("adds Qwen3.8 Max only to the evolving league roster", () => {
+    const qwen = loadLeagueRoster().find((model) => model.id === "qwen/qwen3.8-max");
+    expect(qwen).toMatchObject({
+      label: "Qwen3.8 Max",
+      vendor: "Alibaba",
+      tier: "flagship",
+      context_length: 1_000_000,
+      pricing_prompt_usd_per_m: 2,
+      pricing_completion_usd_per_m: 6,
+      reasoning: true,
+      league_joined_round: { "laliga-2026-27": "md02" },
+    });
+    expect(loadRoster().map((model) => model.id)).not.toContain("qwen/qwen3.8-max");
   });
 });

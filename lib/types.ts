@@ -103,6 +103,11 @@ export interface RosterModel {
   pricing_completion_usd_per_m?: number;
   knowledge_cutoff?: string;
   reasoning?: boolean;
+  /**
+   * Per-competition first eligible matchday for league picks. Competitions not
+   * listed default to md01. A later start is a new entry, never a backfill.
+   */
+  league_joined_round?: Record<string, MatchdayKey>;
   notes?: string;
 }
 

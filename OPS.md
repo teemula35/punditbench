@@ -131,7 +131,7 @@ npm run league-fixtures -- --all --dry            # plan fixture refresh, write 
 npm run league-predict -- --comp epl-2026-27 --round md05 --dry-run   # print the exact prompt
 npm run league-predict -- --due --mock            # rehearse the scheduler path
 npm run hash -- --comp epl-2026-27 --round md05   # recompute a round's hash
-npm run season-predict -- --comp epl-2026-27 --hash-only   # recompute season-table hash
+npm run season-predict -- --comp epl-2026-27 --hash-only   # verify lock; create it if absent
 ```
 
 **Secrets:** `OPENROUTER_API_KEY` (spend-capped key, Actions secret — NOT the local .env

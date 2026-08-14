@@ -156,11 +156,13 @@ From August 2026 PunditBench continues past the World Cup into the big European 
 its own leaderboard, never merged with the World Cup totals). Two tracks per league,
 mirroring the tournament design:
 
-- **Weekly live picks.** Before every matchday, all models predict every match of that
+- **Weekly live picks.** Before every matchday, every eligible model predicts every match of that
   round (exact score 3 / goal difference 2 / outcome 1 — no advancement bonus; leagues
-  have none). Season leaderboards show cumulative points and points-per-match.
-- **Pre-season table predictions.** Before each league's opening kickoff, every model
-  predicts the final table, locked for the whole season and graded continuously as "if
+  have none). Season leaderboards rank by points per scored match, with cumulative points
+  and hit counts as tiebreakers; each model's scored-match denominator is shown.
+- **Pre-season table predictions.** Before each league's opening kickoff, the launch roster
+  is asked to predict the final table. Valid returned tables form a field locked for the whole
+  season and graded continuously as "if
   the season ended today": exact position 2, one position off 1, correct champion +5,
   each correct top-4 team +2, each correct relegated team +2 (max 59 for a 20-team
   league, 53 for 18). This prompt carries the previous season's final table, the promoted
@@ -203,10 +205,20 @@ plays exactly once) and verified against the league's shape before anything is w
 Each round's picks are locked, hashed and tagged (`predictions-<competition>-<round>-live`)
 before the round's first kickoff — collected automatically ~36 hours ahead. Matches that
 kick off before a lock are excluded and labelled "not pre-registered", never backfilled.
-The season roster freezes at each league's launch; a model whose API endpoint dies
-mid-season shows "no pick" from that point (points-per-match keeps it comparable), and
-new models may join only at the winter break, flagged, never backfilled. One honest
-approximation: displayed tables and prompt context break ties by points → goal
+Each roster row can carry a competition-specific first eligible matchday. Before that
+round the model is outside the field: it receives neither a synthetic zero nor a retroactive
+prediction, and it is omitted from old match pages and denominators. From its first eligible
+round onward, a missing pick — including a missing whole round file after an endpoint failure —
+scores zero and counts in its points-per-match denominator. The leaderboard ranks by points
+per scored match, then cumulative points → exact scores → matches with points; an entrant is
+unranked until its first eligible result.
+
+One dated launch-window exception is recorded here. On 2026-08-14, after La Liga Matchday 1
+had locked but before the other listed leagues opened, Qwen3.8 Max joined as a new entrant:
+La Liga from Matchday 2, the other competitions from Matchday 1. Its La Liga season table and
+Matchday 1 were not backfilled, and Qwen3.7 Max remains a separate historical line. After this
+launch-window exception, additions may occur only at the winter break, flagged and never
+backfilled. One honest approximation: displayed tables and prompt context break ties by points → goal
 difference → goals for; some leagues' official rules differ (La Liga uses head-to-head).
 The rule is identical for every model and noted here rather than hidden.
 
