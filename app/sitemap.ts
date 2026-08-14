@@ -1,25 +1,11 @@
 import type { MetadataRoute } from "next";
-import { loadFixtures, loadModelProfiles } from "@/lib/data";
-import { modelSlug } from "@/lib/prompt";
+import { sitemapRoutes } from "@/lib/sitemap";
 import { SITE_URL } from "@/lib/site";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = [
-    "/",
-    "/matches/",
-    "/groups/",
-    "/models/",
-    "/methodology/",
-    "/changelog/",
-    "/about/",
-    "/season-2026-27/",
-  ];
-  const matchRoutes = loadFixtures().map((f) => `/matches/${f.match}/`);
-  const modelRoutes = loadModelProfiles().map((m) => `/models/${modelSlug(m.id)}/`);
-
-  return [...staticRoutes, ...matchRoutes, ...modelRoutes].map((route) => ({
+  return sitemapRoutes().map((route) => ({
     url: `${SITE_URL}${route}`,
   }));
 }
