@@ -13,4 +13,14 @@ describe("sitemapRoutes", () => {
       }
     }
   });
+
+  it("includes one matchday preview page for every configured competition round", () => {
+    const routes = new Set(sitemapRoutes());
+
+    for (const competition of loadCompetitions()) {
+      for (let round = 1; round <= competition.round_count; round++) {
+        expect(routes).toContain(`/leagues/${competition.id}/matchdays/${round}/`);
+      }
+    }
+  });
 });

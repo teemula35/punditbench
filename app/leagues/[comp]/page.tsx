@@ -363,7 +363,7 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
                 return (
                   <Link
                     key={round}
-                    href={`/leagues/${data.comp.id}/matches/${first.match}/`}
+                    href={`/leagues/${data.comp.id}/matchdays/${round}/`}
                     className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2.5 transition-colors hover:border-emerald-400/50"
                   >
                     <p className="text-sm font-semibold text-zinc-100">Matchday {round}</p>
