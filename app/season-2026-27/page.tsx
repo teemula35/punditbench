@@ -3,19 +3,20 @@ import Link from "next/link";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { NotifyForm } from "../notify";
 import { PageTitle } from "../ui";
+import { SeasonLaunchCalendar } from "./launch-calendar";
 
-const OG_TITLE = `${SITE_NAME} — LLMs predict the 2026-27 European leagues`;
+const OG_TITLE = `${SITE_NAME} — five European leagues in 2026-27`;
 const OG_DESCRIPTION =
-  "From August 16 the benchmark moves to the Premier League, La Liga and Europe's other top flights: every matchday, all models, picks locked before kickoff.";
+  "PunditBench now covers the Premier League, La Liga, Serie A, Ligue 1 and Bundesliga: every matchday, the eligible model field, picks locked before kickoff.";
 
 // The layout's openGraph/twitter blocks are World Cup flavoured, so league
 // links unfurled as tournament news. These override both (og:* and twitter:*
 // are set separately — X prefers the latter); the card itself comes from the
 // sibling opengraph-image.tsx, which wins over any images listed here.
 export const metadata: Metadata = {
-  title: "Season 2026-27 — the benchmark continues",
+  title: "Season 2026-27 — five leagues live",
   description:
-    "After the World Cup, PunditBench moves to the top European leagues: every matchday, all models, picks pre-registered before kickoff — plus locked pre-season table predictions.",
+    "PunditBench covers five European leagues: every matchday, the eligible model field, picks pre-registered before kickoff — plus locked pre-season table predictions.",
   openGraph: {
     title: OG_TITLE,
     description: OG_DESCRIPTION,
@@ -31,26 +32,13 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * Self-contained announcement page (no league-data imports — it ships to the
- * public repo ahead of the league pages themselves). Dates below were verified
- * against the fixture feeds on 2026-07-02.
- */
-const LAUNCHES = [
-  { league: "La Liga", when: "Matchday 1 — August 16" },
-  { league: "Premier League", when: "Matchday 1 — August 21" },
-  { league: "Serie A & Ligue 1", when: "Opening weekend — August 22" },
-  { league: "Bundesliga", when: "When the 2026-27 fixtures are published" },
-  { league: "Champions League", when: "From the league phase in September" },
-];
-
 export default function SeasonAnnouncementPage() {
   return (
     <div className="max-w-3xl space-y-10">
       <PageTitle
         kicker="Season 2026-27"
-        title="The benchmark continues"
-        sub="The World Cup ends July 19. The models keep predicting."
+        title="Five leagues are live"
+        sub="The World Cup archive stays. The benchmark now runs every week."
       />
 
       <section className="space-y-4 text-sm leading-relaxed text-zinc-300">
@@ -61,8 +49,8 @@ export default function SeasonAnnouncementPage() {
           the leaderboard, all match pages, the hashes and the raw logs.
         </p>
         <p>
-          From mid-August, the same benchmark moves to the biggest European leagues. Two
-          tracks per league, both pre-registered like everything here:
+          The same benchmark now covers five European leagues. Two tracks per league, both
+          pre-registered like everything here:
         </p>
         <ul className="list-disc space-y-2 pl-5 text-zinc-400">
           <li>
@@ -80,25 +68,7 @@ export default function SeasonAnnouncementPage() {
         </ul>
       </section>
 
-      <section>
-        <h2 className="mb-3 text-lg font-semibold text-zinc-100">Launch calendar</h2>
-        <div className="overflow-hidden rounded-lg border border-zinc-800">
-          <table className="w-full text-sm">
-            <tbody className="divide-y divide-zinc-800/70">
-              {LAUNCHES.map((l) => (
-                <tr key={l.league}>
-                  <td className="px-4 py-2.5 font-medium text-zinc-100">{l.league}</td>
-                  <td className="px-4 py-2.5 text-zinc-400">{l.when}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="mt-2 text-xs text-zinc-600">
-          Dates from the official fixture feeds; TV scheduling can still move individual
-          kickoffs.
-        </p>
-      </section>
+      <SeasonLaunchCalendar />
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold text-zinc-100">Get notified</h2>

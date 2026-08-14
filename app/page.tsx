@@ -8,11 +8,12 @@ import {
   outcomeSplit,
   type OutcomeSplit,
 } from "@/lib/aggregate";
-import { loadTeams } from "@/lib/data";
+import { loadLeagueRoster, loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { teamFlag } from "@/lib/prompt";
 import { reportCards } from "@/lib/report-card";
 import { TAGLINE } from "@/lib/site";
+import { LeagueBridge } from "./league-bridge";
 import { NotifyForm } from "./notify";
 import { TodayMatches, type TodayCard } from "./today-matches";
 import { OpeningRoundBriefCard } from "./briefs/opening-round-2026/card";
@@ -103,6 +104,7 @@ function SplitLine({
 export default function LeaderboardPage() {
   const data = loadSiteData();
   const teams = loadTeams();
+  const leagueModelCount = loadLeagueRoster().length;
   const champions = championBoard(data);
   const pendingBrackets = data.leaderboard.filter((e) => !e.championPick).length;
   const groupCount = [...data.fixtures.values()].filter((f) => f.stage === "group").length;
@@ -273,31 +275,10 @@ export default function LeaderboardPage() {
         </section>
       )}
 
-      {/* League bridge — the front page's job between the final and August is
-          converting an arriving visitor into a returning one, so this sits
-          above the leaderboard rather than at the foot of the page. */}
-      <section className="rounded-lg border border-emerald-400/20 bg-emerald-400/5 p-5 sm:p-6">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-          <p className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
-            Next · Season 2026-27
-          </p>
-          <Link href="/leagues/" className="text-sm text-emerald-400 hover:underline">
-            Explore the leagues →
-          </Link>
-        </div>
-        <h2 className="mt-2 text-lg font-semibold text-zinc-100">
-          The same benchmark moves to the European leagues
-        </h2>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">
-          Premier League, La Liga, Serie A and Ligue 1 from August 16, with the Bundesliga and
-          Champions League following. Every matchday, all {data.leaderboard.length} models predict
-          every scoreline — this time shown the current table and each team&apos;s recent form —
-          locked and hashed about 36 hours before the first kickoff.
-        </p>
-        <div className="mt-4">
-          <NotifyForm />
-        </div>
-      </section>
+      {/* League bridge — current league state sits above the archived World Cup leaderboard. */}
+      <LeagueBridge modelCount={leagueModelCount}>
+        <NotifyForm />
+      </LeagueBridge>
 
       <OpeningRoundBriefCard />
 
