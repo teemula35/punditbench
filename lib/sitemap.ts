@@ -16,6 +16,10 @@ export function sitemapRoutes(): string[] {
   const modelRoutes = loadModelProfiles().map((m) => `/models/${modelSlug(m.id)}/`);
   const leagueRoutes = loadCompetitions().flatMap((competition) => [
     `/leagues/${competition.id}/`,
+    ...Array.from(
+      { length: competition.round_count },
+      (_, index) => `/leagues/${competition.id}/matchdays/${index + 1}/`,
+    ),
     ...loadCompetitionFixtures(competition.id).map(
       (fixture) => `/leagues/${competition.id}/matches/${fixture.match}/`,
     ),
