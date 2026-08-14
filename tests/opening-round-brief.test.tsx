@@ -18,15 +18,33 @@ const completeOffer: OpeningRoundOfferInput = {
 };
 
 describe("opening-round brief checkout", () => {
-  it("keeps checkout disabled when public consumer details are missing", () => {
+  it("keeps checkout disabled when the payment link is missing", () => {
     const html = renderToStaticMarkup(<CheckoutCta offer={{}} />);
 
     expect(html).toContain("Checkout is not open yet");
-    expect(html).toContain("consumer and refund details");
+    expect(html).toContain("payment link is not configured");
     expect(html).not.toContain("href=");
   });
 
-  it("opens checkout only with the complete public consumer record", () => {
+  // The payment link alone arms the checkout; the delivery deadline and
+  // refund remedy are always stated with it.
+  it("opens checkout with only a valid payment link", () => {
+    const html = renderToStaticMarkup(
+      <CheckoutCta offer={{ checkoutUrl: completeOffer.checkoutUrl }} />,
+    );
+
+    expect(html).toContain('href="https://buy.stripe.com/test-opening-round"');
+    expect(html).toContain("Buy the brief for €5");
+    expect(html).toContain("Total price: €5");
+    expect(html).toContain("3 September 2026");
+    expect(html).toContain("full refund");
+    expect(html).not.toContain("Checkout is not open yet");
+    expect(html).not.toContain("Sold by");
+    expect(html).not.toContain("mailto:");
+    expect(html).not.toContain("example.com/terms");
+  });
+
+  it("renders the full consumer record when it is supplied", () => {
     const html = renderToStaticMarkup(<CheckoutCta offer={completeOffer} />);
 
     expect(html).toContain('href="https://buy.stripe.com/test-opening-round"');
@@ -37,24 +55,38 @@ describe("opening-round brief checkout", () => {
     expect(html).toContain('href="https://example.com/terms"');
     expect(html).toContain('href="https://example.com/privacy"');
     expect(html).toContain('href="https://example.com/refunds"');
+    expect(html).toContain("including applicable VAT");
     expect(html).not.toContain("Checkout is not open yet");
   });
 
   it.each([
-    ["checkoutUrl", "javascript:alert(1)"],
-    ["checkoutUrl", "https://buy.stripe.com/"],
-    ["termsUrl", "http://example.com/terms"],
-    ["privacyUrl", "not-a-url"],
-    ["supportEmail", "not-an-email"],
-    ["sellerName", "   "],
-  ] as const)("keeps checkout closed when %s is unsafe", (field, value) => {
+    ["javascript:alert(1)"],
+    ["https://buy.stripe.com/"],
+    ["http://buy.stripe.com/link"],
+    ["https://evil.example.com/link"],
+    ["   "],
+  ] as const)("keeps checkout closed when the payment link is %s", (value) => {
     const html = renderToStaticMarkup(
-      <CheckoutCta offer={{ ...completeOffer, [field]: value }} />,
+      <CheckoutCta offer={{ ...completeOffer, checkoutUrl: value }} />,
     );
 
     expect(html).toContain("Checkout is not open yet");
     expect(html).not.toContain("Buy the brief for €5");
     expect(html).not.toContain("href=");
+  });
+
+  it.each([
+    ["termsUrl", "http://example.com/terms", "example.com/terms"],
+    ["privacyUrl", "not-a-url", "not-a-url"],
+    ["supportEmail", "not-an-email", "mailto:"],
+  ] as const)("omits an unsafe %s but keeps checkout open", (field, value, absent) => {
+    const html = renderToStaticMarkup(
+      <CheckoutCta offer={{ ...completeOffer, [field]: value }} />,
+    );
+
+    expect(html).toContain("Buy the brief for €5");
+    expect(html).not.toContain(absent);
+    expect(html).not.toContain("Checkout is not open yet");
   });
 });
 
@@ -73,7 +105,20 @@ describe("opening-round brief page", () => {
     expect(html).toContain("Checkout is not open yet");
   });
 
-  it("maps the approved build-time record into the live checkout", () => {
+  it("opens the live checkout with only the payment link configured", () => {
+    vi.stubEnv("PB_BRIEF_CHECKOUT_URL", completeOffer.checkoutUrl);
+
+    try {
+      const html = renderToStaticMarkup(<OpeningRoundBriefPage />);
+      expect(html).toContain('href="https://buy.stripe.com/test-opening-round"');
+      expect(html).toContain("Buy the brief for €5");
+      expect(html).not.toContain("Checkout is not open yet");
+    } finally {
+      vi.unstubAllEnvs();
+    }
+  });
+
+  it("maps the full build-time record into the live checkout", () => {
     const environment = {
       PB_BRIEF_CHECKOUT_URL: completeOffer.checkoutUrl,
       PB_BRIEF_SELLER_NAME: completeOffer.sellerName,
@@ -91,6 +136,7 @@ describe("opening-round brief page", () => {
       const html = renderToStaticMarkup(<OpeningRoundBriefPage />);
       expect(html).toContain('href="https://buy.stripe.com/test-opening-round"');
       expect(html).toContain("Buy the brief for €5");
+      expect(html).toContain("Example Seller");
       expect(html).not.toContain("Checkout is not open yet");
     } finally {
       vi.unstubAllEnvs();

@@ -12,19 +12,8 @@ export interface OpeningRoundOfferInput {
   refundsUrl: string;
 }
 
-const REQUIRED_FIELDS: (keyof OpeningRoundOfferInput)[] = [
-  "checkoutUrl",
-  "sellerName",
-  "sellerAddress",
-  "supportEmail",
-  "vatNotice",
-  "deliveryMethod",
-  "termsUrl",
-  "privacyUrl",
-  "refundsUrl",
-];
-
-function isHttpsUrl(value: string, hostname?: string, requirePath = false): boolean {
+function isHttpsUrl(value: string | undefined, hostname?: string, requirePath = false): value is string {
+  if (!value) return false;
   try {
     const url = new URL(value);
     return (
@@ -37,55 +26,82 @@ function isHttpsUrl(value: string, hostname?: string, requirePath = false): bool
   }
 }
 
-export function isReadyOpeningRoundOffer(
-  offer: Partial<OpeningRoundOfferInput>,
-): offer is OpeningRoundOfferInput {
-  if (!REQUIRED_FIELDS.every((field) => typeof offer[field] === "string" && offer[field]!.trim())) {
-    return false;
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(offer.supportEmail!)) return false;
-  if (!isHttpsUrl(offer.checkoutUrl!, "buy.stripe.com", true)) return false;
-  return [offer.termsUrl!, offer.privacyUrl!, offer.refundsUrl!].every((url) => isHttpsUrl(url));
+const text = (value: string | undefined): string | null =>
+  value && value.trim() ? value.trim() : null;
+
+/**
+ * The payment link alone gates the buy button. Seller, VAT and policy
+ * details render when supplied and are silently omitted when absent or
+ * invalid. The delivery deadline and the full-refund-on-non-delivery
+ * remedy are unconditional commitments and render on every armed checkout.
+ */
+export function hasValidCheckoutUrl(offer: Partial<OpeningRoundOfferInput>): boolean {
+  return isHttpsUrl(offer.checkoutUrl, "buy.stripe.com", true);
 }
 
 export function CheckoutCta({ offer }: { offer: Partial<OpeningRoundOfferInput> }) {
-  const complete = isReadyOpeningRoundOffer(offer);
-
-  if (!complete) {
+  if (!hasValidCheckoutUrl(offer)) {
     return (
       <section className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-5">
         <h2 className="text-lg font-semibold text-zinc-100">Checkout is not open yet</h2>
         <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-          Checkout stays closed until the seller, consumer and refund details are approved and the
-          payment and delivery path has passed a test transaction.
+          The payment link is not configured in this build. The complete sample above stays free
+          either way.
         </p>
       </section>
     );
   }
 
-  const ready = offer as OpeningRoundOfferInput;
+  const sellerName = text(offer.sellerName);
+  const sellerAddress = text(offer.sellerAddress);
+  const supportEmailRaw = text(offer.supportEmail);
+  const supportEmail =
+    supportEmailRaw && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(supportEmailRaw) ? supportEmailRaw : null;
+  const vatNotice = text(offer.vatNotice);
+  const deliveryMethod = text(offer.deliveryMethod);
+  const policyLinkCandidates: [string, string | undefined][] = [
+    ["Terms", offer.termsUrl],
+    ["Privacy", offer.privacyUrl],
+    ["Refunds and withdrawal", offer.refundsUrl],
+  ];
+  const policyLinks = policyLinkCandidates.filter((entry): entry is [string, string] =>
+    isHttpsUrl(entry[1]),
+  );
+
   return (
     <section className="rounded-lg border border-emerald-400/30 bg-emerald-400/5 p-5">
       <h2 className="text-lg font-semibold text-zinc-100">€5 once. No subscription.</h2>
       <p className="mt-2 text-sm leading-relaxed text-zinc-300">
-        Total consumer price: €5, {ready.vatNotice}. Delivery by 3 September 2026 at 23:59 UTC.
-        {" "}{ready.deliveryMethod}.
+        Total price: €5{vatNotice ? `, ${vatNotice}` : ""}. Delivered by email by 3 September 2026
+        at 23:59 UTC{deliveryMethod ? ` — ${deliveryMethod}` : ""}. If the issue is not delivered
+        by then, you get a full refund.
       </p>
-      <p className="mt-2 text-xs leading-relaxed text-zinc-500">
-        Sold by {ready.sellerName}, {ready.sellerAddress}. Questions or complaints:{" "}
-        <a className="text-emerald-400 hover:underline" href={`mailto:${ready.supportEmail}`}>
-          {ready.supportEmail}
-        </a>
-        .
-      </p>
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs">
-        <a className="text-emerald-400 hover:underline" href={ready.termsUrl}>Terms</a>
-        <a className="text-emerald-400 hover:underline" href={ready.privacyUrl}>Privacy</a>
-        <a className="text-emerald-400 hover:underline" href={ready.refundsUrl}>Refunds and withdrawal</a>
-      </div>
+      {sellerName && sellerAddress && (
+        <p className="mt-2 text-xs leading-relaxed text-zinc-500">
+          Sold by {sellerName}, {sellerAddress}.
+        </p>
+      )}
+      {supportEmail && (
+        <p className="mt-1 text-xs leading-relaxed text-zinc-500">
+          Questions or complaints:{" "}
+          <a className="text-emerald-400 hover:underline" href={`mailto:${supportEmail}`}>
+            {supportEmail}
+          </a>
+          .
+        </p>
+      )}
+      {policyLinks.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+          {policyLinks.map(([label, url]) => (
+            <a key={label} className="text-emerald-400 hover:underline" href={url}>
+              {label}
+            </a>
+          ))}
+        </div>
+      )}
       <a
         className="mt-5 inline-flex rounded-md bg-emerald-400 px-4 py-2.5 text-sm font-semibold text-zinc-950 hover:bg-emerald-300"
-        href={ready.checkoutUrl}
+        href={offer.checkoutUrl}
       >
         Buy the brief for €5
       </a>
