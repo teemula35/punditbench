@@ -5,30 +5,32 @@
  *   npm run season-predict -- --comp epl-2026-27 --hash-only
  *
  * One deterministic prompt per competition (alphabetical team list from the
- * ingested fixtures + previous-season context); every roster model predicts
- * the FINAL league table before the opener. Successes land in
+ * ingested fixtures + previous-season context); every Matchday 1 entrant
+ * predicts the FINAL league table before the opener. Successes land in
  * data/competitions/<id>/predictions-season/<slug>.json with per-attempt raw
  * audit logs in raw-season/<slug>.jsonl (AttemptLog fields, stage "season").
  * The retry loop replicates lib/runner.ts semantics — validator-feedback
  * reprompt, temperature auto-drop on HTTP 400 without consuming the attempt —
- * for the season-table shape lib/runner.ts cannot express. After the run (or
- * with --hash-only alone) the canonical hash over ALL stored season files is
- * written to hashes/season.txt for the pre-registration tag
- * predictions-<id>-season.
+ * for the season-table shape lib/runner.ts cannot express. After a prediction
+ * run, the canonical hash over ALL stored season files is written to
+ * hashes/season.txt for the pre-registration tag predictions-<id>-season.
+ * --hash-only creates an absent lock or verifies an existing lock in place.
  */
 import fs from "node:fs";
 import path from "node:path";
 import { getCompetition, loadCompetitionFixtures, loadLeagueRoster } from "../lib/data";
-import { sha256 } from "../lib/hashing";
 import { loadPreseasonContext, loadPreviousSeason } from "../lib/league-context";
+import { leagueSeasonRoster } from "../lib/league-participation";
 import { modelSlug } from "../lib/prompt";
 import { callOpenRouter, loadEnv, MAX_ATTEMPTS } from "../lib/runner";
 import {
+  assertSeasonTrackUnlocked,
   buildSeasonPrompt,
-  loadSeasonPredictions,
   SEASON_PROMPT_VERSION,
-  seasonCanonicalPayload,
+  seasonHashInfo,
+  seasonHashLockPath,
   validateSeasonTable,
+  verifySeasonHashLock,
 } from "../lib/season-prediction";
 import type { SeasonPredictionFile } from "../lib/season-prediction";
 import type { Competition, RosterModel } from "../lib/types";
@@ -224,26 +226,25 @@ async function runModelSeason(
   return { slug, ok: false, attempts: MAX_ATTEMPTS, error: lastErrors.slice(0, 3).join(" | ") };
 }
 
-/** Canonical hash over ALL stored season files -> data/competitions/<id>/hashes/season.txt. */
+/** Create the canonical lock for a season field that has not been locked yet. */
 function writeSeasonHash(comp: Competition): { models: number; hash: string } | undefined {
-  const files = loadSeasonPredictions(comp.id);
-  if (files.length === 0) return undefined;
-  const hash = sha256(seasonCanonicalPayload(files));
-  const dir = path.join(process.cwd(), "data", "competitions", comp.id, "hashes");
+  const info = seasonHashInfo(comp.id);
+  if (!info) return undefined;
+  const dir = path.dirname(seasonHashLockPath(comp.id));
   fs.mkdirSync(dir, { recursive: true });
   const record = [
     "track: locked (pre-season final table)",
     `competition: ${comp.id}`,
-    `models: ${files.length}`,
+    `models: ${info.models}`,
     `generated_at: ${new Date().toISOString()}`,
-    `sha256: ${hash}`,
+    `sha256: ${info.hash}`,
     "",
     "Canonical form: JSON array of {slug, model, competition, completed_at, table},",
     "sorted by slug, no whitespace.",
-    `Recompute with: npm run season-predict -- --comp ${comp.id} --hash-only`,
+    `Verify with: npm run season-predict -- --comp ${comp.id} --hash-only`,
   ].join("\n");
-  fs.writeFileSync(path.join(dir, "season.txt"), record + "\n", "utf-8");
-  return { models: files.length, hash };
+  fs.writeFileSync(seasonHashLockPath(comp.id), record + "\n", "utf-8");
+  return info;
 }
 
 function printPublish(comp: Competition): void {
@@ -257,7 +258,19 @@ async function main(): Promise<void> {
   const args = parseArgs();
   const comp = getCompetition(args.comp);
 
+  if (args.dryRun && args.hashOnly) {
+    throw new Error("--dry-run and --hash-only cannot be combined; --dry-run never writes.");
+  }
+
   if (args.hashOnly) {
+    const lockPath = seasonHashLockPath(comp.id);
+    if (fs.existsSync(lockPath)) {
+      const info = verifySeasonHashLock(comp.id);
+      console.log(
+        `verified sha256 ${info.hash} over ${info.models} model file(s); data/competitions/${comp.id}/hashes/season.txt unchanged`,
+      );
+      return;
+    }
     const info = writeSeasonHash(comp);
     if (!info) {
       console.error(`${comp.id}: no stored season predictions — nothing to hash.`);
@@ -269,6 +282,10 @@ async function main(): Promise<void> {
     printPublish(comp);
     return;
   }
+
+  // The lock is the point of no return. Dry runs remain read-only and usable;
+  // every real run fails before fixture prep, credential checks, API calls or writes.
+  if (!args.dryRun) assertSeasonTrackUnlocked(comp.id);
 
   const teams = [...new Set(loadCompetitionFixtures(comp.id).flatMap((f) => [f.home, f.away]))].sort(
     (a, b) => a.localeCompare(b),
@@ -296,7 +313,7 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  let roster = loadLeagueRoster();
+  let roster = leagueSeasonRoster(loadLeagueRoster(), comp.id);
   if (args.models !== "all") {
     const wanted = new Set(args.models.split(",").map((s) => s.trim()));
     roster = roster.filter((m) => wanted.has(m.id) || wanted.has(modelSlug(m.id)));

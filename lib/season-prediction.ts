@@ -9,6 +9,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { sha256 } from "./hashing";
 import type { PreseasonContext, PreviousSeason } from "./league-context";
 import type { Competition } from "./types";
 import { extractJson } from "./validate";
@@ -218,6 +219,57 @@ export function loadSeasonPredictions(compId: string): SeasonPredictionFile[] {
     .filter((f) => f.endsWith(".json"))
     .sort()
     .map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), "utf-8")) as SeasonPredictionFile);
+}
+
+export interface SeasonHashInfo {
+  models: number;
+  hash: string;
+}
+
+/** The immutable pre-season lock record for one competition. */
+export function seasonHashLockPath(compId: string): string {
+  return path.join(process.cwd(), "data", "competitions", compId, "hashes", "season.txt");
+}
+
+/** Refuse any season prediction run after its pre-registration lock exists. */
+export function assertSeasonTrackUnlocked(compId: string): void {
+  const lockPath = seasonHashLockPath(compId);
+  if (fs.existsSync(lockPath)) {
+    throw new Error(
+      `${compId}: season predictions are already locked at ${lockPath}; refusing API calls or writes that could backfill the field. Use --dry-run to inspect the prompt or --hash-only to verify the lock.`,
+    );
+  }
+}
+
+/** Current canonical hash over every stored season prediction, if any exist. */
+export function seasonHashInfo(compId: string): SeasonHashInfo | undefined {
+  const files = loadSeasonPredictions(compId);
+  if (files.length === 0) return undefined;
+  return { models: files.length, hash: sha256(seasonCanonicalPayload(files)) };
+}
+
+/** Verify an existing lock in place. This function never writes the lock record. */
+export function verifySeasonHashLock(compId: string): SeasonHashInfo {
+  const lockPath = seasonHashLockPath(compId);
+  if (!fs.existsSync(lockPath)) {
+    throw new Error(`${compId}: no season hash lock exists at ${lockPath}.`);
+  }
+  const info = seasonHashInfo(compId);
+  if (!info) {
+    throw new Error(`${compId}: season hash lock exists, but no stored season predictions were found.`);
+  }
+  const record = fs.readFileSync(lockPath, "utf-8");
+  const hashes = [...record.matchAll(/^sha256:\s*([0-9a-f]{64})\s*$/gim)];
+  if (hashes.length !== 1) {
+    throw new Error(`${compId}: season hash lock is malformed; expected exactly one sha256 line.`);
+  }
+  const stored = hashes[0][1].toLowerCase();
+  if (stored !== info.hash) {
+    throw new Error(
+      `${compId}: season hash mismatch (stored ${stored}, computed ${info.hash}); lock left unchanged.`,
+    );
+  }
+  return info;
 }
 
 /**

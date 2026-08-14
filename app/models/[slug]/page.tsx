@@ -4,9 +4,10 @@ import { notFound } from "next/navigation";
 import { loadSiteData, predictionFor } from "@/lib/aggregate";
 import { simulateGroups } from "@/lib/bracket";
 import { bracketView, type SimMatchView } from "@/lib/bracket-view";
-import { loadCompetitions, loadModelProfiles, loadTeams } from "@/lib/data";
+import { loadCompetitions, loadModelProfiles, loadRoster, loadTeams } from "@/lib/data";
 import { fmtShortDateUtc } from "@/lib/format";
 import { loadLeagueData } from "@/lib/league-aggregate";
+import { leagueStartLabel } from "@/lib/league-participation";
 import { traitBand, type Personality, type TraitKey } from "@/lib/personality";
 import { modelSlug, teamFlag } from "@/lib/prompt";
 import { reportCardFor, type ReportCard } from "@/lib/report-card";
@@ -29,9 +30,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const model = loadModelProfiles().find((m) => modelSlug(m.id) === slug);
   if (!model) return { title: "Model not found" };
+  const worldCupModel = loadRoster().some((entry) => entry.id === model.id);
   return {
     title: model.label,
-    description: `${model.label} (${model.vendor}) — its complete predicted 2026 World Cup: group tables, knockout bracket, champion and points on PunditBench.`,
+    description: worldCupModel
+      ? `${model.label} (${model.vendor}) — its complete predicted 2026 World Cup: group tables, knockout bracket, champion and points on PunditBench.`
+      : `${model.label} (${model.vendor}) — its league matchday prediction record on PunditBench, with participation starts and points per scored match.`,
   };
 }
 
@@ -421,7 +425,8 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
           <h2 className="text-lg font-semibold text-zinc-100">League benchmark profile</h2>
           <p className="mt-2 max-w-2xl text-sm text-zinc-400">
             This model joined PunditBench after the 2026 World Cup archive. Its record begins with
-            the 2026–27 league season; each matchday&apos;s picks are locked before kickoff.
+            the participation start shown for each 2026–27 competition; earlier rounds are never
+            backfilled. Each eligible matchday&apos;s picks are locked before kickoff.
           </p>
           <ul className="mt-4 space-y-2 text-sm">
             {leagueEntries.map(({ comp, entry: leagueEntry }) => (
@@ -430,7 +435,13 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
                   {comp.name}
                 </Link>{" "}
                 <span className="text-zinc-500">
-                  · {leagueEntry.picksCount} locked picks · {leagueEntry.totals.points} points
+                  · {leagueStartLabel(model, comp.id)} · {leagueEntry.totals.scoredMatches} scored
+                  matches ·{" "}
+                  {leagueEntry.totals.scoredMatches > 0
+                    ? leagueEntry.pointsPerMatch.toFixed(2)
+                    : "—"}{" "}
+                  points per match · {leagueEntry.picksCount} locked picks ·{" "}
+                  {leagueEntry.totals.points} points
                 </span>
               </li>
             ))}

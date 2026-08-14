@@ -15,14 +15,16 @@ import {
   loadLeagueRoster,
 } from "./data";
 import { leagueTable } from "./league-context";
+import { leagueJoinRound, modelEligibleForLeagueRound } from "./league-participation";
 import { modelSlug } from "./prompt";
 import { compareTotals, scoreMatch, scoreModel, totalsFor } from "./scoring";
 import type { TableRow } from "./standings";
-import { matchdayNumber } from "./types";
+import { isMatchdayKey, matchdayNumber } from "./types";
 import type {
   Competition,
   Fixture,
   LiveManifest,
+  MatchdayKey,
   MatchResult,
   MatchScore,
   ModelTotals,
@@ -40,7 +42,10 @@ export interface LeagueLeaderboardEntry {
   picksCount: number;
   /** points / scoredMatches; 0 until the model has been scored on a match. */
   pointsPerMatch: number;
-  rank: number;
+  /** Competition-specific first eligible round (later entrants are never backfilled). */
+  joinedRound: MatchdayKey;
+  /** Null until at least one eligible match has been scored. */
+  rank: number | null;
 }
 
 export interface LeagueData {
@@ -58,13 +63,15 @@ export interface LeagueData {
 }
 
 /**
- * League tiebreakers: D1 compareTotals (points → exacts → matches with points
- * → advance hits, always 0 here), then models with any stored picks rank above
- * models with none — a roster model that never locked a pick sits below every
- * participant, even 0-point ones.
+ * Partial-season entrants are comparable on points per scored match. Only
+ * models with at least one eligible finished match are ranked; ties then use
+ * cumulative points → exacts → matches with points → advance hits (always 0).
  */
 function compareEntries(a: LeagueLeaderboardEntry, b: LeagueLeaderboardEntry): number {
-  return compareTotals(a.totals, b.totals) || Number(b.picksCount > 0) - Number(a.picksCount > 0);
+  const scored = Number(b.totals.scoredMatches > 0) - Number(a.totals.scoredMatches > 0);
+  if (scored !== 0) return scored;
+  if (a.totals.scoredMatches === 0) return 0;
+  return b.pointsPerMatch - a.pointsPerMatch || compareTotals(a.totals, b.totals);
 }
 
 /**
@@ -90,27 +97,64 @@ export function assembleLeagueData(
 
   const leaderboard = sortedRoster.map((model): LeagueLeaderboardEntry => {
     const slug = modelSlug(model.id);
-    const files = predictions.get(slug) ?? [];
-    const scores = scoreModel(files, scoringFixtures, results);
-    const totals = totalsFor(slug, scores, scoringFixtures);
+    const files = (predictions.get(slug) ?? []).filter(
+      (file) =>
+        isMatchdayKey(file.stage) &&
+        manifest.rounds[file.stage] !== undefined &&
+        modelEligibleForLeagueRound(model, comp.id, file.stage),
+    );
+    const eligibleFixtures = new Map(
+      [...scoringFixtures].filter(
+        ([, fixture]) =>
+          isMatchdayKey(fixture.stage) &&
+          manifest.rounds[fixture.stage] !== undefined &&
+          modelEligibleForLeagueRound(model, comp.id, fixture.stage),
+      ),
+    );
+    const scores = scoreModel(files, eligibleFixtures, results);
+
+    // A missing whole file is still a failure once the model is eligible and
+    // the round is locked. Fill those finished fixtures as explicit no-pick
+    // zeros; pre-join rounds never enter eligibleFixtures, so no backfill or
+    // synthetic penalty is created for a later entrant.
+    for (const [match, fixture] of eligibleFixtures) {
+      if (scores.has(match)) continue;
+      const result = results.get(match);
+      if (!result) continue;
+      const score = scoreMatch(undefined, result, fixture);
+      if (score) scores.set(match, score);
+    }
+
+    const totals = totalsFor(slug, scores, eligibleFixtures);
     return {
       model,
       slug,
       totals,
       picksCount: files.reduce((n, f) => n + f.predictions.length, 0),
       pointsPerMatch: totals.scoredMatches > 0 ? totals.points / totals.scoredMatches : 0,
-      rank: 0,
+      joinedRound: leagueJoinRound(model, comp.id),
+      rank: null,
     };
   });
 
-  // Dense ranking with shared positions for full ties (mirrors lib/scoring rank()).
+  // Competition ranking with shared positions for full ties (1, 1, 3).
   const sorted = [...leaderboard].sort(compareEntries);
   let lastRank = 0;
   sorted.forEach((e, i) => {
-    e.rank = i > 0 && compareEntries(sorted[i - 1], e) === 0 ? lastRank : i + 1;
+    if (e.totals.scoredMatches === 0) {
+      e.rank = null;
+      return;
+    }
+    e.rank = i > 0 && sorted[i - 1].rank !== null && compareEntries(sorted[i - 1], e) === 0
+      ? lastRank
+      : i + 1;
     lastRank = e.rank;
   });
-  leaderboard.sort((a, b) => a.rank - b.rank || a.model.label.localeCompare(b.model.label));
+  leaderboard.sort(
+    (a, b) =>
+      (a.rank ?? Number.POSITIVE_INFINITY) - (b.rank ?? Number.POSITIVE_INFINITY) ||
+      a.model.label.localeCompare(b.model.label),
+  );
 
   return {
     comp,
@@ -168,8 +212,8 @@ export interface LeagueMatchInfo {
  * Round-by-round status for one league fixture, mirroring aggregate.ts
  * liveMatchInfo: excluded wins over everything, then locked rounds (per the
  * competition manifest, written at lock time) show their picks, and anything
- * else is pending. Rows cover the FULL roster, sorted by scored points then
- * slug (slug order pre-kickoff).
+ * else is pending. Rows cover the models eligible in this competition by this
+ * round, sorted by scored points then slug (slug order pre-kickoff).
  */
 export function leagueMatchInfo(data: LeagueData, fixture: Fixture): LeagueMatchInfo {
   const excludedReason = data.manifest.excluded[String(fixture.match)];
@@ -182,12 +226,18 @@ export function leagueMatchInfo(data: LeagueData, fixture: Fixture): LeagueMatch
   }
 
   const result = data.results.get(fixture.match);
-  const rows: LeagueMatchRow[] = data.leaderboard.map(({ model, slug }) => {
-    const file = data.predictions.get(slug)?.find((f) => f.stage === fixture.stage);
-    const prediction = file?.predictions.find((p) => p.match === fixture.match);
-    const score = result ? (scoreMatch(prediction, result, fixture) ?? undefined) : undefined;
-    return { model, slug, prediction, score };
-  });
+  const rows: LeagueMatchRow[] = data.leaderboard
+    .filter(
+      ({ model }) =>
+        isMatchdayKey(fixture.stage) &&
+        modelEligibleForLeagueRound(model, data.comp.id, fixture.stage),
+    )
+    .map(({ model, slug }) => {
+      const file = data.predictions.get(slug)?.find((f) => f.stage === fixture.stage);
+      const prediction = file?.predictions.find((p) => p.match === fixture.match);
+      const score = result ? (scoreMatch(prediction, result, fixture) ?? undefined) : undefined;
+      return { model, slug, prediction, score };
+    });
   rows.sort(
     (a, b) => (b.score?.points ?? -1) - (a.score?.points ?? -1) || a.slug.localeCompare(b.slug),
   );

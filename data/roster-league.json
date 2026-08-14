@@ -168,6 +168,21 @@
     "notes": "Vendor description confirms 'flagship model in Alibaba's Qwen3.7 series'. qwen3.7-plus (2026-06-03) is newer but mid-tier. Max output 65,536. (price/ctx refreshed 2026-08-03.)"
   },
   {
+    "id": "qwen/qwen3.8-max",
+    "label": "Qwen3.8 Max",
+    "vendor": "Alibaba",
+    "tier": "flagship",
+    "context_length": 1000000,
+    "pricing_prompt_usd_per_m": 2,
+    "pricing_completion_usd_per_m": 6,
+    "knowledge_cutoff": "unknown",
+    "reasoning": true,
+    "league_joined_round": {
+      "laliga-2026-27": "md02"
+    },
+    "notes": "Stable general-availability successor to Qwen3.8 Max Preview; OpenRouter catalog verified 2026-08-14. Joins La Liga at MD2 after MD1 was locked; all other listed leagues default to MD1. Qwen3.7 Max remains a separate historical entrant."
+  },
+  {
     "id": "qwen/qwen3.7-flash",
     "label": "Qwen3.7 Flash",
     "vendor": "Alibaba",

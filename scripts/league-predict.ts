@@ -29,6 +29,7 @@ import {
 import { canonicalPayload, sha256 } from "../lib/hashing";
 import { formByTeam, leagueTable, loadPreviousSeason, restDaysByTeam } from "../lib/league-context";
 import { splitRoundByKickoff } from "../lib/league-fixtures";
+import { leagueRosterForRound } from "../lib/league-participation";
 import { buildLeaguePrompt, LEAGUE_PROMPT_VERSION } from "../lib/league-prompt";
 import { dueRounds } from "../lib/league-schedule";
 import { modelSlug } from "../lib/prompt";
@@ -175,7 +176,7 @@ async function runRound(comp: Competition, round: MatchdayKey, args: Args): Prom
     return out;
   }
 
-  let roster = loadLeagueRoster();
+  let roster = leagueRosterForRound(loadLeagueRoster(), comp.id, round);
   if (args.models !== "all") {
     const wanted = new Set(args.models.split(",").map((s) => s.trim()));
     roster = roster.filter((m) => wanted.has(m.id) || wanted.has(modelSlug(m.id)));
