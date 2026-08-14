@@ -11,6 +11,7 @@ export function sitemapRoutes(): string[] {
     "/changelog/",
     "/about/",
     "/season-2026-27/",
+    "/briefs/opening-round-2026/",
   ];
   const matchRoutes = loadFixtures().map((f) => `/matches/${f.match}/`);
   const modelRoutes = loadModelProfiles().map((m) => `/models/${modelSlug(m.id)}/`);
