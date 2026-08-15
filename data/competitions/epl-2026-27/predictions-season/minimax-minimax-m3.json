@@ -1,0 +1,41 @@
+{
+  "model": "minimax/minimax-m3",
+  "slug": "minimax-minimax-m3",
+  "competition": "epl-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:13:47.911Z",
+  "completed_at": "2026-08-15T08:15:01.588Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 707,
+    "completion_tokens": 2538,
+    "total_tokens": 3245,
+    "cost_usd": 0.00322698
+  },
+  "table": [
+    "Manchester City",
+    "Arsenal",
+    "Liverpool",
+    "Manchester United",
+    "Chelsea",
+    "Aston Villa",
+    "Brighton & Hove Albion",
+    "Newcastle United",
+    "Brentford",
+    "AFC Bournemouth",
+    "Fulham",
+    "Crystal Palace",
+    "Everton",
+    "Tottenham Hotspur",
+    "Sunderland",
+    "Leeds United",
+    "Nottingham Forest",
+    "Ipswich Town",
+    "Hull City",
+    "Coventry City"
+  ]
+}

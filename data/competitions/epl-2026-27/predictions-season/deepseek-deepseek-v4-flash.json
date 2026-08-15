@@ -1,0 +1,41 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "slug": "deepseek-deepseek-v4-flash",
+  "competition": "epl-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:12:24.070Z",
+  "completed_at": "2026-08-15T08:12:47.201Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 546,
+    "completion_tokens": 1089,
+    "total_tokens": 1635,
+    "cost_usd": 0.00019029864
+  },
+  "table": [
+    "Arsenal",
+    "Manchester City",
+    "Manchester United",
+    "Liverpool",
+    "Aston Villa",
+    "Chelsea",
+    "Newcastle United",
+    "Brighton & Hove Albion",
+    "AFC Bournemouth",
+    "Tottenham Hotspur",
+    "Brentford",
+    "Fulham",
+    "Crystal Palace",
+    "Everton",
+    "Leeds United",
+    "Sunderland",
+    "Nottingham Forest",
+    "Hull City",
+    "Ipswich Town",
+    "Coventry City"
+  ]
+}

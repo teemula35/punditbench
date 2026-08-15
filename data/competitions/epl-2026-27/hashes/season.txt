@@ -1,0 +1,9 @@
+track: locked (pre-season final table)
+competition: epl-2026-27
+models: 40
+generated_at: 2026-08-15T08:15:31.031Z
+sha256: 2aeec272c3ca618bbe4b97a5971548bed1572ac2c1b14e8912f9faeb9c1e34e8
+
+Canonical form: JSON array of {slug, model, competition, completed_at, table},
+sorted by slug, no whitespace.
+Verify with: npm run season-predict -- --comp epl-2026-27 --hash-only

@@ -1,0 +1,41 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "slug": "anthropic-claude-haiku-4-5",
+  "competition": "epl-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:12:13.675Z",
+  "completed_at": "2026-08-15T08:12:15.615Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 633,
+    "completion_tokens": 99,
+    "total_tokens": 732,
+    "cost_usd": 0.001128
+  },
+  "table": [
+    "Manchester City",
+    "Arsenal",
+    "Manchester United",
+    "Aston Villa",
+    "Liverpool",
+    "AFC Bournemouth",
+    "Brentford",
+    "Brighton & Hove Albion",
+    "Fulham",
+    "Chelsea",
+    "Newcastle United",
+    "Sunderland",
+    "Everton",
+    "Crystal Palace",
+    "Nottingham Forest",
+    "Leeds United",
+    "Tottenham Hotspur",
+    "Ipswich Town",
+    "Coventry City",
+    "Hull City"
+  ]
+}

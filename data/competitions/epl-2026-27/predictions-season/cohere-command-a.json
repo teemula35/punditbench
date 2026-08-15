@@ -1,0 +1,41 @@
+{
+  "model": "cohere/command-a",
+  "slug": "cohere-command-a",
+  "competition": "epl-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:13:46.098Z",
+  "completed_at": "2026-08-15T08:13:47.910Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 549,
+    "completion_tokens": 115,
+    "total_tokens": 664,
+    "cost_usd": 0.0025225
+  },
+  "table": [
+    "Manchester City",
+    "Arsenal",
+    "Liverpool",
+    "Chelsea",
+    "Manchester United",
+    "Tottenham Hotspur",
+    "Aston Villa",
+    "Newcastle United",
+    "Brighton & Hove Albion",
+    "Brentford",
+    "Crystal Palace",
+    "Everton",
+    "Fulham",
+    "AFC Bournemouth",
+    "Leeds United",
+    "Nottingham Forest",
+    "Sunderland",
+    "Coventry City",
+    "Hull City",
+    "Ipswich Town"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "model": "openai/gpt-5.6-sol",
+  "slug": "openai-gpt-5-6-sol",
+  "competition": "epl-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:12:13.654Z",
+  "completed_at": "2026-08-15T08:12:21.963Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 525,
+    "completion_tokens": 301,
+    "total_tokens": 826,
+    "cost_usd": 0.011655
+  },
+  "table": [
+    "Manchester City",
+    "Arsenal",
+    "Liverpool",
+    "Manchester United",
+    "Aston Villa",
+    "Chelsea",
+    "Newcastle United",
+    "Tottenham Hotspur",
+    "Brighton & Hove Albion",
+    "AFC Bournemouth",
+    "Everton",
+    "Brentford",
+    "Fulham",
+    "Sunderland",
+    "Crystal Palace",
+    "Leeds United",
+    "Ipswich Town",
+    "Nottingham Forest",
+    "Coventry City",
+    "Hull City"
+  ]
+}

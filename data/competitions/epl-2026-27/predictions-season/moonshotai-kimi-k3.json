@@ -1,0 +1,41 @@
+{
+  "model": "moonshotai/kimi-k3",
+  "slug": "moonshotai-kimi-k3",
+  "competition": "epl-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:12:47.204Z",
+  "completed_at": "2026-08-15T08:14:34.535Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 627,
+    "completion_tokens": 2933,
+    "total_tokens": 3560,
+    "cost_usd": 0.0697545
+  },
+  "table": [
+    "Arsenal",
+    "Manchester City",
+    "Liverpool",
+    "Manchester United",
+    "Aston Villa",
+    "Chelsea",
+    "Tottenham Hotspur",
+    "Newcastle United",
+    "AFC Bournemouth",
+    "Brighton & Hove Albion",
+    "Sunderland",
+    "Brentford",
+    "Everton",
+    "Fulham",
+    "Crystal Palace",
+    "Leeds United",
+    "Ipswich Town",
+    "Nottingham Forest",
+    "Coventry City",
+    "Hull City"
+  ]
+}

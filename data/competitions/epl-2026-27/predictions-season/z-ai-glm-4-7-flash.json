@@ -1,0 +1,41 @@
+{
+  "model": "z-ai/glm-4.7-flash",
+  "slug": "z-ai-glm-4-7-flash",
+  "competition": "epl-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:13:18.737Z",
+  "completed_at": "2026-08-15T08:13:41.315Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 615,
+    "completion_tokens": 2750,
+    "total_tokens": 3365,
+    "cost_usd": 0.0011372075
+  },
+  "table": [
+    "Manchester City",
+    "Arsenal",
+    "Liverpool",
+    "Aston Villa",
+    "Brighton & Hove Albion",
+    "Chelsea",
+    "Brentford",
+    "Newcastle United",
+    "Fulham",
+    "Ipswich Town",
+    "Nottingham Forest",
+    "Leeds United",
+    "Everton",
+    "Crystal Palace",
+    "Tottenham Hotspur",
+    "Sunderland",
+    "Coventry City",
+    "Hull City",
+    "AFC Bournemouth",
+    "Manchester United"
+  ]
+}

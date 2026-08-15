@@ -1,0 +1,41 @@
+{
+  "model": "tencent/hy3",
+  "slug": "tencent-hy3",
+  "competition": "epl-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:14:54.224Z",
+  "completed_at": "2026-08-15T08:15:30.999Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 588,
+    "completion_tokens": 2765,
+    "total_tokens": 3353,
+    "cost_usd": 0.0023296
+  },
+  "table": [
+    "Arsenal",
+    "Manchester City",
+    "Manchester United",
+    "Aston Villa",
+    "Liverpool",
+    "AFC Bournemouth",
+    "Sunderland",
+    "Brighton & Hove Albion",
+    "Brentford",
+    "Chelsea",
+    "Fulham",
+    "Newcastle United",
+    "Everton",
+    "Leeds United",
+    "Crystal Palace",
+    "Nottingham Forest",
+    "Tottenham Hotspur",
+    "Hull City",
+    "Ipswich Town",
+    "Coventry City"
+  ]
+}

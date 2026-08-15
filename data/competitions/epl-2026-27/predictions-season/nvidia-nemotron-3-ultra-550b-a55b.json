@@ -1,0 +1,41 @@
+{
+  "model": "nvidia/nemotron-3-ultra-550b-a55b",
+  "slug": "nvidia-nemotron-3-ultra-550b-a55b",
+  "competition": "epl-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:14:21.868Z",
+  "completed_at": "2026-08-15T08:14:27.554Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 569,
+    "completion_tokens": 555,
+    "total_tokens": 1124,
+    "cost_usd": 0.00209
+  },
+  "table": [
+    "Manchester City",
+    "Arsenal",
+    "Liverpool",
+    "Aston Villa",
+    "Manchester United",
+    "Newcastle United",
+    "Chelsea",
+    "Tottenham Hotspur",
+    "Brighton & Hove Albion",
+    "Brentford",
+    "Fulham",
+    "AFC Bournemouth",
+    "Everton",
+    "Crystal Palace",
+    "Nottingham Forest",
+    "Leeds United",
+    "Sunderland",
+    "Coventry City",
+    "Hull City",
+    "Ipswich Town"
+  ]
+}

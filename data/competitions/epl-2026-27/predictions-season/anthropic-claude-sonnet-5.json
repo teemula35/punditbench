@@ -1,0 +1,41 @@
+{
+  "model": "anthropic/claude-sonnet-5",
+  "slug": "anthropic-claude-sonnet-5",
+  "competition": "epl-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:14:50.937Z",
+  "completed_at": "2026-08-15T08:15:05.024Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 894,
+    "completion_tokens": 1384,
+    "total_tokens": 2278,
+    "cost_usd": 0.015628
+  },
+  "table": [
+    "Arsenal",
+    "Manchester City",
+    "Liverpool",
+    "Manchester United",
+    "Aston Villa",
+    "Chelsea",
+    "Newcastle United",
+    "Brighton & Hove Albion",
+    "AFC Bournemouth",
+    "Brentford",
+    "Sunderland",
+    "Fulham",
+    "Crystal Palace",
+    "Everton",
+    "Nottingham Forest",
+    "Tottenham Hotspur",
+    "Leeds United",
+    "Coventry City",
+    "Hull City",
+    "Ipswich Town"
+  ]
+}
