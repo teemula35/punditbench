@@ -23,6 +23,21 @@ CI deploy auth: repo secret `FIREBASE_SERVICE_ACCOUNT_PUNDITBENCH`
 (service account `github-results-sync@punditbench.iam.gserviceaccount.com`, role Firebase
 Hosting Admin). Post-tournament (Epic H): delete the workflow file and the service account.
 
+### Live paid-brief build guard
+
+While the opening-round paid brief is active, `npm run build` refuses to create a deployable
+export unless `PB_BRIEF_CHECKOUT_URL` is a valid HTTPS `buy.stripe.com` Payment Link. The two
+deploying workflows pass the `PB_BRIEF_*` repository secrets into their Build steps and verify the
+rendered export after `next build`; configure those secrets before merging or forcing a deploy.
+Seller, support and policy values remain build-time secrets so personal data does not enter this
+public repository.
+
+The non-deploying CI workflow uses `npm run build:ci` so pull-request artifacts can keep checkout
+closed without weakening the deployable build guard. Only `.github/workflows/ci.yml` may use that
+target, and its output must never be deployed. For a manual hosting deploy, load the same secure
+`PB_BRIEF_*` environment first; otherwise use the `results-sync` `force_deploy` path after its
+repository secrets are configured.
+
 ## Manual entry — knockout matches, corrections, fallback (~10 min)
 
 ```powershell

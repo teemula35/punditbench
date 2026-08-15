@@ -6,7 +6,8 @@
   "description": "PunditBench — LLM football prediction benchmark, 2026 World Cup edition",
   "scripts": {
     "dev": "next dev",
-    "build": "node --import tsx scripts/prepare-export.ts && next build",
+    "build": "node --import tsx scripts/validate-opening-round-offer.ts && node --import tsx scripts/prepare-export.ts && next build && node --import tsx scripts/validate-opening-round-offer.ts --verify-export",
+    "build:ci": "node --import tsx scripts/prepare-export.ts && next build",
     "start": "next start",
     "test": "vitest run",
     "predict": "node --import tsx scripts/predict.ts",
@@ -36,6 +37,7 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "parse5": "^7.3.0",
     "sharp": "^0.35.0",
     "tailwindcss": "^4.1.0",
     "tsx": "^4.19.0",
