@@ -1,0 +1,39 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "slug": "deepseek-deepseek-v4-pro",
+  "competition": "ligue1-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:06:55.843Z",
+  "completed_at": "2026-08-15T08:08:06.481Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 570,
+    "completion_tokens": 3962,
+    "total_tokens": 4532,
+    "cost_usd": 0.002955912
+  },
+  "table": [
+    "Paris Saint-Germain",
+    "Lille",
+    "Marseille",
+    "Lyon",
+    "Lens",
+    "AS Monaco",
+    "Stade Rennais",
+    "Strasbourg",
+    "Paris FC",
+    "Toulouse",
+    "Lorient",
+    "Nice",
+    "Brest",
+    "Angers",
+    "AJ Auxerre",
+    "Le Havre AC",
+    "Troyes",
+    "Le Mans"
+  ]
+}

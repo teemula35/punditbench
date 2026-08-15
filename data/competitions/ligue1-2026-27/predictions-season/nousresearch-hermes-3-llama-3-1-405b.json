@@ -1,0 +1,39 @@
+{
+  "model": "nousresearch/hermes-3-llama-3.1-405b",
+  "slug": "nousresearch-hermes-3-llama-3-1-405b",
+  "competition": "ligue1-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:09:35.746Z",
+  "completed_at": "2026-08-15T08:09:38.436Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 498,
+    "completion_tokens": 65,
+    "total_tokens": 563,
+    "cost_usd": 0.000563
+  },
+  "table": [
+    "Paris Saint-Germain",
+    "Lyon",
+    "Lens",
+    "Lille",
+    "Marseille",
+    "AS Monaco",
+    "Stade Rennais",
+    "Strasbourg",
+    "Lorient",
+    "Nice",
+    "Toulouse",
+    "Paris FC",
+    "Brest",
+    "Angers",
+    "Le Havre AC",
+    "AJ Auxerre",
+    "Troyes",
+    "Le Mans"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "model": "minimax/minimax-m3",
+  "slug": "minimax-minimax-m3",
+  "competition": "ligue1-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:09:17.752Z",
+  "completed_at": "2026-08-15T08:09:25.207Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 641,
+    "completion_tokens": 827,
+    "total_tokens": 1468,
+    "cost_usd": 0.00114726
+  },
+  "table": [
+    "Paris Saint-Germain",
+    "Lens",
+    "Lille",
+    "Lyon",
+    "Marseille",
+    "AS Monaco",
+    "Stade Rennais",
+    "Strasbourg",
+    "Paris FC",
+    "Toulouse",
+    "Nice",
+    "Lorient",
+    "Brest",
+    "AJ Auxerre",
+    "Angers",
+    "Le Havre AC",
+    "Troyes",
+    "Le Mans"
+  ]
+}

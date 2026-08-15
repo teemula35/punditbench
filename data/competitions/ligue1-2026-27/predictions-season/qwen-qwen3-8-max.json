@@ -1,0 +1,39 @@
+{
+  "model": "qwen/qwen3.8-max",
+  "slug": "qwen-qwen3-8-max",
+  "competition": "ligue1-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:07:10.209Z",
+  "completed_at": "2026-08-15T08:09:16.902Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 562,
+    "completion_tokens": 5992,
+    "total_tokens": 6554,
+    "cost_usd": 0.037076
+  },
+  "table": [
+    "Paris Saint-Germain",
+    "Lens",
+    "Lille",
+    "Marseille",
+    "Lyon",
+    "Strasbourg",
+    "Stade Rennais",
+    "AS Monaco",
+    "Lorient",
+    "Paris FC",
+    "Toulouse",
+    "Brest",
+    "Angers",
+    "Le Havre AC",
+    "AJ Auxerre",
+    "Nice",
+    "Troyes",
+    "Le Mans"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "model": "mistralai/mistral-medium-3-5",
+  "slug": "mistralai-mistral-medium-3-5",
+  "competition": "ligue1-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:07:08.190Z",
+  "completed_at": "2026-08-15T08:07:10.072Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 584,
+    "completion_tokens": 85,
+    "total_tokens": 669,
+    "cost_usd": 0.0015135
+  },
+  "table": [
+    "Paris Saint-Germain",
+    "Lens",
+    "Lille",
+    "Lyon",
+    "Marseille",
+    "Stade Rennais",
+    "AS Monaco",
+    "Strasbourg",
+    "Lorient",
+    "Toulouse",
+    "Paris FC",
+    "Brest",
+    "Angers",
+    "Le Havre AC",
+    "AJ Auxerre",
+    "Nice",
+    "Le Mans",
+    "Troyes"
+  ]
+}

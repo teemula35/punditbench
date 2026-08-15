@@ -1,0 +1,39 @@
+{
+  "model": "openai/gpt-3.5-turbo",
+  "slug": "openai-gpt-3-5-turbo",
+  "competition": "ligue1-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:09:25.208Z",
+  "completed_at": "2026-08-15T08:09:26.116Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 495,
+    "completion_tokens": 65,
+    "total_tokens": 560,
+    "cost_usd": 0.000345
+  },
+  "table": [
+    "Paris Saint-Germain",
+    "Lyon",
+    "Lille",
+    "Lens",
+    "Marseille",
+    "AS Monaco",
+    "Strasbourg",
+    "Stade Rennais",
+    "Toulouse",
+    "Nice",
+    "Angers",
+    "Le Havre AC",
+    "Brest",
+    "Lorient",
+    "Paris FC",
+    "Le Mans",
+    "AJ Auxerre",
+    "Troyes"
+  ]
+}

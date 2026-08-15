@@ -1,0 +1,39 @@
+{
+  "model": "anthropic/claude-opus-5",
+  "slug": "anthropic-claude-opus-5",
+  "competition": "ligue1-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:08:18.210Z",
+  "completed_at": "2026-08-15T08:08:22.597Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 752,
+    "completion_tokens": 117,
+    "total_tokens": 869,
+    "cost_usd": 0.006685
+  },
+  "table": [
+    "Paris Saint-Germain",
+    "Marseille",
+    "Lille",
+    "Lyon",
+    "Lens",
+    "AS Monaco",
+    "Stade Rennais",
+    "Strasbourg",
+    "Nice",
+    "Paris FC",
+    "Lorient",
+    "Toulouse",
+    "Brest",
+    "AJ Auxerre",
+    "Angers",
+    "Le Havre AC",
+    "Le Mans",
+    "Troyes"
+  ]
+}

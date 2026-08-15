@@ -1,0 +1,39 @@
+{
+  "model": "amazon/nova-2-lite-v1",
+  "slug": "amazon-nova-2-lite-v1",
+  "competition": "ligue1-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:09:16.904Z",
+  "completed_at": "2026-08-15T08:09:17.750Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 504,
+    "completion_tokens": 92,
+    "total_tokens": 596,
+    "cost_usd": 0.0003812
+  },
+  "table": [
+    "Paris Saint-Germain",
+    "Lens",
+    "Lille",
+    "Lyon",
+    "Marseille",
+    "Stade Rennais",
+    "AS Monaco",
+    "Strasbourg",
+    "Lorient",
+    "Toulouse",
+    "Paris FC",
+    "Brest",
+    "Angers",
+    "Le Havre AC",
+    "AJ Auxerre",
+    "Nice",
+    "Le Mans",
+    "Troyes"
+  ]
+}

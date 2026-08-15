@@ -1,0 +1,39 @@
+{
+  "model": "inception/mercury-2",
+  "slug": "inception-mercury-2",
+  "competition": "ligue1-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:09:24.434Z",
+  "completed_at": "2026-08-15T08:09:27.938Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 762,
+    "completion_tokens": 1009,
+    "total_tokens": 1771,
+    "cost_usd": 0.000880875
+  },
+  "table": [
+    "Paris Saint-Germain",
+    "Lens",
+    "Lille",
+    "Lyon",
+    "Marseille",
+    "AS Monaco",
+    "Strasbourg",
+    "Lorient",
+    "Stade Rennais",
+    "Toulouse",
+    "Paris FC",
+    "Brest",
+    "Angers",
+    "Le Havre AC",
+    "Nice",
+    "AJ Auxerre",
+    "Le Mans",
+    "Troyes"
+  ]
+}

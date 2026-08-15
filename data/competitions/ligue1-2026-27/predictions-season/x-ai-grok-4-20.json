@@ -1,0 +1,39 @@
+{
+  "model": "x-ai/grok-4.20",
+  "slug": "x-ai-grok-4-20",
+  "competition": "ligue1-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:08:56.007Z",
+  "completed_at": "2026-08-15T08:08:57.288Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 652,
+    "completion_tokens": 109,
+    "total_tokens": 761,
+    "cost_usd": 0.0009531
+  },
+  "table": [
+    "Paris Saint-Germain",
+    "Lille",
+    "Lens",
+    "Lyon",
+    "AS Monaco",
+    "Marseille",
+    "Stade Rennais",
+    "Strasbourg",
+    "Paris FC",
+    "Brest",
+    "Nice",
+    "Toulouse",
+    "Lorient",
+    "Le Havre AC",
+    "Angers",
+    "AJ Auxerre",
+    "Le Mans",
+    "Troyes"
+  ]
+}
