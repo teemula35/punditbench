@@ -1,0 +1,41 @@
+{
+  "model": "mistralai/mistral-medium-3-5",
+  "slug": "mistralai-mistral-medium-3-5",
+  "competition": "seriea-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:37:03.044Z",
+  "completed_at": "2026-08-15T08:37:03.789Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 556,
+    "completion_tokens": 95,
+    "total_tokens": 651,
+    "cost_usd": 0.0015465
+  },
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "AS Roma",
+    "Juventus",
+    "AC Milan",
+    "Atalanta",
+    "Bologna",
+    "Lazio",
+    "Como",
+    "Torino",
+    "Udinese",
+    "Sassuolo",
+    "Fiorentina",
+    "Parma",
+    "Cagliari",
+    "Genoa",
+    "Monza",
+    "Venezia",
+    "Lecce",
+    "Frosinone"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "model": "anthropic/claude-sonnet-5",
+  "slug": "anthropic-claude-sonnet-5",
+  "competition": "seriea-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:40:29.124Z",
+  "completed_at": "2026-08-15T08:40:35.794Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 814,
+    "completion_tokens": 411,
+    "total_tokens": 1225,
+    "cost_usd": 0.005738
+  },
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "AC Milan",
+    "AS Roma",
+    "Juventus",
+    "Atalanta",
+    "Como",
+    "Bologna",
+    "Lazio",
+    "Torino",
+    "Udinese",
+    "Fiorentina",
+    "Sassuolo",
+    "Parma",
+    "Cagliari",
+    "Genoa",
+    "Lecce",
+    "Venezia",
+    "Frosinone",
+    "Monza"
+  ]
+}

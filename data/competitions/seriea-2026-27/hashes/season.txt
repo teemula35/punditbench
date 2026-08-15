@@ -1,0 +1,9 @@
+track: locked (pre-season final table)
+competition: seriea-2026-27
+models: 42
+generated_at: 2026-08-15T08:48:06.792Z
+sha256: 25f73f26508c06eba9073a37f21eddf534e7021465c49e3a35cfb2cbdf24907e
+
+Canonical form: JSON array of {slug, model, competition, completed_at, table},
+sorted by slug, no whitespace.
+Verify with: npm run season-predict -- --comp seriea-2026-27 --hash-only

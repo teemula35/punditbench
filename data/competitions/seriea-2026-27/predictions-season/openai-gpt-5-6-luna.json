@@ -1,0 +1,41 @@
+{
+  "model": "openai/gpt-5.6-luna",
+  "slug": "openai-gpt-5-6-luna",
+  "competition": "seriea-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:36:47.490Z",
+  "completed_at": "2026-08-15T08:36:52.050Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 523,
+    "completion_tokens": 414,
+    "total_tokens": 937,
+    "cost_usd": 0.0003007
+  },
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "AC Milan",
+    "Juventus",
+    "AS Roma",
+    "Atalanta",
+    "Como",
+    "Lazio",
+    "Bologna",
+    "Fiorentina",
+    "Sassuolo",
+    "Torino",
+    "Udinese",
+    "Genoa",
+    "Parma",
+    "Cagliari",
+    "Frosinone",
+    "Monza",
+    "Venezia",
+    "Lecce"
+  ]
+}

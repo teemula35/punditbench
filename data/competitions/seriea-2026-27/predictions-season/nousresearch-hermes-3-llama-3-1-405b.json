@@ -1,0 +1,41 @@
+{
+  "model": "nousresearch/hermes-3-llama-3.1-405b",
+  "slug": "nousresearch-hermes-3-llama-3-1-405b",
+  "competition": "seriea-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:40:22.191Z",
+  "completed_at": "2026-08-15T08:40:25.849Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 545,
+    "completion_tokens": 74,
+    "total_tokens": 619,
+    "cost_usd": 0.000619
+  },
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "AS Roma",
+    "AC Milan",
+    "Juventus",
+    "Atalanta",
+    "Lazio",
+    "Bologna",
+    "Fiorentina",
+    "Sassuolo",
+    "Torino",
+    "Udinese",
+    "Como",
+    "Parma",
+    "Cagliari",
+    "Genoa",
+    "Lecce",
+    "Monza",
+    "Frosinone",
+    "Venezia"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "model": "anthropic/claude-fable-5",
+  "slug": "anthropic-claude-fable-5",
+  "competition": "seriea-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:36:47.490Z",
+  "completed_at": "2026-08-15T08:36:52.305Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 814,
+    "completion_tokens": 130,
+    "total_tokens": 944,
+    "cost_usd": 0.01464
+  },
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "AC Milan",
+    "Juventus",
+    "AS Roma",
+    "Atalanta",
+    "Como",
+    "Bologna",
+    "Lazio",
+    "Fiorentina",
+    "Torino",
+    "Udinese",
+    "Sassuolo",
+    "Parma",
+    "Cagliari",
+    "Genoa",
+    "Lecce",
+    "Monza",
+    "Frosinone",
+    "Venezia"
+  ]
+}

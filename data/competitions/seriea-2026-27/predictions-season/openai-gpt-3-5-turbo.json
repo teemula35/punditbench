@@ -1,0 +1,41 @@
+{
+  "model": "openai/gpt-3.5-turbo",
+  "slug": "openai-gpt-3-5-turbo",
+  "competition": "seriea-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:39:49.016Z",
+  "completed_at": "2026-08-15T08:39:50.168Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 542,
+    "completion_tokens": 74,
+    "total_tokens": 616,
+    "cost_usd": 0.000382
+  },
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "AS Roma",
+    "AC Milan",
+    "Juventus",
+    "Atalanta",
+    "Bologna",
+    "Lazio",
+    "Udinese",
+    "Sassuolo",
+    "Torino",
+    "Parma",
+    "Cagliari",
+    "Fiorentina",
+    "Genoa",
+    "Monza",
+    "Frosinone",
+    "Venezia",
+    "Como",
+    "Lecce"
+  ]
+}

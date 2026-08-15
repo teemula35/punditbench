@@ -1,0 +1,41 @@
+{
+  "model": "anthropic/claude-haiku-4.5",
+  "slug": "anthropic-claude-haiku-4-5",
+  "competition": "seriea-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:36:47.491Z",
+  "completed_at": "2026-08-15T08:36:49.015Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 631,
+    "completion_tokens": 95,
+    "total_tokens": 726,
+    "cost_usd": 0.001106
+  },
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "Juventus",
+    "AC Milan",
+    "Atalanta",
+    "AS Roma",
+    "Como",
+    "Bologna",
+    "Lazio",
+    "Udinese",
+    "Fiorentina",
+    "Torino",
+    "Sassuolo",
+    "Parma",
+    "Cagliari",
+    "Genoa",
+    "Lecce",
+    "Monza",
+    "Venezia",
+    "Frosinone"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "model": "anthropic/claude-opus-5",
+  "slug": "anthropic-claude-opus-5",
+  "competition": "seriea-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:37:42.051Z",
+  "completed_at": "2026-08-15T08:37:45.419Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 814,
+    "completion_tokens": 114,
+    "total_tokens": 928,
+    "cost_usd": 0.00692
+  },
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "AC Milan",
+    "Juventus",
+    "Como",
+    "AS Roma",
+    "Atalanta",
+    "Bologna",
+    "Lazio",
+    "Fiorentina",
+    "Udinese",
+    "Torino",
+    "Sassuolo",
+    "Cagliari",
+    "Genoa",
+    "Parma",
+    "Lecce",
+    "Monza",
+    "Venezia",
+    "Frosinone"
+  ]
+}

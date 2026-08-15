@@ -1,0 +1,41 @@
+{
+  "model": "minimax/minimax-m3",
+  "slug": "minimax-minimax-m3",
+  "competition": "seriea-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:38:44.808Z",
+  "completed_at": "2026-08-15T08:39:38.320Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 687,
+    "completion_tokens": 1328,
+    "total_tokens": 2015,
+    "cost_usd": 0.0017997
+  },
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "Juventus",
+    "AC Milan",
+    "AS Roma",
+    "Atalanta",
+    "Como",
+    "Bologna",
+    "Lazio",
+    "Torino",
+    "Udinese",
+    "Sassuolo",
+    "Parma",
+    "Cagliari",
+    "Fiorentina",
+    "Genoa",
+    "Lecce",
+    "Frosinone",
+    "Monza",
+    "Venezia"
+  ]
+}

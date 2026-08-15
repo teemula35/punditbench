@@ -1,0 +1,41 @@
+{
+  "model": "google/gemini-3.6-flash",
+  "slug": "google-gemini-3-6-flash",
+  "competition": "seriea-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T08:38:01.722Z",
+  "completed_at": "2026-08-15T08:38:06.567Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 550,
+    "completion_tokens": 920,
+    "total_tokens": 1470,
+    "cost_usd": 0.0038625
+  },
+  "table": [
+    "Internazionale",
+    "Napoli",
+    "AC Milan",
+    "Juventus",
+    "AS Roma",
+    "Atalanta",
+    "Como",
+    "Bologna",
+    "Fiorentina",
+    "Lazio",
+    "Udinese",
+    "Torino",
+    "Sassuolo",
+    "Parma",
+    "Genoa",
+    "Cagliari",
+    "Monza",
+    "Lecce",
+    "Frosinone",
+    "Venezia"
+  ]
+}
