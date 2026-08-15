@@ -1,0 +1,39 @@
+{
+  "model": "amazon/nova-2-lite-v1",
+  "slug": "amazon-nova-2-lite-v1",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:01:39.601Z",
+  "completed_at": "2026-08-15T09:01:40.447Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 522,
+    "completion_tokens": 108,
+    "total_tokens": 630,
+    "cost_usd": 0.0004266
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "VfB Stuttgart",
+    "Bayer Leverkusen",
+    "TSG Hoffenheim",
+    "SC Freiburg",
+    "Eintracht Frankfurt",
+    "FC Augsburg",
+    "Mainz",
+    "1. FC Union Berlin",
+    "Borussia Mönchengladbach",
+    "Hamburg SV",
+    "FC Cologne",
+    "Werder Bremen",
+    "SC Paderborn 07",
+    "Schalke 04",
+    "SV Elversberg"
+  ]
+}

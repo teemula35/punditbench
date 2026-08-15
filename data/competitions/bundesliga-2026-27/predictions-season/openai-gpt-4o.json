@@ -1,0 +1,39 @@
+{
+  "model": "openai/gpt-4o",
+  "slug": "openai-gpt-4o",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:02:42.385Z",
+  "completed_at": "2026-08-15T09:02:43.873Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 512,
+    "completion_tokens": 90,
+    "total_tokens": 602,
+    "cost_usd": 0.00218
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "Bayer Leverkusen",
+    "VfB Stuttgart",
+    "TSG Hoffenheim",
+    "SC Freiburg",
+    "Eintracht Frankfurt",
+    "1. FC Union Berlin",
+    "Mainz",
+    "Borussia Mönchengladbach",
+    "FC Augsburg",
+    "Hamburg SV",
+    "FC Cologne",
+    "Werder Bremen",
+    "Schalke 04",
+    "SC Paderborn 07",
+    "SV Elversberg"
+  ]
+}

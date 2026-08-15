@@ -1,0 +1,39 @@
+{
+  "model": "nvidia/nemotron-3-ultra-550b-a55b",
+  "slug": "nvidia-nemotron-3-ultra-550b-a55b",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:02:11.093Z",
+  "completed_at": "2026-08-15T09:02:35.719Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 590,
+    "completion_tokens": 1539,
+    "total_tokens": 2129,
+    "cost_usd": 0.0058944
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "Bayer Leverkusen",
+    "RB Leipzig",
+    "VfB Stuttgart",
+    "Eintracht Frankfurt",
+    "SC Freiburg",
+    "TSG Hoffenheim",
+    "Borussia Mönchengladbach",
+    "FC Augsburg",
+    "Mainz",
+    "1. FC Union Berlin",
+    "FC Cologne",
+    "Werder Bremen",
+    "Hamburg SV",
+    "Schalke 04",
+    "SC Paderborn 07",
+    "SV Elversberg"
+  ]
+}

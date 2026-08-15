@@ -1,0 +1,9 @@
+track: locked (pre-season final table)
+competition: bundesliga-2026-27
+models: 42
+generated_at: 2026-08-15T09:12:21.128Z
+sha256: c45b480b07f7176cf7d9c2948f7b8046659d9bba70c5184616ba0fe9b37581eb
+
+Canonical form: JSON array of {slug, model, competition, completed_at, table},
+sorted by slug, no whitespace.
+Verify with: npm run season-predict -- --comp bundesliga-2026-27 --hash-only

@@ -1,0 +1,39 @@
+{
+  "model": "qwen/qwen-2.5-72b-instruct",
+  "slug": "qwen-qwen-2-5-72b-instruct",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:02:48.635Z",
+  "completed_at": "2026-08-15T09:02:56.443Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 561,
+    "completion_tokens": 95,
+    "total_tokens": 656,
+    "cost_usd": 0.00023996
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "Bayer Leverkusen",
+    "TSG Hoffenheim",
+    "VfB Stuttgart",
+    "SC Freiburg",
+    "Eintracht Frankfurt",
+    "FC Augsburg",
+    "Mainz",
+    "1. FC Union Berlin",
+    "Borussia Mönchengladbach",
+    "Hamburg SV",
+    "FC Cologne",
+    "Werder Bremen",
+    "SV Elversberg",
+    "SC Paderborn 07",
+    "Schalke 04"
+  ]
+}

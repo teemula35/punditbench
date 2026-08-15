@@ -1,0 +1,39 @@
+{
+  "model": "x-ai/grok-4.5",
+  "slug": "x-ai-grok-4-5",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:00:26.266Z",
+  "completed_at": "2026-08-15T09:00:56.410Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 723,
+    "completion_tokens": 1834,
+    "total_tokens": 2557,
+    "cost_usd": 0.0122324
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "Bayer Leverkusen",
+    "VfB Stuttgart",
+    "TSG Hoffenheim",
+    "SC Freiburg",
+    "Eintracht Frankfurt",
+    "FC Augsburg",
+    "Mainz",
+    "1. FC Union Berlin",
+    "Borussia Mönchengladbach",
+    "Hamburg SV",
+    "Werder Bremen",
+    "FC Cologne",
+    "Schalke 04",
+    "SC Paderborn 07",
+    "SV Elversberg"
+  ]
+}

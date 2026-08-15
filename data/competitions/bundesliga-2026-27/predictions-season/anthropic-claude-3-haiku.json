@@ -1,0 +1,39 @@
+{
+  "model": "anthropic/claude-3-haiku",
+  "slug": "anthropic-claude-3-haiku",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:02:44.950Z",
+  "completed_at": "2026-08-15T09:02:46.466Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 681,
+    "completion_tokens": 119,
+    "total_tokens": 800,
+    "cost_usd": 0.000319
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "Bayer Leverkusen",
+    "Eintracht Frankfurt",
+    "SC Freiburg",
+    "Borussia Mönchengladbach",
+    "Schalke 04",
+    "TSG Hoffenheim",
+    "VfB Stuttgart",
+    "Mainz",
+    "1. FC Union Berlin",
+    "FC Cologne",
+    "Werder Bremen",
+    "FC Augsburg",
+    "SV Elversberg",
+    "SC Paderborn 07",
+    "Hamburg SV"
+  ]
+}

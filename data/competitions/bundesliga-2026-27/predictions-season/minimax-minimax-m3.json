@@ -1,0 +1,39 @@
+{
+  "model": "minimax/minimax-m3",
+  "slug": "minimax-minimax-m3",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:01:42.438Z",
+  "completed_at": "2026-08-15T09:01:51.738Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 678,
+    "completion_tokens": 1628,
+    "total_tokens": 2306,
+    "cost_usd": 0.00171882
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "Bayer Leverkusen",
+    "VfB Stuttgart",
+    "TSG Hoffenheim",
+    "Eintracht Frankfurt",
+    "SC Freiburg",
+    "FC Augsburg",
+    "Mainz",
+    "1. FC Union Berlin",
+    "Borussia Mönchengladbach",
+    "Werder Bremen",
+    "Hamburg SV",
+    "FC Cologne",
+    "Schalke 04",
+    "SC Paderborn 07",
+    "SV Elversberg"
+  ]
+}

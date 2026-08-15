@@ -1,0 +1,39 @@
+{
+  "model": "meta-llama/llama-3.1-70b-instruct",
+  "slug": "meta-llama-llama-3-1-70b-instruct",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:02:45.918Z",
+  "completed_at": "2026-08-15T09:02:50.270Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 533,
+    "completion_tokens": 94,
+    "total_tokens": 627,
+    "cost_usd": 0.0002508
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "Bayer Leverkusen",
+    "TSG Hoffenheim",
+    "Eintracht Frankfurt",
+    "VfB Stuttgart",
+    "SC Freiburg",
+    "Borussia Mönchengladbach",
+    "FC Augsburg",
+    "Mainz",
+    "1. FC Union Berlin",
+    "Schalke 04",
+    "Werder Bremen",
+    "Hamburg SV",
+    "FC Cologne",
+    "SV Elversberg",
+    "SC Paderborn 07"
+  ]
+}

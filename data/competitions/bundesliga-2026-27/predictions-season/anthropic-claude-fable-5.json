@@ -1,0 +1,39 @@
+{
+  "model": "anthropic/claude-fable-5",
+  "slug": "anthropic-claude-fable-5",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:00:19.775Z",
+  "completed_at": "2026-08-15T09:00:25.655Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 846,
+    "completion_tokens": 342,
+    "total_tokens": 1188,
+    "cost_usd": 0.02556
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "Bayer Leverkusen",
+    "RB Leipzig",
+    "VfB Stuttgart",
+    "Eintracht Frankfurt",
+    "TSG Hoffenheim",
+    "SC Freiburg",
+    "Mainz",
+    "FC Augsburg",
+    "1. FC Union Berlin",
+    "Borussia Mönchengladbach",
+    "Werder Bremen",
+    "FC Cologne",
+    "Hamburg SV",
+    "Schalke 04",
+    "SV Elversberg",
+    "SC Paderborn 07"
+  ]
+}

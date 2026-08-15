@@ -1,0 +1,39 @@
+{
+  "model": "tencent/hunyuan-a13b-instruct",
+  "slug": "tencent-hunyuan-a13b-instruct",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:02:56.448Z",
+  "completed_at": "2026-08-15T09:02:59.830Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 561,
+    "completion_tokens": 142,
+    "total_tokens": 703,
+    "cost_usd": 0.00015948
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "VfB Stuttgart",
+    "Eintracht Frankfurt",
+    "Bayer Leverkusen",
+    "SC Freiburg",
+    "FC Augsburg",
+    "FC Cologne",
+    "Mainz",
+    "1. FC Union Berlin",
+    "Borussia Mönchengladbach",
+    "Hamburg SV",
+    "TSG Hoffenheim",
+    "Schalke 04",
+    "SV Elversberg",
+    "SC Paderborn 07",
+    "Werder Bremen"
+  ]
+}

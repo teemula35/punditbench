@@ -1,0 +1,39 @@
+{
+  "model": "inception/mercury-2",
+  "slug": "inception-mercury-2",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:02:35.722Z",
+  "completed_at": "2026-08-15T09:02:38.925Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 786,
+    "completion_tokens": 947,
+    "total_tokens": 1733,
+    "cost_usd": 0.0008415
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "Bayer Leverkusen",
+    "RB Leipzig",
+    "1. FC Union Berlin",
+    "VfB Stuttgart",
+    "TSG Hoffenheim",
+    "SC Freiburg",
+    "Eintracht Frankfurt",
+    "Schalke 04",
+    "FC Augsburg",
+    "Mainz",
+    "Borussia Mönchengladbach",
+    "Hamburg SV",
+    "FC Cologne",
+    "Werder Bremen",
+    "SC Paderborn 07",
+    "SV Elversberg"
+  ]
+}

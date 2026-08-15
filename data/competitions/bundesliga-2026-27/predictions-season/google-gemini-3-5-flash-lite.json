@@ -1,0 +1,39 @@
+{
+  "model": "google/gemini-3.5-flash-lite",
+  "slug": "google-gemini-3-5-flash-lite",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:00:25.659Z",
+  "completed_at": "2026-08-15T09:00:26.258Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 527,
+    "completion_tokens": 54,
+    "total_tokens": 581,
+    "cost_usd": 0.0002931
+  },
+  "table": [
+    "Bayern Munich",
+    "Bayer Leverkusen",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "VfB Stuttgart",
+    "Eintracht Frankfurt",
+    "TSG Hoffenheim",
+    "Borussia Mönchengladbach",
+    "SC Freiburg",
+    "Mainz",
+    "FC Augsburg",
+    "1. FC Union Berlin",
+    "Hamburg SV",
+    "Werder Bremen",
+    "FC Cologne",
+    "Schalke 04",
+    "SC Paderborn 07",
+    "SV Elversberg"
+  ]
+}

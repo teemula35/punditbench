@@ -1,0 +1,39 @@
+{
+  "model": "meta-llama/llama-4-maverick",
+  "slug": "meta-llama-llama-4-maverick",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:00:32.197Z",
+  "completed_at": "2026-08-15T09:00:33.354Z",
+  "attempts": 2,
+  "usage": {
+    "prompt_tokens": 547,
+    "completion_tokens": 85,
+    "total_tokens": 632,
+    "cost_usd": 0.0001774
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "Bayer Leverkusen",
+    "VfB Stuttgart",
+    "TSG Hoffenheim",
+    "SC Freiburg",
+    "Eintracht Frankfurt",
+    "Hamburg SV",
+    "FC Augsburg",
+    "1. FC Union Berlin",
+    "Borussia Mönchengladbach",
+    "Werder Bremen",
+    "Mainz",
+    "FC Cologne",
+    "SC Paderborn 07",
+    "Schalke 04",
+    "SV Elversberg"
+  ]
+}

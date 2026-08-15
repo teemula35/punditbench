@@ -1,0 +1,39 @@
+{
+  "model": "deepseek/deepseek-v4-pro",
+  "slug": "deepseek-deepseek-v4-pro",
+  "competition": "bundesliga-2026-27",
+  "kind": "season-table",
+  "prompt_version": "season-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-15T09:00:26.440Z",
+  "completed_at": "2026-08-15T09:00:57.011Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 529,
+    "completion_tokens": 1304,
+    "total_tokens": 1833,
+    "cost_usd": 0.0009628
+  },
+  "table": [
+    "Bayern Munich",
+    "Borussia Dortmund",
+    "Bayer Leverkusen",
+    "RB Leipzig",
+    "VfB Stuttgart",
+    "Eintracht Frankfurt",
+    "SC Freiburg",
+    "TSG Hoffenheim",
+    "Borussia Mönchengladbach",
+    "Mainz",
+    "FC Augsburg",
+    "1. FC Union Berlin",
+    "Hamburg SV",
+    "FC Cologne",
+    "Werder Bremen",
+    "Schalke 04",
+    "SC Paderborn 07",
+    "SV Elversberg"
+  ]
+}
