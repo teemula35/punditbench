@@ -566,7 +566,7 @@
     "round": 6,
     "home": "Manchester United",
     "away": "Tottenham Hotspur",
-    "kickoff_utc": "2026-10-10T14:00:00Z",
+    "kickoff_utc": "2026-10-10T16:30:00Z",
     "city": "Manchester",
     "stadium": "Old Trafford",
     "espn_id": "401878773"
@@ -577,7 +577,7 @@
     "round": 6,
     "home": "Hull City",
     "away": "Everton",
-    "kickoff_utc": "2026-10-10T14:00:00Z",
+    "kickoff_utc": "2026-10-11T13:00:00Z",
     "city": "Hull",
     "stadium": "The MKM Stadium",
     "espn_id": "401878774"
@@ -610,7 +610,7 @@
     "round": 6,
     "home": "Liverpool",
     "away": "Manchester City",
-    "kickoff_utc": "2026-10-10T14:00:00Z",
+    "kickoff_utc": "2026-10-11T15:30:00Z",
     "city": "Liverpool",
     "stadium": "Anfield",
     "espn_id": "401879264"
@@ -632,7 +632,7 @@
     "round": 6,
     "home": "Crystal Palace",
     "away": "Nottingham Forest",
-    "kickoff_utc": "2026-10-10T14:00:00Z",
+    "kickoff_utc": "2026-10-11T13:00:00Z",
     "city": "London",
     "stadium": "Selhurst Park",
     "espn_id": "401879266"
@@ -643,7 +643,7 @@
     "round": 6,
     "home": "Coventry City",
     "away": "Newcastle United",
-    "kickoff_utc": "2026-10-10T14:00:00Z",
+    "kickoff_utc": "2026-10-12T19:00:00Z",
     "city": "Coventry",
     "stadium": "Coventry Building Society Arena",
     "espn_id": "401879267"
@@ -654,7 +654,7 @@
     "round": 6,
     "home": "Arsenal",
     "away": "Leeds United",
-    "kickoff_utc": "2026-10-10T14:00:00Z",
+    "kickoff_utc": "2026-10-10T11:30:00Z",
     "city": "London",
     "stadium": "Emirates Stadium",
     "espn_id": "401879268"
@@ -665,7 +665,7 @@
     "round": 7,
     "home": "Nottingham Forest",
     "away": "Arsenal",
-    "kickoff_utc": "2026-10-17T14:00:00Z",
+    "kickoff_utc": "2026-10-18T15:30:00Z",
     "city": "Nottingham",
     "stadium": "The City Ground",
     "espn_id": "401878769"
@@ -687,7 +687,7 @@
     "round": 7,
     "home": "Everton",
     "away": "Chelsea",
-    "kickoff_utc": "2026-10-17T14:00:00Z",
+    "kickoff_utc": "2026-10-17T11:30:00Z",
     "city": "Liverpool",
     "stadium": "Hill Dickinson Stadium",
     "espn_id": "401878771"
@@ -698,7 +698,7 @@
     "round": 7,
     "home": "Tottenham Hotspur",
     "away": "Coventry City",
-    "kickoff_utc": "2026-10-17T14:00:00Z",
+    "kickoff_utc": "2026-10-19T19:00:00Z",
     "city": "London",
     "stadium": "Tottenham Hotspur Stadium",
     "espn_id": "401879257"
@@ -709,7 +709,7 @@
     "round": 7,
     "home": "Newcastle United",
     "away": "Aston Villa",
-    "kickoff_utc": "2026-10-17T14:00:00Z",
+    "kickoff_utc": "2026-10-17T16:30:00Z",
     "city": "Newcastle-upon-Tyne",
     "stadium": "St. James' Park",
     "espn_id": "401879258"
@@ -731,7 +731,7 @@
     "round": 7,
     "home": "Leeds United",
     "away": "Manchester United",
-    "kickoff_utc": "2026-10-17T14:00:00Z",
+    "kickoff_utc": "2026-10-18T13:00:00Z",
     "city": "Leeds",
     "stadium": "Elland Road",
     "espn_id": "401879260"
@@ -742,7 +742,7 @@
     "round": 7,
     "home": "Brighton & Hove Albion",
     "away": "Crystal Palace",
-    "kickoff_utc": "2026-10-17T14:00:00Z",
+    "kickoff_utc": "2026-10-18T13:00:00Z",
     "city": "Falmer",
     "stadium": "American Express Stadium",
     "espn_id": "401879261"
@@ -764,7 +764,7 @@
     "round": 7,
     "home": "AFC Bournemouth",
     "away": "Sunderland",
-    "kickoff_utc": "2026-10-17T14:00:00Z",
+    "kickoff_utc": "2026-10-18T13:00:00Z",
     "city": "Bournemouth",
     "stadium": "Vitality Stadium",
     "espn_id": "401879263"
@@ -775,7 +775,7 @@
     "round": 8,
     "home": "Sunderland",
     "away": "Leeds United",
-    "kickoff_utc": "2026-10-24T14:00:00Z",
+    "kickoff_utc": "2026-10-25T16:30:00Z",
     "city": "Sunderland",
     "stadium": "Stadium of Light",
     "espn_id": "401878764"
@@ -797,7 +797,7 @@
     "round": 8,
     "home": "Hull City",
     "away": "Brentford",
-    "kickoff_utc": "2026-10-24T14:00:00Z",
+    "kickoff_utc": "2026-10-25T14:00:00Z",
     "city": "Hull",
     "stadium": "The MKM Stadium",
     "espn_id": "401878766"
@@ -808,7 +808,7 @@
     "round": 8,
     "home": "Chelsea",
     "away": "Tottenham Hotspur",
-    "kickoff_utc": "2026-10-24T14:00:00Z",
+    "kickoff_utc": "2026-10-24T16:30:00Z",
     "city": "London",
     "stadium": "Stamford Bridge",
     "espn_id": "401878767"
@@ -830,7 +830,7 @@
     "round": 8,
     "home": "Manchester United",
     "away": "AFC Bournemouth",
-    "kickoff_utc": "2026-10-24T14:00:00Z",
+    "kickoff_utc": "2026-10-25T14:00:00Z",
     "city": "Manchester",
     "stadium": "Old Trafford",
     "espn_id": "401879252"
@@ -841,7 +841,7 @@
     "round": 8,
     "home": "Ipswich Town",
     "away": "Nottingham Forest",
-    "kickoff_utc": "2026-10-24T14:00:00Z",
+    "kickoff_utc": "2026-10-23T19:00:00Z",
     "city": "Ipswich",
     "stadium": "Portman Road",
     "espn_id": "401879253"
@@ -852,7 +852,7 @@
     "round": 8,
     "home": "Crystal Palace",
     "away": "Newcastle United",
-    "kickoff_utc": "2026-10-24T14:00:00Z",
+    "kickoff_utc": "2026-10-25T14:00:00Z",
     "city": "London",
     "stadium": "Selhurst Park",
     "espn_id": "401879254"
@@ -874,7 +874,7 @@
     "round": 8,
     "home": "Aston Villa",
     "away": "Manchester City",
-    "kickoff_utc": "2026-10-24T14:00:00Z",
+    "kickoff_utc": "2026-10-24T11:30:00Z",
     "city": "Birmingham",
     "stadium": "Villa Park",
     "espn_id": "401879256"
@@ -885,7 +885,7 @@
     "round": 9,
     "home": "Tottenham Hotspur",
     "away": "Crystal Palace",
-    "kickoff_utc": "2026-10-31T15:00:00Z",
+    "kickoff_utc": "2026-10-31T17:30:00Z",
     "city": "London",
     "stadium": "Tottenham Hotspur Stadium",
     "espn_id": "401878761"
@@ -896,7 +896,7 @@
     "round": 9,
     "home": "Newcastle United",
     "away": "Everton",
-    "kickoff_utc": "2026-10-31T15:00:00Z",
+    "kickoff_utc": "2026-11-02T20:00:00Z",
     "city": "Newcastle-upon-Tyne",
     "stadium": "St. James' Park",
     "espn_id": "401878762"
@@ -929,7 +929,7 @@
     "round": 9,
     "home": "Liverpool",
     "away": "Arsenal",
-    "kickoff_utc": "2026-10-31T15:00:00Z",
+    "kickoff_utc": "2026-11-01T16:30:00Z",
     "city": "Liverpool",
     "stadium": "Anfield",
     "espn_id": "401879246"
@@ -951,7 +951,7 @@
     "round": 9,
     "home": "Chelsea",
     "away": "Manchester United",
-    "kickoff_utc": "2026-10-31T15:00:00Z",
+    "kickoff_utc": "2026-10-31T12:30:00Z",
     "city": "London",
     "stadium": "Stamford Bridge",
     "espn_id": "401879248"
@@ -973,7 +973,7 @@
     "round": 9,
     "home": "Aston Villa",
     "away": "Fulham",
-    "kickoff_utc": "2026-10-31T15:00:00Z",
+    "kickoff_utc": "2026-11-01T14:00:00Z",
     "city": "Birmingham",
     "stadium": "Villa Park",
     "espn_id": "401879250"
