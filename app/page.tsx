@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   championBoard,
@@ -12,7 +13,7 @@ import { loadLeagueRoster, loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { teamFlag } from "@/lib/prompt";
 import { reportCards } from "@/lib/report-card";
-import { TAGLINE } from "@/lib/site";
+import { SITE_NAME, SITE_URL, TAGLINE } from "@/lib/site";
 import { LeagueBridge } from "./league-bridge";
 import { NotifyForm } from "./notify";
 import { TodayMatches, type TodayCard } from "./today-matches";
@@ -20,6 +21,28 @@ import { OpeningRoundBriefCard } from "./briefs/opening-round-2026/card";
 import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
 import type { Fixture, Team } from "@/lib/types";
 import { roundLabel } from "@/lib/types";
+
+const HOME_DESCRIPTION =
+  "Follow pre-registered season tables and matchday picks across the Premier League, La Liga, Serie A, Ligue 1 and Bundesliga. The completed 2026 World Cup remains fully browsable as a frozen archive.";
+
+export const metadata: Metadata = {
+  title: `${SITE_NAME} — five live 2026-27 leagues, predictions locked before kickoff`,
+  description: HOME_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: `${SITE_NAME} — five live leagues, predictions locked before kickoff`,
+    description: HOME_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — five live leagues, predictions locked before kickoff`,
+    description: HOME_DESCRIPTION,
+  },
+};
 
 /** One compact stat block for the hero scope strip. */
 function ScopeStat({ value, label }: { value: string; label: string }) {
@@ -98,6 +121,27 @@ function SplitLine({
       </span>{" "}
       {backed}
     </p>
+  );
+}
+
+function ArchiveHeader() {
+  return (
+    <div className="mb-6 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+      <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
+        World Cup 2026 · Frozen archive
+      </p>
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+        <Link href="/matches/" className="text-zinc-400 hover:text-emerald-400">
+          Matches
+        </Link>
+        <Link href="/groups/" className="text-zinc-400 hover:text-emerald-400">
+          Groups
+        </Link>
+        <Link href="/models/" className="text-zinc-400 hover:text-emerald-400">
+          Models
+        </Link>
+      </div>
+    </div>
   );
 }
 
@@ -188,16 +232,24 @@ export default function LeaderboardPage() {
 
   return (
     <div className="space-y-12">
+      {/* The current product leads; the completed tournament remains intact below as evidence. */}
+      <LeagueBridge modelCount={leagueModelCount}>
+        <NotifyForm />
+      </LeagueBridge>
+
+      <OpeningRoundBriefCard />
+
       {/* Hero — the verdict once the tournament is complete, the pitch before */}
       {champion ? (
-        <section>
+        <section id="world-cup-archive" className="scroll-mt-4">
+          <ArchiveHeader />
           <p className="text-xs font-semibold uppercase tracking-widest text-emerald-400">
             2026 World Cup · Complete
           </p>
-          <h1 className="mt-2 max-w-3xl text-2xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
+          <h2 className="mt-2 max-w-3xl text-2xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
             <TeamLabel teams={teams} name={champion} /> won the World Cup. {calledIt} of{" "}
             {data.leaderboard.length} models called it.
-          </h1>
+          </h2>
           <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-400">
             Every model predicted all {data.totalFixtures} matches before the opening kickoff —
             locked and SHA-256 pre-registered — and then predicted each knockout round again as
@@ -252,10 +304,11 @@ export default function LeaderboardPage() {
           )}
         </section>
       ) : (
-        <section>
-          <h1 className="max-w-3xl text-2xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
+        <section id="world-cup-archive" className="scroll-mt-4">
+          <ArchiveHeader />
+          <h2 className="max-w-3xl text-2xl font-bold tracking-tight text-zinc-50 sm:text-4xl">
             {TAGLINE}
-          </h1>
+          </h2>
           {/* Scope strip — the full claim in one glance: every model, every match. */}
           <div className="mt-5 flex flex-wrap gap-2">
             <ScopeStat value={String(data.leaderboard.length)} label="models" />
@@ -274,13 +327,6 @@ export default function LeaderboardPage() {
           </p>
         </section>
       )}
-
-      {/* League bridge — current league state sits above the archived World Cup leaderboard. */}
-      <LeagueBridge modelCount={leagueModelCount}>
-        <NotifyForm />
-      </LeagueBridge>
-
-      <OpeningRoundBriefCard />
 
       {/* Today's matches — client-rendered, follows the visitor's local date */}
       <TodayMatches cards={todayCards} />

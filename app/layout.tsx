@@ -1,39 +1,33 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
-import { GITHUB_URL, SITE_NAME, SITE_URL, TAGLINE } from "@/lib/site";
+import { GITHUB_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 import { Analytics, AnalyticsSettingsLink } from "./analytics";
 import { PageCounter, PageViewBadge } from "./counter";
 import { SeasonBanner } from "./season-banner";
 import { Wordmark } from "./ui";
 
+const DEFAULT_DESCRIPTION =
+  "Pre-registered AI football predictions across five live European leagues, with the completed 2026 World Cup preserved as a frozen archive.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — 40 LLMs predict the 2026 World Cup`,
+    default: `${SITE_NAME} — live league benchmark and World Cup archive`,
     template: `%s · ${SITE_NAME}`,
   },
-  description: TAGLINE,
+  description: DEFAULT_DESCRIPTION,
   openGraph: {
-    title: `${SITE_NAME} — 40 LLMs predict the 2026 World Cup`,
-    description: TAGLINE,
-    url: SITE_URL,
+    title: `${SITE_NAME} — live league benchmark and World Cup archive`,
+    description: DEFAULT_DESCRIPTION,
     siteName: SITE_NAME,
     type: "website",
     locale: "en_US",
-    images: [
-      {
-        url: `${SITE_URL}/og.png`,
-        width: 1200,
-        height: 630,
-        alt: `${SITE_NAME} — 40 LLMs predicted the entire 2026 World Cup before kickoff`,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — 40 LLMs predict the 2026 World Cup`,
-    description: TAGLINE,
+    title: `${SITE_NAME} — live league benchmark and World Cup archive`,
+    description: DEFAULT_DESCRIPTION,
   },
   alternates: {
     types: {
@@ -46,10 +40,10 @@ export const metadata: Metadata = {
 };
 
 const NAV = [
-  { href: "/", label: "Leaderboard" },
-  { href: "/matches/", label: "Matches" },
-  { href: "/leagues/", label: "Leagues" },
-  { href: "/groups/", label: "Groups" },
+  { href: "/leagues/", label: "Live leagues" },
+  { href: "/#world-cup-archive", label: "World Cup archive" },
+  { href: "/matches/", label: "WC matches" },
+  { href: "/groups/", label: "WC groups" },
   { href: "/models/", label: "Models" },
   { href: "/methodology/", label: "Methodology" },
   { href: "/about/", label: "About" },

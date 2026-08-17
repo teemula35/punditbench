@@ -6,7 +6,7 @@ import { SITE_NAME } from "@/lib/site";
 export const dynamic = "force-static";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = `${SITE_NAME} — 40 LLMs predicted the 2026 World Cup`;
+export const alt = `${SITE_NAME} — five live leagues and the frozen 2026 World Cup archive`;
 
 export default function Image() {
   return new ImageResponse(
@@ -37,11 +37,11 @@ export default function Image() {
           {SITE_NAME}
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 66, fontWeight: 800, lineHeight: 1.1 }}>
-            40 LLMs predicted the entire 2026 World Cup
+          <div style={{ display: "flex", fontSize: 60, fontWeight: 800, lineHeight: 1.1 }}>
+            Five European leagues. Predictions locked before kickoff.
           </div>
           <div style={{ display: "flex", fontSize: 34, color: "#a1a1aa", marginTop: 20 }}>
-            Every pick hashed and pre-registered before kickoff. Reality grades them.
+            Pre-season tables + form-aware matchday picks
           </div>
         </div>
         <div
@@ -53,7 +53,9 @@ export default function Image() {
           }}
         >
           <div style={{ display: "flex" }}>punditbench.com</div>
-          <div style={{ display: "flex", color: "#34d399" }}>40 models · 19 vendors</div>
+          <div style={{ display: "flex", color: "#34d399" }}>
+            World Cup 2026 · frozen archive
+          </div>
         </div>
       </div>
     ),

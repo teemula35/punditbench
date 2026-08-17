@@ -10,8 +10,23 @@ describe("current league-season copy", () => {
     const html = renderToStaticMarkup(<LeagueBridge modelCount={42} />);
 
     expect(html).toContain("Live · Season 2026-27");
+    expect(html).toMatch(
+      /<h1[^>]*>Five European leagues, two pre-registered tracks<\/h1>/,
+    );
     expect(html).toContain("Premier League, La Liga, Serie A, Ligue 1 and Bundesliga are live");
-    expect(html).toContain("all 42 current league models predict");
+    expect(html).toContain("42 current league models");
+    expect(html).toContain("locked pre-season table");
+    expect(html).toContain("form-aware matchday picks");
+    expect(html.match(/href="\/leagues\/[^\"]+"/g)).toHaveLength(5);
+    for (const id of [
+      "epl-2026-27",
+      "laliga-2026-27",
+      "seriea-2026-27",
+      "ligue1-2026-27",
+      "bundesliga-2026-27",
+    ]) {
+      expect(html).toContain(`href="/leagues/${id}"`);
+    }
     expect(html).not.toContain("with the Bundesliga and Champions League following");
   });
 
