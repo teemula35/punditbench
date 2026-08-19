@@ -3,6 +3,20 @@ import { loadCompetitionFixtures, loadCompetitions } from "../lib/data";
 import { sitemapRoutes } from "../lib/sitemap";
 
 describe("sitemapRoutes", () => {
+  it("keeps the live hub and frozen archive route families discoverable", () => {
+    const routes = sitemapRoutes();
+
+    expect(routes).toContain("/leagues/");
+    expect(routes).toContain("/");
+    expect(routes).toContain("/matches/");
+    expect(routes).toContain("/groups/");
+    expect(routes).toContain("/models/");
+    expect(routes.filter((route) => /^\/matches\/\d+\/$/.test(route))).toHaveLength(104);
+    expect(
+      routes.filter((route) => /^\/leagues\/[^/]+\/matchdays\/\d+\/$/.test(route)),
+    ).toHaveLength(182);
+  });
+
   it("includes the opening-round brief and complete free sample", () => {
     expect(sitemapRoutes()).toContain("/briefs/opening-round-2026/");
     expect(sitemapRoutes()).toContain("/briefs/opening-round-2026/refunds/");

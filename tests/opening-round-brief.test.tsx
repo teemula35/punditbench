@@ -158,7 +158,10 @@ describe("opening-round homepage card", () => {
     const html = renderToStaticMarkup(<OpeningRoundBriefCard />);
 
     expect(html).toContain('href="/briefs/opening-round-2026"');
-    expect(html).toContain("Read the complete free sample");
+    expect(html).toContain("A €5 opening-round brief across five leagues");
+    expect(html).toContain("written scorecard");
+    expect(html).toContain("complete free sample");
+    expect(html).toContain("See the free sample and €5 offer");
     expect(html).toContain("€5 once");
   });
 });
