@@ -4,17 +4,20 @@
  * BUTTONDOWN_USERNAME is set in lib/site.ts; the fallback still gives people
  * a way to follow the project.
  */
-import { BUTTONDOWN_USERNAME, GITHUB_URL } from "@/lib/site";
+import React from "react";
+import { BUTTONDOWN_USERNAME, GITHUB_URL } from "../lib/site";
+
+const MATCHDAY_NOTES_TAG = "matchday-notes";
 
 export function NotifyForm() {
   if (!BUTTONDOWN_USERNAME) {
     return (
       <p className="text-sm text-zinc-400">
-        Want to know the moment the first picks lock?{" "}
+        Want the short matchday notes?{" "}
         <a href={GITHUB_URL} className="text-emerald-400 hover:underline">
           Watch the repository on GitHub
         </a>{" "}
-        — every lock is a public commit and tag — or check back here at launch.
+        — every lock is a public commit and tag — or check back here after each round.
       </p>
     );
   }
@@ -32,14 +35,15 @@ export function NotifyForm() {
         aria-label="Email address"
         className="min-w-0 flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus:border-emerald-400 focus:outline-none"
       />
+      <input type="hidden" name="tag" value={MATCHDAY_NOTES_TAG} />
       <button
         type="submit"
         className="rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-300 transition-colors hover:bg-emerald-400/20"
       >
-        Notify me
+        Get matchday notes
       </button>
       <p className="basis-full text-xs text-zinc-600">
-        One email when the first league picks lock, then a note per matchday round. No spam,
+        A short note per matchday round. Lock alerts use the separate interest list. No spam,
         unsubscribe anytime.
       </p>
     </form>

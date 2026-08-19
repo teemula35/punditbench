@@ -5,7 +5,7 @@ import { PageTitle } from "../ui";
 
 export const metadata: Metadata = {
   title: "Almost there — confirm your email",
-  description: `Confirm your email to join the ${SITE_NAME} 2026-27 league launch list.`,
+  description: `Confirm your email preferences for ${SITE_NAME}.`,
   robots: { index: false },
 };
 
@@ -19,15 +19,15 @@ export default function SubscribedPage() {
   return (
     <div className="max-w-2xl space-y-8">
       <PageTitle
-        kicker="Season 2026-27"
+        kicker="Email preferences"
         title="Almost there"
-        sub="One quick step to lock in your spot."
+        sub="One quick step to confirm your email."
       />
 
       <section className="space-y-4 text-sm leading-relaxed text-zinc-300">
         <p>
-          Check your inbox — we just sent a confirmation link. Click it and you&apos;re on the list
-          for the {SITE_NAME} league launch.
+          Check your inbox — we just sent a confirmation link. Click it to confirm the emails you
+          chose.
         </p>
         <p className="text-zinc-400">
           Nothing after a minute or two? Check your spam or promotions folder — or just submit the

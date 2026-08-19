@@ -5,7 +5,7 @@ import { PageTitle } from "../ui";
 
 export const metadata: Metadata = {
   title: "You're on the list — thanks!",
-  description: `You're confirmed for the ${SITE_NAME} 2026-27 league launch.`,
+  description: `You're confirmed for the ${SITE_NAME} emails you chose.`,
   robots: { index: false },
 };
 
@@ -19,16 +19,15 @@ export default function ConfirmedPage() {
   return (
     <div className="max-w-2xl space-y-8">
       <PageTitle
-        kicker="Season 2026-27"
+        kicker="Email preferences"
         title="You're on the list"
         sub="Confirmed — thanks for subscribing."
       />
 
       <section className="space-y-4 text-sm leading-relaxed text-zinc-300">
         <p>
-          That&apos;s it. You&apos;ll get one email the moment the first league picks lock in
-          August — every model&apos;s matchday predictions, pre-registered before kickoff, exactly
-          like the World Cup you just watched {SITE_NAME} grade.
+          You&apos;re confirmed for the emails you chose. We&apos;ll use this address only for those
+          updates.
         </p>
         <p className="text-zinc-400">No spam, unsubscribe anytime.</p>
       </section>
