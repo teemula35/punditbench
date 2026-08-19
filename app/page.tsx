@@ -11,16 +11,15 @@ import {
 } from "@/lib/aggregate";
 import { loadLeagueRoster, loadTeams } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
-import { teamFlag } from "@/lib/prompt";
+import { loadHomepageLeagueCards } from "@/lib/home-match-cards";
 import { reportCards } from "@/lib/report-card";
 import { SITE_NAME, SITE_URL, TAGLINE } from "@/lib/site";
 import { LeagueBridge } from "./league-bridge";
 import { NotifyForm } from "./notify";
-import { TodayMatches, type TodayCard } from "./today-matches";
+import { TodayMatches } from "./today-matches";
 import { OpeningRoundBriefCard } from "./briefs/opening-round-2026/card";
 import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
 import type { Fixture, Team } from "@/lib/types";
-import { roundLabel } from "@/lib/types";
 
 const HOME_DESCRIPTION =
   "Follow pre-registered season tables and matchday picks across the Premier League, La Liga, Serie A, Ligue 1 and Bundesliga. The completed 2026 World Cup remains fully browsable as a frozen archive.";
@@ -188,47 +187,10 @@ export default function LeaderboardPage() {
     lockedWinnerLive?.liveRank !== undefined &&
     liveWinner.slug !== lockedWinner.slug;
 
-  // Every fixture as a lightweight pre-rendered card; "today" is resolved in
-  // the visitor's browser (see today-matches.tsx) so the section rolls over
-  // at midnight without a redeploy.
-  const todayCards: TodayCard[] = [...data.fixtures.values()]
-    .sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc) || a.match - b.match)
-    .map((f) => {
-      const result = data.results.get(f.match);
-      const played =
-        result?.status === "final" &&
-        result.home_goals !== undefined &&
-        result.away_goals !== undefined;
-      const cons = played ? undefined : f.stage === "group" ? consensus(data, f) : liveConsensus(data, f);
-      const split = played
-        ? undefined
-        : f.stage === "group"
-          ? outcomeSplit(data, f)
-          : liveOutcomeSplit(data, f);
-      let splitLine: string | undefined;
-      if (split) {
-        const { home, draw, away, outOf } = split;
-        splitLine =
-          home >= away && home >= draw
-            ? `${home}/${outOf} back ${teamFlag(teams, f.home)} ${f.home}`
-            : away >= draw
-              ? `${away}/${outOf} back ${teamFlag(teams, f.away)} ${f.away}`
-              : `${draw}/${outOf} call a draw`;
-      }
-      return {
-        match: f.match,
-        kickoff_utc: f.kickoff_utc,
-        stageLabel: f.stage === "group" ? `Group ${f.group}` : roundLabel(f.stage),
-        homeLabel: `${teamFlag(teams, f.home)} ${f.home}`,
-        awayLabel: `${teamFlag(teams, f.away)} ${f.away}`,
-        kickoffLabel: fmtKickoffUtc(f.kickoff_utc),
-        scoreLabel: played ? `${result.home_goals}–${result.away_goals}` : undefined,
-        consensusLine: cons
-          ? `Consensus ${cons.home}–${cons.away} · ${cons.count} of ${cons.outOf}`
-          : undefined,
-        splitLine,
-      };
-    });
+  // Locked league fixtures near this build are sent as lightweight strings;
+  // the visitor's browser resolves its own local date at hydration time.
+  const homepageReferenceTime = new Date();
+  const todayCards = loadHomepageLeagueCards(homepageReferenceTime);
 
   return (
     <div className="space-y-12">
@@ -238,6 +200,9 @@ export default function LeaderboardPage() {
       </LeagueBridge>
 
       <OpeningRoundBriefCard />
+
+      {/* Direct routes into today's already locked league consensus. */}
+      <TodayMatches cards={todayCards} initialNow={homepageReferenceTime.toISOString()} />
 
       {/* Hero — the verdict once the tournament is complete, the pitch before */}
       {champion ? (
@@ -327,9 +292,6 @@ export default function LeaderboardPage() {
           </p>
         </section>
       )}
-
-      {/* Today's matches — client-rendered, follows the visitor's local date */}
-      <TodayMatches cards={todayCards} />
 
       {/* Leaderboard */}
       <section>

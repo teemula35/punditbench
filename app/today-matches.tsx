@@ -1,29 +1,39 @@
 "use client";
 
 /**
- * "Today's matches" — resolved in the VISITOR'S browser so it rolls over at
- * midnight on its own (the site is statically exported; a build-time "today"
- * would freeze at the last deploy). Receives every fixture as lightweight
- * pre-rendered strings and filters to kickoffs on the visitor's local date,
- * plus a "Latest results" strip so finished matches stay visible after the
- * local midnight rollover. Renders nothing on days without matches and before
- * hydration (the section appears client-side, same pattern as the consent
- * banner).
+ * "Today's matches" prerenders from a build timestamp so direct links exist
+ * without hydration, then re-resolves in the visitor's browser so the section
+ * rolls over on the visitor's local date. Receives a bounded window of locked
+ * fixtures as lightweight strings, plus recent results; renders nothing when
+ * neither set has a card.
  */
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import type { HomeMatchCard } from "@/lib/home-match-cards";
 
-export interface TodayCard {
-  match: number;
-  kickoff_utc: string;
-  stageLabel: string;
-  homeLabel: string;
-  awayLabel: string;
-  kickoffLabel: string;
-  /** "2–1" once the result is in; undefined while upcoming. */
-  scoreLabel?: string;
-  consensusLine?: string;
-  splitLine?: string;
+export type TodayCard = HomeMatchCard;
+
+export type MatchAnalyticsReporter = (
+  command: "event",
+  eventName: string,
+  params?: Record<string, unknown>,
+) => void;
+
+function activeAnalyticsReporter(): MatchAnalyticsReporter | undefined {
+  if (typeof window === "undefined") return undefined;
+  return window.gtag;
+}
+
+/** Records discovery only when the visitor has already enabled analytics. */
+export function trackMatchSelection(
+  card: TodayCard,
+  report: MatchAnalyticsReporter | undefined = activeAnalyticsReporter(),
+): void {
+  report?.("event", "select_content", {
+    content_type: "league_match",
+    item_id: card.id,
+    link_url: card.href,
+  });
 }
 
 type CardStatus = "played" | "inplay" | "awaiting" | "upcoming";
@@ -37,7 +47,9 @@ const LATEST_MS = 48 * 60 * 60 * 1000;
 function Card({ c, status }: { c: TodayCard; status: CardStatus }) {
   return (
     <Link
-      href={`/matches/${c.match}/`}
+      href={c.href}
+      data-analytics-event="select_content"
+      onClick={() => trackMatchSelection(c)}
       className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-4 py-3 transition-colors hover:border-emerald-400/40"
     >
       <p className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500">
@@ -71,42 +83,120 @@ function Card({ c, status }: { c: TodayCard; status: CardStatus }) {
   );
 }
 
-export function TodayMatches({ cards }: { cards: TodayCard[] }) {
-  const [view, setView] = useState<{
-    today: { c: TodayCard; status: CardStatus }[];
-    latest: { c: TodayCard; status: CardStatus }[];
-  } | null>(null);
+export interface TodayMatchView {
+  today: { c: TodayCard; status: CardStatus }[];
+  latest: { c: TodayCard; status: CardStatus }[];
+}
 
-  useEffect(() => {
-    const now = new Date();
-    const nowMs = now.getTime();
-    const isToday = (iso: string) => {
-      const k = new Date(iso);
+export interface LocalMidnightScheduler {
+  now: () => Date;
+  setTimeout: (callback: () => void, delayMs: number) => unknown;
+  clearTimeout: (timer: unknown) => void;
+}
+
+const systemLocalMidnightScheduler: LocalMidnightScheduler = {
+  now: () => new Date(),
+  setTimeout: (callback, delayMs) => globalThis.setTimeout(callback, delayMs),
+  clearTimeout: (timer) =>
+    globalThis.clearTimeout(timer as ReturnType<typeof globalThis.setTimeout>),
+};
+
+/** Runs immediately after hydration, then again at every visitor-local midnight. */
+export function startLocalMidnightUpdates(
+  update: (now: Date) => void,
+  scheduler: LocalMidnightScheduler = systemLocalMidnightScheduler,
+): () => void {
+  let stopped = false;
+  let hasTimer = false;
+  let timer: unknown;
+
+  const updateAndSchedule = () => {
+    if (stopped) return;
+
+    const now = scheduler.now();
+    update(now);
+    if (stopped) return;
+
+    const nextMidnight = new Date(now);
+    nextMidnight.setHours(24, 0, 0, 0);
+    timer = scheduler.setTimeout(updateAndSchedule, nextMidnight.getTime() - now.getTime());
+    hasTimer = true;
+  };
+
+  updateAndSchedule();
+
+  return () => {
+    if (stopped) return;
+    stopped = true;
+    if (hasTimer) scheduler.clearTimeout(timer);
+  };
+}
+
+/** Pure date selection, kept separate from hydration for deterministic tests. */
+export function selectTodayMatches(
+  cards: TodayCard[],
+  now: Date,
+  dateBasis: "local" | "utc" = "local",
+): TodayMatchView {
+  const nowMs = now.getTime();
+  const isToday = (iso: string) => {
+    const kickoff = new Date(iso);
+    if (dateBasis === "utc") {
       return (
-        k.getFullYear() === now.getFullYear() &&
-        k.getMonth() === now.getMonth() &&
-        k.getDate() === now.getDate()
+        kickoff.getUTCFullYear() === now.getUTCFullYear() &&
+        kickoff.getUTCMonth() === now.getUTCMonth() &&
+        kickoff.getUTCDate() === now.getUTCDate()
       );
-    };
-    const statusOf = (c: TodayCard): CardStatus => {
-      if (c.scoreLabel) return "played";
-      const ko = Date.parse(c.kickoff_utc);
-      if (nowMs >= ko + IN_PLAY_MS) return "awaiting";
-      if (nowMs >= ko) return "inplay";
-      return "upcoming";
-    };
-    const today = cards.filter((c) => isToday(c.kickoff_utc)).map((c) => ({ c, status: statusOf(c) }));
-    const shown = new Set(today.map((t) => t.c.match));
-    const latest = cards
-      .filter(
-        (c) =>
-          c.scoreLabel && !shown.has(c.match) && nowMs - Date.parse(c.kickoff_utc) < LATEST_MS,
-      )
-      .sort((a, b) => b.kickoff_utc.localeCompare(a.kickoff_utc) || b.match - a.match)
-      .slice(0, 8)
-      .map((c) => ({ c, status: "played" as CardStatus }));
-    setView({ today, latest });
-  }, [cards]);
+    }
+    return (
+      kickoff.getFullYear() === now.getFullYear() &&
+      kickoff.getMonth() === now.getMonth() &&
+      kickoff.getDate() === now.getDate()
+    );
+  };
+  const statusOf = (c: TodayCard): CardStatus => {
+    if (c.scoreLabel) return "played";
+    const ko = Date.parse(c.kickoff_utc);
+    if (nowMs >= ko + IN_PLAY_MS) return "awaiting";
+    if (nowMs >= ko) return "inplay";
+    return "upcoming";
+  };
+  const today = cards
+    .filter((c) => isToday(c.kickoff_utc))
+    .sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc) || a.id.localeCompare(b.id))
+    .slice(0, 8)
+    .map((c) => ({ c, status: statusOf(c) }));
+  const shown = new Set(today.map((t) => t.c.id));
+  const latest = cards
+    .filter(
+      (c) =>
+        c.scoreLabel && !shown.has(c.id) && nowMs - Date.parse(c.kickoff_utc) < LATEST_MS,
+    )
+    .sort((a, b) => b.kickoff_utc.localeCompare(a.kickoff_utc) || b.id.localeCompare(a.id))
+    .slice(0, 8)
+    .map((c) => ({ c, status: "played" as CardStatus }));
+  return { today, latest };
+}
+
+export function TodayMatches({
+  cards,
+  initialNow,
+}: {
+  cards: TodayCard[];
+  /** Build-time timestamp so direct links exist in prerendered HTML. */
+  initialNow?: string;
+}) {
+  const [view, setView] = useState<TodayMatchView | null>(() =>
+    initialNow ? selectTodayMatches(cards, new Date(initialNow), "utc") : null,
+  );
+
+  useEffect(
+    () =>
+      startLocalMidnightUpdates((now) => {
+        setView(selectTodayMatches(cards, now));
+      }),
+    [cards],
+  );
 
   if (!view || (view.today.length === 0 && view.latest.length === 0)) return null;
 
@@ -116,7 +206,7 @@ export function TodayMatches({ cards }: { cards: TodayCard[] }) {
       {view.today.length > 0 ? (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {view.today.map(({ c, status }) => (
-            <Card key={c.match} c={c} status={status} />
+            <Card key={c.id} c={c} status={status} />
           ))}
         </div>
       ) : (
@@ -127,7 +217,7 @@ export function TodayMatches({ cards }: { cards: TodayCard[] }) {
           <h3 className="mb-3 mt-6 text-sm font-semibold text-zinc-400">Latest results</h3>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {view.latest.map(({ c, status }) => (
-              <Card key={c.match} c={c} status={status} />
+              <Card key={c.id} c={c} status={status} />
             ))}
           </div>
         </>

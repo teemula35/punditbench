@@ -11,11 +11,14 @@ describe("homepage information architecture", () => {
     const source = readSource("app", "page.tsx");
     const leagueBridge = source.indexOf("<LeagueBridge");
     const briefCard = source.indexOf("<OpeningRoundBriefCard");
+    const todayMatches = source.indexOf("<TodayMatches");
     const archive = source.indexOf('id="world-cup-archive"');
 
     expect(leagueBridge).toBeGreaterThanOrEqual(0);
     expect(briefCard).toBeGreaterThan(leagueBridge);
-    expect(archive).toBeGreaterThan(briefCard);
+    expect(todayMatches).toBeGreaterThan(briefCard);
+    expect(archive).toBeGreaterThan(todayMatches);
+    expect(source).toContain("loadHomepageLeagueCards");
     expect(source).toContain("World Cup 2026 · Frozen archive");
     expect(source).not.toContain("<h1");
     expect(source).toContain('href="/matches/"');

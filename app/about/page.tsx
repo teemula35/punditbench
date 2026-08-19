@@ -94,7 +94,7 @@ export default function AboutPage() {
             <p id="privacy">
               <span className="font-medium text-zinc-200">Privacy.</span> By default this site
               sets no cookies. If you accept in the consent banner, Google Analytics 4 counts
-              visits and checkout-button clicks on the paid-brief page — pseudonymous usage
+              visits, checkout-button and homepage match-card clicks — pseudonymous usage
               statistics with anonymized IP addresses; no ads, no cross-site tracking. Your choice
               is stored only on your device, and you can change it at any time via
               &ldquo;Analytics settings&rdquo; in the footer. Analytics data is processed by Google —
