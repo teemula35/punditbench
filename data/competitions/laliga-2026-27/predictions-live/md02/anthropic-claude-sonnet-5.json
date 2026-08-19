@@ -1,0 +1,70 @@
+{
+  "model": "anthropic/claude-sonnet-5",
+  "slug": "anthropic-claude-sonnet-5",
+  "stage": "md02",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-19T17:56:50.593Z",
+  "completed_at": "2026-08-19T17:56:54.614Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1564,
+    "completion_tokens": 236,
+    "total_tokens": 1800,
+    "cost_usd": 0.005488
+  },
+  "predictions": [
+    {
+      "match": 11,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 12,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 13,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 14,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 15,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 16,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 17,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 18,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 19,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 20,
+      "home_goals": 1,
+      "away_goals": 1
+    }
+  ]
+}
