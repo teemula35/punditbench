@@ -7,7 +7,7 @@ describe("analytics privacy disclosure", () => {
     const source = fs.readFileSync(path.join(process.cwd(), "app", "about", "page.tsx"), "utf8");
 
     expect(source).toContain("If you accept in the consent banner");
-    expect(source).toContain("checkout-button clicks on the paid-brief page");
+    expect(source).toContain("checkout-button and homepage match-card clicks");
     expect(source).toContain("no ads, no cross-site tracking");
   });
 });
