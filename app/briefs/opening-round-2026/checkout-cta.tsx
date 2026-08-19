@@ -1,4 +1,5 @@
 import React from "react";
+import { CheckoutLink } from "./checkout-link";
 
 export interface OpeningRoundOfferInput {
   checkoutUrl: string;
@@ -35,7 +36,9 @@ const text = (value: string | undefined): string | null =>
  * invalid. The delivery deadline and the full-refund-on-non-delivery
  * remedy are unconditional commitments and render on every armed checkout.
  */
-export function hasValidCheckoutUrl(offer: Partial<OpeningRoundOfferInput>): boolean {
+export function hasValidCheckoutUrl(
+  offer: Partial<OpeningRoundOfferInput>,
+): offer is Partial<OpeningRoundOfferInput> & Pick<OpeningRoundOfferInput, "checkoutUrl"> {
   return isHttpsUrl(offer.checkoutUrl, "buy.stripe.com", true);
 }
 
@@ -99,12 +102,12 @@ export function CheckoutCta({ offer }: { offer: Partial<OpeningRoundOfferInput> 
           ))}
         </div>
       )}
-      <a
+      <CheckoutLink
         className="mt-5 inline-flex rounded-md bg-emerald-400 px-4 py-2.5 text-sm font-semibold text-zinc-950 hover:bg-emerald-300"
         href={offer.checkoutUrl}
       >
         Buy the brief for €5
-      </a>
+      </CheckoutLink>
     </section>
   );
 }

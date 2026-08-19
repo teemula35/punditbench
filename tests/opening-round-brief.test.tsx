@@ -2,6 +2,10 @@ import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 import { CheckoutCta, type OpeningRoundOfferInput } from "../app/briefs/opening-round-2026/checkout-cta";
+import {
+  CheckoutLink,
+  trackCheckoutStart,
+} from "../app/briefs/opening-round-2026/checkout-link";
 import { OpeningRoundBriefCard } from "../app/briefs/opening-round-2026/card";
 import OpeningRoundBriefPage, { metadata } from "../app/briefs/opening-round-2026/page";
 
@@ -16,6 +20,39 @@ const completeOffer: OpeningRoundOfferInput = {
   privacyUrl: "https://example.com/privacy",
   refundsUrl: "https://example.com/refunds",
 };
+
+describe("opening-round brief checkout analytics", () => {
+  it("reports one consent-gated GA4 begin_checkout event with the fixed product and price", () => {
+    const report = vi.fn();
+
+    trackCheckoutStart(report);
+
+    expect(report).toHaveBeenCalledOnce();
+    expect(report).toHaveBeenCalledWith("event", "begin_checkout", {
+      currency: "EUR",
+      value: 5,
+      items: [
+        {
+          item_id: "opening_round_2026",
+          item_name: "Five-League Opening-Round Brief",
+          price: 5,
+          quantity: 1,
+        },
+      ],
+      transport_type: "beacon",
+    });
+  });
+
+  it("renders the live checkout anchor as the tracked begin_checkout control", () => {
+    const html = renderToStaticMarkup(
+      <CheckoutLink href={completeOffer.checkoutUrl}>Buy the brief for €5</CheckoutLink>,
+    );
+
+    expect(html).toContain('href="https://buy.stripe.com/test-opening-round"');
+    expect(html).toContain('data-analytics-event="begin_checkout"');
+    expect(html).toContain("Buy the brief for €5");
+  });
+});
 
 describe("opening-round brief checkout", () => {
   it("keeps checkout disabled when the payment link is missing", () => {
@@ -34,6 +71,7 @@ describe("opening-round brief checkout", () => {
     );
 
     expect(html).toContain('href="https://buy.stripe.com/test-opening-round"');
+    expect(html).toContain('data-analytics-event="begin_checkout"');
     expect(html).toContain("Buy the brief for €5");
     expect(html).toContain("Total price: €5");
     expect(html).toContain("3 September 2026");
