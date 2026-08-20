@@ -12,12 +12,14 @@ describe("homepage information architecture", () => {
     const leagueBridge = source.indexOf("<LeagueBridge");
     const briefCard = source.indexOf("<OpeningRoundBriefCard");
     const todayMatches = source.indexOf("<TodayMatches");
+    const lockAlertInterest = source.indexOf("<LockAlertInterest");
     const archive = source.indexOf('id="world-cup-archive"');
 
     expect(leagueBridge).toBeGreaterThanOrEqual(0);
     expect(briefCard).toBeGreaterThan(leagueBridge);
     expect(todayMatches).toBeGreaterThan(briefCard);
-    expect(archive).toBeGreaterThan(todayMatches);
+    expect(lockAlertInterest).toBeGreaterThan(todayMatches);
+    expect(archive).toBeGreaterThan(lockAlertInterest);
     expect(source).toContain("loadHomepageLeagueCards");
     expect(source).toContain("World Cup 2026 · Frozen archive");
     expect(source).not.toContain("<h1");

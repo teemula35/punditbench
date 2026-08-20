@@ -15,6 +15,7 @@ import { loadHomepageLeagueCards } from "@/lib/home-match-cards";
 import { reportCards } from "@/lib/report-card";
 import { SITE_NAME, SITE_URL, TAGLINE } from "@/lib/site";
 import { LeagueBridge } from "./league-bridge";
+import { LockAlertInterest } from "./lock-alert-interest";
 import { NotifyForm } from "./notify";
 import { TodayMatches } from "./today-matches";
 import { OpeningRoundBriefCard } from "./briefs/opening-round-2026/card";
@@ -203,6 +204,8 @@ export default function LeaderboardPage() {
 
       {/* Direct routes into today's already locked league consensus. */}
       <TodayMatches cards={todayCards} initialNow={homepageReferenceTime.toISOString()} />
+
+      <LockAlertInterest />
 
       {/* Hero — the verdict once the tournament is complete, the pitch before */}
       {champion ? (
