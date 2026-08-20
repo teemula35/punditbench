@@ -1,57 +1,76 @@
 # PunditBench ⚽🤖
 
-**Can AI call the beautiful game?** 40 large language models predicted the entire 2026 World Cup — all 72 group matches plus their own simulated knockout brackets through to their own champions — locked in before the opening kickoff and scored against reality.
+**Can LLMs forecast football when every pick is locked before kickoff?**
 
-- 🌐 Site: **https://punditbench.com** (punditbench.web.app works as an alias)
-- 📊 Methodology: [METHODOLOGY.md](METHODOLOGY.md) — prompts, scoring, integrity rules
-- 📜 Decisions & rationale: [DECISIONS.md](DECISIONS.md) · Ops: [OPS.md](OPS.md) · Changelog: [CHANGELOG.md](CHANGELOG.md)
-- 🔐 Pre-registration: each stage's predictions are hashed (SHA-256) and the hash committed + tagged before kickoff (`data/hashes/`)
+PunditBench is a public, continuously scored benchmark for football forecasts. The current weekly roster has **43 models** predicting matches across the Premier League, La Liga, Serie A, Bundesliga and Ligue 1. Each matchday is pre-registered before its first kickoff; results and scores then update automatically.
 
-## How it works
+The completed **2026 World Cup benchmark remains available as a frozen 40-model archive**. League and World Cup scores are separate benchmarks and are not compared.
 
-1. **Group stage:** every model got one identical prompt with all 72 group fixtures → strict-JSON scorelines. Training knowledge only — no live data, no odds.
-2. **Self-consistent brackets:** from each model's own scorelines we computed *its own* group tables, qualifiers and third-place slotting (FIFA's official Annexe C table) → its own Round of 32 — which it then predicted round by round through to *its own champion*. No real result is involved anywhere; the entire tournament was collected and SHA-256 pre-registered **before the opening kickoff**.
-3. **Scoring:** group matches — exact score 3 · correct goal difference 2 · correct outcome 1. Brackets — scored against the real tournament as it unfolds: points for every real team a model had reaching each stage (R32 1 · R16 2 · QF 3 · SF 5 · final 8 · champion 13), +1 for each simulated pairing that actually occurs in that round, and matched pairings' scorelines scored like normal matches (on the 90-minute result, +1 for the correct advancer).
-4. Everything — raw API responses, predictions, results, scores — is in this repo and on the site. Scores are recomputed from primary data on every build.
+- 🌐 Live benchmark: **https://punditbench.com**
+- 🏟️ Five league tracks: **https://punditbench.com/leagues/**
+- 🔬 Methodology: [METHODOLOGY.md](METHODOLOGY.md) — prompts, scoring, eligibility and integrity rules
+- 🔐 Pre-registration evidence: canonical SHA-256 records plus public commits and tags before kickoff
+- 📜 Decisions and corrections: [DECISIONS.md](DECISIONS.md) · Operations: [OPS.md](OPS.md) · Changelog: [CHANGELOG.md](CHANGELOG.md)
+- 📝 Opening-round brief: [complete free sample and optional €5 issue](https://punditbench.com/briefs/opening-round-2026/)
 
-## Repo layout
+## How the league benchmark works
 
+1. **Same reproducible context.** Every model eligible for a round receives the same fixtures and deterministic context. After the season starts this includes the current table, up to each team's five most recent final results, and rest days where a prior final exists; Matchday 1 uses the previous season's final table and promoted teams instead. Weekly prompts contain no odds, injuries, lineups or news.
+2. **Lock before kickoff.** The scheduler normally collects a matchday about 36 hours before its first kickoff. Predictions are canonicalised, SHA-256 hashed, committed and tagged before play begins.
+3. **Score against reality.** Exact score earns 3 points, correct goal difference 2 and correct outcome 1. Leaderboards rank by points per scored match, with the denominator shown.
+4. **Keep failures visible.** A late match is labelled `not pre-registered`, never backfilled. A missing eligible prediction scores zero. New entrants begin only at their declared matchday and receive no retroactive picks.
+5. **Publish the audit trail.** Fixtures, results, normalised predictions, raw provider responses, lock records and scoring code are public. Scores are derived again from primary data on each build.
+
+Each league also has a separately locked pre-season final-table track, graded continuously against the current standings.
+
+## Evidence layout
+
+```text
+data/competitions.json                  active league registry
+data/roster-league.json                 current league roster and entry windows
+data/competitions/<id>/fixtures.json    fixture schedule with source event ids
+data/competitions/<id>/results.json     recorded final results
+data/competitions/<id>/predictions-live/<round>/
+data/competitions/<id>/raw-live/        provider request/response audit logs
+data/competitions/<id>/hashes/          matchday and season lock records
+
+data/roster.json                        frozen World Cup roster
+data/predictions*/ and data/hashes/      frozen World Cup prediction records
 ```
-data/            fixtures, teams, roster, results, predictions, raw API logs, hashes
-lib/             scoring engine, standings, validation, prompt builder, data loaders
-scripts/         predict (group runner), simulate (bracket sims), record-result, hash, audit, make-knockout-fixtures
-app/             Next.js site (static export)
-tests/           scoring/standings/validation/fixture-invariant tests
+
+The public Git tags use `predictions-<competition>-<round>-live` for league matchdays and `predictions-<competition>-season` for pre-season tables.
+
+## Repository layout
+
+```text
+data/            fixtures, results, rosters, predictions, raw logs and lock records
+lib/             scoring, standings, validation, prompts, canonicalisation and loaders
+scripts/         collectors, fixture/result sync, audits and export preparation
+app/             Next.js static site
+tests/           scoring, integrity, runner, route and deployment regressions
 ```
 
-## Commands
+## Local verification
 
-```powershell
-npm test                                   # the whole test suite (CI runs this too)
-npm run predict -- --stage group           # group-stage predictions (needs OPENROUTER_API_KEY in .env)
-npm run simulate                           # per-model bracket simulations (R32 -> final), all pre-kickoff
-npm run hash -- --stage all                # canonical SHA-256 for pre-registration
-npm run result -- 1 2-1                    # record a real result (+ prints points per model)
-npm run knockout-fixtures -- --stage r32   # materialize REAL knockout fixtures (for bracket scoring)
-npm run audit                              # re-derive everything from raw logs, verify
-npm run build                              # static site -> ./out
-firebase deploy --only hosting             # publish ./out to punditbench.web.app
+```bash
+npm ci
+npm test
+npx tsc --noEmit
+npm run build:ci
 ```
 
-## Status
+`build:ci` is the CI-only, non-deploying export path; it does not require checkout configuration, and its output must not be deployed. `npm run build` fails closed unless `PB_BRIEF_CHECKOUT_URL` is a valid HTTPS `buy.stripe.com` link, then verifies that checkout in the exported page. Deploy workflows pass seller, support and policy values, but the build guard does not require or validate them.
 
-The 2026 World Cup is complete — all 104 results are recorded and every model has been scored
-against reality.
+Prediction and lock commands can write pre-registration artifacts. Follow [OPS.md](OPS.md) and inspect with `--dry-run`; **`--mock` is not a read-only rehearsal**.
 
-- Methodology, scoring engine + tests, and fixture data (two independent source sets, reconciled) — in this repo
-- Predictions locked & pre-registered **before the opening kickoff** — 40 models, group stage + full brackets; hashes tagged (`predictions-group(-v2)`, `predictions-full-tournament(-v2/-v3/-v4)`)
-- Round-by-round track: each knockout round's picks pre-registered before that round's own first kickoff (tags `predictions-<stage>-live`)
-- Site live at **https://punditbench.com** (Firebase Hosting, static export)
+## World Cup archive
+
+The 2026 World Cup track is complete: 40 models predicted all 72 group matches and their own simulated knockout brackets before the opening kickoff. A separate round-by-round track covered the R32, R16, quarter-finals, semi-finals and final; R32 match 73 was transparently excluded because it had already kicked off, and no third-place live stage was collected. All 104 results are recorded and scored. The archive, raw logs, hashes and historical tags remain unchanged.
 
 ## Security
 
-**"Isn't that a Google API key in `lib/site.ts`?"** Yes — and it's meant to be public. It's a Firebase *browser* key, which is a client identifier, [not a secret](https://firebase.google.com/docs/projects/api-keys): it ships in the site's JavaScript by design. Its only job is the cookieless page-view counter, and the enforced boundaries are: the key is restricted in Google Cloud to the Firestore API only (verified — it gets 403 on every other Google service), and [`firestore.rules`](firestore.rules) let anyone read the counters and do nothing except `+1` them on an allowlisted set of counter IDs; every other read, write, create and delete is denied, and the project has no billing attached. (A referrer restriction is also configured on the key, but Firestore does not enforce referrer checks — security rules, not the referrer list, are the real boundary. Worst-case abuse is inflating a page-view number.)
+**"Isn't that a Google API key in `lib/site.ts`?"** Yes — and it is meant to be public. It is a Firebase browser identifier, [not a secret](https://firebase.google.com/docs/projects/api-keys). The key is restricted to Firestore, and [`firestore.rules`](firestore.rules) allow public reads plus creation at `1` or exact `+1` updates for an allowlisted set of counters; every other write is denied. The project has no billing attached.
 
-No private keys, service-account credentials, or model API keys live anywhere in this repo or its history. The one real secret — `OPENROUTER_API_KEY` — is read from an untracked `.env` (see [`.env.example`](.env.example)) and is never committed.
+No private keys, service-account credentials or model API keys live in this repository or its history. Runtime credentials are supplied through untracked local environment files or repository secrets.
 
-*PunditBench is an independent project, not affiliated with FIFA or any federation. Tournament and team names are used editorially. Statistics & entertainment only — not betting advice. All predictions are AI-generated content.*
+*PunditBench is an independent project, not affiliated with FIFA, a league, federation or club. Competition and team names are used editorially. 18+ informational statistics only — not betting advice. All forecasts are AI-generated content.*

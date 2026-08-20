@@ -1,12 +1,12 @@
-# PunditBench — Tournament operations runbook (v2)
+# PunditBench — operations runbook
 
-Since the self-consistent simulation redesign (D9, 2026-06-11) the locked-bracket benchmark is **already collected and locked** — no mid-tournament runs for it. Remaining operations: enter real results, materialize real knockout fixtures as reality produces them, deploy. The optional **round-by-round track** (see below) adds one short, time-boxed prediction run per knockout round. All times Helsinki (EEST, UTC+3).
+The 2026-27 league tracks are live and automated; the completed 2026 World Cup sections below are historical. Every existing season table, World Cup field and completed matchday lock is immutable. Do not rerun or backfill one of those tracks.
 
-## Results entry is automated (group stage)
+## Results entry is automated
 
 An hourly GitHub Action (`.github/workflows/results-sync.yml`, minute :07) polls ESPN's
 public scoreboard JSON for every date that still has a pending past-kickoff fixture.
-New finished **group** matches are entered with the same canonical write as
+New finished World Cup or league matches are entered with the same canonical write as
 `npm run result`, then: `npm test` → commit to main → rebuild → deploy hosting.
 The run **fails after committing/deploying** whenever something needs a human, so a
 red run + GitHub email means act on one of:
@@ -21,7 +21,8 @@ Run on demand: GitHub → Actions → results-sync → Run workflow (`force_depl
 without new results). Local: `npm run sync-results` (add `--dry` to plan without writing).
 CI deploy auth: repo secret `FIREBASE_SERVICE_ACCOUNT_PUNDITBENCH`
 (service account `github-results-sync@punditbench.iam.gserviceaccount.com`, role Firebase
-Hosting Admin). Post-tournament (Epic H): delete the workflow file and the service account.
+Hosting Admin). The workflow and service account remain in use for the league seasons; do not
+delete them as World Cup cleanup.
 
 ### Live paid-brief build guard
 
@@ -67,10 +68,10 @@ npm run knockout-fixtures -- --stage r32
 # 2. Enter results for matches in this round that have ALREADY kicked off, so models
 #    get accurate context and we can honestly exclude them from pre-registration.
 npm run result -- 73 2-1 --advances "<team>"
-# 3. Collect live picks, excluding already-kicked-off matches (rehearse with --mock).
+# 3. Optional rehearsal: add --dry-run to the command below. Without it, this is the real write.
 npm run predict -- --stage r32 --live --exclude 73,74
 #    omit --exclude when the whole round is still upcoming (R16 onward);
-#    --only-missing retries just the models that failed; --dry-run prints the prompt.
+#    --only-missing retries just the models that failed; --mock writes artifacts and is not a rehearsal.
 # 4. Pre-register BEFORE the next kickoff.
 npm run hash -- --stage r32 --live
 git add -A; git commit -m "Round-by-round r32 live picks (sha256=...)"
@@ -139,15 +140,19 @@ when the file is absent; 4) BEFORE the opener run the pre-season locked track:
 it loaded — eyeball with `--dry-run` first) → commit + tag `predictions-<id>-season`;
 5) flip `active: true` in `data/competitions.json`, commit — the schedulers take over.
 
-**Manual cheat sheet:**
+**Read-only rehearsal:**
 
 ```powershell
 npm run league-fixtures -- --all --dry            # plan fixture refresh, write nothing
-npm run league-predict -- --comp epl-2026-27 --round md05 --dry-run   # print the exact prompt
-npm run league-predict -- --due --mock            # rehearse the scheduler path
-npm run hash -- --comp epl-2026-27 --round md05   # recompute a round's hash
-npm run season-predict -- --comp epl-2026-27 --hash-only   # verify lock; create it if absent
+npm run league-predict -- --comp epl-2026-27 --round md05 --dry-run   # print one exact prompt
+npm run league-predict -- --due --dry-run          # print prompts for due rounds, write nothing
 ```
+
+`--dry-run` is the only prediction rehearsal. `--mock` follows the write path: it can create
+prediction and raw-log files, update a manifest and hash, and mark a round locked. `npm run hash`
+also rewrites its target hash record, while `season-predict --hash-only` creates a lock when one is
+absent. Do not use any of those as read-only checks. All five 2026-27 season-table locks already
+exist and must never be rerun or backfilled.
 
 **Secrets:** `OPENROUTER_API_KEY` (spend-capped key, Actions secret — NOT the local .env
 key) + the existing `FIREBASE_SERVICE_ACCOUNT_PUNDITBENCH`. Epic H update: the
