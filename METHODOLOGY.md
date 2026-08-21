@@ -205,6 +205,12 @@ plays exactly once) and verified against the league's shape before anything is w
 Each round's picks are locked, hashed and tagged (`predictions-<competition>-<round>-live`)
 before the round's first kickoff — collected automatically ~36 hours ahead. Matches that
 kick off before a lock are excluded and labelled "not pre-registered", never backfilled.
+That manifest exclusion means no locked pick exists. A different, additive classification applies
+when authentic picks were locked but a later fixture correction makes their home/away meaning
+invalid: the immutable picks and raw evidence stay public in their original orientation, the live
+fixture is corrected, and the match is listed in the competition's `scoring-exclusions.json`.
+Those archived picks are never swapped or reinterpreted and the match is removed from every
+model's scoring and fulfilment denominator while its real result still counts in the football table.
 Each roster row can carry a competition-specific first eligible matchday. Before that
 round the model is outside the field: it receives neither a synthetic zero nor a retroactive
 prediction, and it is omitted from old match pages and denominators. From its first eligible

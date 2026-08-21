@@ -12,6 +12,7 @@ import {
   loadCompetitionLiveManifest,
   loadCompetitionLivePredictions,
   loadCompetitionResults,
+  loadCompetitionScoringExclusions,
   loadLeagueRoster,
 } from "./data";
 import { leagueTable } from "./league-context";
@@ -30,6 +31,7 @@ import type {
   ModelTotals,
   Prediction,
   PredictionFile,
+  PostLockScoringExclusion,
   RosterModel,
 } from "./types";
 
@@ -60,6 +62,8 @@ export interface LeagueData {
   totalFixtures: number;
   /** slug -> stored round-by-round prediction files for this competition. */
   predictions: Map<string, PredictionFile[]>;
+  /** Authentic locked picks retained for audit but excluded from benchmark scoring. */
+  scoringExclusions: Map<number, PostLockScoringExclusion>;
 }
 
 /**
@@ -87,12 +91,16 @@ export function assembleLeagueData(
   resultList: MatchResult[],
   manifest: LiveManifest,
   predictions: Map<string, PredictionFile[]>,
+  scoringExclusionList: PostLockScoringExclusion[] = [],
 ): LeagueData {
   const sortedRoster = [...roster].sort((a, b) => a.label.localeCompare(b.label));
   const fixtures = new Map(fixtureList.map((f) => [f.match, f]));
   const results = new Map(resultList.map((r) => [r.match, r]));
+  const scoringExclusions = new Map(scoringExclusionList.map((entry) => [entry.match, entry]));
   const scoringFixtures = new Map(
-    [...fixtures].filter(([match]) => !(String(match) in manifest.excluded)),
+    [...fixtures].filter(
+      ([match]) => !(String(match) in manifest.excluded) && !scoringExclusions.has(match),
+    ),
   );
 
   const leaderboard = sortedRoster.map((model): LeagueLeaderboardEntry => {
@@ -166,6 +174,7 @@ export function assembleLeagueData(
     playedCount: resultList.filter((r) => r.status === "final").length,
     totalFixtures: fixtureList.length,
     predictions,
+    scoringExclusions,
   };
 }
 
@@ -178,10 +187,73 @@ export function loadLeagueData(compId: string): LeagueData {
     loadCompetitionResults(compId),
     loadCompetitionLiveManifest(compId),
     loadCompetitionLivePredictions(compId),
+    loadCompetitionScoringExclusions(compId),
   );
 }
 
-export type LeagueMatchState = "picks" | "excluded" | "pending";
+export interface LeagueRoundFulfilment {
+  eligibleModels: number;
+  scoreableFixtures: number;
+  scoreableOpportunities: number;
+  validScoreablePicks: number;
+  missingScoreablePicks: number;
+  storedPicks: number;
+  archivedUnscoredPicks: number;
+}
+
+/**
+ * Auditable pre-result denominator for one locked league round. Archived
+ * post-lock exceptions remain counted as stored evidence, but never as
+ * scoreable opportunities or valid scoreable picks.
+ */
+export function leagueRoundFulfilment(
+  data: LeagueData,
+  round: MatchdayKey,
+): LeagueRoundFulfilment {
+  const roundFixtures = [...data.fixtures.values()].filter((fixture) => fixture.stage === round);
+  const roundMatches = new Set(roundFixtures.map((fixture) => fixture.match));
+  const archivedMatches = new Set(
+    roundFixtures
+      .filter((fixture) => data.scoringExclusions.has(fixture.match))
+      .map((fixture) => fixture.match),
+  );
+  const scoreableMatches = new Set(
+    roundFixtures
+      .filter(
+        (fixture) =>
+          !(String(fixture.match) in data.manifest.excluded) &&
+          !archivedMatches.has(fixture.match),
+      )
+      .map((fixture) => fixture.match),
+  );
+  const eligible = data.leaderboard.filter((entry) =>
+    modelEligibleForLeagueRound(entry.model, data.comp.id, round),
+  );
+
+  let storedPicks = 0;
+  let validScoreablePicks = 0;
+  let archivedUnscoredPicks = 0;
+  for (const entry of eligible) {
+    const file = data.predictions.get(entry.slug)?.find((candidate) => candidate.stage === round);
+    const picked = new Set(file?.predictions.map((prediction) => prediction.match) ?? []);
+    for (const match of roundMatches) if (picked.has(match)) storedPicks++;
+    for (const match of scoreableMatches) if (picked.has(match)) validScoreablePicks++;
+    for (const match of archivedMatches) if (picked.has(match)) archivedUnscoredPicks++;
+  }
+
+  const scoreableOpportunities = eligible.length * scoreableMatches.size;
+  return {
+    eligibleModels: eligible.length,
+    scoreableFixtures: scoreableMatches.size,
+    scoreableOpportunities,
+    validScoreablePicks,
+    missingScoreablePicks: scoreableOpportunities - validScoreablePicks,
+    storedPicks,
+    archivedUnscoredPicks,
+  };
+}
+
+export type LeagueMatchState = "picks" | "excluded" | "post-lock-excluded" | "pending";
 
 export interface LeagueMatchRow {
   model: RosterModel;
@@ -196,11 +268,13 @@ export interface LeagueMatchInfo {
   /**
    * "picks": the round's picks were locked and this match is included;
    * "excluded": the match carries no pre-registered picks (manifest.excluded);
+   * "post-lock-excluded": authentic picks are archived but cannot be validly scored;
    * "pending": the round has not been locked yet.
    */
   state: LeagueMatchState;
   rows: LeagueMatchRow[];
   excludedReason?: string;
+  scoringExclusion?: PostLockScoringExclusion;
   lockedAt?: string;
   /** Most common predicted scoreline among the picks (picks state only). */
   consensus?: { home: number; away: number; count: number; outOf: number };
@@ -226,6 +300,7 @@ export function leagueMatchInfo(data: LeagueData, fixture: Fixture): LeagueMatch
   }
 
   const result = data.results.get(fixture.match);
+  const scoringExclusion = data.scoringExclusions.get(fixture.match);
   const rows: LeagueMatchRow[] = data.leaderboard
     .filter(
       ({ model }) =>
@@ -235,12 +310,23 @@ export function leagueMatchInfo(data: LeagueData, fixture: Fixture): LeagueMatch
     .map(({ model, slug }) => {
       const file = data.predictions.get(slug)?.find((f) => f.stage === fixture.stage);
       const prediction = file?.predictions.find((p) => p.match === fixture.match);
-      const score = result ? (scoreMatch(prediction, result, fixture) ?? undefined) : undefined;
+      const score = !scoringExclusion && result
+        ? (scoreMatch(prediction, result, fixture) ?? undefined)
+        : undefined;
       return { model, slug, prediction, score };
     });
   rows.sort(
     (a, b) => (b.score?.points ?? -1) - (a.score?.points ?? -1) || a.slug.localeCompare(b.slug),
   );
+
+  if (scoringExclusion) {
+    return {
+      state: "post-lock-excluded",
+      rows,
+      lockedAt: lock.locked_at,
+      scoringExclusion,
+    };
+  }
 
   // Consensus (most common scoreline; ties → fewer total goals → lexicographic)
   // and the 1/X/2 outcome split — same rules as aggregate.ts liveConsensus/

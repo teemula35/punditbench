@@ -6,12 +6,15 @@ import type {
   KnockoutSlot,
   LiveManifest,
   MatchResult,
+  PostLockScoringExclusion,
   PredictionFile,
   RosterModel,
+  ScoringExclusionsFile,
   StageId,
   Team,
 } from "./types";
 import { KNOCKOUT_STAGES } from "./types";
+import { validateScoringExclusions } from "./league-scoring-exclusions";
 
 const ROOT = process.cwd();
 const DATA = path.join(ROOT, "data");
@@ -232,6 +235,19 @@ export function loadCompetitionLiveManifest(id: string): LiveManifest {
       rounds: {},
     }
   );
+}
+
+/**
+ * Additive, post-lock scoring classifications. Missing files mean there are no
+ * exceptions; present files are validated against current fixtures and locks.
+ */
+export function loadCompetitionScoringExclusions(
+  id: string,
+  fixtures = loadCompetitionFixtures(id),
+  manifest = loadCompetitionLiveManifest(id),
+): PostLockScoringExclusion[] {
+  const raw = readCompetitionJson<ScoringExclusionsFile>(id, "scoring-exclusions.json");
+  return raw === undefined ? [] : validateScoringExclusions(raw, fixtures, manifest);
 }
 
 /** slug -> live prediction files for one competition (round-by-round track). */

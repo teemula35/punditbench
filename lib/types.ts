@@ -81,6 +81,30 @@ export interface Fixture {
   time_unverified?: boolean;
 }
 
+/**
+ * Additive classification for authentic picks that cannot be mapped to the
+ * eventual fixture without rewriting or reinterpreting their locked meaning.
+ * This deliberately lives outside LiveManifest: the picks did exist.
+ */
+export interface PostLockScoringExclusion {
+  match: number;
+  espn_id: string;
+  classification: "post_lock_home_away_reversal";
+  locked_fixture: {
+    home: string;
+    away: string;
+    city: string;
+    stadium?: string;
+  };
+  reason: string;
+  decided_at: string;
+}
+
+export interface ScoringExclusionsFile {
+  version: 1;
+  exclusions: PostLockScoringExclusion[];
+}
+
 export interface KnockoutSlot {
   match: number; // 73..104
   stage: StageId;

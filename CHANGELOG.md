@@ -2,6 +2,11 @@
 
 Material events affecting scoring, data, or methodology are recorded here (C13/E-transparency).
 
+## 2026-08-21
+
+- **Ligue 1 Matchday 1 fixture correction, with no rewrite of the lock.** ESPN event `401876487` is now Stade Rennais vs Paris Saint-Germain at Roazhon Park; the MD1 prompt and all 43 pre-registered responses used Paris Saint-Germain vs Stade Rennais. The published prediction files, raw responses, manifest, hash and git tag remain byte-identical.
+- **The 43 affected picks are archived evidence, not scoreable forecasts.** An additive `scoring-exclusions.json` record preserves the locked orientation while the operational fixture follows reality. The site shows the correction and each pick in its original order; nothing is swapped or reinterpreted. This match awards no model points and is absent from every scoring and paid-brief fulfilment denominator. Ligue 1 MD1 therefore has 344 score-eligible model-match opportunities (43 models × 8 fixtures), plus 43 separately disclosed archived records.
+
 ## 2026-08-14
 
 - **Qwen3.8 Max joined the league benchmark as a new entrant.** The exact OpenRouter ID is `qwen/qwen3.8-max` (stable general-availability model, 1,000,000-token context, catalog price $2/M prompt and $6/M completion tokens; catalog verified 2026-08-14). It does not replace `qwen/qwen3.7-max`, whose existing record remains separate.

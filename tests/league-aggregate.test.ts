@@ -309,6 +309,49 @@ describe("assembleLeagueData — excluded matches", () => {
   });
 });
 
+describe("assembleLeagueData — post-lock scoring exclusions", () => {
+  const reversedFixture = fx(2, 1, "Current Home", "Current Away", "2026-08-22T14:00:00Z");
+  const exclusion = {
+    match: 2,
+    espn_id: "401876487",
+    classification: "post_lock_home_away_reversal" as const,
+    locked_fixture: {
+      home: "Locked Home",
+      away: "Locked Away",
+      city: "Locked City",
+      stadium: "Locked Stadium",
+    },
+    reason: "Fixture home/away was reversed after the lock input was frozen.",
+    decided_at: "2026-08-21T07:28:36.959Z",
+  };
+  const reversedData = assembleLeagueData(
+    comp,
+    [model("test/alpha", "Alpha")],
+    [reversedFixture],
+    [final(2, 3, 0)],
+    manifest([1]),
+    new Map([["test-alpha", [pfile("test/alpha", 1, [[2, 2, 0]])]]]),
+    [exclusion],
+  );
+
+  it("keeps the real result in the league table but removes it from model scoring", () => {
+    expect(reversedData.playedCount).toBe(1);
+    expect(reversedData.table.find((row) => row.team === "Current Home")?.points).toBe(3);
+    expect(reversedData.leaderboard[0].totals).toMatchObject({ points: 0, scoredMatches: 0 });
+  });
+
+  it("keeps the locked pick visible without scoring or reinterpreting it", () => {
+    const info = leagueMatchInfo(reversedData, reversedFixture);
+    expect(info.state).toBe("post-lock-excluded");
+    expect(info.scoringExclusion).toEqual(exclusion);
+    expect(info.rows).toHaveLength(1);
+    expect(info.rows[0].prediction).toMatchObject({ match: 2, home_goals: 2, away_goals: 0 });
+    expect(info.rows[0].score).toBeUndefined();
+    expect(info.consensus).toBeUndefined();
+    expect(info.split).toBeUndefined();
+  });
+});
+
 describe("leagueMatchInfo — state machine and rows", () => {
   it("returns picks with lock metadata for a locked round", () => {
     const info = leagueMatchInfo(data, fixtures[0]);

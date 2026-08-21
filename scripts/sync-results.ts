@@ -19,12 +19,14 @@ import {
   loadCompetitionFixtures,
   loadCompetitionLivePredictions,
   loadCompetitionResults,
+  loadCompetitionScoringExclusions,
   loadFixtures,
   loadResults,
   loadTeams,
   writeCompetitionResults,
   writeResults,
 } from "../lib/data";
+import { leagueMatchPointReport } from "../lib/league-result-report";
 import { scoreMatch } from "../lib/scoring";
 import {
   EXTRA_TIME_STATUSES,
@@ -108,21 +110,19 @@ function printMatchPoints(fixture: Fixture, result: MatchResult): void {
 
 /** League variant: points vs that competition's round-by-round live picks. */
 function printLeagueMatchPoints(compId: string, fixture: Fixture, result: MatchResult): void {
-  const rows: { slug: string; pts: number; how: string }[] = [];
-  for (const [slug, files] of loadCompetitionLivePredictions(compId)) {
-    const file = files.find((f) => f.stage === fixture.stage);
-    const prediction = file?.predictions.find((p) => p.match === fixture.match);
-    const s = scoreMatch(prediction, result, fixture);
-    if (s) {
-      rows.push({
-        slug,
-        pts: s.points,
-        how: prediction ? `${prediction.home_goals}-${prediction.away_goals} (${s.breakdown})` : "no prediction",
-      });
-    }
+  const report = leagueMatchPointReport(
+    loadCompetitionLivePredictions(compId),
+    fixture,
+    result,
+    loadCompetitionScoringExclusions(compId).find((entry) => entry.match === fixture.match),
+  );
+  if (report.state === "archived-unscored") {
+    console.log(`  ${report.message}`);
+    return;
   }
-  rows.sort((a, b) => b.pts - a.pts || a.slug.localeCompare(b.slug));
-  for (const r of rows) console.log(`  ${String(r.pts).padStart(2)} pts  ${r.slug.padEnd(40)} ${r.how}`);
+  for (const row of report.rows) {
+    console.log(`  ${String(row.pts).padStart(2)} pts  ${row.slug.padEnd(40)} ${row.how}`);
+  }
 }
 
 const now = new Date();

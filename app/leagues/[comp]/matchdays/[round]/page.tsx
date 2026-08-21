@@ -67,7 +67,8 @@ export default async function LeagueMatchdayPage({
         </h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-zinc-400">
           Kickoff times and every fixture in this round. Model score predictions are locked and
-          pre-registered before the round begins, then graded from synced final results.
+          pre-registered before the round begins, then graded from synced final results. Any
+          post-lock scoring exception is disclosed on its fixture and kept out of the benchmark.
         </p>
         <p className="mt-3 text-sm text-zinc-500">
           {lock
@@ -84,6 +85,7 @@ export default async function LeagueMatchdayPage({
               result?.status === "final" &&
               result.home_goals !== undefined &&
               result.away_goals !== undefined;
+            const scoringExclusion = data.scoringExclusions.get(fixture.match);
             return (
               <Link
                 key={fixture.match}
@@ -106,6 +108,14 @@ export default async function LeagueMatchdayPage({
                   {fixture.stadium ? `${fixture.stadium} · ` : ""}
                   {fixture.city}
                 </p>
+                {scoringExclusion && (
+                  <p className="mt-2 text-xs leading-5 text-amber-300">
+                    <span className="font-semibold">Fixture corrected after lock.</span> The locked
+                    picks were for {scoringExclusion.locked_fixture.home} vs{" "}
+                    {scoringExclusion.locked_fixture.away}; they remain archived but unscored and
+                    are not reinterpreted for this corrected fixture.
+                  </p>
+                )}
               </Link>
             );
           })}

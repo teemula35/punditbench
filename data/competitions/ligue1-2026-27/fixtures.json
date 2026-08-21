@@ -25,11 +25,11 @@
     "match": 3,
     "stage": "md01",
     "round": 1,
-    "home": "Paris Saint-Germain",
-    "away": "Stade Rennais",
+    "home": "Stade Rennais",
+    "away": "Paris Saint-Germain",
     "kickoff_utc": "2026-08-23T18:45:00Z",
-    "city": "Paris",
-    "stadium": "Parc des Princes",
+    "city": "Rennes",
+    "stadium": "Roazhon Park",
     "espn_id": "401876487"
   },
   {

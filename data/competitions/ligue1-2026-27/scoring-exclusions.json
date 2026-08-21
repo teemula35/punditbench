@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "exclusions": [
+    {
+      "match": 3,
+      "espn_id": "401876487",
+      "classification": "post_lock_home_away_reversal",
+      "locked_fixture": {
+        "home": "Paris Saint-Germain",
+        "away": "Stade Rennais",
+        "city": "Paris",
+        "stadium": "Parc des Princes"
+      },
+      "reason": "Fixture home/away was reversed by the source after the lock input was frozen.",
+      "decided_at": "2026-08-21T07:28:36.959Z"
+    }
+  ]
+}

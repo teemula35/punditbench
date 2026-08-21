@@ -167,6 +167,76 @@ function PicksSection({
     );
   }
 
+  if (info.state === "post-lock-excluded") {
+    const exclusion = info.scoringExclusion;
+    if (!exclusion) throw new Error("Post-lock exclusion is missing its audit record");
+    const withPick = info.rows.filter((row) => row.prediction).length;
+    return (
+      <section>
+        <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+          <h2 className="text-lg font-semibold text-zinc-100">Archived model picks</h2>
+          <p className="text-xs text-zinc-500">
+            Locked &amp; pre-registered
+            {info.lockedAt ? ` ${fmtKickoffUtc(info.lockedAt)}` : " before kickoff"}.
+          </p>
+        </div>
+        <div className="mb-4 rounded-lg border border-amber-400/30 bg-amber-400/5 p-5">
+          <p className="text-sm leading-6 text-zinc-300">
+            <span className="font-semibold text-amber-300">Fixture corrected after lock.</span>{" "}
+            The live fixture is {fixture.home} vs {fixture.away}. The locked fixture was{" "}
+            {exclusion.locked_fixture.home} vs {exclusion.locked_fixture.away}. All{" "}
+            <span className="tabular-nums">{withPick}</span> picks below remain exactly as
+            submitted in that original home/away order: they were not swapped or reinterpreted.
+            They are excluded from benchmark scoring and the opening-round brief fulfilment
+            denominator, so this match awards no model points.
+          </p>
+        </div>
+        <div className="overflow-x-auto rounded-lg border border-zinc-800">
+          <table className="w-full text-sm sm:min-w-[640px]">
+            <thead className="border-b border-zinc-800 bg-zinc-900/60">
+              <tr>
+                <th className={TH_CLS}>Model</th>
+                <th className={`${TH_CLS} text-right`}>Archived pick</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-zinc-800/70">
+              {info.rows.map((row) => (
+                <tr key={row.slug} className="hover:bg-zinc-900/40">
+                  <td className={TD_CLS}>
+                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                      <Link
+                        href={`/models/${row.slug}/`}
+                        className="font-medium text-zinc-100 hover:text-emerald-400"
+                      >
+                        {row.model.label}
+                      </Link>
+                      <TierChip tier={row.model.tier} />
+                    </div>
+                  </td>
+                  <td className={`${TD_CLS} text-right font-semibold tabular-nums text-zinc-100`}>
+                    {row.prediction ? (
+                      <>
+                        {exclusion.locked_fixture.home} {row.prediction.home_goals}–
+                        {row.prediction.away_goals} {exclusion.locked_fixture.away} (as locked)
+                      </>
+                    ) : (
+                      <span className="text-xs font-normal italic text-zinc-500">no pick</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-2 text-xs text-zinc-600">
+          The immutable prediction, raw-response, manifest and hash records remain unchanged.
+          This additive classification preserves the evidence without pretending it maps to the
+          corrected fixture.
+        </p>
+      </section>
+    );
+  }
+
   const withPick = info.rows.filter((r) => r.prediction).length;
   return (
     <section>
