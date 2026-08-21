@@ -9,6 +9,7 @@
  * Later runs refresh kickoff times/venues by ESPN event id and flag any team
  * drift, vanished events, or unknown new events as conflicts (exit 1 = human).
  */
+import fs from "node:fs";
 import {
   getCompetition,
   loadCompetitionFixtures,
@@ -22,6 +23,12 @@ import {
   planRefresh,
   type LeagueEvent,
 } from "../lib/league-fixtures";
+import {
+  encodeCleanCompetitions,
+  runRefreshBatch,
+  writeCleanCompetitionAttestation,
+  type CompetitionRefreshOutcome,
+} from "../lib/league-refresh-guard";
 import type { Competition } from "../lib/types";
 
 const SCOREBOARD_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer";
@@ -31,6 +38,11 @@ function arg(flag: string): string | undefined {
   return i >= 0 ? process.argv[i + 1] : undefined;
 }
 const has = (flag: string): boolean => process.argv.includes(flag);
+
+function setOutput(name: string, value: string): void {
+  const output = process.env.GITHUB_OUTPUT;
+  if (output) fs.appendFileSync(output, `${name}=${value}\n`);
+}
 
 /** Season window: Jul 15 of the starting year to Jul 1 of the following year. */
 function seasonWindow(comp: Competition): { start: Date; end: Date } {
@@ -68,16 +80,23 @@ async function fetchSeason(comp: Competition): Promise<LeagueEvent[]> {
   return [...byId.values()];
 }
 
-async function processCompetition(comp: Competition, dry: boolean): Promise<boolean> {
+async function processCompetition(
+  comp: Competition,
+  dry: boolean,
+): Promise<CompetitionRefreshOutcome> {
   console.log(`\n=== ${comp.name} (${comp.espn_slug}) ===`);
+  const existing = loadCompetitionFixtures(comp.id);
   const events = await fetchSeason(comp);
   console.log(`Feed: ${events.length} events`);
   if (events.length === 0) {
+    if (existing.length > 0) {
+      console.error(`  CONFLICT: ${comp.id} has stored fixtures but ESPN returned zero events`);
+      return { ok: false, clean: false };
+    }
     console.log(`No fixtures in the feed yet — skipping (expected for ${comp.id}? see registry notes).`);
-    return true;
+    return { ok: true, clean: false };
   }
 
-  const existing = loadCompetitionFixtures(comp.id);
   if (existing.length === 0) {
     const { fixtures, problems } = ingestSeason(comp, events);
     if (problems.length > 0) {
@@ -87,7 +106,7 @@ async function processCompetition(comp: Competition, dry: boolean): Promise<bool
       // expected, not an alert. Ingest happens on the first clean validation.
       console.log(`NOT READY — ${comp.id} feed fails season validation (${problems.length} problem(s)); not ingesting yet:`);
       for (const p of problems) console.log(`  - ${p}`);
-      return true;
+      return { ok: true, clean: false };
     }
     const rounds = new Set(fixtures.map((f) => f.round)).size;
     console.log(
@@ -98,7 +117,7 @@ async function processCompetition(comp: Competition, dry: boolean): Promise<bool
       writeCompetitionFixtures(comp.id, fixtures);
       console.log(`Wrote data/competitions/${comp.id}/fixtures.json`);
     }
-    return true;
+    return { ok: true, clean: !dry };
   }
 
   const plan = planRefresh(existing, events);
@@ -115,7 +134,8 @@ async function processCompetition(comp: Competition, dry: boolean): Promise<bool
     writeCompetitionFixtures(comp.id, applyRefresh(existing, plan));
     console.log(`Wrote data/competitions/${comp.id}/fixtures.json`);
   }
-  return plan.conflicts.length === 0 && plan.newEvents.length === 0;
+  const ok = plan.conflicts.length === 0 && plan.newEvents.length === 0;
+  return { ok, clean: ok && !dry };
 }
 
 async function main(): Promise<void> {
@@ -126,9 +146,12 @@ async function main(): Promise<void> {
     console.error("Usage: league-fixtures --comp <id> [--dry] | --all [--dry]");
     process.exit(2);
   }
-  let ok = true;
-  for (const comp of comps) ok = (await processCompetition(comp, dry)) && ok;
-  if (!ok) process.exit(1);
+  const batch = await runRefreshBatch(comps, (comp) => processCompetition(comp, dry));
+  for (const error of batch.errors) console.error(`  ERROR: ${error}`);
+  const cleanCompetitionIds = dry ? [] : batch.cleanCompetitionIds;
+  writeCleanCompetitionAttestation(cleanCompetitionIds);
+  setOutput("clean_competitions", encodeCleanCompetitions(cleanCompetitionIds));
+  if (!batch.ok) process.exit(1);
 }
 
 main().catch((err) => {

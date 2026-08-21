@@ -12,7 +12,9 @@
  * with a reason — the WC match-73 precedent), refuses to re-run an already
  * locked round (idempotent for the daily scheduler; --only-missing fills
  * gaps), writes the round's canonical hash, and emits GitHub outputs
- * (changed / locked / tags / alerts) for predict-scheduler.yml.
+ * (changed / locked / tags / alerts) for predict-scheduler.yml. Mutation-capable
+ * --due runs require the same workflow's affirmative fixture-clean allowlist;
+ * an omitted competition is skipped before any model call.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -31,6 +33,10 @@ import { formByTeam, leagueTable, loadPreviousSeason, restDaysByTeam } from "../
 import { splitRoundByKickoff } from "../lib/league-fixtures";
 import { leagueRosterForRound } from "../lib/league-participation";
 import { buildLeaguePrompt, LEAGUE_PROMPT_VERSION } from "../lib/league-prompt";
+import {
+  guardDueTargets,
+  loadCleanCompetitionAttestation,
+} from "../lib/league-refresh-guard";
 import { dueRounds } from "../lib/league-schedule";
 import { modelSlug } from "../lib/prompt";
 import { loadEnv, runModelOnFixtures } from "../lib/runner";
@@ -256,6 +262,21 @@ async function main(): Promise<void> {
     targets = [{ comp: getCompetition(args.comp!), round: args.round as MatchdayKey }];
   }
 
+  const guardAlerts: string[] = [];
+  if (args.due && !args.dryRun && targets.length > 0) {
+    const guarded = guardDueTargets(
+      targets,
+      loadCleanCompetitionAttestation(),
+    );
+    targets = guarded.allowed;
+    const detail = guarded.error ? ` (${guarded.error})` : "";
+    for (const target of guarded.blocked) {
+      guardAlerts.push(
+        `FIXTURE GUARD [${target.comp.id} ${target.round}]: fixture refresh was not affirmatively clean; skipped before model calls${detail}`,
+      );
+    }
+  }
+
   if (targets.length > 0 && !args.mock && !args.dryRun && !process.env.OPENROUTER_API_KEY) {
     console.error("OPENROUTER_API_KEY missing. Copy .env.example to .env and set it.");
     process.exit(1);
@@ -264,7 +285,7 @@ async function main(): Promise<void> {
   let changed = false;
   const locked: string[] = [];
   const tags: string[] = [];
-  const alerts: string[] = [];
+  const alerts: string[] = [...guardAlerts];
   for (const t of targets) {
     const o = await runRound(t.comp, t.round, args);
     changed = changed || o.changed;

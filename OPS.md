@@ -108,8 +108,12 @@ automated; the human surface is red-run emails.
   form-aware picks (current table + last-5 form from our own results in the prompt),
   writes `data/competitions/<id>/predictions-live/<round>/`, manifest, round hash —
   then tests → commit → annotated tag `predictions-<id>-<round>-live` → deploy.
-  Locked rounds are skipped, so reruns are safe. Matches that already kicked off are
-  auto-excluded with a reason (shown as "not pre-registered").
+  The fixture refresh emits a same-run, affirmative clean-competition allowlist. A
+  mutation-capable `--due` run blocks any due competition omitted from that list
+  **before model/API calls**, while independently clean due competitions continue.
+  Missing or malformed attestation also fails closed. Locked rounds are skipped, so
+  reruns are safe. Matches that already kicked off are auto-excluded with a reason
+  (shown as "not pre-registered").
 - **Results** — the existing hourly `results-sync.yml` loops active competitions after
   the WC block. League results match fixtures by **ESPN event id** and ALL auto-enter
   (leagues have no knockout-pending). Recorded scores are re-audited hourly, same as WC.
@@ -120,8 +124,9 @@ automated; the human surface is red-run emails.
 **Red run means one of:** `MODEL FAILED` (rerun `npm run league-predict -- --comp <id>
 --round <mdNN> --only-missing` before kickoff, else that model shows "no pick");
 fixture-refresh conflicts on an INGESTED league (team drift / event vanished / unknown
-new event — inspect the Refresh step log; NEVER auto-resolved); a round locked with ZERO
-picks (scheduler was down for a whole round — post-mortem); plus the WC-era
+new event — inspect the Refresh step log; NEVER auto-resolved, and that competition's
+unlocked due round is skipped before any model call); a round locked with ZERO picks
+(scheduler was down for a whole round — post-mortem); plus the WC-era
 `CONFLICT`/`OVERDUE` meanings. A never-ingested league whose feed fails season
 validation prints `NOT READY` and is NOT red — ESPN publishes some seasons in tranches
 (Bundesliga 2026-27 appeared as matchdays 1–19 first); it auto-ingests on the first
