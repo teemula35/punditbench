@@ -1,0 +1,70 @@
+{
+  "model": "mistralai/mistral-small-2603",
+  "slug": "mistralai-mistral-small-2603",
+  "stage": "md01",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-21T06:47:38.575Z",
+  "completed_at": "2026-08-21T06:47:41.275Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 586,
+    "completion_tokens": 197,
+    "total_tokens": 783,
+    "cost_usd": 0.000257625
+  },
+  "predictions": [
+    {
+      "match": 1,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 2,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 3,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 4,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 5,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 6,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 7,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 8,
+      "home_goals": 3,
+      "away_goals": 0
+    },
+    {
+      "match": 9,
+      "home_goals": 2,
+      "away_goals": 2
+    },
+    {
+      "match": 10,
+      "home_goals": 1,
+      "away_goals": 1
+    }
+  ]
+}

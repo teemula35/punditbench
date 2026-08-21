@@ -1,0 +1,10 @@
+track: round-by-round (live, real fixtures)
+competition: seriea-2026-27
+round: md01
+models: 43
+generated_at: 2026-08-21T06:50:53.213Z
+sha256: 80fb9a93d84bb851c4fef6c02de0f28cc597f541075f3fe624744b2588dfa995
+
+Canonical form v2: JSON array of {slug, model, stage, completed_at, simulated_fixtures?
+(sorted by match), predictions (sorted by match)}, sorted by (slug, stage), no whitespace.
+Recompute with: npm run hash -- --comp seriea-2026-27 --round md01

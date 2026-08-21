@@ -1,0 +1,65 @@
+{
+  "model": "z-ai/glm-5.2",
+  "slug": "z-ai-glm-5-2",
+  "stage": "md01",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-21T06:46:16.971Z",
+  "completed_at": "2026-08-21T06:46:26.817Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 494,
+    "completion_tokens": 739,
+    "total_tokens": 1233,
+    "cost_usd": 0.002089896
+  },
+  "predictions": [
+    {
+      "match": 1,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 2,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 3,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 4,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 5,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 6,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 7,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 8,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 9,
+      "home_goals": 0,
+      "away_goals": 2
+    }
+  ]
+}
