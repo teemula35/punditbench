@@ -9,11 +9,13 @@ import {
   type MatchAnalyticsReporter,
   type TodayCard,
 } from "../app/today-matches";
+import { activeCompetitions } from "../lib/data";
 import {
   loadHomepageLeagueCards,
   MAX_SERIALIZED_HOME_MATCH_CARDS,
   selectSerializedHomeMatchCards,
 } from "../lib/home-match-cards";
+import { loadLeagueData } from "../lib/league-aggregate";
 
 function card(id: string, href: string, kickoff: string): TodayCard {
   return {
@@ -106,7 +108,16 @@ describe("today's league matches", () => {
         splitLine: "42/42 back Atlético Madrid",
       }),
     );
-    expect(cards.some((c) => c.id.startsWith("epl-2026-27:"))).toBe(false);
+    const lockedCardIds = new Set<string>();
+    for (const competition of activeCompetitions()) {
+      const data = loadLeagueData(competition.id);
+      for (const fixture of data.fixtures.values()) {
+        if (data.manifest.rounds[fixture.stage]) {
+          lockedCardIds.add(`${competition.id}:${fixture.match}`);
+        }
+      }
+    }
+    expect(cards.every(({ id }) => lockedCardIds.has(id))).toBe(true);
   });
 
   it("retains postponed future fixtures from an already locked round", () => {
