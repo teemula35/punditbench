@@ -161,10 +161,12 @@ export function selectTodayMatches(
     if (nowMs >= ko) return "inplay";
     return "upcoming";
   };
+  // Complete by design: with several leagues locked at once a single day can
+  // hold 15–20 fixtures, and the section title promises all of them. The
+  // serialized payload budget upstream is the only bound.
   const today = cards
     .filter((c) => isToday(c.kickoff_utc))
     .sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc) || a.id.localeCompare(b.id))
-    .slice(0, 8)
     .map((c) => ({ c, status: statusOf(c) }));
   const shown = new Set(today.map((t) => t.c.id));
   const latest = cards

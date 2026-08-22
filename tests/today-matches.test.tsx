@@ -73,8 +73,8 @@ describe("today's league matches", () => {
     ]);
   });
 
-  it("shows at most eight of today's matches in kickoff order", () => {
-    const cards = Array.from({ length: 9 }, (_, index) => {
+  it("shows every one of today's matches in kickoff order", () => {
+    const cards = Array.from({ length: 20 }, (_, index) => {
       const hour = String(20 - index).padStart(2, "0");
       return card(
         `league:${index}`,
@@ -85,11 +85,10 @@ describe("today's league matches", () => {
 
     const view = selectTodayMatches(cards, new Date("2026-08-19T12:00:00Z"));
 
-    expect(view.today).toHaveLength(8);
+    expect(view.today).toHaveLength(20);
     expect(view.today.map(({ c }) => c.kickoff_utc)).toEqual(
       [...cards]
         .sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc))
-        .slice(0, 8)
         .map((c) => c.kickoff_utc),
     );
   });
