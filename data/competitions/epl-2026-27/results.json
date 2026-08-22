@@ -10,5 +10,23 @@
     "status": "final",
     "home_goals": 2,
     "away_goals": 0
+  },
+  {
+    "match": 3,
+    "status": "final",
+    "home_goals": 0,
+    "away_goals": 1
+  },
+  {
+    "match": 4,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 1
+  },
+  {
+    "match": 5,
+    "status": "final",
+    "home_goals": 2,
+    "away_goals": 0
   }
 ]
