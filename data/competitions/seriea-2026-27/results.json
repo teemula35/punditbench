@@ -1,0 +1,14 @@
+[
+  {
+    "match": 1,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 1
+  },
+  {
+    "match": 2,
+    "status": "final",
+    "home_goals": 4,
+    "away_goals": 1
+  }
+]
