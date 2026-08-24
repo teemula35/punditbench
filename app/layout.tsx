@@ -41,7 +41,6 @@ export const metadata: Metadata = {
 
 const NAV = [
   { href: "/leagues/", label: "Live leagues" },
-  { href: "/value-lines/", label: "Value lines" },
   { href: "/#world-cup-archive", label: "World Cup archive" },
   { href: "/matches/", label: "WC matches" },
   { href: "/groups/", label: "WC groups" },
