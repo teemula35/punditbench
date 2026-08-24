@@ -18,6 +18,16 @@ body {
   color: #d4d4d8; /* zinc-300 */
 }
 
+/* Keep the phone nav horizontally reachable without showing a heavy native
+   scrollbar inside the compact header. */
+.primary-nav {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.primary-nav::-webkit-scrollbar {
+  display: none;
+}
+
 /* Hand-rolled prose styles for the markdown pages (no typography plugin). */
 .prose {
   max-width: 72ch;

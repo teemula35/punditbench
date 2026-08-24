@@ -41,6 +41,7 @@ export const metadata: Metadata = {
 
 const NAV = [
   { href: "/leagues/", label: "Live leagues" },
+  { href: "/value-lines/", label: "Value lines" },
   { href: "/#world-cup-archive", label: "World Cup archive" },
   { href: "/matches/", label: "WC matches" },
   { href: "/groups/", label: "WC groups" },
@@ -61,7 +62,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </Link>
               {/* On phones the nav takes its own full-width row and scrolls
                   horizontally instead of wrapping into a multi-line mess. */}
-              <nav className="flex basis-full items-center gap-x-4 overflow-x-auto whitespace-nowrap pb-1 text-[13px] sm:basis-auto sm:gap-x-5 sm:overflow-x-visible sm:pb-0 sm:text-sm">
+              <nav
+                aria-label="Primary"
+                className="primary-nav flex basis-full items-center gap-x-4 overflow-x-auto whitespace-nowrap pb-1 text-[13px] sm:basis-auto sm:gap-x-5 sm:overflow-x-visible sm:pb-0 sm:text-sm"
+              >
                 {NAV.map((item) => (
                   <Link
                     key={item.href}
