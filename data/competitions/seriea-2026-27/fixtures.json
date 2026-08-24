@@ -368,7 +368,7 @@
     "round": 4,
     "home": "Torino",
     "away": "AS Roma",
-    "kickoff_utc": "2026-09-13T10:30:00Z",
+    "kickoff_utc": "2026-09-13T18:00:00Z",
     "city": "Torino",
     "stadium": "Stadio Olimpico Grande Torino",
     "espn_id": "401874950"
@@ -379,7 +379,7 @@
     "round": 4,
     "home": "Como",
     "away": "Parma",
-    "kickoff_utc": "2026-09-13T13:00:00Z",
+    "kickoff_utc": "2026-09-13T18:00:00Z",
     "city": "Como",
     "stadium": "Giuseppe Sinigaglia",
     "espn_id": "401874933"
@@ -412,7 +412,7 @@
     "round": 4,
     "home": "Sassuolo",
     "away": "Juventus",
-    "kickoff_utc": "2026-09-12T16:00:00Z",
+    "kickoff_utc": "2026-09-12T18:00:00Z",
     "city": "Reggio Emilia",
     "stadium": "Mapei Stadium",
     "espn_id": "401874750"
@@ -423,7 +423,7 @@
     "round": 4,
     "home": "Lazio",
     "away": "AC Milan",
-    "kickoff_utc": "2026-09-13T18:45:00Z",
+    "kickoff_utc": "2026-09-13T18:00:00Z",
     "city": "Roma",
     "stadium": "Olimpico",
     "espn_id": "401874941"
