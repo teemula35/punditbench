@@ -125,6 +125,22 @@ describe("Value Lines deployment configuration", () => {
     }
   });
 
+  it.each(["results-sync.yml", "predict-scheduler.yml"])(
+    "injects every operational Value Lines field into %s builds",
+    (workflow) => {
+      const source = fs.readFileSync(
+        path.join(process.cwd(), ".github", "workflows", workflow),
+        "utf8",
+      );
+
+      for (const key of valueLineEnvironmentKeys) {
+        expect(source).toContain(`${key}: \${{ secrets.${key} }}`);
+      }
+      expect(source).not.toContain("PB_VALUE_LINES_TAX_REVIEWED");
+      expect(source).not.toContain("PB_VALUE_LINES_EMAIL_PROVIDER_CLEARANCE");
+    },
+  );
+
   it("allows a deliberately closed preview build", () => {
     const result = runValidator();
 
