@@ -37,7 +37,6 @@ const productionShapedOffer: ValueLineCheckoutInput = {
   sellerCity: "Helsinki",
   sellerCountryCode: "FI",
   taxNotice: "€9 monthly including applicable tax",
-  taxReviewed: "confirmed",
   supportEmail: "support@punditbench.com",
   contactUrl: "https://punditbench.com/contact/",
   deliveryMethod: "Issues are delivered by email and subscriber dashboard",
@@ -45,7 +44,6 @@ const productionShapedOffer: ValueLineCheckoutInput = {
   emailSender: "issues@updates.punditbench.com",
   emailSendingDomain: "updates.punditbench.com",
   emailDomainVerified: "verified",
-  emailProviderClearance: "approved",
   termsUrl: "https://punditbench.com/value-lines/terms/",
   privacyUrl: "https://punditbench.com/value-lines/privacy/",
   refundsUrl: "https://punditbench.com/value-lines/refunds/",
@@ -72,7 +70,6 @@ const fakeTestOffer: ValueLineCheckoutInput = {
   sellerCity: "Example City",
   sellerCountryCode: "GB",
   taxNotice: "€9 monthly including test tax",
-  taxReviewed: "confirmed",
   supportEmail: "support@example.com",
   contactUrl: "https://example.com/contact",
   deliveryMethod: "Test issues are delivered by email",
@@ -80,7 +77,6 @@ const fakeTestOffer: ValueLineCheckoutInput = {
   emailSender: "issues@mail.example.com",
   emailSendingDomain: "mail.example.com",
   emailDomainVerified: "verified",
-  emailProviderClearance: "approved",
   termsUrl: "https://example.com/terms",
   privacyUrl: "https://example.com/privacy",
   refundsUrl: "https://example.com/refunds",
@@ -199,6 +195,8 @@ describe("value-line checkout fail-closed controls", () => {
     expect(html).toContain("Verified seller identity and geographic address");
     expect(html).toContain("Not betting advice.");
     expect(html).not.toContain("Checkout unavailable");
+    expect(html).not.toContain("reviewed tax treatment");
+    expect(html).not.toContain("cleared email delivery");
     expect(html).not.toContain(productionShapedOffer.sellerLegalName);
     expect(html).not.toContain(productionShapedOffer.sellerBusinessId);
     expect(html).not.toContain(productionShapedOffer.sellerAddressLine1);
@@ -217,6 +215,11 @@ describe("value-line checkout fail-closed controls", () => {
       expect(html).toContain("Not betting advice.");
     },
   );
+
+  it("does not require superseded review or policy-approval tokens", () => {
+    expect(VALUE_LINE_REQUIRED_CONFIG_FIELDS).not.toContain("taxReviewed");
+    expect(VALUE_LINE_REQUIRED_CONFIG_FIELDS).not.toContain("emailProviderClearance");
+  });
 
   it("allows complete fake values only through the test validator, never the production CTA", () => {
     expect(validateValueLineCheckout(fakeTestOffer, { allowTestValues: true })).toEqual({
@@ -244,9 +247,7 @@ describe("value-line checkout fail-closed controls", () => {
   it.each([
     ["stripeMode", "test"],
     ["activation", "test-enabled"],
-    ["taxReviewed", "pending"],
     ["emailDomainVerified", "pending"],
-    ["emailProviderClearance", "pending"],
   ] as const)("rejects non-live confirmation %s=%s", (field, value) => {
     expect(validateValueLineCheckout({ ...productionShapedOffer, [field]: value }).ready).toBe(false);
   });

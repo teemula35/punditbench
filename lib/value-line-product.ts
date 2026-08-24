@@ -134,7 +134,6 @@ export interface ValueLineCheckoutInput {
   sellerCity: string;
   sellerCountryCode: string;
   taxNotice: string;
-  taxReviewed: string;
   supportEmail: string;
   contactUrl: string;
   deliveryMethod: string;
@@ -142,7 +141,6 @@ export interface ValueLineCheckoutInput {
   emailSender: string;
   emailSendingDomain: string;
   emailDomainVerified: string;
-  emailProviderClearance: string;
   termsUrl: string;
   privacyUrl: string;
   refundsUrl: string;
@@ -169,7 +167,6 @@ export const VALUE_LINE_REQUIRED_CONFIG_FIELDS = [
   "sellerCity",
   "sellerCountryCode",
   "taxNotice",
-  "taxReviewed",
   "supportEmail",
   "contactUrl",
   "deliveryMethod",
@@ -177,7 +174,6 @@ export const VALUE_LINE_REQUIRED_CONFIG_FIELDS = [
   "emailSender",
   "emailSendingDomain",
   "emailDomainVerified",
-  "emailProviderClearance",
   "termsUrl",
   "privacyUrl",
   "refundsUrl",
@@ -332,7 +328,6 @@ export function validateValueLineCheckout(
     sellerCity: text(input.sellerCity),
     sellerCountryCode: Boolean(input.sellerCountryCode?.trim().match(/^[A-Z]{2}$/)),
     taxNotice: text(input.taxNotice),
-    taxReviewed: input.taxReviewed?.trim() === "confirmed",
     supportEmail:
       supportDomain !== null &&
       (allowTestValues || (!RESERVED_HOST.test(supportDomain) && !PLACEHOLDER_TEXT.test(supportDomain))),
@@ -352,7 +347,6 @@ export function validateValueLineCheckout(
             !PLACEHOLDER_TEXT.test(configuredSendingDomain),
         )),
     emailDomainVerified: input.emailDomainVerified?.trim() === "verified",
-    emailProviderClearance: input.emailProviderClearance?.trim() === "approved",
     termsUrl: url(input.termsUrl),
     privacyUrl: url(input.privacyUrl),
     refundsUrl: url(input.refundsUrl),
@@ -389,7 +383,6 @@ export function valueLineCheckoutFromEnvironment(): Partial<ValueLineCheckoutInp
     sellerCity: process.env.PB_VALUE_LINES_SELLER_CITY,
     sellerCountryCode: process.env.PB_VALUE_LINES_SELLER_COUNTRY_CODE,
     taxNotice: process.env.PB_VALUE_LINES_TAX_NOTICE,
-    taxReviewed: process.env.PB_VALUE_LINES_TAX_REVIEWED,
     supportEmail: process.env.PB_VALUE_LINES_SUPPORT_EMAIL,
     contactUrl: process.env.PB_VALUE_LINES_CONTACT_URL,
     deliveryMethod: process.env.PB_VALUE_LINES_DELIVERY_METHOD,
@@ -397,7 +390,6 @@ export function valueLineCheckoutFromEnvironment(): Partial<ValueLineCheckoutInp
     emailSender: process.env.PB_VALUE_LINES_EMAIL_SENDER,
     emailSendingDomain: process.env.PB_VALUE_LINES_EMAIL_SENDING_DOMAIN,
     emailDomainVerified: process.env.PB_VALUE_LINES_EMAIL_DOMAIN_VERIFIED,
-    emailProviderClearance: process.env.PB_VALUE_LINES_EMAIL_PROVIDER_CLEARANCE,
     termsUrl: process.env.PB_VALUE_LINES_TERMS_URL,
     privacyUrl: process.env.PB_VALUE_LINES_PRIVACY_URL,
     refundsUrl: process.env.PB_VALUE_LINES_REFUNDS_URL,

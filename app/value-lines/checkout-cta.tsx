@@ -33,9 +33,9 @@ export function ValueLineCheckoutCta({
         </div>
         <div className="p-5 sm:p-7">
           <p className="max-w-2xl text-sm leading-relaxed text-zinc-400">
-            Checkout stays disabled until the seller identity and address, reviewed tax treatment,
-            exact recurring Stripe price, approved return paths, cleared email delivery, customer
-            policies, subscriber service and explicit live activation all validate together.
+            Checkout stays disabled until the seller identity and address, exact recurring Stripe
+            price, working return paths, verified email delivery, live customer pages, subscriber
+            service and explicit live activation all validate together.
           </p>
           <button
             type="button"
