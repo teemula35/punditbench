@@ -1,8 +1,14 @@
 import { parse, type DefaultTreeAdapterTypes } from "parse5";
 
-export type OpeningRoundOfferVerification =
+export type LiveOfferVerification =
   | { ok: true }
   | { ok: false; reason: "missing-live-checkout" | "closed-fallback" };
+
+export type ClosedOfferVerification =
+  | { ok: true }
+  | { ok: false; reason: "missing-closed-fallback" };
+
+export type OpeningRoundOfferVerification = LiveOfferVerification;
 
 const BUY_LABEL = "Buy the brief for €5";
 const CLOSED_FALLBACK = "Checkout is not open yet";
@@ -205,28 +211,56 @@ function nodeText(root: HtmlNode, availableOnly = false): string {
   return normalizeText(chunks.join(" "));
 }
 
-export function verifyOpeningRoundOfferHtml(
-  html: string,
-  checkoutUrl: string,
-): OpeningRoundOfferVerification {
-  const expectedHref = normalizeHref(checkoutUrl);
-  if (!expectedHref) return { ok: false, reason: "missing-live-checkout" };
+interface OfferHtmlAnalysis {
+  availableText: string;
+  structuralText: string;
+  hasExpectedCheckoutAnchor: boolean;
+  hasCheckoutLabelAnchor: boolean;
+  hasForbiddenCheckoutHostAnchor: boolean;
+}
 
+function hrefHostname(value: string): string | null {
+  try {
+    return new URL(value, "https://punditbench.com/").hostname.toLowerCase().replace(/\.+$/u, "");
+  } catch {
+    return null;
+  }
+}
+
+function analyzeOfferHtml(
+  html: string,
+  checkoutLabel: string,
+  expectedHref: string | null,
+  forbiddenCheckoutHostname?: string,
+): OfferHtmlAnalysis {
   const document = parse(html);
-  let hasCheckoutAnchor = false;
+  let hasExpectedCheckoutAnchor = false;
+  let hasCheckoutLabelAnchor = false;
+  let hasForbiddenCheckoutHostAnchor = false;
 
   function inspect(node: HtmlNode, unavailable = false): void {
     if (isElement(node)) {
       if (IGNORED_TEXT_ELEMENTS.has(node.tagName)) return;
       unavailable ||= isHiddenOrDisabled(node);
-      if (
-        !unavailable &&
-        node.namespaceURI === HTML_NAMESPACE &&
-        node.tagName === "a" &&
-        normalizeHref(attribute(node, "href") ?? "") === expectedHref &&
-        nodeText(node, true) === BUY_LABEL
-      ) {
-        hasCheckoutAnchor = true;
+      if (node.tagName === "a") {
+        const href = attribute(node, "href") ?? "";
+        if (
+          forbiddenCheckoutHostname &&
+          hrefHostname(href) === forbiddenCheckoutHostname.toLowerCase()
+        ) {
+          hasForbiddenCheckoutHostAnchor = true;
+        }
+        if (node.namespaceURI === HTML_NAMESPACE) {
+          if (nodeText(node) === checkoutLabel) hasCheckoutLabelAnchor = true;
+          if (
+            !unavailable &&
+            expectedHref !== null &&
+            normalizeHref(href) === expectedHref &&
+            nodeText(node, true) === checkoutLabel
+          ) {
+            hasExpectedCheckoutAnchor = true;
+          }
+        }
       }
     }
     if ("childNodes" in node) {
@@ -240,10 +274,62 @@ export function verifyOpeningRoundOfferHtml(
   }
 
   inspect(document);
-  if (nodeText(document).includes(CLOSED_FALLBACK)) {
+  return {
+    availableText: nodeText(document, true),
+    structuralText: nodeText(document),
+    hasExpectedCheckoutAnchor,
+    hasCheckoutLabelAnchor,
+    hasForbiddenCheckoutHostAnchor,
+  };
+}
+
+export interface LiveOfferVerificationOptions {
+  /** Preserve legacy opening-round fallback semantics when false. */
+  fallbackMustBeAvailable?: boolean;
+}
+
+export function verifyLiveOfferHtml(
+  html: string,
+  checkoutUrl: string,
+  checkoutLabel: string,
+  closedFallback: string,
+  options: LiveOfferVerificationOptions = {},
+): LiveOfferVerification {
+  const expectedHref = normalizeHref(checkoutUrl);
+  if (!expectedHref) return { ok: false, reason: "missing-live-checkout" };
+
+  const analysis = analyzeOfferHtml(html, checkoutLabel, expectedHref);
+  const fallbackText =
+    options.fallbackMustBeAvailable === false
+      ? analysis.structuralText
+      : analysis.availableText;
+  if (fallbackText.includes(closedFallback)) {
     return { ok: false, reason: "closed-fallback" };
   }
-  return hasCheckoutAnchor
+  return analysis.hasExpectedCheckoutAnchor
     ? { ok: true }
     : { ok: false, reason: "missing-live-checkout" };
+}
+
+export function verifyClosedOfferHtml(
+  html: string,
+  checkoutLabel: string,
+  closedFallback: string,
+  forbiddenCheckoutHostname?: string,
+): ClosedOfferVerification {
+  const analysis = analyzeOfferHtml(html, checkoutLabel, null, forbiddenCheckoutHostname);
+  return analysis.availableText.includes(closedFallback) &&
+    !analysis.hasCheckoutLabelAnchor &&
+    !analysis.hasForbiddenCheckoutHostAnchor
+    ? { ok: true }
+    : { ok: false, reason: "missing-closed-fallback" };
+}
+
+export function verifyOpeningRoundOfferHtml(
+  html: string,
+  checkoutUrl: string,
+): OpeningRoundOfferVerification {
+  return verifyLiveOfferHtml(html, checkoutUrl, BUY_LABEL, CLOSED_FALLBACK, {
+    fallbackMustBeAvailable: false,
+  });
 }

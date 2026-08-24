@@ -5,6 +5,7 @@ export function sitemapRoutes(): string[] {
   const staticRoutes = [
     "/",
     "/leagues/",
+    "/value-lines/",
     "/matches/",
     "/groups/",
     "/models/",

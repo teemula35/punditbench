@@ -23,6 +23,10 @@ describe("sitemapRoutes", () => {
     expect(sitemapRoutes()).toContain("/briefs/opening-round-2026/privacy/");
   });
 
+  it("includes the recurring Value Lines offer", () => {
+    expect(sitemapRoutes()).toContain("/value-lines/");
+  });
+
   it("includes every league landing page and every league fixture page", () => {
     const routes = new Set(sitemapRoutes());
 

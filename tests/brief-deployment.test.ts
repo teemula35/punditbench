@@ -70,7 +70,7 @@ describe("paid-brief deployment configuration", () => {
       /^node --import tsx scripts\/validate-opening-round-offer\.ts && /,
     );
     expect(packageJson.scripts.build).toMatch(
-      /next build && node --import tsx scripts\/validate-opening-round-offer\.ts --verify-export$/,
+      /next build && node --import tsx scripts\/validate-opening-round-offer\.ts --verify-export && node --import tsx scripts\/validate-value-lines-offer\.ts --verify-export$/,
     );
     expect(packageJson.scripts["build:ci"]).toBe(
       "node --import tsx scripts/prepare-export.ts && next build",
