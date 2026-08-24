@@ -20,17 +20,35 @@ export function verifyValueLineOfferHtml(
     checkoutUrl,
     VALUE_LINE_CHECKOUT_LABEL,
     VALUE_LINE_CLOSED_FALLBACK,
-    { fallbackMustBeAvailable: false },
+    {
+      fallbackMustBeAvailable: false,
+      forbiddenCheckoutHostnames: ["stripe.com"],
+    },
   );
 }
 
 export function verifyClosedValueLineOfferHtml(
   html: string,
+  serviceBaseUrl?: string,
 ): ClosedValueLineOfferVerification {
-  return verifyClosedOfferHtml(
+  const directStripeCheck = verifyClosedOfferHtml(
     html,
     VALUE_LINE_CHECKOUT_LABEL,
     VALUE_LINE_CLOSED_FALLBACK,
     "buy.stripe.com",
+  );
+  if (!directStripeCheck.ok || !serviceBaseUrl) return directStripeCheck;
+
+  let serviceHostname: string;
+  try {
+    serviceHostname = new URL(serviceBaseUrl).hostname;
+  } catch {
+    return directStripeCheck;
+  }
+  return verifyClosedOfferHtml(
+    html,
+    VALUE_LINE_CHECKOUT_LABEL,
+    VALUE_LINE_CLOSED_FALLBACK,
+    serviceHostname,
   );
 }

@@ -1,5 +1,8 @@
 import type { ValueLineCheckoutInput } from "@/lib/value-line-product";
-import { validateValueLineCheckout } from "@/lib/value-line-product";
+import {
+  VALUE_LINE_ELIGIBILITY_BOUNDARY,
+  validateValueLineCheckout,
+} from "@/lib/value-line-product";
 
 export function VerifiedSellerNotice() {
   return (
@@ -72,26 +75,16 @@ export function ValueLineCheckoutCta({
         </p>
         <VerifiedSellerNotice />
         <p className="mt-2 text-xs leading-relaxed text-zinc-500">Support: {configured.supportEmail}.</p>
-        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs">
-          {[
-            ["Terms", configured.termsUrl],
-            ["Privacy", configured.privacyUrl],
-            ["Refunds", configured.refundsUrl],
-            ["Responsible play", configured.responsiblePlayUrl],
-            ["Contact", configured.contactUrl],
-          ].map(([label, href]) => (
-            <a key={label} href={href} className="text-emerald-300 underline-offset-4 hover:underline">
-              {label}
-            </a>
-          ))}
-        </div>
+        <p className="mt-4 max-w-2xl text-xs leading-relaxed text-zinc-300">
+          {VALUE_LINE_ELIGIBILITY_BOUNDARY}
+        </p>
         <a
           href={configured.checkoutUrl}
           className="mt-6 inline-flex min-h-11 items-center justify-center rounded-lg bg-emerald-400 px-5 py-3 text-sm font-bold text-zinc-950 transition-colors hover:bg-emerald-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
         >
           Subscribe for €9/month
         </a>
-        <p className="mt-4 text-xs font-semibold text-zinc-200">18+ · Not betting advice.</p>
+        <p className="mt-4 text-xs font-semibold text-zinc-200">Not betting advice.</p>
       </div>
     </section>
   );

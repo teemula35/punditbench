@@ -8,6 +8,7 @@ import {
 } from "../app/value-lines/checkout-cta";
 import { HistoricalForecastCard } from "../app/value-lines/forecast-card";
 import ValueLinesPage, { metadata } from "../app/value-lines/page";
+import ValueLinePolicyLinks from "../app/value-lines/policy-links";
 import {
   HISTORICAL_VALUE_LINE_SAMPLE,
   VALUE_LINE_LEAGUES,
@@ -22,7 +23,7 @@ import {
 } from "../lib/value-line-product";
 
 const productionShapedOffer: ValueLineCheckoutInput = {
-  checkoutUrl: "https://buy.stripe.com/7sIaEW4vB8qL2mN5kR",
+  checkoutUrl: "https://members.punditbench.com/checkout/start",
   stripeAccountId: "acct_1PBVLines9EUR",
   stripeProductId: "prod_PBVLines2026",
   stripePriceId: "price_PBVLinesEUR9Month",
@@ -55,7 +56,7 @@ const productionShapedOffer: ValueLineCheckoutInput = {
 };
 
 const fakeTestOffer: ValueLineCheckoutInput = {
-  checkoutUrl: "https://buy.stripe.com/test_value_lines",
+  checkoutUrl: "https://members.example.com/checkout/start",
   stripeAccountId: "acct_testValueLines",
   stripeProductId: "prod_testValueLines",
   stripePriceId: "price_testValueLines",
@@ -101,7 +102,9 @@ describe("value-line product contract", () => {
     for (const { name } of VALUE_LINE_LEAGUES) expect(html).toContain(name);
     expect(html).toContain("€9/month");
     expect(html).toContain("recurring");
-    expect(html).toContain("England, Scotland and Wales");
+    expect(html).toContain(
+      "18+ only. You must be resident in England, Scotland or Wales and must not be physically in Finland when purchasing or using Value Lines.",
+    );
     expect(html.match(/Not betting advice\./g)?.length).toBeGreaterThanOrEqual(3);
     expect(html).not.toContain("buy.stripe.com");
   });
@@ -186,6 +189,78 @@ describe("value-line product contract", () => {
 });
 
 describe("value-line checkout fail-closed controls", () => {
+  it("requires checkout to start on a non-root path of the exact private service origin", () => {
+    expect(validateValueLineCheckout(productionShapedOffer).invalidFields).not.toContain(
+      "checkoutUrl",
+    );
+    expect(
+      validateValueLineCheckout({
+        ...productionShapedOffer,
+        checkoutUrl: "https://buy.stripe.com/7sIaEW4vB8qL2mN5kR",
+      }).invalidFields,
+    ).toContain("checkoutUrl");
+  });
+
+  it.each([
+    "https://members.punditbench.com/",
+    "https://checkout.members.punditbench.com/start",
+    "https://members.punditbench.com.evil.example/start",
+    "http://members.punditbench.com/checkout/start",
+    "https://buy.stripe.com/7sIaEW4vB8qL2mN5kR",
+  ])("rejects a checkout start that can bypass the exact private service origin: %s", (checkoutUrl) => {
+    const validation = validateValueLineCheckout({ ...productionShapedOffer, checkoutUrl });
+
+    expect(validation.invalidFields).toContain("checkoutUrl");
+  });
+
+  it.each(["https://buy.stripe.com", "https://secure.punditbench.com"])(
+    "rejects %s as a substitute private-service origin",
+    (serviceBaseUrl) => {
+      const validation = validateValueLineCheckout({
+        ...productionShapedOffer,
+        serviceBaseUrl,
+        checkoutUrl: `${serviceBaseUrl}/checkout/start`,
+        returnUrl: `${serviceBaseUrl}/checkout/complete`,
+        cancelUrl: `${serviceBaseUrl}/checkout/cancelled`,
+      });
+
+      expect(validation.invalidFields).toContain("serviceBaseUrl");
+      expect(validation.ready).toBe(false);
+    },
+  );
+
+  it.each([
+    "https://members.punditbench.com//",
+    "https://members.punditbench.com/%2F",
+    "https://members.punditbench.com/%252F",
+  ])("rejects a checkout path that decodes to the service root: %s", (checkoutUrl) => {
+    const validation = validateValueLineCheckout({ ...productionShapedOffer, checkoutUrl });
+
+    expect(validation.invalidFields).toContain("checkoutUrl");
+  });
+
+  it.each([
+    ["contactUrl", "https://punditbench.com/support/"],
+    ["contactUrl", "https://PUNDITBENCH.com/contact/"],
+    ["termsUrl", "https://punditbench.com/value-lines/privacy/"],
+    ["privacyUrl", "https://www.punditbench.com/value-lines/privacy/"],
+    ["refundsUrl", "https://punditbench.com/value-lines/refunds"],
+    ["responsiblePlayUrl", "https://punditbench.com/value-lines/responsible-play/"],
+  ] as const)("pins %s to its exact canonical PunditBench route", (field, value) => {
+    const validation = validateValueLineCheckout({ ...productionShapedOffer, [field]: value });
+
+    expect(validation.invalidFields).toContain(field);
+  });
+
+  it("rejects conflicting duplicate customer-page destinations", () => {
+    const validation = validateValueLineCheckout({
+      ...productionShapedOffer,
+      privacyUrl: productionShapedOffer.termsUrl,
+    });
+
+    expect(validation.invalidFields).toContain("privacyUrl");
+  });
+
   it("renders checkout only when every production control validates", () => {
     const html = renderToStaticMarkup(<ValueLineCheckoutCta offer={productionShapedOffer} />);
 
@@ -194,12 +269,38 @@ describe("value-line checkout fail-closed controls", () => {
     expect(html).toContain("recurring until cancelled");
     expect(html).toContain("Verified seller identity and geographic address");
     expect(html).toContain("Not betting advice.");
+    expect(html).toContain(
+      "18+ only. You must be resident in England, Scotland or Wales and must not be physically in Finland when purchasing or using Value Lines.",
+    );
+    expect(html.indexOf("18+ only.")).toBeLessThan(html.indexOf("Subscribe for €9/month"));
     expect(html).not.toContain("Checkout unavailable");
     expect(html).not.toContain("reviewed tax treatment");
     expect(html).not.toContain("cleared email delivery");
     expect(html).not.toContain(productionShapedOffer.sellerLegalName);
     expect(html).not.toContain(productionShapedOffer.sellerBusinessId);
     expect(html).not.toContain(productionShapedOffer.sellerAddressLine1);
+  });
+
+  it("renders each canonical customer-policy destination only once beside live checkout", () => {
+    const html = renderToStaticMarkup(
+      <>
+        <ValueLineCheckoutCta offer={productionShapedOffer} />
+        <ValueLinePolicyLinks />
+      </>,
+    );
+    const normalizedPaths = Array.from(html.matchAll(/href="([^"]+)"/gu), ([, href]) =>
+      new URL(href, "https://punditbench.com/").pathname.replace(/\/$/u, ""),
+    );
+
+    for (const path of [
+      "/contact",
+      "/value-lines/terms",
+      "/value-lines/privacy",
+      "/value-lines/refunds",
+      "/responsible-play",
+    ]) {
+      expect(normalizedPaths.filter((candidate) => candidate === path)).toHaveLength(1);
+    }
   });
 
   it.each(VALUE_LINE_REQUIRED_CONFIG_FIELDS)(
@@ -343,6 +444,21 @@ describe("value-line checkout fail-closed controls", () => {
         emailSender: "issues@other.punditbench.com",
       }).ready,
     ).toBe(false);
+  });
+
+  it.each([
+    ["supportEmail", " support@punditbench.com"],
+    ["supportEmail", "support?subject=help@punditbench.com"],
+    ["supportEmail", "support#fragment@punditbench.com"],
+    ["supportEmail", "support%0d%0a@punditbench.com"],
+    ["supportEmail", "support@punditbench.com?bcc=attacker%40example.net"],
+    ["emailSender", "issues?subject=help@updates.punditbench.com"],
+    ["emailSender", "issues#fragment@updates.punditbench.com"],
+    ["emailSender", "issues%250d%250a@updates.punditbench.com"],
+  ] as const)("rejects unsafe URI syntax in %s=%s", (field, value) => {
+    const validation = validateValueLineCheckout({ ...productionShapedOffer, [field]: value });
+
+    expect(validation.invalidFields).toContain(field);
   });
 
   it.each([

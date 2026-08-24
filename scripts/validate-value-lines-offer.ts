@@ -57,7 +57,7 @@ if (
       } else {
         console.log("validate-value-lines-offer: exported live checkout verified");
       }
-    } else if (!verifyClosedValueLineOfferHtml(html).ok) {
+    } else if (!verifyClosedValueLineOfferHtml(html, offer.serviceBaseUrl).ok) {
       fail("Value Lines export does not contain the configured closed state.");
     } else {
       console.log("validate-value-lines-offer: exported closed state verified");

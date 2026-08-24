@@ -2,7 +2,10 @@ import { parse, type DefaultTreeAdapterTypes } from "parse5";
 
 export type LiveOfferVerification =
   | { ok: true }
-  | { ok: false; reason: "missing-live-checkout" | "closed-fallback" };
+  | {
+      ok: false;
+      reason: "missing-live-checkout" | "closed-fallback" | "forbidden-checkout-host";
+    };
 
 export type ClosedOfferVerification =
   | { ok: true }
@@ -231,9 +234,14 @@ function analyzeOfferHtml(
   html: string,
   checkoutLabel: string,
   expectedHref: string | null,
-  forbiddenCheckoutHostname?: string,
+  forbiddenCheckoutHostnames?: string | readonly string[],
 ): OfferHtmlAnalysis {
   const document = parse(html);
+  const forbiddenHosts = (
+    typeof forbiddenCheckoutHostnames === "string"
+      ? [forbiddenCheckoutHostnames]
+      : (forbiddenCheckoutHostnames ?? [])
+  ).map((hostname) => hostname.toLowerCase().replace(/\.+$/u, ""));
   let hasExpectedCheckoutAnchor = false;
   let hasCheckoutLabelAnchor = false;
   let hasForbiddenCheckoutHostAnchor = false;
@@ -244,9 +252,12 @@ function analyzeOfferHtml(
       unavailable ||= isHiddenOrDisabled(node);
       if (node.tagName === "a") {
         const href = attribute(node, "href") ?? "";
+        const hostname = hrefHostname(href);
         if (
-          forbiddenCheckoutHostname &&
-          hrefHostname(href) === forbiddenCheckoutHostname.toLowerCase()
+          hostname &&
+          forbiddenHosts.some(
+            (forbidden) => hostname === forbidden || hostname.endsWith(`.${forbidden}`),
+          )
         ) {
           hasForbiddenCheckoutHostAnchor = true;
         }
@@ -286,6 +297,8 @@ function analyzeOfferHtml(
 export interface LiveOfferVerificationOptions {
   /** Preserve legacy opening-round fallback semantics when false. */
   fallbackMustBeAvailable?: boolean;
+  /** Reject every rendered anchor on these hosts or their subdomains. */
+  forbiddenCheckoutHostnames?: readonly string[];
 }
 
 export function verifyLiveOfferHtml(
@@ -298,13 +311,21 @@ export function verifyLiveOfferHtml(
   const expectedHref = normalizeHref(checkoutUrl);
   if (!expectedHref) return { ok: false, reason: "missing-live-checkout" };
 
-  const analysis = analyzeOfferHtml(html, checkoutLabel, expectedHref);
+  const analysis = analyzeOfferHtml(
+    html,
+    checkoutLabel,
+    expectedHref,
+    options.forbiddenCheckoutHostnames,
+  );
   const fallbackText =
     options.fallbackMustBeAvailable === false
       ? analysis.structuralText
       : analysis.availableText;
   if (fallbackText.includes(closedFallback)) {
     return { ok: false, reason: "closed-fallback" };
+  }
+  if (analysis.hasForbiddenCheckoutHostAnchor) {
+    return { ok: false, reason: "forbidden-checkout-host" };
   }
   return analysis.hasExpectedCheckoutAnchor
     ? { ok: true }

@@ -4,12 +4,13 @@ import {
   verifyValueLineOfferHtml,
 } from "../lib/value-line-offer-export";
 
-const checkoutUrl = "https://buy.stripe.com/7sIaEW4vB8qL2mN5kR";
+const serviceBaseUrl = "https://members.punditbench.com";
+const checkoutUrl = `${serviceBaseUrl}/checkout/start`;
 const subscribeLabel = "Subscribe for €9/month";
 
 function checkoutAnchor(
   attributes = "",
-  href = "https://BUY.STRIPE.COM/7sIaEW4vB8qL2mN5kR",
+  href = "https://MEMBERS.PUNDITBENCH.COM/checkout/start",
   label = "Subscribe for <span>€9/month</span>",
 ): string {
   return `<a ${attributes} href="${href}">${label}</a>`;
@@ -19,6 +20,15 @@ describe("Value Lines offer export verification", () => {
   it("accepts only the exact normalized checkout href and exact visible subscription label", () => {
     expect(verifyValueLineOfferHtml(`<main>${checkoutAnchor()}</main>`, checkoutUrl)).toEqual({
       ok: true,
+    });
+  });
+
+  it("rejects a live export that also exposes a direct Stripe payment bypass", () => {
+    const html = `<main>${checkoutAnchor()}<a href="https://buy.stripe.com/direct">Pay directly</a></main>`;
+
+    expect(verifyValueLineOfferHtml(html, checkoutUrl)).toEqual({
+      ok: false,
+      reason: "forbidden-checkout-host",
     });
   });
 
@@ -38,7 +48,7 @@ describe("Value Lines offer export verification", () => {
   });
 
   it.each([
-    ["another Stripe destination", checkoutAnchor("", "https://buy.stripe.com/wrong")],
+    ["another private-service destination", checkoutAnchor("", `${serviceBaseUrl}/wrong`)],
     ["a destination prefix", checkoutAnchor("", `${checkoutUrl}-decoy`)],
     ["a query-bearing destination", checkoutAnchor("", `${checkoutUrl}?customer=secret`)],
     ["a fragment-bearing destination", checkoutAnchor("", `${checkoutUrl}#decoy`)],
@@ -106,7 +116,7 @@ describe("Value Lines offer export verification", () => {
   it("accepts a structurally closed export with a rendered disabled fallback", () => {
     const html = `<section><p>Checkout unavailable</p><button disabled>Checkout unavailable</button></section>`;
 
-    expect(verifyClosedValueLineOfferHtml(html)).toEqual({ ok: true });
+    expect(verifyClosedValueLineOfferHtml(html, serviceBaseUrl)).toEqual({ ok: true });
   });
 
   it.each([
@@ -115,7 +125,7 @@ describe("Value Lines offer export verification", () => {
     ["style fallback", '<style>.offer::before { content: "Checkout unavailable"; }</style>'],
     ["live control", checkoutAnchor()],
     [
-      "renamed Stripe control plus fallback",
+      "renamed private-service control plus fallback",
       `${checkoutAnchor("", checkoutUrl, "Pay now")}<p>Checkout unavailable</p>`,
     ],
     [
@@ -127,12 +137,22 @@ describe("Value Lines offer export verification", () => {
       `${checkoutAnchor("", "https://buy.stripe.com./pay", "Pay now")}<p>Checkout unavailable</p>`,
     ],
     [
-      "SVG Stripe control plus fallback",
+      "SVG private-service control plus fallback",
       `<svg><a href="${checkoutUrl}"><text>Pay now</text></a></svg><p>Checkout unavailable</p>`,
     ],
     ["live control plus fallback", `${checkoutAnchor()}<p>Checkout unavailable</p>`],
   ])("rejects a closed export with %s", (_kind, html) => {
-    expect(verifyClosedValueLineOfferHtml(html)).toEqual({
+    expect(verifyClosedValueLineOfferHtml(html, serviceBaseUrl)).toEqual({
+      ok: false,
+      reason: "missing-closed-fallback",
+    });
+  });
+
+  it("rejects a renamed checkout control on the configured private service origin", () => {
+    const alternateServiceBaseUrl = "https://secure.punditbench.com";
+    const html = `${checkoutAnchor("", `${alternateServiceBaseUrl}/subscribe`, "Continue")}<p>Checkout unavailable</p>`;
+
+    expect(verifyClosedValueLineOfferHtml(html, alternateServiceBaseUrl)).toEqual({
       ok: false,
       reason: "missing-closed-fallback",
     });

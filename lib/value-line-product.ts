@@ -12,6 +12,9 @@ import { fmtKickoffUtc } from "./format";
 export const VALUE_LINE_PRICE_EUR = 9;
 export const VALUE_LINE_MINIMUM_EDGE = 0.05;
 export const VALUE_LINE_MINIMUM_VOTES = 20;
+export const VALUE_LINE_ELIGIBILITY_BOUNDARY =
+  "18+ only. You must be resident in England, Scotland or Wales and must not be physically in Finland when purchasing or using Value Lines.";
+export const VALUE_LINE_SERVICE_ORIGIN = "https://members.punditbench.com";
 
 export const VALUE_LINE_LEAGUES = [
   { id: "epl-2026-27", name: "Premier League" },
@@ -151,6 +154,25 @@ export interface ValueLineCheckoutInput {
   activation: string;
 }
 
+export const VALUE_LINE_CANONICAL_CUSTOMER_PATHS = {
+  contactUrl: "/contact/",
+  termsUrl: "/value-lines/terms/",
+  privacyUrl: "/value-lines/privacy/",
+  refundsUrl: "/value-lines/refunds/",
+  responsiblePlayUrl: "/responsible-play/",
+} as const satisfies Pick<
+  Record<keyof ValueLineCheckoutInput, string>,
+  "contactUrl" | "termsUrl" | "privacyUrl" | "refundsUrl" | "responsiblePlayUrl"
+>;
+
+export const VALUE_LINE_CANONICAL_CUSTOMER_URLS = {
+  contactUrl: `https://punditbench.com${VALUE_LINE_CANONICAL_CUSTOMER_PATHS.contactUrl}`,
+  termsUrl: `https://punditbench.com${VALUE_LINE_CANONICAL_CUSTOMER_PATHS.termsUrl}`,
+  privacyUrl: `https://punditbench.com${VALUE_LINE_CANONICAL_CUSTOMER_PATHS.privacyUrl}`,
+  refundsUrl: `https://punditbench.com${VALUE_LINE_CANONICAL_CUSTOMER_PATHS.refundsUrl}`,
+  responsiblePlayUrl: `https://punditbench.com${VALUE_LINE_CANONICAL_CUSTOMER_PATHS.responsiblePlayUrl}`,
+} as const satisfies Record<keyof typeof VALUE_LINE_CANONICAL_CUSTOMER_PATHS, string>;
+
 export const VALUE_LINE_REQUIRED_CONFIG_FIELDS = [
   "checkoutUrl",
   "stripeAccountId",
@@ -269,15 +291,129 @@ function isProductionUrl(value: string | undefined, hostname?: string): value is
   );
 }
 
+function hasSubstantivePath(url: URL): boolean {
+  let pathname = url.pathname;
+  for (let depth = 0; depth < MAX_URL_DECODE_DEPTH; depth += 1) {
+    let decoded: string;
+    try {
+      decoded = decodeURIComponent(pathname);
+    } catch {
+      return false;
+    }
+    if (decoded === pathname) break;
+    pathname = decoded;
+  }
+
+  return (
+    !/%[0-9a-f]{2}/iu.test(pathname) &&
+    !/[\\\u0000-\u001f\u007f]/u.test(pathname) &&
+    pathname
+      .split("/")
+      .some((segment) => segment !== "." && segment !== ".." && /[A-Za-z0-9]/u.test(segment))
+  );
+}
+
 function sameOriginPath(value: string | undefined, base: string | undefined): boolean {
   const url = parsedHttpsUrl(value);
   const baseUrl = parsedHttpsUrl(base);
-  return Boolean(url && baseUrl && url.origin === baseUrl.origin && url.pathname.length > 1);
+  return Boolean(url && baseUrl && url.origin === baseUrl.origin && hasSubstantivePath(url));
 }
 
-function emailDomain(value: string | undefined): string | null {
-  const match = value?.trim().toLowerCase().match(/^[^\s@]+@([^\s@]+\.[^\s@]+)$/);
-  return match?.[1] ?? null;
+function isProductionServiceBase(value: string | undefined): boolean {
+  const url = parsedHttpsUrl(value);
+  return Boolean(
+    url &&
+      url.origin === VALUE_LINE_SERVICE_ORIGIN &&
+      url.pathname === "/" &&
+      isProductionUrl(value),
+  );
+}
+
+interface StrictEmailAddress {
+  address: string;
+  domain: string;
+}
+
+const STRICT_EMAIL_LOCAL_PART = /^[A-Za-z0-9_+~-]+(?:\.[A-Za-z0-9_+~-]+)*$/u;
+const STRICT_EMAIL_DOMAIN_LABEL = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/u;
+
+function strictEmailAddress(value: string | undefined): StrictEmailAddress | null {
+  if (!hasText(value) || value !== value.trim() || value.length > 254) return null;
+  const separator = value.indexOf("@");
+  if (separator <= 0 || separator !== value.lastIndexOf("@")) return null;
+
+  const localPart = value.slice(0, separator);
+  const domain = value.slice(separator + 1).toLowerCase();
+  const labels = domain.split(".");
+  if (
+    localPart.length > 64 ||
+    !STRICT_EMAIL_LOCAL_PART.test(localPart) ||
+    domain.length > 253 ||
+    labels.length < 2 ||
+    !labels.every((label) => STRICT_EMAIL_DOMAIN_LABEL.test(label)) ||
+    !/^[A-Za-z]{2,63}$/u.test(labels.at(-1) ?? "")
+  ) {
+    return null;
+  }
+  return { address: value, domain };
+}
+
+export function validatedValueLineSupportEmail(value: string | undefined): string | null {
+  const parsed = strictEmailAddress(value);
+  return parsed &&
+    !RESERVED_HOST.test(parsed.domain) &&
+    !PLACEHOLDER_TEXT.test(parsed.address)
+    ? parsed.address
+    : null;
+}
+
+export type ValueLineSellerIdentityInput = Pick<
+  ValueLineCheckoutInput,
+  | "sellerLegalName"
+  | "sellerBusinessId"
+  | "sellerAddressLine1"
+  | "sellerPostalCode"
+  | "sellerCity"
+  | "sellerCountryCode"
+  | "supportEmail"
+>;
+
+export type ValidatedValueLineSellerIdentity = ValueLineSellerIdentityInput;
+
+function isSellerBusinessId(value: string | undefined, allowTestValues = false): value is string {
+  return Boolean(value?.trim().match(/^[A-Za-z0-9][A-Za-z0-9 .\-/]{4,}$/)) &&
+    (allowTestValues || isProductionText(value));
+}
+
+function isSellerCountryCode(value: string | undefined): value is string {
+  return Boolean(value?.trim().match(/^[A-Z]{2}$/));
+}
+
+export function validatedValueLineSellerIdentity(
+  input: Partial<ValueLineSellerIdentityInput>,
+): ValidatedValueLineSellerIdentity | null {
+  const supportEmail = validatedValueLineSupportEmail(input.supportEmail);
+  if (
+    !isProductionText(input.sellerLegalName) ||
+    !isSellerBusinessId(input.sellerBusinessId) ||
+    !isProductionText(input.sellerAddressLine1) ||
+    !isProductionText(input.sellerPostalCode) ||
+    !isProductionText(input.sellerCity) ||
+    !isSellerCountryCode(input.sellerCountryCode) ||
+    !supportEmail
+  ) {
+    return null;
+  }
+
+  return {
+    sellerLegalName: input.sellerLegalName.trim(),
+    sellerBusinessId: input.sellerBusinessId.trim(),
+    sellerAddressLine1: input.sellerAddressLine1.trim(),
+    sellerPostalCode: input.sellerPostalCode.trim(),
+    sellerCity: input.sellerCity.trim(),
+    sellerCountryCode: input.sellerCountryCode.trim(),
+    supportEmail,
+  };
 }
 
 export interface ValueLineCheckoutValidationOptions {
@@ -296,14 +432,18 @@ export function validateValueLineCheckout(
   const allowTestValues = options.allowTestValues === true;
   const text = allowTestValues ? hasText : isProductionText;
   const url = allowTestValues ? isHttpsUrl : isProductionUrl;
-  const senderDomain = emailDomain(input.emailSender);
-  const supportDomain = emailDomain(input.supportEmail);
+  const senderAddress = strictEmailAddress(input.emailSender);
+  const supportAddress = strictEmailAddress(input.supportEmail);
+  const senderDomain = senderAddress?.domain ?? null;
+  const supportDomain = supportAddress?.domain ?? null;
   const configuredSendingDomain = input.emailSendingDomain?.trim().toLowerCase();
   const serviceUrl = parsedHttpsUrl(input.serviceBaseUrl);
   const returnUrl = parsedHttpsUrl(input.returnUrl);
   const cancelUrl = parsedHttpsUrl(input.cancelUrl);
   const valid: Record<keyof ValueLineCheckoutInput, boolean> = {
-    checkoutUrl: url(input.checkoutUrl, "buy.stripe.com"),
+    checkoutUrl:
+      sameOriginPath(input.checkoutUrl, input.serviceBaseUrl) &&
+      (allowTestValues || isProductionUrl(input.checkoutUrl)),
     stripeAccountId:
       Boolean(input.stripeAccountId?.trim().match(/^acct_[A-Za-z0-9]{8,}$/)) &&
       (allowTestValues || !PLACEHOLDER_IDENTIFIER.test(input.stripeAccountId ?? "")),
@@ -320,24 +460,28 @@ export function validateValueLineCheckout(
       ? input.stripeMode?.trim() === "test" || input.stripeMode?.trim() === "live"
       : input.stripeMode?.trim() === "live",
     sellerLegalName: text(input.sellerLegalName),
-    sellerBusinessId:
-      Boolean(input.sellerBusinessId?.trim().match(/^[A-Za-z0-9][A-Za-z0-9 .\-/]{4,}$/)) &&
-      (allowTestValues || isProductionText(input.sellerBusinessId)),
+    sellerBusinessId: isSellerBusinessId(input.sellerBusinessId, allowTestValues),
     sellerAddressLine1: text(input.sellerAddressLine1),
     sellerPostalCode: text(input.sellerPostalCode),
     sellerCity: text(input.sellerCity),
-    sellerCountryCode: Boolean(input.sellerCountryCode?.trim().match(/^[A-Z]{2}$/)),
+    sellerCountryCode: isSellerCountryCode(input.sellerCountryCode),
     taxNotice: text(input.taxNotice),
     supportEmail:
+      supportAddress !== null &&
       supportDomain !== null &&
-      (allowTestValues || (!RESERVED_HOST.test(supportDomain) && !PLACEHOLDER_TEXT.test(supportDomain))),
-    contactUrl: url(input.contactUrl),
+      (allowTestValues ||
+        (!RESERVED_HOST.test(supportDomain) && !PLACEHOLDER_TEXT.test(supportAddress.address))),
+    contactUrl: allowTestValues
+      ? url(input.contactUrl)
+      : input.contactUrl === VALUE_LINE_CANONICAL_CUSTOMER_URLS.contactUrl,
     deliveryMethod: text(input.deliveryMethod) && /email/i.test(input.deliveryMethod ?? ""),
     emailProvider: text(input.emailProvider),
     emailSender:
+      senderAddress !== null &&
       senderDomain !== null &&
       senderDomain === configuredSendingDomain &&
-      (allowTestValues || (!RESERVED_HOST.test(senderDomain) && !PLACEHOLDER_TEXT.test(senderDomain))),
+      (allowTestValues ||
+        (!RESERVED_HOST.test(senderDomain) && !PLACEHOLDER_TEXT.test(senderAddress.address))),
     emailSendingDomain:
       Boolean(configuredSendingDomain?.match(/^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?\.[a-z]{2,}$/i)) &&
       (allowTestValues ||
@@ -347,11 +491,19 @@ export function validateValueLineCheckout(
             !PLACEHOLDER_TEXT.test(configuredSendingDomain),
         )),
     emailDomainVerified: input.emailDomainVerified?.trim() === "verified",
-    termsUrl: url(input.termsUrl),
-    privacyUrl: url(input.privacyUrl),
-    refundsUrl: url(input.refundsUrl),
-    responsiblePlayUrl: url(input.responsiblePlayUrl),
-    serviceBaseUrl: url(input.serviceBaseUrl),
+    termsUrl: allowTestValues
+      ? url(input.termsUrl)
+      : input.termsUrl === VALUE_LINE_CANONICAL_CUSTOMER_URLS.termsUrl,
+    privacyUrl: allowTestValues
+      ? url(input.privacyUrl)
+      : input.privacyUrl === VALUE_LINE_CANONICAL_CUSTOMER_URLS.privacyUrl,
+    refundsUrl: allowTestValues
+      ? url(input.refundsUrl)
+      : input.refundsUrl === VALUE_LINE_CANONICAL_CUSTOMER_URLS.refundsUrl,
+    responsiblePlayUrl: allowTestValues
+      ? url(input.responsiblePlayUrl)
+      : input.responsiblePlayUrl === VALUE_LINE_CANONICAL_CUSTOMER_URLS.responsiblePlayUrl,
+    serviceBaseUrl: allowTestValues ? url(input.serviceBaseUrl) : isProductionServiceBase(input.serviceBaseUrl),
     returnUrl:
       sameOriginPath(input.returnUrl, input.serviceBaseUrl) &&
       (allowTestValues || Boolean(returnUrl && serviceUrl && isProductionUrl(input.returnUrl))),

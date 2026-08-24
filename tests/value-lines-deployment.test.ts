@@ -44,7 +44,7 @@ const tsxLoader = pathToFileURL(
   path.join(repositoryRoot, "node_modules", "tsx", "dist", "loader.mjs"),
 ).href;
 const productionEnvironment: Record<string, string> = {
-  PB_VALUE_LINES_CHECKOUT_URL: "https://buy.stripe.com/7sIaEW4vB8qL2mN5kR",
+  PB_VALUE_LINES_CHECKOUT_URL: "https://members.punditbench.com/checkout/start",
   PB_VALUE_LINES_STRIPE_ACCOUNT_ID: "acct_1PBVLines9EUR",
   PB_VALUE_LINES_STRIPE_PRODUCT_ID: "prod_PBVLines2026",
   PB_VALUE_LINES_STRIPE_PRICE_ID: "price_PBVLinesEUR9Month",
@@ -147,6 +147,27 @@ describe("Value Lines deployment configuration", () => {
 
     expect(result.status).toBe(0);
     expect(`${result.stdout}\n${result.stderr}`).toContain("live activation record validated");
+  });
+
+  it("blocks a live activation that links directly to Stripe instead of the private service", () => {
+    const result = runValidator({
+      ...productionEnvironment,
+      PB_VALUE_LINES_CHECKOUT_URL: "https://buy.stripe.com/7sIaEW4vB8qL2mN5kR",
+    });
+
+    expect(result.status).toBe(1);
+    expect(`${result.stdout}\n${result.stderr}`).toContain("checkoutUrl");
+  });
+
+  it.each([
+    ["PB_VALUE_LINES_SUPPORT_EMAIL", "support?subject=help@punditbench.com", "supportEmail"],
+    ["PB_VALUE_LINES_SUPPORT_EMAIL", "support%0d%0a@punditbench.com", "supportEmail"],
+    ["PB_VALUE_LINES_EMAIL_SENDER", "issues#fragment@updates.punditbench.com", "emailSender"],
+  ] as const)("blocks malformed live email configuration in %s", (key, value, field) => {
+    const result = runValidator({ ...productionEnvironment, [key]: value });
+
+    expect(result.status).toBe(1);
+    expect(`${result.stdout}\n${result.stderr}`).toContain(field);
   });
 
   it("verifies the canonical live export under process.cwd()", () => {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {
   VALUE_LINE_LEAGUES,
+  VALUE_LINE_ELIGIBILITY_BOUNDARY,
   VALUE_LINE_MINIMUM_EDGE,
   VALUE_LINE_MINIMUM_VOTES,
   VALUE_LINE_PRICE_EUR,
@@ -10,6 +11,7 @@ import {
 import { AvailabilityBoard } from "./availability-board";
 import { ValueLineCheckoutCta } from "./checkout-cta";
 import { HistoricalForecastCard } from "./forecast-card";
+import ValueLinePolicyLinks from "./policy-links";
 
 export const metadata: Metadata = {
   title: "Value lines across five European leagues",
@@ -87,9 +89,8 @@ export default function ValueLinesPage() {
             </p>
           </div>
           <p className="mt-5 max-w-2xl text-xs leading-relaxed text-zinc-500">
-            Available only to adults aged 18+ in England, Scotland and Wales. Join at least 60
-            minutes before an issue&apos;s first kickoff to receive that issue; later subscriptions
-            start with the next one.
+            {VALUE_LINE_ELIGIBILITY_BOUNDARY} Join at least 60 minutes before an issue&apos;s first
+            kickoff to receive that issue; later subscriptions start with the next one.
           </p>
         </div>
 
@@ -199,16 +200,16 @@ export default function ValueLinesPage() {
 
         <div id="checkout" className="scroll-mt-6">
           <ValueLineCheckoutCta offer={valueLineCheckoutFromEnvironment()} />
+          <ValueLinePolicyLinks />
         </div>
       </section>
 
       <section className="rounded-xl border border-zinc-800 bg-zinc-950/70 p-5 text-xs leading-relaxed text-zinc-500 sm:p-6">
-        <p className="font-semibold text-zinc-200">18+ · Not betting advice.</p>
+        <p className="font-semibold text-zinc-200">Not betting advice.</p>
         <p className="mt-2">
           Probabilities and thresholds are model outputs for statistical and entertainment use.
           They do not promise profit, tell you what to stake or account for your finances. Gambling
-          involves risk and you can lose money. The service is offered only in England, Scotland
-          and Wales.
+          involves risk and you can lose money. {VALUE_LINE_ELIGIBILITY_BOUNDARY}
         </p>
       </section>
     </div>
