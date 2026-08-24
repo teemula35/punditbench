@@ -8,6 +8,9 @@ import {
 } from "../app/briefs/opening-round-2026/checkout-link";
 import { OpeningRoundBriefCard } from "../app/briefs/opening-round-2026/card";
 import OpeningRoundBriefPage, { metadata } from "../app/briefs/opening-round-2026/page";
+import LeagueMatchdayPage from "../app/leagues/[comp]/matchdays/[round]/page";
+import LeaguePage from "../app/leagues/[comp]/page";
+import LeaguesPage from "../app/leagues/page";
 
 const completeOffer: OpeningRoundOfferInput = {
   checkoutUrl: "https://buy.stripe.com/test-opening-round",
@@ -201,5 +204,52 @@ describe("opening-round homepage card", () => {
     expect(html).toContain("complete free sample");
     expect(html).toContain("See the free sample and €5 offer");
     expect(html).toContain("€5 once");
+  });
+});
+
+describe("opening-round brief league surfaces", () => {
+  it("links the league hub to the offer after its title and before its explanation", () => {
+    const html = renderToStaticMarkup(<LeaguesPage />);
+    const offerLinks = html.match(/href="\/briefs\/opening-round-2026\/?"/g) ?? [];
+
+    expect(offerLinks).toHaveLength(1);
+    expect(html).toContain("See the free sample and €5 offer");
+    expect(html).not.toContain("buy.stripe.com");
+    expect(html.indexOf("<h1")).toBeLessThan(html.indexOf("See the free sample and €5 offer"));
+    expect(html.indexOf("See the free sample and €5 offer")).toBeLessThan(
+      html.indexOf("Unlike the knowledge-only World Cup prompts"),
+    );
+  });
+
+  it("links each league landing page to the offer before its leaderboard", async () => {
+    const html = renderToStaticMarkup(
+      await LeaguePage({ params: Promise.resolve({ comp: "laliga-2026-27" }) }),
+    );
+    const offerLinks = html.match(/href="\/briefs\/opening-round-2026\/?"/g) ?? [];
+
+    expect(offerLinks).toHaveLength(1);
+    expect(html).toContain("See the free sample and €5 offer");
+    expect(html).not.toContain("buy.stripe.com");
+    expect(html.indexOf("<h1")).toBeLessThan(html.indexOf("See the free sample and €5 offer"));
+    expect(html.indexOf("See the free sample and €5 offer")).toBeLessThan(
+      html.indexOf("Season leaderboard"),
+    );
+  });
+
+  it("links each league matchday page to the offer before its fixtures", async () => {
+    const html = renderToStaticMarkup(
+      await LeagueMatchdayPage({
+        params: Promise.resolve({ comp: "epl-2026-27", round: "1" }),
+      }),
+    );
+    const offerLinks = html.match(/href="\/briefs\/opening-round-2026\/?"/g) ?? [];
+
+    expect(offerLinks).toHaveLength(1);
+    expect(html).toContain("See the free sample and €5 offer");
+    expect(html).not.toContain("buy.stripe.com");
+    expect(html.indexOf("<h1")).toBeLessThan(html.indexOf("See the free sample and €5 offer"));
+    expect(html.indexOf("See the free sample and €5 offer")).toBeLessThan(
+      html.indexOf('aria-label="Matchday 1 fixtures"'),
+    );
   });
 });

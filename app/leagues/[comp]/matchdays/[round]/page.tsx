@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { OpeningRoundBriefCard } from "@/app/briefs/opening-round-2026/card";
 import { loadCompetitions } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { loadLeagueData } from "@/lib/league-aggregate";
@@ -76,6 +77,8 @@ export default async function LeagueMatchdayPage({
             : "Picks lock about 36 hours before this round’s first kickoff."}
         </p>
       </header>
+
+      <OpeningRoundBriefCard />
 
       <section aria-label={`${roundLabel(mdKey(roundNumber))} fixtures`}>
         <div className="divide-y divide-zinc-800 overflow-hidden rounded-lg border border-zinc-800">
