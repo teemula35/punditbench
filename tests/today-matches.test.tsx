@@ -11,6 +11,7 @@ import {
 } from "../app/today-matches";
 import { activeCompetitions } from "../lib/data";
 import {
+  isWithinHomeCardWindow,
   loadHomepageLeagueCards,
   MAX_SERIALIZED_HOME_MATCH_CARDS,
   selectSerializedHomeMatchCards,
@@ -132,13 +133,13 @@ describe("today's league matches", () => {
     );
   });
 
-  it("keeps completed results inside the recent window only", () => {
-    const cards = loadHomepageLeagueCards(new Date("2026-08-19T12:00:00Z"));
+  it("keeps future and recent cards while rejecting stale or invalid kickoffs", () => {
+    const referenceTime = new Date("2026-08-19T12:00:00Z");
 
-    expect(cards).toContainEqual(
-      expect.objectContaining({ id: "laliga-2026-27:7", scoreLabel: "1–1" }),
-    );
-    expect(cards.some((c) => c.id === "laliga-2026-27:2")).toBe(false);
+    expect(isWithinHomeCardWindow("2026-08-22T12:00:00Z", referenceTime)).toBe(true);
+    expect(isWithinHomeCardWindow("2026-08-16T12:00:00Z", referenceTime)).toBe(true);
+    expect(isWithinHomeCardWindow("2026-08-16T11:59:59.999Z", referenceTime)).toBe(false);
+    expect(isWithinHomeCardWindow("not-a-date", referenceTime)).toBe(false);
   });
 
   it("caps the serialized payload without letting recent results evict locked future fixtures", () => {

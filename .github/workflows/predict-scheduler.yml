@@ -50,6 +50,11 @@ jobs:
         continue-on-error: true
         run: npm run league-fixtures -- --all
 
+      # Catch stale or broken repository state before making any paid provider
+      # calls. The post-generation test gate remains below to validate outputs.
+      - name: Baseline tests before provider calls
+        run: npm test
+
       - name: Lock due league picks
         id: predict
         env:
@@ -61,6 +66,21 @@ jobs:
       - name: Detect changes
         id: diff
         run: echo "dirty=$([ -n "$(git status --porcelain data/competitions)" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      # Preserve paid candidate evidence before downstream tests/build/deploy.
+      # A later failure can then be recovered without repeating every model call.
+      - name: Preserve generated candidate evidence
+        if: steps.diff.outputs.dirty == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: prediction-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            data/competitions/*/predictions-live
+            data/competitions/*/raw-live
+            data/competitions/*/hashes
+          if-no-files-found: error
+          retention-days: 7
 
       # Never commit a broken tree: tests gate every commit.
       - name: Tests

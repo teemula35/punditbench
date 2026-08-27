@@ -23,6 +23,12 @@ const RECENT_CARD_WINDOW_MS = 72 * 60 * 60 * 1000;
 /** Hard ceiling for match-card objects serialized into the homepage client payload. */
 export const MAX_SERIALIZED_HOME_MATCH_CARDS = 64;
 
+/** Future cards and cards no more than 72 hours old are eligible for the homepage payload. */
+export function isWithinHomeCardWindow(kickoffUtc: string, referenceTime: Date): boolean {
+  const kickoffMs = Date.parse(kickoffUtc);
+  return Number.isFinite(kickoffMs) && referenceTime.getTime() - kickoffMs <= RECENT_CARD_WINDOW_MS;
+}
+
 function chronological(a: HomeMatchCard, b: HomeMatchCard): number {
   return a.kickoff_utc.localeCompare(b.kickoff_utc) || a.id.localeCompare(b.id);
 }
@@ -55,14 +61,12 @@ export function selectSerializedHomeMatchCards(
 
 /** Read-only homepage cards derived only from already locked league prediction rounds. */
 export function loadHomepageLeagueCards(referenceTime = new Date()): HomeMatchCard[] {
-  const referenceMs = referenceTime.getTime();
   const cards: HomeMatchCard[] = [];
 
   for (const comp of activeCompetitions()) {
     const data = loadLeagueData(comp.id);
     for (const fixture of data.fixtures.values()) {
-      const kickoffMs = Date.parse(fixture.kickoff_utc);
-      if (!Number.isFinite(kickoffMs) || referenceMs - kickoffMs > RECENT_CARD_WINDOW_MS) continue;
+      if (!isWithinHomeCardWindow(fixture.kickoff_utc, referenceTime)) continue;
       if (!isMatchdayKey(fixture.stage)) continue;
 
       const info = leagueMatchInfo(data, fixture);
