@@ -1,0 +1,70 @@
+{
+  "model": "tencent/hy3",
+  "slug": "tencent-hy3",
+  "stage": "md02",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-27T09:04:39.636Z",
+  "completed_at": "2026-08-27T09:05:02.010Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1350,
+    "completion_tokens": 1501,
+    "total_tokens": 2851,
+    "cost_usd": 0.00105958
+  },
+  "predictions": [
+    {
+      "match": 11,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 12,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 13,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 14,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 15,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 16,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 17,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 18,
+      "home_goals": 1,
+      "away_goals": 3
+    },
+    {
+      "match": 19,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 20,
+      "home_goals": 2,
+      "away_goals": 0
+    }
+  ]
+}

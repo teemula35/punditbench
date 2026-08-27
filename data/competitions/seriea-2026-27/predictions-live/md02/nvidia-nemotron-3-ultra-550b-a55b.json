@@ -1,0 +1,70 @@
+{
+  "model": "nvidia/nemotron-3-ultra-550b-a55b",
+  "slug": "nvidia-nemotron-3-ultra-550b-a55b",
+  "stage": "md02",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-27T09:04:10.768Z",
+  "completed_at": "2026-08-27T09:04:16.116Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1358,
+    "completion_tokens": 1330,
+    "total_tokens": 2688,
+    "cost_usd": 0.0056028
+  },
+  "predictions": [
+    {
+      "match": 11,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 12,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 13,
+      "home_goals": 0,
+      "away_goals": 1
+    },
+    {
+      "match": 14,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 15,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 16,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 17,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 18,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 19,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 20,
+      "home_goals": 2,
+      "away_goals": 0
+    }
+  ]
+}

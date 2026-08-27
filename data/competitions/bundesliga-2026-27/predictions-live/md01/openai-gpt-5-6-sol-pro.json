@@ -1,0 +1,65 @@
+{
+  "model": "openai/gpt-5.6-sol-pro",
+  "slug": "openai-gpt-5-6-sol-pro",
+  "stage": "md01",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-27T09:01:36.738Z",
+  "completed_at": "2026-08-27T09:01:47.380Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 4582,
+    "completion_tokens": 1176,
+    "total_tokens": 5758,
+    "cost_usd": 0.020924
+  },
+  "predictions": [
+    {
+      "match": 1,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 2,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 3,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 4,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 5,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 6,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 7,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 8,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 9,
+      "home_goals": 3,
+      "away_goals": 0
+    }
+  ]
+}

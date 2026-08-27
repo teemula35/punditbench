@@ -1,0 +1,65 @@
+{
+  "model": "meta-llama/llama-4-maverick",
+  "slug": "meta-llama-llama-4-maverick",
+  "stage": "md02",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-27T09:05:20.016Z",
+  "completed_at": "2026-08-27T09:05:22.874Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1177,
+    "completion_tokens": 149,
+    "total_tokens": 1326,
+    "cost_usd": 0.0003546
+  },
+  "predictions": [
+    {
+      "match": 10,
+      "home_goals": 1,
+      "away_goals": 3
+    },
+    {
+      "match": 11,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 12,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 13,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 14,
+      "home_goals": 3,
+      "away_goals": 0
+    },
+    {
+      "match": 15,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 16,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 17,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 18,
+      "home_goals": 1,
+      "away_goals": 2
+    }
+  ]
+}

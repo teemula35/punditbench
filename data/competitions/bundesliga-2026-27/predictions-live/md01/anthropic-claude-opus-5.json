@@ -1,0 +1,65 @@
+{
+  "model": "anthropic/claude-opus-5",
+  "slug": "anthropic-claude-opus-5",
+  "stage": "md01",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-27T09:01:36.380Z",
+  "completed_at": "2026-08-27T09:01:40.038Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 887,
+    "completion_tokens": 209,
+    "total_tokens": 1096,
+    "cost_usd": 0.00966
+  },
+  "predictions": [
+    {
+      "match": 1,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 2,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 3,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 4,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 5,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 6,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 7,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 8,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 9,
+      "home_goals": 3,
+      "away_goals": 1
+    }
+  ]
+}

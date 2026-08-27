@@ -1,0 +1,10 @@
+{
+  "excluded": {},
+  "rounds": {
+    "md01": {
+      "locked_at": "2026-08-27T09:02:40.402Z",
+      "models": 43,
+      "excluded": []
+    }
+  }
+}

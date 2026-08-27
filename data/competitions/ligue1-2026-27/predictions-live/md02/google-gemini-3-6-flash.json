@@ -1,0 +1,65 @@
+{
+  "model": "google/gemini-3.6-flash",
+  "slug": "google-gemini-3-6-flash",
+  "stage": "md02",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-27T09:06:19.047Z",
+  "completed_at": "2026-08-27T09:06:25.541Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1257,
+    "completion_tokens": 1241,
+    "total_tokens": 2498,
+    "cost_usd": 0.0055965
+  },
+  "predictions": [
+    {
+      "match": 10,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 11,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 12,
+      "home_goals": 0,
+      "away_goals": 1
+    },
+    {
+      "match": 13,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 14,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 15,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 16,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 17,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 18,
+      "home_goals": 1,
+      "away_goals": 2
+    }
+  ]
+}

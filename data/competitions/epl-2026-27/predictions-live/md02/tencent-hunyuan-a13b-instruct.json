@@ -1,0 +1,70 @@
+{
+  "model": "tencent/hunyuan-a13b-instruct",
+  "slug": "tencent-hunyuan-a13b-instruct",
+  "stage": "md02",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-08-27T09:17:02.429Z",
+  "completed_at": "2026-08-27T09:17:34.875Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1387,
+    "completion_tokens": 1112,
+    "total_tokens": 2499,
+    "cost_usd": 0.00082802
+  },
+  "predictions": [
+    {
+      "match": 11,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 12,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 13,
+      "home_goals": 3,
+      "away_goals": 0
+    },
+    {
+      "match": 14,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 15,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 16,
+      "home_goals": 0,
+      "away_goals": 0
+    },
+    {
+      "match": 17,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 18,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 19,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 20,
+      "home_goals": 1,
+      "away_goals": 1
+    }
+  ]
+}
