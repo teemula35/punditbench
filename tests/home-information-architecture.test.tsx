@@ -10,16 +10,17 @@ describe("homepage information architecture", () => {
   it("places the live league product before the intact World Cup archive", () => {
     const source = readSource("app", "page.tsx");
     const leagueBridge = source.indexOf("<LeagueBridge");
-    const briefCard = source.indexOf("<OpeningRoundBriefCard");
+    const valueLines = source.indexOf("<ValueLinesCard");
     const todayMatches = source.indexOf("<TodayMatches");
-    const lockAlertInterest = source.indexOf("<LockAlertInterest");
     const archive = source.indexOf('id="world-cup-archive"');
 
     expect(leagueBridge).toBeGreaterThanOrEqual(0);
-    expect(briefCard).toBeGreaterThan(leagueBridge);
-    expect(todayMatches).toBeGreaterThan(briefCard);
-    expect(lockAlertInterest).toBeGreaterThan(todayMatches);
-    expect(archive).toBeGreaterThan(lockAlertInterest);
+    expect(valueLines).toBeGreaterThan(leagueBridge);
+    expect(todayMatches).toBeGreaterThan(valueLines);
+    expect(archive).toBeGreaterThan(todayMatches);
+    expect(source).not.toContain("<OpeningRoundBriefCard");
+    expect(source).not.toContain("<LockAlertInterest");
+    expect(source).not.toContain("<NotifyForm");
     expect(source).toContain("loadHomepageLeagueCards");
     expect(source).toContain("World Cup 2026 · Frozen archive");
     expect(source).not.toContain("<h1");
@@ -62,8 +63,8 @@ describe("homepage information architecture", () => {
   it("uses current dual-purpose defaults instead of World Cup-only site metadata", () => {
     const source = readSource("app", "layout.tsx");
 
-    expect(source).toContain("live league benchmark and World Cup archive");
-    expect(source).toContain("Pre-registered AI football predictions across five live European leagues");
+    expect(source).toContain("football forecasts, results and fair odds");
+    expect(source).toContain("a private fair-odds subscription");
     expect(source).not.toContain("40 LLMs predict the 2026 World Cup");
     expect(source).not.toContain("url: SITE_URL");
     expect(source).not.toContain("/og.png");
