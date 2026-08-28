@@ -145,6 +145,28 @@ export function ingestSeason(comp: Competition, events: LeagueEvent[]): IngestRe
     if (n !== comp.round_count) problems.push(`${team} appears in ${n} fixtures, expected ${comp.round_count}`);
   }
 
+  const pairings = new Map<
+    string,
+    { teams: [string, string]; count: number; homeTeams: Set<string> }
+  >();
+  for (const ev of events) {
+    const teams = [ev.home, ev.away].sort() as [string, string];
+    const key = teams.join("\u0000");
+    const pairing = pairings.get(key) ?? { teams, count: 0, homeTeams: new Set<string>() };
+    pairing.count += 1;
+    pairing.homeTeams.add(ev.home);
+    pairings.set(key, pairing);
+  }
+  const expectedPairings = (comp.team_count * (comp.team_count - 1)) / 2;
+  if (pairings.size !== expectedPairings) {
+    problems.push(`Found ${pairings.size} distinct team pairings, expected ${expectedPairings}`);
+  }
+  for (const { teams, count, homeTeams } of pairings.values()) {
+    const label = `${teams[0]} vs ${teams[1]}`;
+    if (count !== 2) problems.push(`${label} appears in ${count} fixtures, expected 2`);
+    else if (homeTeams.size !== 2) problems.push(`${label} does not have opposite home/away fixtures`);
+  }
+
   const fixtures: Fixture[] = [];
   let match = 1;
   rounds.forEach((round, i) => {

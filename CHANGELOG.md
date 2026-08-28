@@ -2,6 +2,10 @@
 
 Material events affecting scoring, data, or methodology are recorded here (C13/E-transparency).
 
+## 2026-08-28
+
+- **Ligue 1 Matchday 23 fixture corrected before lock.** ESPN event `401876289` is Paris Saint-Germain vs Stade Rennais, restoring the two opposite home/away meetings and 17 home fixtures per club. Matchday 23 has no prediction, raw-response, manifest, hash or tag artifacts, so no locked evidence changed.
+
 ## 2026-08-21
 
 - **Ligue 1 Matchday 1 fixture correction, with no rewrite of the lock.** ESPN event `401876487` is now Stade Rennais vs Paris Saint-Germain at Roazhon Park; the MD1 prompt and all 43 pre-registered responses used Paris Saint-Germain vs Stade Rennais. The published prediction files, raw responses, manifest, hash and git tag remain byte-identical.

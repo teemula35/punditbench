@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { loadCompetitions } from "../lib/data";
+import { loadCompetitionFixtures, loadCompetitions } from "../lib/data";
 import { isMatchdayKey, matchdayNumber, mdKey, roundLabel } from "../lib/types";
 
 describe("matchday keys", () => {
@@ -66,6 +66,28 @@ describe("competitions registry (data/competitions.json)", () => {
     for (const c of comps) {
       expect(c.kind).toBe("league");
       expect(c.round_count).toBe((c.team_count - 1) * 2);
+    }
+  });
+
+  it("ingested fixtures contain both home-away orientations for every team pair", () => {
+    for (const c of comps) {
+      const fixtures = loadCompetitionFixtures(c.id);
+      if (fixtures.length === 0) continue;
+
+      expect(fixtures).toHaveLength(c.team_count * (c.team_count - 1));
+      const pairings = new Map<string, typeof fixtures>();
+      for (const fixture of fixtures) {
+        const key = [fixture.home, fixture.away].sort().join("\u0000");
+        pairings.set(key, [...(pairings.get(key) ?? []), fixture]);
+      }
+
+      expect(pairings).toHaveLength((c.team_count * (c.team_count - 1)) / 2);
+      for (const pairing of pairings.values()) {
+        expect(pairing).toHaveLength(2);
+        expect(new Set(pairing.map((fixture) => fixture.home))).toEqual(
+          new Set([pairing[0].home, pairing[0].away]),
+        );
+      }
     }
   });
 
