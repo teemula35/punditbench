@@ -147,6 +147,15 @@ describe("ingestSeason", () => {
       true,
     );
   });
+
+  it("rejects duplicate home orientation for a return fixture", () => {
+    const events = season();
+    events[6] = { ...events[6], home: "A", away: "B" };
+
+    expect(ingestSeason(COMP, events).problems).toContain(
+      "A vs B does not have opposite home/away fixtures",
+    );
+  });
 });
 
 describe("splitRoundByKickoff", () => {

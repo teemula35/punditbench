@@ -2203,11 +2203,11 @@
     "match": 201,
     "stage": "md23",
     "round": 23,
-    "home": "Stade Rennais",
-    "away": "Paris Saint-Germain",
+    "home": "Paris Saint-Germain",
+    "away": "Stade Rennais",
     "kickoff_utc": "2027-03-06T20:00:00Z",
-    "city": "Rennes",
-    "stadium": "Roazhon Park",
+    "city": "Paris",
+    "stadium": "Parc des Princes",
     "espn_id": "401876289"
   },
   {
