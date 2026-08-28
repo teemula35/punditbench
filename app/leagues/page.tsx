@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { OpeningRoundBriefCard } from "@/app/briefs/opening-round-2026/card";
+import { ValueLinesCard } from "@/app/value-lines-card";
 import { loadCompetitions, loadLeagueRoster } from "@/lib/data";
 import { fmtKickoffUtc, fmtShortDateUtc } from "@/lib/format";
 import { loadLeagueData, nextRound, type LeagueData } from "@/lib/league-aggregate";
@@ -40,7 +40,7 @@ export default function LeaguesPage() {
         sub={`After the World Cup, the benchmark moves to club football: ${rosterCount} LLMs are tracked across Europe's top leagues one matchday at a time, each from its disclosed competition start.`}
       />
 
-      <OpeningRoundBriefCard />
+      <ValueLinesCard />
 
       <p className="max-w-3xl text-sm leading-relaxed text-zinc-400">
         Unlike the knowledge-only World Cup prompts, league picks are form-aware: before each

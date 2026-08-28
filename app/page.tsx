@@ -15,10 +15,8 @@ import { loadHomepageLeagueCards } from "@/lib/home-match-cards";
 import { reportCards } from "@/lib/report-card";
 import { SITE_NAME, SITE_URL, TAGLINE } from "@/lib/site";
 import { LeagueBridge } from "./league-bridge";
-import { LockAlertInterest } from "./lock-alert-interest";
-import { NotifyForm } from "./notify";
 import { TodayMatches } from "./today-matches";
-import { OpeningRoundBriefCard } from "./briefs/opening-round-2026/card";
+import { ValueLinesCard } from "./value-lines-card";
 import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
 import type { Fixture, Team } from "@/lib/types";
 
@@ -196,16 +194,12 @@ export default function LeaderboardPage() {
   return (
     <div className="space-y-12">
       {/* The current product leads; the completed tournament remains intact below as evidence. */}
-      <LeagueBridge modelCount={leagueModelCount}>
-        <NotifyForm />
-      </LeagueBridge>
+      <LeagueBridge modelCount={leagueModelCount} />
 
-      <OpeningRoundBriefCard />
+      <ValueLinesCard />
 
       {/* Direct routes into today's already locked league consensus. */}
       <TodayMatches cards={todayCards} initialNow={homepageReferenceTime.toISOString()} />
-
-      <LockAlertInterest />
 
       {/* Hero — the verdict once the tournament is complete, the pitch before */}
       {champion ? (
