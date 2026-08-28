@@ -1,7 +1,34 @@
+"use client";
+
 import React from "react";
 
 export const VALUE_LINES_URL =
   "https://pb-feed-private-446043664034.europe-north1.run.app/";
+
+export type ValueLinesAnalyticsReporter = (
+  command: "event",
+  eventName: string,
+  params?: Record<string, unknown>,
+) => void;
+
+function activeAnalyticsReporter(): ValueLinesAnalyticsReporter | undefined {
+  if (typeof window === "undefined") return undefined;
+  return window.gtag;
+}
+
+/** Records product interest only when the visitor has already enabled analytics. */
+export function trackValueLinesClick(
+  sourcePath: string,
+  report: ValueLinesAnalyticsReporter | undefined = activeAnalyticsReporter(),
+): boolean {
+  if (!report) return false;
+  report("event", "value_lines_click", {
+    source_path: sourcePath,
+    destination_url: VALUE_LINES_URL,
+    transport_type: "beacon",
+  });
+  return true;
+}
 
 export function ValueLinesCard() {
   return (
@@ -20,6 +47,8 @@ export function ValueLinesCard() {
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
         <a
           href={VALUE_LINES_URL}
+          data-analytics-event="value_lines_click"
+          onClick={() => trackValueLinesClick(window.location.pathname)}
           className="inline-flex rounded-md bg-sky-300 px-4 py-2 text-sm font-bold text-sky-950 transition-colors hover:bg-sky-200"
         >
           See Value Lines →
