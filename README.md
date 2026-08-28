@@ -59,7 +59,7 @@ npx tsc --noEmit
 npm run build:ci
 ```
 
-`build:ci` is the CI-only, non-deploying export path; it does not require checkout configuration, and its output must not be deployed. `npm run build` fails closed unless `PB_BRIEF_CHECKOUT_URL` is a valid HTTPS `buy.stripe.com` link, then verifies that checkout in the exported page. Deploy workflows pass seller, support and policy values, but the build guard does not require or validate them.
+`build:ci` and `build` now produce the same checkout-free public export. The retired EUR 5 opening-round page is a historical format sample; the current EUR 9/month Value Lines checkout and customer delivery live in the private product service linked from the homepage, league pages and matchday pages. Public deploy workflows therefore require no payment-provider secret.
 
 Prediction and lock commands can write pre-registration artifacts. Follow [OPS.md](OPS.md) and inspect with `--dry-run`; **`--mock` is not a read-only rehearsal**.
 
