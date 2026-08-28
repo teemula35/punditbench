@@ -27,8 +27,7 @@ export function ValueLinesCard() {
         <span className="text-xs text-zinc-500">Delivered by email · Cancel any time</span>
       </div>
       <p className="mt-3 max-w-3xl text-xs leading-relaxed text-zinc-500">
-        18+ only. Availability and location restrictions are shown before checkout. Informational
-        forecasts, not betting advice; no profit is promised.
+        18+ only. Informational forecasts, not betting advice; no profit is promised.
       </p>
     </section>
   );
