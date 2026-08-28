@@ -15,6 +15,7 @@ describe("current Value Lines product surface", () => {
     expect(html).toContain("Fair 1/X/2 odds");
     expect(html).toContain("Delivered by email");
     expect(html).toContain("See Value Lines");
+    expect(html).not.toContain("location restrictions");
     expect(html).not.toContain("opening-round brief");
     expect(html).not.toContain("€5");
   });
