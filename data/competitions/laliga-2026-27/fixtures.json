@@ -445,7 +445,7 @@
     "round": 5,
     "home": "Villarreal",
     "away": "Real Betis",
-    "kickoff_utc": "2026-09-13T18:00:00Z",
+    "kickoff_utc": "2026-09-14T19:00:00Z",
     "city": "Villarreal",
     "stadium": "Estadio de la Cerámica",
     "espn_id": "401882877"
@@ -456,7 +456,7 @@
     "round": 5,
     "home": "Sevilla",
     "away": "Valencia",
-    "kickoff_utc": "2026-09-13T18:00:00Z",
+    "kickoff_utc": "2026-09-11T19:00:00Z",
     "city": "Sevilla",
     "stadium": "Ramón Sánchez Pizjuán Stadium",
     "espn_id": "401882878"
@@ -467,7 +467,7 @@
     "round": 5,
     "home": "Real Sociedad",
     "away": "Atlético Madrid",
-    "kickoff_utc": "2026-09-13T18:00:00Z",
+    "kickoff_utc": "2026-09-13T19:00:00Z",
     "city": "San Sebastian",
     "stadium": "Reale Arena",
     "espn_id": "401882879"
@@ -478,7 +478,7 @@
     "round": 5,
     "home": "Real Madrid",
     "away": "Rayo Vallecano",
-    "kickoff_utc": "2026-09-13T18:00:00Z",
+    "kickoff_utc": "2026-09-12T19:00:00Z",
     "city": "Madrid",
     "stadium": "Santiago Bernabéu",
     "espn_id": "401882880"
@@ -489,7 +489,7 @@
     "round": 5,
     "home": "Racing Santander",
     "away": "Alavés",
-    "kickoff_utc": "2026-09-13T18:00:00Z",
+    "kickoff_utc": "2026-09-12T12:00:00Z",
     "city": "Santander",
     "stadium": "El Sardineros",
     "espn_id": "401882881"
@@ -500,7 +500,7 @@
     "round": 5,
     "home": "Osasuna",
     "away": "Espanyol",
-    "kickoff_utc": "2026-09-13T18:00:00Z",
+    "kickoff_utc": "2026-09-12T14:15:00Z",
     "city": "Pamplona",
     "stadium": "El Sadar",
     "espn_id": "401882882"
@@ -511,7 +511,7 @@
     "round": 5,
     "home": "Levante",
     "away": "Barcelona",
-    "kickoff_utc": "2026-09-13T18:00:00Z",
+    "kickoff_utc": "2026-09-13T14:15:00Z",
     "city": "Manises",
     "stadium": "Estadi Ciutat de València",
     "espn_id": "401882883"
@@ -522,7 +522,7 @@
     "round": 5,
     "home": "Getafe",
     "away": "Deportivo",
-    "kickoff_utc": "2026-09-13T18:00:00Z",
+    "kickoff_utc": "2026-09-13T16:30:00Z",
     "city": "Getafe",
     "stadium": "Estadio Coliseum",
     "espn_id": "401882884"
@@ -533,7 +533,7 @@
     "round": 5,
     "home": "Celta Vigo",
     "away": "Málaga",
-    "kickoff_utc": "2026-09-13T18:00:00Z",
+    "kickoff_utc": "2026-09-13T12:00:00Z",
     "city": "Vigo",
     "stadium": "Balaidos",
     "espn_id": "401882885"
@@ -544,7 +544,7 @@
     "round": 5,
     "home": "Athletic Club",
     "away": "Elche",
-    "kickoff_utc": "2026-09-13T18:00:00Z",
+    "kickoff_utc": "2026-09-12T16:30:00Z",
     "city": "Bilbao",
     "stadium": "San Mamés",
     "espn_id": "401882886"
@@ -566,7 +566,7 @@
     "round": 6,
     "home": "Rayo Vallecano",
     "away": "Espanyol",
-    "kickoff_utc": "2026-09-16T18:00:00Z",
+    "kickoff_utc": "2026-09-15T17:00:00Z",
     "city": "Madrid",
     "stadium": "Estadio de Vallecas",
     "espn_id": "401882868"
@@ -577,7 +577,7 @@
     "round": 6,
     "home": "Málaga",
     "away": "Villarreal",
-    "kickoff_utc": "2026-09-16T18:00:00Z",
+    "kickoff_utc": "2026-09-17T19:30:00Z",
     "city": "Malaga",
     "stadium": "La Rosaleda",
     "espn_id": "401882869"
@@ -588,7 +588,7 @@
     "round": 6,
     "home": "Levante",
     "away": "Athletic Club",
-    "kickoff_utc": "2026-09-16T18:00:00Z",
+    "kickoff_utc": "2026-09-16T19:30:00Z",
     "city": "Manises",
     "stadium": "Estadi Ciutat de València",
     "espn_id": "401882870"
@@ -599,7 +599,7 @@
     "round": 6,
     "home": "Barcelona",
     "away": "Racing Santander",
-    "kickoff_utc": "2026-09-16T18:00:00Z",
+    "kickoff_utc": "2026-09-16T19:30:00Z",
     "city": "Barcelona",
     "stadium": "Spotify Camp Nou",
     "espn_id": "401882871"
@@ -610,7 +610,7 @@
     "round": 6,
     "home": "Elche",
     "away": "Real Madrid",
-    "kickoff_utc": "2026-09-16T18:00:00Z",
+    "kickoff_utc": "2026-09-15T19:30:00Z",
     "city": "Elche",
     "stadium": "Estadio Martínez Valero",
     "espn_id": "401882872"
@@ -621,7 +621,7 @@
     "round": 6,
     "home": "Deportivo",
     "away": "Sevilla",
-    "kickoff_utc": "2026-09-16T18:00:00Z",
+    "kickoff_utc": "2026-09-16T17:00:00Z",
     "city": "La Coruña",
     "stadium": "Riazor",
     "espn_id": "401882873"
@@ -632,7 +632,7 @@
     "round": 6,
     "home": "Real Betis",
     "away": "Getafe",
-    "kickoff_utc": "2026-09-16T18:00:00Z",
+    "kickoff_utc": "2026-09-17T17:00:00Z",
     "city": "Sevilla",
     "stadium": "Estadio La Cartuja",
     "espn_id": "401882874"
@@ -643,7 +643,7 @@
     "round": 6,
     "home": "Atlético Madrid",
     "away": "Osasuna",
-    "kickoff_utc": "2026-09-16T18:00:00Z",
+    "kickoff_utc": "2026-09-16T17:00:00Z",
     "city": "Madrid",
     "stadium": "Riyadh Air Metropolitano",
     "espn_id": "401882875"
@@ -654,7 +654,7 @@
     "round": 6,
     "home": "Alavés",
     "away": "Valencia",
-    "kickoff_utc": "2026-09-16T18:00:00Z",
+    "kickoff_utc": "2026-09-15T18:00:00Z",
     "city": "Vitoria-Gasteiz",
     "stadium": "Mendizorrotza",
     "espn_id": "401882876"
@@ -687,7 +687,7 @@
     "round": 7,
     "home": "Sevilla",
     "away": "Barcelona",
-    "kickoff_utc": "2026-09-20T18:00:00Z",
+    "kickoff_utc": "2026-09-19T19:00:00Z",
     "city": "Sevilla",
     "stadium": "Ramón Sánchez Pizjuán Stadium",
     "espn_id": "401882859"
@@ -698,7 +698,7 @@
     "round": 7,
     "home": "Osasuna",
     "away": "Rayo Vallecano",
-    "kickoff_utc": "2026-09-20T18:00:00Z",
+    "kickoff_utc": "2026-09-19T12:00:00Z",
     "city": "Pamplona",
     "stadium": "El Sadar",
     "espn_id": "401882860"
@@ -709,7 +709,7 @@
     "round": 7,
     "home": "Getafe",
     "away": "Málaga",
-    "kickoff_utc": "2026-09-20T18:00:00Z",
+    "kickoff_utc": "2026-09-20T12:00:00Z",
     "city": "Getafe",
     "stadium": "Estadio Coliseum",
     "espn_id": "401882861"
@@ -720,7 +720,7 @@
     "round": 7,
     "home": "Espanyol",
     "away": "Elche",
-    "kickoff_utc": "2026-09-20T18:00:00Z",
+    "kickoff_utc": "2026-09-18T19:00:00Z",
     "city": "Barcelona",
     "stadium": "RCDE Stadium",
     "espn_id": "401882862"
@@ -731,7 +731,7 @@
     "round": 7,
     "home": "Deportivo",
     "away": "Real Betis",
-    "kickoff_utc": "2026-09-20T18:00:00Z",
+    "kickoff_utc": "2026-09-20T16:30:00Z",
     "city": "La Coruña",
     "stadium": "Riazor",
     "espn_id": "401882863"
@@ -742,7 +742,7 @@
     "round": 7,
     "home": "Celta Vigo",
     "away": "Racing Santander",
-    "kickoff_utc": "2026-09-20T18:00:00Z",
+    "kickoff_utc": "2026-09-19T16:30:00Z",
     "city": "Vigo",
     "stadium": "Balaidos",
     "espn_id": "401882864"
@@ -753,7 +753,7 @@
     "round": 7,
     "home": "Atlético Madrid",
     "away": "Real Madrid",
-    "kickoff_utc": "2026-09-20T18:00:00Z",
+    "kickoff_utc": "2026-09-20T14:15:00Z",
     "city": "Madrid",
     "stadium": "Riyadh Air Metropolitano",
     "espn_id": "401882865"
@@ -764,7 +764,7 @@
     "round": 7,
     "home": "Athletic Club",
     "away": "Alavés",
-    "kickoff_utc": "2026-09-20T18:00:00Z",
+    "kickoff_utc": "2026-09-19T14:15:00Z",
     "city": "Bilbao",
     "stadium": "San Mamés",
     "espn_id": "401882866"
