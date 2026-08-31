@@ -358,8 +358,8 @@
     "home": "Rayo Vallecano",
     "away": "Racing Santander",
     "kickoff_utc": "2026-09-05T16:30:00Z",
-    "city": "Madrid",
-    "stadium": "Estadio de Vallecas",
+    "city": "Leganés, Madrid",
+    "stadium": "Estadio Municipal de Butarque",
     "espn_id": "401882889"
   },
   {
@@ -665,7 +665,7 @@
     "round": 7,
     "home": "Villarreal",
     "away": "Levante",
-    "kickoff_utc": "2026-09-20T18:00:00Z",
+    "kickoff_utc": "2026-09-20T16:30:00Z",
     "city": "Villarreal",
     "stadium": "Estadio de la Cerámica",
     "espn_id": "401882857"
@@ -676,7 +676,7 @@
     "round": 7,
     "home": "Valencia",
     "away": "Real Sociedad",
-    "kickoff_utc": "2026-09-20T18:00:00Z",
+    "kickoff_utc": "2026-09-20T19:00:00Z",
     "city": "Manises",
     "stadium": "Mestalla Stadium",
     "espn_id": "401882858"
