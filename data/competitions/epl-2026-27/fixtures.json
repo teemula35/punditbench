@@ -511,7 +511,7 @@
     "round": 5,
     "home": "Leeds United",
     "away": "Crystal Palace",
-    "kickoff_utc": "2026-09-19T14:00:00Z",
+    "kickoff_utc": "2026-09-20T13:00:00Z",
     "city": "Leeds",
     "stadium": "Elland Road",
     "espn_id": "401879273"
@@ -786,7 +786,7 @@
     "round": 8,
     "home": "Liverpool",
     "away": "Brighton & Hove Albion",
-    "kickoff_utc": "2026-10-24T14:00:00Z",
+    "kickoff_utc": "2026-10-25T14:00:00Z",
     "city": "Liverpool",
     "stadium": "Anfield",
     "espn_id": "401878765"
@@ -973,7 +973,7 @@
     "round": 9,
     "home": "Aston Villa",
     "away": "Fulham",
-    "kickoff_utc": "2026-11-01T14:00:00Z",
+    "kickoff_utc": "2026-10-31T20:00:00Z",
     "city": "Birmingham",
     "stadium": "Villa Park",
     "espn_id": "401879250"
