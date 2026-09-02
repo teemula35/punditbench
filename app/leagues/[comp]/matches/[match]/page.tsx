@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ValueLinesCard } from "@/app/value-lines-card";
 import { loadCompetitionFixtures, loadCompetitions } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { leagueMatchInfo, loadLeagueData, type LeagueMatchInfo } from "@/lib/league-aggregate";
@@ -104,7 +105,13 @@ export default async function LeagueMatchPage({
         </div>
       </header>
 
-      <PicksSection info={info} fixture={fixture} comp={data.comp} played={played} />
+      <PicksSection
+        info={info}
+        fixture={fixture}
+        comp={data.comp}
+        played={played}
+        voided={voided}
+      />
     </div>
   );
 }
@@ -127,11 +134,13 @@ function PicksSection({
   fixture,
   comp,
   played,
+  voided,
 }: {
   info: LeagueMatchInfo;
   fixture: Fixture;
   comp: Competition;
   played: boolean;
+  voided: boolean;
 }) {
   const stageLabel = roundLabel(fixture.stage);
 
@@ -268,6 +277,11 @@ function PicksSection({
             </>
           )}
         </p>
+      )}
+      {!played && !voided && (
+        <div className="mb-5">
+          <ValueLinesCard />
+        </div>
       )}
       <div className="overflow-x-auto rounded-lg border border-zinc-800">
         <table className="w-full text-sm sm:min-w-[480px]">
