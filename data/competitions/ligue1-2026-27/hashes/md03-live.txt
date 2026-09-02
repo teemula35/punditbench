@@ -1,0 +1,10 @@
+track: round-by-round (live, real fixtures)
+competition: ligue1-2026-27
+round: md03
+models: 42
+generated_at: 2026-09-02T10:02:43.031Z
+sha256: 52c5c56479173d133cd6ba710c4f1d91b16233f8a13e04bb22fc92e9be5c6ca4
+
+Canonical form v2: JSON array of {slug, model, stage, completed_at, simulated_fixtures?
+(sorted by match), predictions (sorted by match)}, sorted by (slug, stage), no whitespace.
+Recompute with: npm run hash -- --comp ligue1-2026-27 --round md03

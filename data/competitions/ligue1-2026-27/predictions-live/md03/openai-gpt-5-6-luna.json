@@ -1,0 +1,65 @@
+{
+  "model": "openai/gpt-5.6-luna",
+  "slug": "openai-gpt-5-6-luna",
+  "stage": "md03",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-02T09:52:42.119Z",
+  "completed_at": "2026-09-02T09:52:47.860Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1399,
+    "completion_tokens": 441,
+    "total_tokens": 1840,
+    "cost_usd": 0.0008788
+  },
+  "predictions": [
+    {
+      "match": 19,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 20,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 21,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 22,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 23,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 24,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 25,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 26,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 27,
+      "home_goals": 1,
+      "away_goals": 2
+    }
+  ]
+}

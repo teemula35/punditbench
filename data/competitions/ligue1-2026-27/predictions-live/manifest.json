@@ -10,6 +10,11 @@
       "locked_at": "2026-08-27T09:14:39.607Z",
       "models": 43,
       "excluded": []
+    },
+    "md03": {
+      "locked_at": "2026-09-02T10:02:43.028Z",
+      "models": 42,
+      "excluded": []
     }
   }
 }
