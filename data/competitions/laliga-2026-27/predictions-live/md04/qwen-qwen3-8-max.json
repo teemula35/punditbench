@@ -1,0 +1,70 @@
+{
+  "model": "qwen/qwen3.8-max",
+  "slug": "qwen-qwen3-8-max",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-03T10:16:07.699Z",
+  "completed_at": "2026-09-03T10:21:17.250Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1960,
+    "completion_tokens": 13812,
+    "total_tokens": 15772,
+    "cost_usd": 0.086792
+  },
+  "predictions": [
+    {
+      "match": 31,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 32,
+      "home_goals": 0,
+      "away_goals": 3
+    },
+    {
+      "match": 33,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 34,
+      "home_goals": 0,
+      "away_goals": 1
+    },
+    {
+      "match": 35,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 36,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 37,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 38,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 39,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 40,
+      "home_goals": 1,
+      "away_goals": 0
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "model": "inception/mercury-2",
+  "slug": "inception-mercury-2",
+  "stage": "md03",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-03T10:15:00.268Z",
+  "completed_at": "2026-09-03T10:15:06.343Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1532,
+    "completion_tokens": 1774,
+    "total_tokens": 3306,
+    "cost_usd": 0.00171305
+  },
+  "predictions": [
+    {
+      "match": 21,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 22,
+      "home_goals": 3,
+      "away_goals": 0
+    },
+    {
+      "match": 23,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 24,
+      "home_goals": 4,
+      "away_goals": 0
+    },
+    {
+      "match": 25,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 26,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 27,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 28,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 29,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 30,
+      "home_goals": 2,
+      "away_goals": 0
+    }
+  ]
+}

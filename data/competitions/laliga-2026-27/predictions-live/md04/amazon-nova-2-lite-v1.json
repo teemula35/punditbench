@@ -1,0 +1,70 @@
+{
+  "model": "amazon/nova-2-lite-v1",
+  "slug": "amazon-nova-2-lite-v1",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-03T10:17:37.544Z",
+  "completed_at": "2026-09-03T10:17:46.043Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1826,
+    "completion_tokens": 246,
+    "total_tokens": 2072,
+    "cost_usd": 0.0011628
+  },
+  "predictions": [
+    {
+      "match": 31,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 32,
+      "home_goals": 0,
+      "away_goals": 4
+    },
+    {
+      "match": 33,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 34,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 35,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 36,
+      "home_goals": 1,
+      "away_goals": 3
+    },
+    {
+      "match": 37,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 38,
+      "home_goals": 0,
+      "away_goals": 3
+    },
+    {
+      "match": 39,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 40,
+      "home_goals": 2,
+      "away_goals": 1
+    }
+  ]
+}

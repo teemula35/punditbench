@@ -1,0 +1,70 @@
+{
+  "model": "openai/gpt-3.5-turbo",
+  "slug": "openai-gpt-3-5-turbo",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-03T10:18:14.740Z",
+  "completed_at": "2026-09-03T10:18:16.542Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1873,
+    "completion_tokens": 144,
+    "total_tokens": 2017,
+    "cost_usd": 0.0011525
+  },
+  "predictions": [
+    {
+      "match": 31,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 32,
+      "home_goals": 0,
+      "away_goals": 3
+    },
+    {
+      "match": 33,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 34,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 35,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 36,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 37,
+      "home_goals": 0,
+      "away_goals": 1
+    },
+    {
+      "match": 38,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 39,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 40,
+      "home_goals": 1,
+      "away_goals": 1
+    }
+  ]
+}

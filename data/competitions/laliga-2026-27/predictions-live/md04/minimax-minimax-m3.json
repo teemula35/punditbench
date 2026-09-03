@@ -1,0 +1,70 @@
+{
+  "model": "minimax/minimax-m3",
+  "slug": "minimax-minimax-m3",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-03T10:17:48.996Z",
+  "completed_at": "2026-09-03T10:18:06.529Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1952,
+    "completion_tokens": 2143,
+    "total_tokens": 4095,
+    "cost_usd": 0.00312648
+  },
+  "predictions": [
+    {
+      "match": 31,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 32,
+      "home_goals": 0,
+      "away_goals": 3
+    },
+    {
+      "match": 33,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 34,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 35,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 36,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 37,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 38,
+      "home_goals": 1,
+      "away_goals": 3
+    },
+    {
+      "match": 39,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 40,
+      "home_goals": 1,
+      "away_goals": 1
+    }
+  ]
+}
