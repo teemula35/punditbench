@@ -797,7 +797,7 @@
     "round": 9,
     "home": "Troyes",
     "away": "Le Mans",
-    "kickoff_utc": "2026-10-31T18:00:00Z",
+    "kickoff_utc": "2026-10-31T19:45:00Z",
     "city": "Paris",
     "stadium": "Stade de l'Aube",
     "espn_id": "401876413"
@@ -808,7 +808,7 @@
     "round": 9,
     "home": "Strasbourg",
     "away": "AJ Auxerre",
-    "kickoff_utc": "2026-10-31T18:00:00Z",
+    "kickoff_utc": "2026-11-01T14:00:00Z",
     "city": "Strasbourg",
     "stadium": "Stade de la Meinau",
     "espn_id": "401876414"
@@ -819,7 +819,7 @@
     "round": 9,
     "home": "Paris FC",
     "away": "AS Monaco",
-    "kickoff_utc": "2026-10-31T18:00:00Z",
+    "kickoff_utc": "2026-11-01T16:15:00Z",
     "city": "Paris",
     "stadium": "Stade Jean Bouin",
     "espn_id": "401876415"
@@ -830,7 +830,7 @@
     "round": 9,
     "home": "Nice",
     "away": "Stade Rennais",
-    "kickoff_utc": "2026-10-31T18:00:00Z",
+    "kickoff_utc": "2026-10-31T16:15:00Z",
     "city": "Nice",
     "stadium": "Allianz Riviera",
     "espn_id": "401876416"
@@ -841,7 +841,7 @@
     "round": 9,
     "home": "Marseille",
     "away": "Toulouse",
-    "kickoff_utc": "2026-10-31T18:00:00Z",
+    "kickoff_utc": "2026-11-01T19:45:00Z",
     "city": "Marseille",
     "stadium": "Stade Vélodrome",
     "espn_id": "401876417"
@@ -852,7 +852,7 @@
     "round": 9,
     "home": "Lyon",
     "away": "Angers",
-    "kickoff_utc": "2026-10-31T18:00:00Z",
+    "kickoff_utc": "2026-10-31T19:45:00Z",
     "city": "Lyon",
     "stadium": "Groupama Stadium",
     "espn_id": "401876418"
@@ -863,7 +863,7 @@
     "round": 9,
     "home": "Lorient",
     "away": "Brest",
-    "kickoff_utc": "2026-10-31T18:00:00Z",
+    "kickoff_utc": "2026-10-31T19:45:00Z",
     "city": "Lorient",
     "stadium": "Stade du Moustoir - Yves Allainmat",
     "espn_id": "401876419"
@@ -874,7 +874,7 @@
     "round": 9,
     "home": "Lille",
     "away": "Lens",
-    "kickoff_utc": "2026-10-31T18:00:00Z",
+    "kickoff_utc": "2026-10-30T20:05:00Z",
     "city": "Lille",
     "stadium": "Decathlon Arena - Stade Pierre-Mauroy",
     "espn_id": "401876420"
@@ -885,7 +885,7 @@
     "round": 9,
     "home": "Le Havre AC",
     "away": "Paris Saint-Germain",
-    "kickoff_utc": "2026-10-31T18:00:00Z",
+    "kickoff_utc": "2026-10-30T18:00:00Z",
     "city": "Le Havre",
     "stadium": "Stade Océane",
     "espn_id": "401876421"
