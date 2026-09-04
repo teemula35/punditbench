@@ -555,7 +555,7 @@
     "round": 6,
     "home": "Napoli",
     "away": "Frosinone",
-    "kickoff_utc": "2026-10-11T18:00:00Z",
+    "kickoff_utc": "2026-10-10T18:45:00Z",
     "city": "Napoli",
     "stadium": "Stadio Diego Armando Maradona",
     "espn_id": "401874754"
@@ -566,7 +566,7 @@
     "round": 6,
     "home": "Torino",
     "away": "Udinese",
-    "kickoff_utc": "2026-10-11T18:00:00Z",
+    "kickoff_utc": "2026-10-12T18:45:00Z",
     "city": "Torino",
     "stadium": "Stadio Olimpico Grande Torino",
     "espn_id": "401874763"
@@ -577,7 +577,7 @@
     "round": 6,
     "home": "Cagliari",
     "away": "Juventus",
-    "kickoff_utc": "2026-10-11T18:00:00Z",
+    "kickoff_utc": "2026-10-11T18:45:00Z",
     "city": "Cagliari",
     "stadium": "Unipol Domus",
     "espn_id": "401874764"
@@ -588,7 +588,7 @@
     "round": 6,
     "home": "Lecce",
     "away": "Bologna",
-    "kickoff_utc": "2026-10-11T18:00:00Z",
+    "kickoff_utc": "2026-10-11T13:00:00Z",
     "city": "Lecce",
     "stadium": "Via Del Mare",
     "espn_id": "401874776"
@@ -599,7 +599,7 @@
     "round": 6,
     "home": "Sassuolo",
     "away": "AC Milan",
-    "kickoff_utc": "2026-10-11T18:00:00Z",
+    "kickoff_utc": "2026-10-11T16:00:00Z",
     "city": "Reggio Emilia",
     "stadium": "Mapei Stadium",
     "espn_id": "401874789"
@@ -610,7 +610,7 @@
     "round": 6,
     "home": "Como",
     "away": "AS Roma",
-    "kickoff_utc": "2026-10-11T18:00:00Z",
+    "kickoff_utc": "2026-10-11T10:30:00Z",
     "city": "Como",
     "stadium": "Giuseppe Sinigaglia",
     "espn_id": "401874940"
@@ -621,7 +621,7 @@
     "round": 6,
     "home": "Genoa",
     "away": "Fiorentina",
-    "kickoff_utc": "2026-10-11T18:00:00Z",
+    "kickoff_utc": "2026-10-10T13:00:00Z",
     "city": "Genova",
     "stadium": "Stadio Luigi Ferraris",
     "espn_id": "401874947"
@@ -632,7 +632,7 @@
     "round": 6,
     "home": "Lazio",
     "away": "Monza",
-    "kickoff_utc": "2026-10-11T18:00:00Z",
+    "kickoff_utc": "2026-10-11T13:00:00Z",
     "city": "Roma",
     "stadium": "Olimpico",
     "espn_id": "401874951"
@@ -643,7 +643,7 @@
     "round": 6,
     "home": "Atalanta",
     "away": "Venezia",
-    "kickoff_utc": "2026-10-11T18:00:00Z",
+    "kickoff_utc": "2026-10-12T16:30:00Z",
     "city": "Bergamo",
     "stadium": "New Balance Arena",
     "espn_id": "401875005"
@@ -654,7 +654,7 @@
     "round": 6,
     "home": "Internazionale",
     "away": "Parma",
-    "kickoff_utc": "2026-10-11T18:00:00Z",
+    "kickoff_utc": "2026-10-10T16:00:00Z",
     "city": "Milano",
     "stadium": "San Siro",
     "espn_id": "401875021"
@@ -665,7 +665,7 @@
     "round": 7,
     "home": "Venezia",
     "away": "Napoli",
-    "kickoff_utc": "2026-10-17T18:00:00Z",
+    "kickoff_utc": "2026-10-17T13:00:00Z",
     "city": "Venezia",
     "stadium": "Stadio Pier Luigi Penzo",
     "espn_id": "401874760"
@@ -676,7 +676,7 @@
     "round": 7,
     "home": "Monza",
     "away": "Cagliari",
-    "kickoff_utc": "2026-10-17T18:00:00Z",
+    "kickoff_utc": "2026-10-19T16:30:00Z",
     "city": "Monza",
     "stadium": "U-Power Stadium",
     "espn_id": "401874762"
@@ -687,7 +687,7 @@
     "round": 7,
     "home": "Juventus",
     "away": "Lazio",
-    "kickoff_utc": "2026-10-17T18:00:00Z",
+    "kickoff_utc": "2026-10-18T18:45:00Z",
     "city": "Torino",
     "stadium": "Allianz Stadium",
     "espn_id": "401874765"
@@ -698,7 +698,7 @@
     "round": 7,
     "home": "Udinese",
     "away": "Lecce",
-    "kickoff_utc": "2026-10-17T18:00:00Z",
+    "kickoff_utc": "2026-10-18T10:30:00Z",
     "city": "Udine",
     "stadium": "Stadio Friuli",
     "espn_id": "401874771"
@@ -709,7 +709,7 @@
     "round": 7,
     "home": "Fiorentina",
     "away": "Como",
-    "kickoff_utc": "2026-10-17T18:00:00Z",
+    "kickoff_utc": "2026-10-18T13:00:00Z",
     "city": "Firenze",
     "stadium": "Stadio Artemio Franchi",
     "espn_id": "401874774"
@@ -720,7 +720,7 @@
     "round": 7,
     "home": "Parma",
     "away": "Torino",
-    "kickoff_utc": "2026-10-17T18:00:00Z",
+    "kickoff_utc": "2026-10-19T18:45:00Z",
     "city": "Parma",
     "stadium": "Ennio Tardini",
     "espn_id": "401874784"
@@ -731,7 +731,7 @@
     "round": 7,
     "home": "AS Roma",
     "away": "Genoa",
-    "kickoff_utc": "2026-10-17T18:00:00Z",
+    "kickoff_utc": "2026-10-17T18:45:00Z",
     "city": "Roma",
     "stadium": "Olimpico",
     "espn_id": "401874935"
@@ -742,7 +742,7 @@
     "round": 7,
     "home": "Bologna",
     "away": "Internazionale",
-    "kickoff_utc": "2026-10-17T18:00:00Z",
+    "kickoff_utc": "2026-10-17T16:00:00Z",
     "city": "Bologna",
     "stadium": "Renato Dall'Ara",
     "espn_id": "401874953"
@@ -753,7 +753,7 @@
     "round": 7,
     "home": "Frosinone",
     "away": "Sassuolo",
-    "kickoff_utc": "2026-10-17T18:00:00Z",
+    "kickoff_utc": "2026-10-16T18:45:00Z",
     "city": "Frosinone",
     "stadium": "Stadio Benito Stirpe",
     "espn_id": "401874959"
@@ -764,7 +764,7 @@
     "round": 7,
     "home": "AC Milan",
     "away": "Atalanta",
-    "kickoff_utc": "2026-10-17T18:00:00Z",
+    "kickoff_utc": "2026-10-18T16:00:00Z",
     "city": "Milano",
     "stadium": "San Siro",
     "espn_id": "401874978"
@@ -775,7 +775,7 @@
     "round": 8,
     "home": "Lecce",
     "away": "Juventus",
-    "kickoff_utc": "2026-10-25T18:00:00Z",
+    "kickoff_utc": "2026-10-25T17:00:00Z",
     "city": "Lecce",
     "stadium": "Via Del Mare",
     "espn_id": "401874772"
@@ -786,7 +786,7 @@
     "round": 8,
     "home": "Udinese",
     "away": "AC Milan",
-    "kickoff_utc": "2026-10-25T18:00:00Z",
+    "kickoff_utc": "2026-10-25T19:45:00Z",
     "city": "Udine",
     "stadium": "Stadio Friuli",
     "espn_id": "401874779"
@@ -797,7 +797,7 @@
     "round": 8,
     "home": "Napoli",
     "away": "AS Roma",
-    "kickoff_utc": "2026-10-25T18:00:00Z",
+    "kickoff_utc": "2026-10-24T16:00:00Z",
     "city": "Napoli",
     "stadium": "Stadio Diego Armando Maradona",
     "espn_id": "401874948"
@@ -808,7 +808,7 @@
     "round": 8,
     "home": "Genoa",
     "away": "Venezia",
-    "kickoff_utc": "2026-10-25T18:00:00Z",
+    "kickoff_utc": "2026-10-25T14:00:00Z",
     "city": "Genova",
     "stadium": "Stadio Luigi Ferraris",
     "espn_id": "401874952"
@@ -819,7 +819,7 @@
     "round": 8,
     "home": "Lazio",
     "away": "Parma",
-    "kickoff_utc": "2026-10-25T18:00:00Z",
+    "kickoff_utc": "2026-10-24T18:45:00Z",
     "city": "Roma",
     "stadium": "Olimpico",
     "espn_id": "401874955"
@@ -830,7 +830,7 @@
     "round": 8,
     "home": "Torino",
     "away": "Monza",
-    "kickoff_utc": "2026-10-25T18:00:00Z",
+    "kickoff_utc": "2026-10-23T18:45:00Z",
     "city": "Torino",
     "stadium": "Stadio Olimpico Grande Torino",
     "espn_id": "401874957"
@@ -841,7 +841,7 @@
     "round": 8,
     "home": "Cagliari",
     "away": "Bologna",
-    "kickoff_utc": "2026-10-25T18:00:00Z",
+    "kickoff_utc": "2026-10-24T13:00:00Z",
     "city": "Cagliari",
     "stadium": "Unipol Domus",
     "espn_id": "401874958"
@@ -852,7 +852,7 @@
     "round": 8,
     "home": "Como",
     "away": "Sassuolo",
-    "kickoff_utc": "2026-10-25T18:00:00Z",
+    "kickoff_utc": "2026-10-24T13:00:00Z",
     "city": "Como",
     "stadium": "Giuseppe Sinigaglia",
     "espn_id": "401874961"
@@ -863,7 +863,7 @@
     "round": 8,
     "home": "Atalanta",
     "away": "Frosinone",
-    "kickoff_utc": "2026-10-25T18:00:00Z",
+    "kickoff_utc": "2026-10-25T14:00:00Z",
     "city": "Bergamo",
     "stadium": "New Balance Arena",
     "espn_id": "401874972"
@@ -874,7 +874,7 @@
     "round": 8,
     "home": "Internazionale",
     "away": "Fiorentina",
-    "kickoff_utc": "2026-10-25T18:00:00Z",
+    "kickoff_utc": "2026-10-25T11:30:00Z",
     "city": "Milano",
     "stadium": "San Siro",
     "espn_id": "401875036"
@@ -885,7 +885,7 @@
     "round": 9,
     "home": "Venezia",
     "away": "Internazionale",
-    "kickoff_utc": "2026-10-28T18:00:00Z",
+    "kickoff_utc": "2026-10-28T17:30:00Z",
     "city": "Venezia",
     "stadium": "Stadio Pier Luigi Penzo",
     "espn_id": "401874773"
@@ -896,7 +896,7 @@
     "round": 9,
     "home": "AS Roma",
     "away": "Cagliari",
-    "kickoff_utc": "2026-10-28T18:00:00Z",
+    "kickoff_utc": "2026-10-27T19:45:00Z",
     "city": "Roma",
     "stadium": "Olimpico",
     "espn_id": "401874780"
@@ -907,7 +907,7 @@
     "round": 9,
     "home": "Torino",
     "away": "Como",
-    "kickoff_utc": "2026-10-28T18:00:00Z",
+    "kickoff_utc": "2026-10-27T19:45:00Z",
     "city": "Torino",
     "stadium": "Stadio Olimpico Grande Torino",
     "espn_id": "401874786"
@@ -918,7 +918,7 @@
     "round": 9,
     "home": "Monza",
     "away": "Napoli",
-    "kickoff_utc": "2026-10-28T18:00:00Z",
+    "kickoff_utc": "2026-10-28T19:45:00Z",
     "city": "Monza",
     "stadium": "U-Power Stadium",
     "espn_id": "401874799"
@@ -929,7 +929,7 @@
     "round": 9,
     "home": "Parma",
     "away": "Udinese",
-    "kickoff_utc": "2026-10-28T18:00:00Z",
+    "kickoff_utc": "2026-10-28T17:30:00Z",
     "city": "Parma",
     "stadium": "Ennio Tardini",
     "espn_id": "401874965"
@@ -940,7 +940,7 @@
     "round": 9,
     "home": "Fiorentina",
     "away": "Atalanta",
-    "kickoff_utc": "2026-10-28T18:00:00Z",
+    "kickoff_utc": "2026-10-29T19:45:00Z",
     "city": "Firenze",
     "stadium": "Stadio Artemio Franchi",
     "espn_id": "401874969"
@@ -951,7 +951,7 @@
     "round": 9,
     "home": "Frosinone",
     "away": "Lecce",
-    "kickoff_utc": "2026-10-28T18:00:00Z",
+    "kickoff_utc": "2026-10-29T17:30:00Z",
     "city": "Frosinone",
     "stadium": "Stadio Benito Stirpe",
     "espn_id": "401874976"
@@ -962,7 +962,7 @@
     "round": 9,
     "home": "Sassuolo",
     "away": "Lazio",
-    "kickoff_utc": "2026-10-28T18:00:00Z",
+    "kickoff_utc": "2026-10-27T17:30:00Z",
     "city": "Reggio Emilia",
     "stadium": "Mapei Stadium",
     "espn_id": "401874980"
@@ -973,7 +973,7 @@
     "round": 9,
     "home": "Genoa",
     "away": "Juventus",
-    "kickoff_utc": "2026-10-28T18:00:00Z",
+    "kickoff_utc": "2026-10-28T19:45:00Z",
     "city": "Genova",
     "stadium": "Stadio Luigi Ferraris",
     "espn_id": "401874988"
@@ -984,7 +984,7 @@
     "round": 9,
     "home": "AC Milan",
     "away": "Bologna",
-    "kickoff_utc": "2026-10-28T18:00:00Z",
+    "kickoff_utc": "2026-10-28T17:30:00Z",
     "city": "Milano",
     "stadium": "San Siro",
     "espn_id": "401874993"
@@ -995,7 +995,7 @@
     "round": 10,
     "home": "Frosinone",
     "away": "Torino",
-    "kickoff_utc": "2026-11-01T20:00:00Z",
+    "kickoff_utc": "2026-11-01T14:00:00Z",
     "city": "Frosinone",
     "stadium": "Stadio Benito Stirpe",
     "espn_id": "401874782"
@@ -1006,7 +1006,7 @@
     "round": 10,
     "home": "AC Milan",
     "away": "Internazionale",
-    "kickoff_utc": "2026-11-01T20:00:00Z",
+    "kickoff_utc": "2026-10-31T19:45:00Z",
     "city": "Milano",
     "stadium": "San Siro",
     "espn_id": "401874795"
@@ -1017,7 +1017,7 @@
     "round": 10,
     "home": "Bologna",
     "away": "Monza",
-    "kickoff_utc": "2026-11-01T20:00:00Z",
+    "kickoff_utc": "2026-10-31T14:00:00Z",
     "city": "Bologna",
     "stadium": "Renato Dall'Ara",
     "espn_id": "401874798"
@@ -1028,7 +1028,7 @@
     "round": 10,
     "home": "Juventus",
     "away": "Napoli",
-    "kickoff_utc": "2026-11-01T20:00:00Z",
+    "kickoff_utc": "2026-11-01T19:45:00Z",
     "city": "Torino",
     "stadium": "Allianz Stadium",
     "espn_id": "401874949"
@@ -1039,7 +1039,7 @@
     "round": 10,
     "home": "Sassuolo",
     "away": "Fiorentina",
-    "kickoff_utc": "2026-11-01T20:00:00Z",
+    "kickoff_utc": "2026-11-02T17:30:00Z",
     "city": "Reggio Emilia",
     "stadium": "Mapei Stadium",
     "espn_id": "401874963"
@@ -1050,7 +1050,7 @@
     "round": 10,
     "home": "Lecce",
     "away": "Genoa",
-    "kickoff_utc": "2026-11-01T20:00:00Z",
+    "kickoff_utc": "2026-11-01T17:00:00Z",
     "city": "Lecce",
     "stadium": "Via Del Mare",
     "espn_id": "401874968"
@@ -1061,7 +1061,7 @@
     "round": 10,
     "home": "Atalanta",
     "away": "Parma",
-    "kickoff_utc": "2026-11-01T20:00:00Z",
+    "kickoff_utc": "2026-11-02T19:45:00Z",
     "city": "Bergamo",
     "stadium": "New Balance Arena",
     "espn_id": "401874971"
@@ -1072,7 +1072,7 @@
     "round": 10,
     "home": "Lazio",
     "away": "Cagliari",
-    "kickoff_utc": "2026-11-01T20:00:00Z",
+    "kickoff_utc": "2026-11-01T14:00:00Z",
     "city": "Roma",
     "stadium": "Olimpico",
     "espn_id": "401874983"
@@ -1083,7 +1083,7 @@
     "round": 10,
     "home": "Udinese",
     "away": "AS Roma",
-    "kickoff_utc": "2026-11-01T20:00:00Z",
+    "kickoff_utc": "2026-10-31T17:00:00Z",
     "city": "Udine",
     "stadium": "Stadio Friuli",
     "espn_id": "401874990"
@@ -1094,7 +1094,7 @@
     "round": 10,
     "home": "Como",
     "away": "Venezia",
-    "kickoff_utc": "2026-11-01T20:00:00Z",
+    "kickoff_utc": "2026-11-01T11:30:00Z",
     "city": "Como",
     "stadium": "Giuseppe Sinigaglia",
     "espn_id": "401875002"
@@ -1105,7 +1105,7 @@
     "round": 11,
     "home": "Cagliari",
     "away": "Frosinone",
-    "kickoff_utc": "2026-11-08T20:00:00Z",
+    "kickoff_utc": "2026-11-07T14:00:00Z",
     "city": "Cagliari",
     "stadium": "Unipol Domus",
     "espn_id": "401874791"
@@ -1116,7 +1116,7 @@
     "round": 11,
     "home": "Monza",
     "away": "Atalanta",
-    "kickoff_utc": "2026-11-08T20:00:00Z",
+    "kickoff_utc": "2026-11-08T14:00:00Z",
     "city": "Monza",
     "stadium": "U-Power Stadium",
     "espn_id": "401874800"
@@ -1127,7 +1127,7 @@
     "round": 11,
     "home": "AS Roma",
     "away": "Sassuolo",
-    "kickoff_utc": "2026-11-08T20:00:00Z",
+    "kickoff_utc": "2026-11-07T19:45:00Z",
     "city": "Roma",
     "stadium": "Olimpico",
     "espn_id": "401874803"
@@ -1138,7 +1138,7 @@
     "round": 11,
     "home": "Internazionale",
     "away": "Como",
-    "kickoff_utc": "2026-11-08T20:00:00Z",
+    "kickoff_utc": "2026-11-08T17:00:00Z",
     "city": "Milano",
     "stadium": "San Siro",
     "espn_id": "401874808"
@@ -1149,7 +1149,7 @@
     "round": 11,
     "home": "Napoli",
     "away": "Lazio",
-    "kickoff_utc": "2026-11-08T20:00:00Z",
+    "kickoff_utc": "2026-11-08T11:30:00Z",
     "city": "Napoli",
     "stadium": "Stadio Diego Armando Maradona",
     "espn_id": "401874810"
@@ -1160,7 +1160,7 @@
     "round": 11,
     "home": "Torino",
     "away": "Lecce",
-    "kickoff_utc": "2026-11-08T20:00:00Z",
+    "kickoff_utc": "2026-11-07T14:00:00Z",
     "city": "Torino",
     "stadium": "Stadio Olimpico Grande Torino",
     "espn_id": "401874811"
@@ -1171,7 +1171,7 @@
     "round": 11,
     "home": "Venezia",
     "away": "Udinese",
-    "kickoff_utc": "2026-11-08T20:00:00Z",
+    "kickoff_utc": "2026-11-06T19:45:00Z",
     "city": "Venezia",
     "stadium": "Stadio Pier Luigi Penzo",
     "espn_id": "401874815"
@@ -1182,7 +1182,7 @@
     "round": 11,
     "home": "Parma",
     "away": "Bologna",
-    "kickoff_utc": "2026-11-08T20:00:00Z",
+    "kickoff_utc": "2026-11-07T17:00:00Z",
     "city": "Parma",
     "stadium": "Ennio Tardini",
     "espn_id": "401874974"
@@ -1193,7 +1193,7 @@
     "round": 11,
     "home": "Fiorentina",
     "away": "Juventus",
-    "kickoff_utc": "2026-11-08T20:00:00Z",
+    "kickoff_utc": "2026-11-08T19:45:00Z",
     "city": "Firenze",
     "stadium": "Stadio Artemio Franchi",
     "espn_id": "401875003"
@@ -1204,7 +1204,7 @@
     "round": 11,
     "home": "Genoa",
     "away": "AC Milan",
-    "kickoff_utc": "2026-11-08T20:00:00Z",
+    "kickoff_utc": "2026-11-08T14:00:00Z",
     "city": "Genova",
     "stadium": "Stadio Luigi Ferraris",
     "espn_id": "401875018"
@@ -1215,7 +1215,7 @@
     "round": 12,
     "home": "Sassuolo",
     "away": "Genoa",
-    "kickoff_utc": "2026-11-22T20:00:00Z",
+    "kickoff_utc": "2026-11-22T11:30:00Z",
     "city": "Reggio Emilia",
     "stadium": "Mapei Stadium",
     "espn_id": "401874960"
@@ -1226,7 +1226,7 @@
     "round": 12,
     "home": "Parma",
     "away": "AS Roma",
-    "kickoff_utc": "2026-11-22T20:00:00Z",
+    "kickoff_utc": "2026-11-21T17:00:00Z",
     "city": "Parma",
     "stadium": "Ennio Tardini",
     "espn_id": "401874967"
@@ -1237,7 +1237,7 @@
     "round": 12,
     "home": "Lazio",
     "away": "Lecce",
-    "kickoff_utc": "2026-11-22T20:00:00Z",
+    "kickoff_utc": "2026-11-21T14:00:00Z",
     "city": "Roma",
     "stadium": "Olimpico",
     "espn_id": "401874981"
@@ -1248,7 +1248,7 @@
     "round": 12,
     "home": "AC Milan",
     "away": "Frosinone",
-    "kickoff_utc": "2026-11-22T20:00:00Z",
+    "kickoff_utc": "2026-11-22T14:00:00Z",
     "city": "Milano",
     "stadium": "San Siro",
     "espn_id": "401874989"
@@ -1259,7 +1259,7 @@
     "round": 12,
     "home": "Atalanta",
     "away": "Internazionale",
-    "kickoff_utc": "2026-11-22T20:00:00Z",
+    "kickoff_utc": "2026-11-22T19:45:00Z",
     "city": "Bergamo",
     "stadium": "New Balance Arena",
     "espn_id": "401875001"
@@ -1270,7 +1270,7 @@
     "round": 12,
     "home": "Juventus",
     "away": "Venezia",
-    "kickoff_utc": "2026-11-22T20:00:00Z",
+    "kickoff_utc": "2026-11-23T19:45:00Z",
     "city": "Torino",
     "stadium": "Allianz Stadium",
     "espn_id": "401875008"
@@ -1281,7 +1281,7 @@
     "round": 12,
     "home": "Monza",
     "away": "Fiorentina",
-    "kickoff_utc": "2026-11-22T20:00:00Z",
+    "kickoff_utc": "2026-11-23T17:30:00Z",
     "city": "Monza",
     "stadium": "U-Power Stadium",
     "espn_id": "401875009"
@@ -1292,7 +1292,7 @@
     "round": 12,
     "home": "Bologna",
     "away": "Udinese",
-    "kickoff_utc": "2026-11-22T20:00:00Z",
+    "kickoff_utc": "2026-11-22T17:00:00Z",
     "city": "Bologna",
     "stadium": "Renato Dall'Ara",
     "espn_id": "401875047"
@@ -1303,7 +1303,7 @@
     "round": 12,
     "home": "Como",
     "away": "Cagliari",
-    "kickoff_utc": "2026-11-22T20:00:00Z",
+    "kickoff_utc": "2026-11-21T14:00:00Z",
     "city": "Como",
     "stadium": "Giuseppe Sinigaglia",
     "espn_id": "401875056"
@@ -1314,7 +1314,7 @@
     "round": 12,
     "home": "Napoli",
     "away": "Torino",
-    "kickoff_utc": "2026-11-22T20:00:00Z",
+    "kickoff_utc": "2026-11-21T19:45:00Z",
     "city": "Napoli",
     "stadium": "Stadio Diego Armando Maradona",
     "espn_id": "401875067"
