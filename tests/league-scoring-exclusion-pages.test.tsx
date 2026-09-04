@@ -32,6 +32,8 @@ describe("post-lock fixture reversal disclosure", () => {
     expect(html).toContain("Stade Rennais (as locked)");
     expect(html).not.toContain(">Points<");
     expect(html).not.toContain(">Breakdown<");
+    expect(html).not.toContain("See Value Lines");
+    expect(html).not.toContain('data-analytics-event="value_lines_click"');
   });
 
   it("marks the exception on the matchday page", async () => {
