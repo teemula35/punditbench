@@ -86,6 +86,22 @@ describe("match-page Value Lines placement", () => {
     expect(html).not.toContain('data-analytics-event="value_lines_click"');
   });
 
+  it("does not market an upcoming Value Line when a final result has no displayable score", async () => {
+    fixtureState.result = {
+      match: fixtureState.fixture.match,
+      status: "final",
+    };
+
+    const html = renderToStaticMarkup(
+      await LeagueMatchPage({
+        params: Promise.resolve({ comp: fixtureState.competition.id, match: "1" }),
+      }),
+    );
+
+    expect(html).not.toContain("See Value Lines");
+    expect(html).not.toContain('data-analytics-event="value_lines_click"');
+  });
+
   it("does not market an upcoming Value Line for a voided match", async () => {
     fixtureState.result = {
       match: fixtureState.fixture.match,

@@ -53,9 +53,10 @@ export default async function LeagueMatchPage({
   if (!fixture) notFound();
 
   const result = data.results.get(fixture.match);
-  const played =
-    result?.status === "final" && result.home_goals !== undefined && result.away_goals !== undefined;
+  const final = result?.status === "final";
+  const played = final && result.home_goals !== undefined && result.away_goals !== undefined;
   const voided = result?.status === "voided";
+  const settled = final || voided;
   const info = leagueMatchInfo(data, fixture);
 
   return (
@@ -91,7 +92,7 @@ export default async function LeagueMatchPage({
               Voided — excluded from scoring for all models.
             </p>
           )}
-          {!played && !voided && (
+          {!settled && (
             <p className="font-medium text-zinc-300">
               Upcoming — kicks off {fmtKickoffUtc(fixture.kickoff_utc)}
               {fixture.time_unverified ? " (time unverified)" : ""}
@@ -110,7 +111,7 @@ export default async function LeagueMatchPage({
         fixture={fixture}
         comp={data.comp}
         played={played}
-        voided={voided}
+        settled={settled}
       />
     </div>
   );
@@ -134,13 +135,13 @@ function PicksSection({
   fixture,
   comp,
   played,
-  voided,
+  settled,
 }: {
   info: LeagueMatchInfo;
   fixture: Fixture;
   comp: Competition;
   played: boolean;
-  voided: boolean;
+  settled: boolean;
 }) {
   const stageLabel = roundLabel(fixture.stage);
 
@@ -278,7 +279,7 @@ function PicksSection({
           )}
         </p>
       )}
-      {!played && !voided && (
+      {!settled && (
         <div className="mb-5">
           <ValueLinesCard />
         </div>
