@@ -896,7 +896,7 @@
     "round": 10,
     "home": "Lens",
     "away": "Marseille",
-    "kickoff_utc": "2026-11-07T19:45:00Z",
+    "kickoff_utc": "2026-11-08T19:45:00Z",
     "city": "Lens",
     "stadium": "Stade Bollaert-Delelis",
     "espn_id": "401876404"
@@ -907,7 +907,7 @@
     "round": 10,
     "home": "Toulouse",
     "away": "Strasbourg",
-    "kickoff_utc": "2026-11-07T20:00:00Z",
+    "kickoff_utc": "2026-11-06T19:45:00Z",
     "city": "Toulouse",
     "stadium": "Stadium Municipal de Toulouse",
     "espn_id": "401876405"
@@ -918,7 +918,7 @@
     "round": 10,
     "home": "Stade Rennais",
     "away": "Lille",
-    "kickoff_utc": "2026-11-07T20:00:00Z",
+    "kickoff_utc": "2026-11-08T14:00:00Z",
     "city": "Rennes",
     "stadium": "Roazhon Park",
     "espn_id": "401876406"
@@ -929,7 +929,7 @@
     "round": 10,
     "home": "Paris Saint-Germain",
     "away": "Troyes",
-    "kickoff_utc": "2026-11-07T20:00:00Z",
+    "kickoff_utc": "2026-11-07T19:45:00Z",
     "city": "Paris",
     "stadium": "Parc des Princes",
     "espn_id": "401876407"
@@ -940,7 +940,7 @@
     "round": 10,
     "home": "Le Mans",
     "away": "AS Monaco",
-    "kickoff_utc": "2026-11-07T20:00:00Z",
+    "kickoff_utc": "2026-11-08T16:15:00Z",
     "city": "Le Mans",
     "stadium": "Stade Marie-Marvingt",
     "espn_id": "401876408"
@@ -951,7 +951,7 @@
     "round": 10,
     "home": "Le Havre AC",
     "away": "Lorient",
-    "kickoff_utc": "2026-11-07T20:00:00Z",
+    "kickoff_utc": "2026-11-08T16:15:00Z",
     "city": "Le Havre",
     "stadium": "Stade Océane",
     "espn_id": "401876409"
@@ -962,7 +962,7 @@
     "round": 10,
     "home": "Brest",
     "away": "Lyon",
-    "kickoff_utc": "2026-11-07T20:00:00Z",
+    "kickoff_utc": "2026-11-08T16:15:00Z",
     "city": "Brest",
     "stadium": "Stade Francis-Le Blé",
     "espn_id": "401876410"
@@ -973,7 +973,7 @@
     "round": 10,
     "home": "AJ Auxerre",
     "away": "Paris FC",
-    "kickoff_utc": "2026-11-07T20:00:00Z",
+    "kickoff_utc": "2026-11-07T16:15:00Z",
     "city": "Auxerre",
     "stadium": "Stade de l'Abbé-Deschamps",
     "espn_id": "401876411"
@@ -984,7 +984,7 @@
     "round": 10,
     "home": "Angers",
     "away": "Nice",
-    "kickoff_utc": "2026-11-07T20:00:00Z",
+    "kickoff_utc": "2026-11-08T16:15:00Z",
     "city": "Angers",
     "stadium": "Stade Raymond Kopa",
     "espn_id": "401876412"
@@ -995,7 +995,7 @@
     "round": 11,
     "home": "Troyes",
     "away": "Le Havre AC",
-    "kickoff_utc": "2026-11-21T20:00:00Z",
+    "kickoff_utc": "2026-11-20T19:45:00Z",
     "city": "Paris",
     "stadium": "Stade de l'Aube",
     "espn_id": "401876395"
@@ -1006,7 +1006,7 @@
     "round": 11,
     "home": "Strasbourg",
     "away": "Brest",
-    "kickoff_utc": "2026-11-21T20:00:00Z",
+    "kickoff_utc": "2026-11-21T19:45:00Z",
     "city": "Strasbourg",
     "stadium": "Stade de la Meinau",
     "espn_id": "401876396"
@@ -1017,7 +1017,7 @@
     "round": 11,
     "home": "Paris FC",
     "away": "Angers",
-    "kickoff_utc": "2026-11-21T20:00:00Z",
+    "kickoff_utc": "2026-11-22T14:00:00Z",
     "city": "Paris",
     "stadium": "Stade Jean Bouin",
     "espn_id": "401876397"
@@ -1028,7 +1028,7 @@
     "round": 11,
     "home": "Nice",
     "away": "Paris Saint-Germain",
-    "kickoff_utc": "2026-11-21T20:00:00Z",
+    "kickoff_utc": "2026-11-21T16:15:00Z",
     "city": "Nice",
     "stadium": "Allianz Riviera",
     "espn_id": "401876398"
@@ -1039,7 +1039,7 @@
     "round": 11,
     "home": "AS Monaco",
     "away": "AJ Auxerre",
-    "kickoff_utc": "2026-11-21T20:00:00Z",
+    "kickoff_utc": "2026-11-21T19:45:00Z",
     "city": "Monaco",
     "stadium": "Stade Louis II",
     "espn_id": "401876399"
@@ -1050,7 +1050,7 @@
     "round": 11,
     "home": "Marseille",
     "away": "Le Mans",
-    "kickoff_utc": "2026-11-21T20:00:00Z",
+    "kickoff_utc": "2026-11-22T19:45:00Z",
     "city": "Marseille",
     "stadium": "Stade Vélodrome",
     "espn_id": "401876400"
@@ -1061,7 +1061,7 @@
     "round": 11,
     "home": "Lorient",
     "away": "Stade Rennais",
-    "kickoff_utc": "2026-11-21T20:00:00Z",
+    "kickoff_utc": "2026-11-22T16:15:00Z",
     "city": "Lorient",
     "stadium": "Stade du Moustoir - Yves Allainmat",
     "espn_id": "401876401"
@@ -1072,7 +1072,7 @@
     "round": 11,
     "home": "Lille",
     "away": "Lyon",
-    "kickoff_utc": "2026-11-21T20:00:00Z",
+    "kickoff_utc": "2026-11-21T19:45:00Z",
     "city": "Lille",
     "stadium": "Decathlon Arena - Stade Pierre-Mauroy",
     "espn_id": "401876402"
@@ -1083,7 +1083,7 @@
     "round": 11,
     "home": "Lens",
     "away": "Toulouse",
-    "kickoff_utc": "2026-11-21T20:00:00Z",
+    "kickoff_utc": "2026-11-21T19:45:00Z",
     "city": "Lens",
     "stadium": "Stade Bollaert-Delelis",
     "espn_id": "401876403"
@@ -1094,7 +1094,7 @@
     "round": 12,
     "home": "Toulouse",
     "away": "Stade Rennais",
-    "kickoff_utc": "2026-11-28T20:00:00Z",
+    "kickoff_utc": "2026-11-29T16:15:00Z",
     "city": "Toulouse",
     "stadium": "Stadium Municipal de Toulouse",
     "espn_id": "401876386"
@@ -1105,7 +1105,7 @@
     "round": 12,
     "home": "Paris Saint-Germain",
     "away": "Lorient",
-    "kickoff_utc": "2026-11-28T20:00:00Z",
+    "kickoff_utc": "2026-11-28T19:45:00Z",
     "city": "Paris",
     "stadium": "Parc des Princes",
     "espn_id": "401876387"
@@ -1116,7 +1116,7 @@
     "round": 12,
     "home": "Nice",
     "away": "Troyes",
-    "kickoff_utc": "2026-11-28T20:00:00Z",
+    "kickoff_utc": "2026-11-28T19:45:00Z",
     "city": "Nice",
     "stadium": "Allianz Riviera",
     "espn_id": "401876388"
@@ -1127,7 +1127,7 @@
     "round": 12,
     "home": "Lyon",
     "away": "AS Monaco",
-    "kickoff_utc": "2026-11-28T20:00:00Z",
+    "kickoff_utc": "2026-11-29T19:45:00Z",
     "city": "Lyon",
     "stadium": "Groupama Stadium",
     "espn_id": "401876389"
@@ -1138,7 +1138,7 @@
     "round": 12,
     "home": "Le Mans",
     "away": "Lille",
-    "kickoff_utc": "2026-11-28T20:00:00Z",
+    "kickoff_utc": "2026-11-28T19:45:00Z",
     "city": "Le Mans",
     "stadium": "Stade Marie-Marvingt",
     "espn_id": "401876390"
@@ -1149,7 +1149,7 @@
     "round": 12,
     "home": "Le Havre AC",
     "away": "Strasbourg",
-    "kickoff_utc": "2026-11-28T20:00:00Z",
+    "kickoff_utc": "2026-11-28T19:45:00Z",
     "city": "Le Havre",
     "stadium": "Stade Océane",
     "espn_id": "401876391"
@@ -1160,7 +1160,7 @@
     "round": 12,
     "home": "Brest",
     "away": "Paris FC",
-    "kickoff_utc": "2026-11-28T20:00:00Z",
+    "kickoff_utc": "2026-11-27T19:45:00Z",
     "city": "Brest",
     "stadium": "Stade Francis-Le Blé",
     "espn_id": "401876392"
@@ -1171,7 +1171,7 @@
     "round": 12,
     "home": "AJ Auxerre",
     "away": "Marseille",
-    "kickoff_utc": "2026-11-28T20:00:00Z",
+    "kickoff_utc": "2026-11-29T14:00:00Z",
     "city": "Auxerre",
     "stadium": "Stade de l'Abbé-Deschamps",
     "espn_id": "401876393"
@@ -1182,7 +1182,7 @@
     "round": 12,
     "home": "Angers",
     "away": "Lens",
-    "kickoff_utc": "2026-11-28T20:00:00Z",
+    "kickoff_utc": "2026-11-28T16:15:00Z",
     "city": "Angers",
     "stadium": "Stade Raymond Kopa",
     "espn_id": "401876394"
