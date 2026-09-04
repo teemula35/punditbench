@@ -11,6 +11,16 @@ import { isMatchdayKey, roundLabel } from "@/lib/types";
 import type { Competition, Fixture } from "@/lib/types";
 import { BreakdownChip, TD_CLS, TH_CLS, TierChip } from "../../../../ui";
 
+const UTC_TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
+
+function parseUtcTimestamp(value: unknown): number {
+  if (typeof value !== "string" || !UTC_TIMESTAMP_RE.test(value)) return Number.NaN;
+  const parsed = Date.parse(value);
+  if (!Number.isFinite(parsed)) return Number.NaN;
+  const canonical = value.includes(".") ? value : value.replace(/Z$/, ".000Z");
+  return new Date(parsed).toISOString() === canonical ? parsed : Number.NaN;
+}
+
 export function generateStaticParams() {
   return loadCompetitions().flatMap((c) =>
     loadCompetitionFixtures(c.id).map((f) => ({ comp: c.id, match: String(f.match) })),
@@ -248,8 +258,8 @@ function PicksSection({
   }
 
   const withPick = info.rows.filter((r) => r.prediction).length;
-  const lockedAtMs = Date.parse(info.lockedAt ?? "");
-  const kickoffMs = Date.parse(fixture.kickoff_utc);
+  const lockedAtMs = parseUtcTimestamp(info.lockedAt);
+  const kickoffMs = parseUtcTimestamp(fixture.kickoff_utc);
   const hasValidLockedPicks =
     info.state === "picks" &&
     Number.isFinite(lockedAtMs) &&

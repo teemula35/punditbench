@@ -135,6 +135,45 @@ describe("match-page Value Lines placement", () => {
     expect(html).not.toContain('data-analytics-event="value_lines_click"');
   });
 
+  it("does not coerce non-string lock metadata into an eligible timestamp", async () => {
+    fixtureState.info.lockedAt = ["2026-09-04T03:00:00Z"] as unknown as string;
+
+    const html = renderToStaticMarkup(
+      await LeagueMatchPage({
+        params: Promise.resolve({ comp: fixtureState.competition.id, match: "1" }),
+      }),
+    );
+
+    expect(html).not.toContain("See Value Lines");
+    expect(html).not.toContain('data-analytics-event="value_lines_click"');
+  });
+
+  it("does not accept a non-canonical lock timestamp", async () => {
+    fixtureState.info.lockedAt = "September 4, 2026 03:00 UTC";
+
+    const html = renderToStaticMarkup(
+      await LeagueMatchPage({
+        params: Promise.resolve({ comp: fixtureState.competition.id, match: "1" }),
+      }),
+    );
+
+    expect(html).not.toContain("See Value Lines");
+    expect(html).not.toContain('data-analytics-event="value_lines_click"');
+  });
+
+  it("does not accept an impossible UTC calendar timestamp", async () => {
+    fixtureState.info.lockedAt = "2026-02-30T03:00:00Z";
+
+    const html = renderToStaticMarkup(
+      await LeagueMatchPage({
+        params: Promise.resolve({ comp: fixtureState.competition.id, match: "1" }),
+      }),
+    );
+
+    expect(html).not.toContain("See Value Lines");
+    expect(html).not.toContain('data-analytics-event="value_lines_click"');
+  });
+
   it("does not market Value Lines when the lock is not before kickoff", async () => {
     fixtureState.info.lockedAt = fixtureState.fixture.kickoff_utc;
 
