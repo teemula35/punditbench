@@ -56,7 +56,7 @@ export default async function LeagueMatchPage({
   const final = result?.status === "final";
   const played = final && result.home_goals !== undefined && result.away_goals !== undefined;
   const voided = result?.status === "voided";
-  const settled = final || voided;
+  const upcoming = result === undefined;
   const info = leagueMatchInfo(data, fixture);
 
   return (
@@ -92,7 +92,7 @@ export default async function LeagueMatchPage({
               Voided — excluded from scoring for all models.
             </p>
           )}
-          {!settled && (
+          {upcoming && (
             <p className="font-medium text-zinc-300">
               Upcoming — kicks off {fmtKickoffUtc(fixture.kickoff_utc)}
               {fixture.time_unverified ? " (time unverified)" : ""}
@@ -111,7 +111,7 @@ export default async function LeagueMatchPage({
         fixture={fixture}
         comp={data.comp}
         played={played}
-        settled={settled}
+        upcoming={upcoming}
       />
     </div>
   );
@@ -135,13 +135,13 @@ function PicksSection({
   fixture,
   comp,
   played,
-  settled,
+  upcoming,
 }: {
   info: LeagueMatchInfo;
   fixture: Fixture;
   comp: Competition;
   played: boolean;
-  settled: boolean;
+  upcoming: boolean;
 }) {
   const stageLabel = roundLabel(fixture.stage);
 
@@ -248,6 +248,14 @@ function PicksSection({
   }
 
   const withPick = info.rows.filter((r) => r.prediction).length;
+  const lockedAtMs = Date.parse(info.lockedAt ?? "");
+  const kickoffMs = Date.parse(fixture.kickoff_utc);
+  const hasValidLockedPicks =
+    info.state === "picks" &&
+    Number.isFinite(lockedAtMs) &&
+    Number.isFinite(kickoffMs) &&
+    lockedAtMs < kickoffMs &&
+    Boolean(info.consensus && withPick > 0);
   return (
     <section>
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
@@ -279,7 +287,7 @@ function PicksSection({
           )}
         </p>
       )}
-      {!settled && (
+      {upcoming && hasValidLockedPicks && (
         <div className="mb-5">
           <ValueLinesCard />
         </div>
