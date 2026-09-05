@@ -66,6 +66,16 @@ export default function SeasonAnnouncementPage() {
             prediction — graded live all season as &quot;if it ended today&quot;.
           </li>
         </ul>
+        <p>
+          The complete frozen five-league season-table field is available as a {" "}
+          <Link
+            href="/datasets/season-tables-2026-27/"
+            className="text-emerald-400 underline decoration-emerald-400/40 underline-offset-2 hover:decoration-emerald-400"
+          >
+            public dataset with direct downloads and lock provenance
+          </Link>
+          .
+        </p>
       </section>
 
       <SeasonLaunchCalendar />

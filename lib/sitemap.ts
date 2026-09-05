@@ -12,6 +12,7 @@ export function sitemapRoutes(): string[] {
     "/changelog/",
     "/about/",
     "/season-2026-27/",
+    "/datasets/season-tables-2026-27/",
     "/briefs/opening-round-2026/",
     "/briefs/opening-round-2026/refunds/",
     "/briefs/opening-round-2026/privacy/",
