@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ValueLinesCard } from "@/app/value-lines-card";
 import { loadCompetitionFixtures, loadCompetitions } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { leagueMatchInfo, loadLeagueData, type LeagueMatchInfo } from "@/lib/league-aggregate";
@@ -9,6 +10,16 @@ import { modelEligibleForLeagueRound } from "@/lib/league-participation";
 import { isMatchdayKey, roundLabel } from "@/lib/types";
 import type { Competition, Fixture } from "@/lib/types";
 import { BreakdownChip, TD_CLS, TH_CLS, TierChip } from "../../../../ui";
+
+const UTC_TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
+
+function parseUtcTimestamp(value: unknown): number {
+  if (typeof value !== "string" || !UTC_TIMESTAMP_RE.test(value)) return Number.NaN;
+  const parsed = Date.parse(value);
+  if (!Number.isFinite(parsed)) return Number.NaN;
+  const canonical = value.includes(".") ? value : value.replace(/Z$/, ".000Z");
+  return new Date(parsed).toISOString() === canonical ? parsed : Number.NaN;
+}
 
 export function generateStaticParams() {
   return loadCompetitions().flatMap((c) =>
@@ -52,9 +63,10 @@ export default async function LeagueMatchPage({
   if (!fixture) notFound();
 
   const result = data.results.get(fixture.match);
-  const played =
-    result?.status === "final" && result.home_goals !== undefined && result.away_goals !== undefined;
+  const final = result?.status === "final";
+  const played = final && result.home_goals !== undefined && result.away_goals !== undefined;
   const voided = result?.status === "voided";
+  const upcoming = result === undefined;
   const info = leagueMatchInfo(data, fixture);
 
   return (
@@ -90,7 +102,7 @@ export default async function LeagueMatchPage({
               Voided — excluded from scoring for all models.
             </p>
           )}
-          {!played && !voided && (
+          {upcoming && (
             <p className="font-medium text-zinc-300">
               Upcoming — kicks off {fmtKickoffUtc(fixture.kickoff_utc)}
               {fixture.time_unverified ? " (time unverified)" : ""}
@@ -104,7 +116,13 @@ export default async function LeagueMatchPage({
         </div>
       </header>
 
-      <PicksSection info={info} fixture={fixture} comp={data.comp} played={played} />
+      <PicksSection
+        info={info}
+        fixture={fixture}
+        comp={data.comp}
+        played={played}
+        upcoming={upcoming}
+      />
     </div>
   );
 }
@@ -127,11 +145,13 @@ function PicksSection({
   fixture,
   comp,
   played,
+  upcoming,
 }: {
   info: LeagueMatchInfo;
   fixture: Fixture;
   comp: Competition;
   played: boolean;
+  upcoming: boolean;
 }) {
   const stageLabel = roundLabel(fixture.stage);
 
@@ -238,6 +258,14 @@ function PicksSection({
   }
 
   const withPick = info.rows.filter((r) => r.prediction).length;
+  const lockedAtMs = parseUtcTimestamp(info.lockedAt);
+  const kickoffMs = parseUtcTimestamp(fixture.kickoff_utc);
+  const hasValidLockedPicks =
+    info.state === "picks" &&
+    Number.isFinite(lockedAtMs) &&
+    Number.isFinite(kickoffMs) &&
+    lockedAtMs < kickoffMs &&
+    Boolean(info.consensus && withPick > 0);
   return (
     <section>
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
@@ -268,6 +296,11 @@ function PicksSection({
             </>
           )}
         </p>
+      )}
+      {upcoming && hasValidLockedPicks && (
+        <div className="mb-5">
+          <ValueLinesCard />
+        </div>
       )}
       <div className="overflow-x-auto rounded-lg border border-zinc-800">
         <table className="w-full text-sm sm:min-w-[480px]">
