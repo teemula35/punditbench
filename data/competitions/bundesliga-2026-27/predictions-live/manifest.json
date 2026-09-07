@@ -1,10 +1,35 @@
 {
-  "excluded": {},
+  "excluded": {
+    "10": "Kicked off before this round's picks were collected.",
+    "11": "Kicked off before this round's picks were collected.",
+    "12": "Kicked off before this round's picks were collected.",
+    "13": "Kicked off before this round's picks were collected.",
+    "14": "Kicked off before this round's picks were collected.",
+    "15": "Kicked off before this round's picks were collected.",
+    "16": "Kicked off before this round's picks were collected.",
+    "17": "Kicked off before this round's picks were collected.",
+    "18": "Kicked off before this round's picks were collected."
+  },
   "rounds": {
     "md01": {
       "locked_at": "2026-08-27T09:02:40.402Z",
       "models": 43,
       "excluded": []
+    },
+    "md02": {
+      "locked_at": "2026-09-07T20:46:27.525Z",
+      "models": 0,
+      "excluded": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ]
     }
   }
 }
