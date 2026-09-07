@@ -59,7 +59,7 @@ npx tsc --noEmit
 npm run build:ci
 ```
 
-`build:ci` and `build` now produce the same checkout-free public export. The retired EUR 5 opening-round page is a historical format sample; the current EUR 9/month Value Lines checkout and customer delivery live in the private product service linked from the homepage, league pages and matchday pages. Public deploy workflows therefore require no payment-provider secret.
+`build:ci` and `build` produce the same checkout-free public export. The retired opening-round page remains a historical format sample. Links promoting the retired subscription offer have been removed from the homepage, navigation, league pages and matchday pages. Public deploy workflows require no payment-provider secret.
 
 Prediction and lock commands can write pre-registration artifacts. Follow [OPS.md](OPS.md) and inspect with `--dry-run`; **`--mock` is not a read-only rehearsal**.
 

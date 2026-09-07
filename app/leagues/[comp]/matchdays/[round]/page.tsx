@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ValueLinesCard } from "@/app/value-lines-card";
 import { loadCompetitions } from "@/lib/data";
 import { fmtKickoffUtc } from "@/lib/format";
 import { loadLeagueData } from "@/lib/league-aggregate";
@@ -78,7 +77,6 @@ export default async function LeagueMatchdayPage({
         </p>
       </header>
 
-      <ValueLinesCard />
 
       <section aria-label={`${roundLabel(mdKey(roundNumber))} fixtures`}>
         <div className="divide-y divide-zinc-800 overflow-hidden rounded-lg border border-zinc-800">

@@ -16,7 +16,6 @@ import { reportCards } from "@/lib/report-card";
 import { SITE_NAME, SITE_URL, TAGLINE } from "@/lib/site";
 import { LeagueBridge } from "./league-bridge";
 import { TodayMatches } from "./today-matches";
-import { ValueLinesCard } from "./value-lines-card";
 import { TD_CLS, TH_CLS, TeamLabel, TierChip } from "./ui";
 import type { Fixture, Team } from "@/lib/types";
 
@@ -196,7 +195,6 @@ export default function LeaderboardPage() {
       {/* The current product leads; the completed tournament remains intact below as evidence. */}
       <LeagueBridge modelCount={leagueModelCount} />
 
-      <ValueLinesCard />
 
       {/* Direct routes into today's already locked league consensus. */}
       <TodayMatches cards={todayCards} initialNow={homepageReferenceTime.toISOString()} />

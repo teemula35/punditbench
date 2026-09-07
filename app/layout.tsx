@@ -8,7 +8,7 @@ import { SeasonBanner } from "./season-banner";
 import { Wordmark } from "./ui";
 
 const DEFAULT_DESCRIPTION =
-  "Pre-registered AI football predictions, a private fair-odds subscription, and the completed 2026 World Cup preserved as a frozen archive.";
+  "Pre-registered AI football predictions across five live leagues, and the completed 2026 World Cup preserved as a frozen archive.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -40,7 +40,6 @@ export const metadata: Metadata = {
 };
 
 const NAV = [
-  { href: "https://pb-feed-private-446043664034.europe-north1.run.app/", label: "Value Lines" },
   { href: "/leagues/", label: "Live leagues" },
   { href: "/#world-cup-archive", label: "World Cup archive" },
   { href: "/matches/", label: "WC matches" },
