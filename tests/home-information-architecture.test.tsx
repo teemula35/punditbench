@@ -10,13 +10,11 @@ describe("homepage information architecture", () => {
   it("places the live league product before the intact World Cup archive", () => {
     const source = readSource("app", "page.tsx");
     const leagueBridge = source.indexOf("<LeagueBridge");
-    const valueLines = source.indexOf("<ValueLinesCard");
     const todayMatches = source.indexOf("<TodayMatches");
     const archive = source.indexOf('id="world-cup-archive"');
 
     expect(leagueBridge).toBeGreaterThanOrEqual(0);
-    expect(valueLines).toBeGreaterThan(leagueBridge);
-    expect(todayMatches).toBeGreaterThan(valueLines);
+    expect(todayMatches).toBeGreaterThan(leagueBridge);
     expect(archive).toBeGreaterThan(todayMatches);
     expect(source).not.toContain("<OpeningRoundBriefCard");
     expect(source).not.toContain("<LockAlertInterest");
@@ -64,7 +62,8 @@ describe("homepage information architecture", () => {
     const source = readSource("app", "layout.tsx");
 
     expect(source).toContain("football forecasts, results and fair odds");
-    expect(source).toContain("a private fair-odds subscription");
+    expect(source).toContain("predictions across five live leagues");
+    expect(source).not.toContain("subscription");
     expect(source).not.toContain("40 LLMs predict the 2026 World Cup");
     expect(source).not.toContain("url: SITE_URL");
     expect(source).not.toContain("/og.png");

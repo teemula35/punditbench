@@ -1,10 +1,14 @@
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import OpeningRoundBriefPage, { metadata } from "../app/briefs/opening-round-2026/page";
 import LeagueMatchdayPage from "../app/leagues/[comp]/matchdays/[round]/page";
 import LeaguePage from "../app/leagues/[comp]/page";
 import LeaguesPage from "../app/leagues/page";
+import HomePage from "../app/page";
+import RootLayout, { metadata as layoutMetadata } from "../app/layout";
+
+vi.mock("../app/globals.css", () => ({}));
 
 const PRODUCT_URL = "https://pb-feed-private-446043664034.europe-north1.run.app/";
 
@@ -43,41 +47,31 @@ describe("historical opening-round brief page", () => {
   });
 });
 
-describe("current product links on league surfaces", () => {
-  it("links the league hub to Value Lines before its explanation", () => {
+describe("league pages after product-link retirement", () => {
+  it("keeps the homepage and navigation without the retired offer", () => {
+    const html = renderToStaticMarkup(<RootLayout><HomePage /></RootLayout>);
+    expect(html).not.toContain(PRODUCT_URL);
+    expect(html).not.toContain("Value Lines");
+    expect(html).toContain("World Cup archive");
+    expect(html).toContain("Live leagues");
+    expect(layoutMetadata.description).not.toContain("subscription");
+  });
+  it("keeps the league hub without the retired product promotion", () => {
     const html = renderToStaticMarkup(<LeaguesPage />);
-
-    expect(html.match(new RegExp(`href="${PRODUCT_URL}"`, "g"))).toHaveLength(1);
-    expect(html).toContain("See Value Lines");
-    expect(html.indexOf("<h1")).toBeLessThan(html.indexOf("See Value Lines"));
-    expect(html.indexOf("See Value Lines")).toBeLessThan(
-      html.indexOf("Unlike the knowledge-only World Cup prompts"),
-    );
+    expect(html).not.toContain(PRODUCT_URL);
+    expect(html).not.toContain("Value Lines");
+    expect(html).toContain("Unlike the knowledge-only World Cup prompts");
   });
-
-  it("links each league landing page to Value Lines before its leaderboard", async () => {
-    const html = renderToStaticMarkup(
-      await LeaguePage({ params: Promise.resolve({ comp: "laliga-2026-27" }) }),
-    );
-
-    expect(html.match(new RegExp(`href="${PRODUCT_URL}"`, "g"))).toHaveLength(1);
-    expect(html).toContain("See Value Lines");
-    expect(html.indexOf("<h1")).toBeLessThan(html.indexOf("See Value Lines"));
-    expect(html.indexOf("See Value Lines")).toBeLessThan(html.indexOf("Season leaderboard"));
+  it("keeps league standings without the retired product promotion", async () => {
+    const html = renderToStaticMarkup(await LeaguePage({ params: Promise.resolve({ comp: "laliga-2026-27" }) }));
+    expect(html).not.toContain(PRODUCT_URL);
+    expect(html).not.toContain("Value Lines");
+    expect(html).toContain("Season leaderboard");
   });
-
-  it("links each matchday page to Value Lines before its fixtures", async () => {
-    const html = renderToStaticMarkup(
-      await LeagueMatchdayPage({
-        params: Promise.resolve({ comp: "epl-2026-27", round: "1" }),
-      }),
-    );
-
-    expect(html.match(new RegExp(`href="${PRODUCT_URL}"`, "g"))).toHaveLength(1);
-    expect(html).toContain("See Value Lines");
-    expect(html.indexOf("<h1")).toBeLessThan(html.indexOf("See Value Lines"));
-    expect(html.indexOf("See Value Lines")).toBeLessThan(
-      html.indexOf('aria-label="Matchday 1 fixtures"'),
-    );
+  it("keeps matchday fixtures without the retired product promotion", async () => {
+    const html = renderToStaticMarkup(await LeagueMatchdayPage({ params: Promise.resolve({ comp: "epl-2026-27", round: "1" }) }));
+    expect(html).not.toContain(PRODUCT_URL);
+    expect(html).not.toContain("Value Lines");
+    expect(html).toContain('aria-label="Matchday 1 fixtures"');
   });
 });

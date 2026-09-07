@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ValueLinesCard } from "@/app/value-lines-card";
 import { loadCompetitions } from "@/lib/data";
 import { fmtKickoffUtc, fmtShortDateUtc } from "@/lib/format";
 import { fixturesByRound, loadLeagueData, nextRound } from "@/lib/league-aggregate";
@@ -49,7 +48,6 @@ export default async function LeaguePage({ params }: { params: Promise<{ comp: s
         sub={`${data.leaderboard.length} models are tracked one matchday at a time — shown the current table and each team's recent form, with eligible picks locked ~36h before each round's first kickoff. Later entrants are flagged and never backfilled. Exact score 3 · goal difference 2 · outcome 1.`}
       />
 
-      <ValueLinesCard />
 
       {data.totalFixtures === 0 ? (
         <div className="max-w-2xl rounded-lg border border-dashed border-zinc-800 bg-zinc-900/30 p-5">

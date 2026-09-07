@@ -8,7 +8,7 @@ describe("analytics privacy disclosure", () => {
 
     expect(source).toContain("If you accept in the consent banner");
     expect(source).toContain(
-      "Value Lines product-link, homepage match-card and lock-alert interest clicks",
+      "homepage match-card and lock-alert interest clicks",
     );
     expect(source).toContain("no ads, no cross-site tracking");
   });
