@@ -11,6 +11,7 @@ describe("sitemapRoutes", () => {
     expect(routes).toContain("/matches/");
     expect(routes).toContain("/groups/");
     expect(routes).toContain("/models/");
+    expect(routes).toContain("/datasets/season-tables-2026-27/");
     expect(routes.filter((route) => /^\/matches\/\d+\/$/.test(route))).toHaveLength(104);
     expect(
       routes.filter((route) => /^\/leagues\/[^/]+\/matchdays\/\d+\/$/.test(route)),
