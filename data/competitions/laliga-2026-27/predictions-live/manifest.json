@@ -1,5 +1,7 @@
 {
-  "excluded": {},
+  "excluded": {
+    "51": "Kicked off before this round's picks were collected."
+  },
   "rounds": {
     "md01": {
       "locked_at": "2026-08-14T06:59:15.953Z",
@@ -25,6 +27,13 @@
       "locked_at": "2026-09-10T10:35:55.356Z",
       "models": 42,
       "excluded": []
+    },
+    "md06": {
+      "locked_at": "2026-09-10T20:07:12.886Z",
+      "models": 43,
+      "excluded": [
+        51
+      ]
     }
   }
 }

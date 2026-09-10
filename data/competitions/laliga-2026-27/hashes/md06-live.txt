@@ -1,0 +1,10 @@
+track: round-by-round (live, real fixtures)
+competition: laliga-2026-27
+round: md06
+models: 43
+generated_at: 2026-09-10T20:07:12.893Z
+sha256: 84ed827e8f75374406ce04a485fadd3e0aa048e3f4e8492ae46badcdabebc412
+
+Canonical form v2: JSON array of {slug, model, stage, completed_at, simulated_fixtures?
+(sorted by match), predictions (sorted by match)}, sorted by (slug, stage), no whitespace.
+Recompute with: npm run hash -- --comp laliga-2026-27 --round md06

@@ -1776,7 +1776,7 @@
     "round": 17,
     "home": "Newcastle United",
     "away": "Manchester City",
-    "kickoff_utc": "2026-12-26T15:00:00Z",
+    "kickoff_utc": "2026-12-26T20:00:00Z",
     "city": "Newcastle-upon-Tyne",
     "stadium": "St. James' Park",
     "espn_id": "401878732"
@@ -1787,7 +1787,7 @@
     "round": 17,
     "home": "Hull City",
     "away": "Liverpool",
-    "kickoff_utc": "2026-12-26T15:00:00Z",
+    "kickoff_utc": "2026-12-26T17:30:00Z",
     "city": "Hull",
     "stadium": "The MKM Stadium",
     "espn_id": "401878733"
@@ -1809,7 +1809,7 @@
     "round": 17,
     "home": "Crystal Palace",
     "away": "Arsenal",
-    "kickoff_utc": "2026-12-26T15:00:00Z",
+    "kickoff_utc": "2026-12-27T19:00:00Z",
     "city": "London",
     "stadium": "Selhurst Park",
     "espn_id": "401878735"
@@ -1820,7 +1820,7 @@
     "round": 17,
     "home": "Coventry City",
     "away": "Chelsea",
-    "kickoff_utc": "2026-12-26T15:00:00Z",
+    "kickoff_utc": "2026-12-27T14:00:00Z",
     "city": "Coventry",
     "stadium": "Coventry Building Society Arena",
     "espn_id": "401878736"
@@ -1831,7 +1831,7 @@
     "round": 17,
     "home": "Aston Villa",
     "away": "Leeds United",
-    "kickoff_utc": "2026-12-26T15:00:00Z",
+    "kickoff_utc": "2026-12-26T12:30:00Z",
     "city": "Birmingham",
     "stadium": "Villa Park",
     "espn_id": "401878737"
@@ -1842,7 +1842,7 @@
     "round": 17,
     "home": "Manchester United",
     "away": "Nottingham Forest",
-    "kickoff_utc": "2026-12-26T15:00:00Z",
+    "kickoff_utc": "2026-12-27T16:30:00Z",
     "city": "Manchester",
     "stadium": "Old Trafford",
     "espn_id": "401879195"
@@ -1875,7 +1875,7 @@
     "round": 18,
     "home": "Coventry City",
     "away": "Brentford",
-    "kickoff_utc": "2026-12-30T20:00:00Z",
+    "kickoff_utc": "2026-12-30T19:30:00Z",
     "city": "Coventry",
     "stadium": "Coventry Building Society Arena",
     "espn_id": "401878730"
@@ -1886,7 +1886,7 @@
     "round": 18,
     "home": "Tottenham Hotspur",
     "away": "Brighton & Hove Albion",
-    "kickoff_utc": "2026-12-30T20:00:00Z",
+    "kickoff_utc": "2026-12-29T19:30:00Z",
     "city": "London",
     "stadium": "Tottenham Hotspur Stadium",
     "espn_id": "401879186"
@@ -1897,7 +1897,7 @@
     "round": 18,
     "home": "Newcastle United",
     "away": "Nottingham Forest",
-    "kickoff_utc": "2026-12-30T20:00:00Z",
+    "kickoff_utc": "2026-12-30T19:30:00Z",
     "city": "Newcastle-upon-Tyne",
     "stadium": "St. James' Park",
     "espn_id": "401879187"
@@ -1908,7 +1908,7 @@
     "round": 18,
     "home": "Manchester United",
     "away": "Sunderland",
-    "kickoff_utc": "2026-12-30T20:00:00Z",
+    "kickoff_utc": "2026-12-30T19:30:00Z",
     "city": "Manchester",
     "stadium": "Old Trafford",
     "espn_id": "401879188"
@@ -1919,7 +1919,7 @@
     "round": 18,
     "home": "Ipswich Town",
     "away": "Chelsea",
-    "kickoff_utc": "2026-12-30T20:00:00Z",
+    "kickoff_utc": "2026-12-30T20:15:00Z",
     "city": "Ipswich",
     "stadium": "Portman Road",
     "espn_id": "401879189"
@@ -1930,7 +1930,7 @@
     "round": 18,
     "home": "Hull City",
     "away": "Leeds United",
-    "kickoff_utc": "2026-12-30T20:00:00Z",
+    "kickoff_utc": "2026-12-29T19:30:00Z",
     "city": "Hull",
     "stadium": "The MKM Stadium",
     "espn_id": "401879190"
@@ -1941,7 +1941,7 @@
     "round": 18,
     "home": "Fulham",
     "away": "Arsenal",
-    "kickoff_utc": "2026-12-30T20:00:00Z",
+    "kickoff_utc": "2026-12-30T19:30:00Z",
     "city": "London",
     "stadium": "Craven Cottage",
     "espn_id": "401879191"
@@ -1952,7 +1952,7 @@
     "round": 18,
     "home": "Everton",
     "away": "Manchester City",
-    "kickoff_utc": "2026-12-30T20:00:00Z",
+    "kickoff_utc": "2026-12-29T20:15:00Z",
     "city": "Liverpool",
     "stadium": "Hill Dickinson Stadium",
     "espn_id": "401879192"
@@ -1963,7 +1963,7 @@
     "round": 18,
     "home": "Crystal Palace",
     "away": "AFC Bournemouth",
-    "kickoff_utc": "2026-12-30T20:00:00Z",
+    "kickoff_utc": "2026-12-30T19:30:00Z",
     "city": "London",
     "stadium": "Selhurst Park",
     "espn_id": "401879193"
@@ -1974,7 +1974,7 @@
     "round": 18,
     "home": "Aston Villa",
     "away": "Liverpool",
-    "kickoff_utc": "2026-12-30T20:00:00Z",
+    "kickoff_utc": "2026-12-30T20:15:00Z",
     "city": "Birmingham",
     "stadium": "Villa Park",
     "espn_id": "401879194"
@@ -1985,7 +1985,7 @@
     "round": 19,
     "home": "Brighton & Hove Albion",
     "away": "Manchester United",
-    "kickoff_utc": "2027-01-02T15:00:00Z",
+    "kickoff_utc": "2027-01-02T12:30:00Z",
     "city": "Falmer",
     "stadium": "American Express Stadium",
     "espn_id": "401878728"
@@ -1996,7 +1996,7 @@
     "round": 19,
     "home": "AFC Bournemouth",
     "away": "Aston Villa",
-    "kickoff_utc": "2027-01-02T15:00:00Z",
+    "kickoff_utc": "2027-01-02T17:30:00Z",
     "city": "Bournemouth",
     "stadium": "Vitality Stadium",
     "espn_id": "401878729"
@@ -2029,7 +2029,7 @@
     "round": 19,
     "home": "Manchester City",
     "away": "Tottenham Hotspur",
-    "kickoff_utc": "2027-01-02T15:00:00Z",
+    "kickoff_utc": "2027-01-03T16:30:00Z",
     "city": "Manchester",
     "stadium": "Etihad Stadium",
     "espn_id": "401879180"
@@ -2051,7 +2051,7 @@
     "round": 19,
     "home": "Leeds United",
     "away": "Everton",
-    "kickoff_utc": "2027-01-02T15:00:00Z",
+    "kickoff_utc": "2027-01-01T20:00:00Z",
     "city": "Leeds",
     "stadium": "Elland Road",
     "espn_id": "401879182"
@@ -2062,7 +2062,7 @@
     "round": 19,
     "home": "Chelsea",
     "away": "Newcastle United",
-    "kickoff_utc": "2027-01-02T15:00:00Z",
+    "kickoff_utc": "2027-01-03T14:00:00Z",
     "city": "London",
     "stadium": "Stamford Bridge",
     "espn_id": "401879183"
@@ -2095,7 +2095,7 @@
     "round": 20,
     "home": "Sunderland",
     "away": "Liverpool",
-    "kickoff_utc": "2027-01-06T20:00:00Z",
+    "kickoff_utc": "2027-01-05T20:15:00Z",
     "city": "Sunderland",
     "stadium": "Stadium of Light",
     "espn_id": "401878727"
@@ -2106,7 +2106,7 @@
     "round": 20,
     "home": "Nottingham Forest",
     "away": "Hull City",
-    "kickoff_utc": "2027-01-06T20:00:00Z",
+    "kickoff_utc": "2027-01-05T19:30:00Z",
     "city": "Nottingham",
     "stadium": "The City Ground",
     "espn_id": "401879169"
@@ -2117,7 +2117,7 @@
     "round": 20,
     "home": "Manchester United",
     "away": "Newcastle United",
-    "kickoff_utc": "2027-01-06T20:00:00Z",
+    "kickoff_utc": "2027-01-07T20:00:00Z",
     "city": "Manchester",
     "stadium": "Old Trafford",
     "espn_id": "401879170"
@@ -2128,7 +2128,7 @@
     "round": 20,
     "home": "Leeds United",
     "away": "Manchester City",
-    "kickoff_utc": "2027-01-06T20:00:00Z",
+    "kickoff_utc": "2027-01-06T20:15:00Z",
     "city": "Leeds",
     "stadium": "Elland Road",
     "espn_id": "401879171"
@@ -2139,7 +2139,7 @@
     "round": 20,
     "home": "Ipswich Town",
     "away": "Coventry City",
-    "kickoff_utc": "2027-01-06T20:00:00Z",
+    "kickoff_utc": "2027-01-06T19:30:00Z",
     "city": "Ipswich",
     "stadium": "Portman Road",
     "espn_id": "401879172"
@@ -2150,7 +2150,7 @@
     "round": 20,
     "home": "Fulham",
     "away": "Tottenham Hotspur",
-    "kickoff_utc": "2027-01-06T20:00:00Z",
+    "kickoff_utc": "2027-01-06T19:30:00Z",
     "city": "London",
     "stadium": "Craven Cottage",
     "espn_id": "401879173"
@@ -2161,7 +2161,7 @@
     "round": 20,
     "home": "Everton",
     "away": "Aston Villa",
-    "kickoff_utc": "2027-01-06T20:00:00Z",
+    "kickoff_utc": "2027-01-05T19:30:00Z",
     "city": "Liverpool",
     "stadium": "Hill Dickinson Stadium",
     "espn_id": "401879174"
@@ -2172,7 +2172,7 @@
     "round": 20,
     "home": "Crystal Palace",
     "away": "Chelsea",
-    "kickoff_utc": "2027-01-06T20:00:00Z",
+    "kickoff_utc": "2027-01-06T19:30:00Z",
     "city": "London",
     "stadium": "Selhurst Park",
     "espn_id": "401879175"
@@ -2183,7 +2183,7 @@
     "round": 20,
     "home": "Brighton & Hove Albion",
     "away": "AFC Bournemouth",
-    "kickoff_utc": "2027-01-06T20:00:00Z",
+    "kickoff_utc": "2027-01-05T19:30:00Z",
     "city": "Falmer",
     "stadium": "American Express Stadium",
     "espn_id": "401879176"
@@ -2194,7 +2194,7 @@
     "round": 20,
     "home": "Arsenal",
     "away": "Brentford",
-    "kickoff_utc": "2027-01-06T20:00:00Z",
+    "kickoff_utc": "2027-01-05T19:30:00Z",
     "city": "London",
     "stadium": "Emirates Stadium",
     "espn_id": "401879177"

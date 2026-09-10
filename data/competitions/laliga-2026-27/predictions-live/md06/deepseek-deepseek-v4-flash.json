@@ -1,0 +1,65 @@
+{
+  "model": "deepseek/deepseek-v4-flash",
+  "slug": "deepseek-deepseek-v4-flash",
+  "stage": "md06",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-10T20:00:47.472Z",
+  "completed_at": "2026-09-10T20:00:52.297Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 2095,
+    "completion_tokens": 169,
+    "total_tokens": 2264,
+    "cost_usd": 0.00021897
+  },
+  "predictions": [
+    {
+      "match": 52,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 53,
+      "home_goals": 0,
+      "away_goals": 1
+    },
+    {
+      "match": 54,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 55,
+      "home_goals": 4,
+      "away_goals": 0
+    },
+    {
+      "match": 56,
+      "home_goals": 0,
+      "away_goals": 3
+    },
+    {
+      "match": 57,
+      "home_goals": 2,
+      "away_goals": 2
+    },
+    {
+      "match": 58,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 59,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 60,
+      "home_goals": 2,
+      "away_goals": 0
+    }
+  ]
+}
