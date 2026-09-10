@@ -1,0 +1,65 @@
+{
+  "model": "meta-llama/llama-4-scout",
+  "slug": "meta-llama-llama-4-scout",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-10T10:27:05.976Z",
+  "completed_at": "2026-09-10T10:27:10.482Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1603,
+    "completion_tokens": 149,
+    "total_tokens": 1752,
+    "cost_usd": 0.000205
+  },
+  "predictions": [
+    {
+      "match": 28,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 29,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 30,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 31,
+      "home_goals": 2,
+      "away_goals": 0
+    },
+    {
+      "match": 32,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 33,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 34,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 35,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 36,
+      "home_goals": 0,
+      "away_goals": 1
+    }
+  ]
+}

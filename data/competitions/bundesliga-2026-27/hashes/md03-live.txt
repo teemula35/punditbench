@@ -1,0 +1,10 @@
+track: round-by-round (live, real fixtures)
+competition: bundesliga-2026-27
+round: md03
+models: 43
+generated_at: 2026-09-10T10:03:51.711Z
+sha256: 529701e5dd2d0b2b3d9974b0d3667344eff6f9fc5cad5d5de7be3dc370eb02da
+
+Canonical form v2: JSON array of {slug, model, stage, completed_at, simulated_fixtures?
+(sorted by match), predictions (sorted by match)}, sorted by (slug, stage), no whitespace.
+Recompute with: npm run hash -- --comp bundesliga-2026-27 --round md03

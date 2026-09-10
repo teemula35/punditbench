@@ -1,0 +1,70 @@
+{
+  "model": "anthropic/claude-3-haiku",
+  "slug": "anthropic-claude-3-haiku",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-10T10:07:29.856Z",
+  "completed_at": "2026-09-10T10:07:31.613Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 2152,
+    "completion_tokens": 188,
+    "total_tokens": 2340,
+    "cost_usd": 0.000773
+  },
+  "predictions": [
+    {
+      "match": 31,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 32,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 33,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 34,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 35,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 36,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 37,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 38,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 39,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 40,
+      "home_goals": 2,
+      "away_goals": 1
+    }
+  ]
+}

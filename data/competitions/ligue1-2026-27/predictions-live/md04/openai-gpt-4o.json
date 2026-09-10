@@ -1,0 +1,65 @@
+{
+  "model": "openai/gpt-4o",
+  "slug": "openai-gpt-4o",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-10T10:28:39.896Z",
+  "completed_at": "2026-09-10T10:28:42.581Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1617,
+    "completion_tokens": 150,
+    "total_tokens": 1767,
+    "cost_usd": 0.0055425
+  },
+  "predictions": [
+    {
+      "match": 28,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 29,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 30,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 31,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 32,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 33,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 34,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 35,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 36,
+      "home_goals": 1,
+      "away_goals": 1
+    }
+  ]
+}
