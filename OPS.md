@@ -24,20 +24,19 @@ CI deploy auth: repo secret `FIREBASE_SERVICE_ACCOUNT_PUNDITBENCH`
 Hosting Admin). The workflow and service account remain in use for the league seasons; do not
 delete them as World Cup cleanup.
 
-### Live paid-brief build guard
+### Public build and hosting assembly
 
-While the opening-round paid brief is active, `npm run build` refuses to create a deployable
-export unless `PB_BRIEF_CHECKOUT_URL` is a valid HTTPS `buy.stripe.com` Payment Link. The two
-deploying workflows pass the `PB_BRIEF_*` repository secrets into their Build steps and verify the
-rendered export after `next build`; configure those secrets before merging or forcing a deploy.
-Seller, support and policy values remain build-time secrets so personal data does not enter this
-public repository.
+`npm run build` and `npm run build:ci` perform the same validation, static export and hosting
+assembly. The retired opening-round sample has no checkout and requires no payment-provider
+secret. Both ordinary publishers use `npm run build` and the resulting root `firebase.json`.
 
-The non-deploying CI workflow uses `npm run build:ci` so pull-request artifacts can keep checkout
-closed without weakening the deployable build guard. Only `.github/workflows/ci.yml` may use that
-target, and its output must never be deployed. For a manual hosting deploy, load the same secure
-`PB_BRIEF_*` environment first; otherwise use the `results-sync` `force_deploy` path after its
-repository secrets are configured.
+The committed `config/hosting-mode.json` explicitly selects benchmark mode, preserving the
+current root homepage. `config/firebase-base.json` is the source of the base hosting settings;
+the build assembles `firebase.json` from it. Edit the base, not the generated configuration.
+An invalid or missing mode fails the build before export preparation. A separate product mode
+requires a reviewed service ID and region; adding its assembly support does not activate it.
+For route boundaries, static-file precedence and switching back with a fresh build, see
+[HOSTING-ASSEMBLY.md](HOSTING-ASSEMBLY.md). Never publish an export from a failed build.
 
 ## Manual entry — knockout matches, corrections, fallback (~10 min)
 

@@ -4,6 +4,7 @@ import { modelSlug } from "./prompt";
 export function sitemapRoutes(): string[] {
   const staticRoutes = [
     "/",
+    "/benchmark/",
     "/leagues/",
     "/matches/",
     "/groups/",

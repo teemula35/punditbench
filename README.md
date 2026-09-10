@@ -59,7 +59,7 @@ npx tsc --noEmit
 npm run build:ci
 ```
 
-`build:ci` and `build` produce the same checkout-free public export. The retired opening-round page remains a historical format sample. Links promoting the retired subscription offer have been removed from the homepage, navigation, league pages and matchday pages. Public deploy workflows require no payment-provider secret.
+`build:ci` and `build` validate the same versioned hosting configuration and produce the same checkout-free public export. The committed benchmark mode preserves the current homepage, and the overview is also available at `/benchmark/`. See [hosting assembly](HOSTING-ASSEMBLY.md) for the generated configuration and route boundaries. The retired opening-round page remains a historical format sample. Links promoting the retired subscription offer have been removed from the homepage, navigation, league pages and matchday pages. Public deploy workflows require no payment-provider secret.
 
 Prediction and lock commands can write pre-registration artifacts. Follow [OPS.md](OPS.md) and inspect with `--dry-run`; **`--mock` is not a read-only rehearsal**.
 

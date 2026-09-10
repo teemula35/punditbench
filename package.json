@@ -6,8 +6,8 @@
   "description": "PunditBench — pre-registered LLM football forecasts across five live leagues",
   "scripts": {
     "dev": "next dev",
-    "build": "node --import tsx scripts/prepare-export.ts && next build",
-    "build:ci": "node --import tsx scripts/prepare-export.ts && next build",
+    "build": "node --import tsx scripts/assemble-hosting.ts --validate && node --import tsx scripts/prepare-export.ts && next build && node --import tsx scripts/assemble-hosting.ts",
+    "build:ci": "node --import tsx scripts/assemble-hosting.ts --validate && node --import tsx scripts/prepare-export.ts && next build && node --import tsx scripts/assemble-hosting.ts",
     "start": "next start",
     "test": "vitest run",
     "predict": "node --import tsx scripts/predict.ts",

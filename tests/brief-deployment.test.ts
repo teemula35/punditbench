@@ -33,7 +33,7 @@ describe("current product deployment configuration", () => {
     ) as { scripts: Record<string, string> };
 
     expect(packageJson.scripts.build).toBe(
-      "node --import tsx scripts/prepare-export.ts && next build",
+      "node --import tsx scripts/assemble-hosting.ts --validate && node --import tsx scripts/prepare-export.ts && next build && node --import tsx scripts/assemble-hosting.ts",
     );
     expect(packageJson.scripts["build:ci"]).toBe(packageJson.scripts.build);
     expect(packageJson.scripts.build).not.toContain("validate-opening-round-offer");
