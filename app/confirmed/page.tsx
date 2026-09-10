@@ -35,7 +35,7 @@ export default function ConfirmedPage() {
 
       <section className="flex flex-wrap gap-3 text-sm">
         <Link
-          href="/"
+          href="/benchmark/"
           className="rounded-md border border-emerald-400/40 bg-emerald-400/10 px-4 py-2 font-medium text-emerald-300 hover:bg-emerald-400/20"
         >
           Back to the leaderboard

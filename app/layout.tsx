@@ -41,7 +41,8 @@ export const metadata: Metadata = {
 
 const NAV = [
   { href: "/leagues/", label: "Live leagues" },
-  { href: "/#world-cup-archive", label: "World Cup archive" },
+  { href: "/benchmark/", label: "Benchmark" },
+  { href: "/benchmark/#world-cup-archive", label: "World Cup archive" },
   { href: "/matches/", label: "WC matches" },
   { href: "/groups/", label: "WC groups" },
   { href: "/models/", label: "Models" },
@@ -56,9 +57,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="flex min-h-screen flex-col">
           <header className="border-b border-zinc-800/80 bg-zinc-950/95">
             <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-8 gap-y-2 px-4 py-4 sm:px-6">
-              <Link href="/" className="shrink-0">
+              <a href="/" className="shrink-0">
                 <Wordmark />
-              </Link>
+              </a>
               {/* On phones the nav takes its own full-width row and scrolls
                   horizontally instead of wrapping into a multi-line mess. */}
               <nav

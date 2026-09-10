@@ -40,7 +40,7 @@ describe("homepage information architecture", () => {
   it("makes live leagues primary in navigation and qualifies archive links", () => {
     const source = readSource("app", "layout.tsx");
     const liveLeagues = source.indexOf('{ href: "/leagues/", label: "Live leagues" }');
-    const archive = source.indexOf('{ href: "/#world-cup-archive", label: "World Cup archive" }');
+    const archive = source.indexOf('{ href: "/benchmark/#world-cup-archive", label: "World Cup archive" }');
 
     expect(liveLeagues).toBeGreaterThanOrEqual(0);
     expect(archive).toBeGreaterThan(liveLeagues);
