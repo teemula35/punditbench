@@ -1,0 +1,10 @@
+track: round-by-round (live, real fixtures)
+competition: epl-2026-27
+round: md04
+models: 43
+generated_at: 2026-09-11T10:03:43.848Z
+sha256: 93513327b89d1fc98ff6a439d73b4cbae05e703d6fadcf26d911a079be0349fa
+
+Canonical form v2: JSON array of {slug, model, stage, completed_at, simulated_fixtures?
+(sorted by match), predictions (sorted by match)}, sorted by (slug, stage), no whitespace.
+Recompute with: npm run hash -- --comp epl-2026-27 --round md04

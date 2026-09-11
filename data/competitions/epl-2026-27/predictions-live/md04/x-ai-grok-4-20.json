@@ -1,0 +1,70 @@
+{
+  "model": "x-ai/grok-4.20",
+  "slug": "x-ai-grok-4-20",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-11T10:00:33.642Z",
+  "completed_at": "2026-09-11T10:00:39.030Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1943,
+    "completion_tokens": 163,
+    "total_tokens": 2106,
+    "cost_usd": 0.00270185
+  },
+  "predictions": [
+    {
+      "match": 31,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 32,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 33,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 34,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 35,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 36,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 37,
+      "home_goals": 0,
+      "away_goals": 3
+    },
+    {
+      "match": 38,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 39,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 40,
+      "home_goals": 1,
+      "away_goals": 1
+    }
+  ]
+}

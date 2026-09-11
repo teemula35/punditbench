@@ -1,0 +1,70 @@
+{
+  "model": "microsoft/wizardlm-2-8x22b",
+  "slug": "microsoft-wizardlm-2-8x22b",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-11T10:01:10.974Z",
+  "completed_at": "2026-09-11T10:01:16.541Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1863,
+    "completion_tokens": 187,
+    "total_tokens": 2050,
+    "cost_usd": 0.001271
+  },
+  "predictions": [
+    {
+      "match": 31,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 32,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 33,
+      "home_goals": 1,
+      "away_goals": 3
+    },
+    {
+      "match": 34,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 35,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 36,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 37,
+      "home_goals": 0,
+      "away_goals": 3
+    },
+    {
+      "match": 38,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 39,
+      "home_goals": 1,
+      "away_goals": 0
+    },
+    {
+      "match": 40,
+      "home_goals": 1,
+      "away_goals": 2
+    }
+  ]
+}

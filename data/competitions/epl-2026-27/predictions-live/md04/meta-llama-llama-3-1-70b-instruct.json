@@ -1,0 +1,70 @@
+{
+  "model": "meta-llama/llama-3.1-70b-instruct",
+  "slug": "meta-llama-llama-3-1-70b-instruct",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-11T10:01:06.225Z",
+  "completed_at": "2026-09-11T10:01:07.829Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1821,
+    "completion_tokens": 146,
+    "total_tokens": 1967,
+    "cost_usd": 0.00141624
+  },
+  "predictions": [
+    {
+      "match": 31,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 32,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 33,
+      "home_goals": 1,
+      "away_goals": 3
+    },
+    {
+      "match": 34,
+      "home_goals": 3,
+      "away_goals": 0
+    },
+    {
+      "match": 35,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 36,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 37,
+      "home_goals": 0,
+      "away_goals": 3
+    },
+    {
+      "match": 38,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 39,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 40,
+      "home_goals": 1,
+      "away_goals": 2
+    }
+  ]
+}

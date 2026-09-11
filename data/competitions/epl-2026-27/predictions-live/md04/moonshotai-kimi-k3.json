@@ -1,0 +1,70 @@
+{
+  "model": "moonshotai/kimi-k3",
+  "slug": "moonshotai-kimi-k3",
+  "stage": "md04",
+  "prompt_version": "league-v2",
+  "params": {
+    "temperature": 0
+  },
+  "requested_at": "2026-09-11T09:59:32.579Z",
+  "completed_at": "2026-09-11T10:00:22.403Z",
+  "attempts": 1,
+  "usage": {
+    "prompt_tokens": 1904,
+    "completion_tokens": 1410,
+    "total_tokens": 3314,
+    "cost_usd": 0.0231147
+  },
+  "predictions": [
+    {
+      "match": 31,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 32,
+      "home_goals": 0,
+      "away_goals": 1
+    },
+    {
+      "match": 33,
+      "home_goals": 1,
+      "away_goals": 2
+    },
+    {
+      "match": 34,
+      "home_goals": 3,
+      "away_goals": 1
+    },
+    {
+      "match": 35,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 36,
+      "home_goals": 2,
+      "away_goals": 1
+    },
+    {
+      "match": 37,
+      "home_goals": 0,
+      "away_goals": 2
+    },
+    {
+      "match": 38,
+      "home_goals": 1,
+      "away_goals": 1
+    },
+    {
+      "match": 39,
+      "home_goals": 0,
+      "away_goals": 0
+    },
+    {
+      "match": 40,
+      "home_goals": 1,
+      "away_goals": 1
+    }
+  ]
+}
