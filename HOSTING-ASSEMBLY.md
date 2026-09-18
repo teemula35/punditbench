@@ -12,6 +12,9 @@ Adding the alternative assembly does not switch traffic or deploy anything.
 - `product` requires an explicit Cloud Run service ID and supported region. It forwards
   only the root, explanation/pricing pages, the separate product asset namespace and
   anonymous demo API. Customer APIs and benchmark paths are never forwarded by this assembly.
+- `subpage` uses schema v2 and forwards only `/app` and `/app/**` to an explicitly
+  configured Cloud Run service. It preserves the complete static benchmark, including
+  the root homepage, root RSC payloads, downloads and evidence.
 - Missing, malformed or contradictory configuration fails before export mutation. There
   is no environment-based mode or target fallback. Changing the committed mode requires
   an independently reviewed hosting change and deployment.
@@ -63,6 +66,62 @@ preserve the incoming path and do not inherit static trailing-slash redirects. D
 must separately verify the configured service, response headers and archive anchor behavior.
 
 Tests use synthetic service identifiers and disposable exports; they do not contact a
-service, collect predictions, write results or deploy. Acceptance covers both assembly
+service, collect predictions, write results or deploy. Acceptance covers all assembly
 modes, default byte preservation, exact routing boundaries, root precedence, configuration
 failure and retained benchmark/deep-link/download content.
+
+## Application subpage
+
+The additional mode is explicit and does not change either v1 mode:
+
+```json
+{
+  "schema": "punditbench-hosting.v2",
+  "mode": "subpage",
+  "target": { "serviceId": "example-app", "region": "europe-west1" }
+}
+```
+
+The complete rewrite list is `/app` followed by `/app/**`. There is no root rewrite,
+catch-all, or API route outside this namespace. Firebase forwards the incoming path;
+the destination service must support the `/app` mount, including its browser links,
+assets and API requests. Similarly named paths such as `/application` and `/appx`
+are outside the mount. Hosting's reserved `/__/` paths are not changed.
+
+Every export byte remains intact. An `app` file or directory, even empty, or any
+root `app.*` representation causes assembly to fail before any write. This catches
+static content that would take priority over a rewrite and unexpected framework
+representations. No conflicting file is removed automatically. Returning to benchmark
+mode restores the base configuration without needing to recreate stripped files.
+
+In subpage mode only, the benchmark's global `**` header rule becomes `!/app{,/**}`.
+Firebase documents [negative globs and path braces](https://firebase.google.com/docs/hosting/full-config#rewrites)
+and [header matching before rewrites](https://firebase.google.com/docs/hosting/full-config#headers).
+The application receives its own no-store, no-referrer, nosniff, frame-denial,
+permissions, CSP and COOP headers. Its default CSP permits same-origin resources
+only, without inline-script exceptions; COOP is `same-origin`. Benchmark header
+values and the static asset/download rules remain unchanged. This avoids relying
+on overlapping benchmark and application CSP or COOP headers being overwritten.
+
+An optional top-level `authDomain`, for example `example-project.firebaseapp.com`,
+selects the Firebase Google popup policy. It must be an explicit lowercase DNS
+hostname, with no scheme, port, path, wildcard or IP address. This is public browser
+configuration, not a credential. It does not configure or enable authentication.
+The selected Firebase project, enabled Google provider, authorized origin and chosen
+auth domain must be verified separately, as described in the
+[Firebase Google sign-in documentation](https://firebase.google.com/docs/auth/web/google-signin).
+
+With `authDomain`, the application CSP additionally permits scripts from
+`https://apis.google.com`, connections to `https://identitytoolkit.googleapis.com`,
+`https://securetoken.googleapis.com` and the exact HTTPS auth domain, and frames from
+that exact domain. It allows no wildcard, inline or eval source. COOP becomes
+`same-origin-allow-popups` for popup communication; see Google's
+[popup COOP guidance](https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#cross_origin_opener_policy).
+This policy is for a bundled Firebase Authentication client; it does not permit
+the separately hosted Google Identity Services or Firebase CDN SDKs. A service with
+different resource needs requires a separately reviewed policy change.
+
+Before activation, verify the destination service and same-origin browser behavior,
+the assembled rewrites and headers, preserved benchmark/evidence routes, and an
+authenticated flow if configured. Adding this assembler does not make those live
+checks pass or change the committed benchmark configuration.

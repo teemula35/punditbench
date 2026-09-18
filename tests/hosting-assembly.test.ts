@@ -7,6 +7,7 @@ import { assembleHostingExport, parseHostingMode, renderHostingConfiguration } f
 const base = fs.readFileSync(path.join(process.cwd(), "config", "firebase-base.json"), "utf8");
 const benchmark = '{"schema":"punditbench-hosting.v1","mode":"benchmark"}';
 const product = '{"schema":"punditbench-hosting.v1","mode":"product","target":{"serviceId":"example-site","region":"europe-west1"}}';
+const subpage = '{"schema":"punditbench-hosting.v2","mode":"subpage","target":{"serviceId":"example-app","region":"europe-west1"}}';
 const roots: string[] = [];
 function fixture(): string {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "pb-hosting-test-")); roots.push(root);
@@ -124,5 +125,94 @@ describe("ordinary export assembly", () => {
     expect(commands.build).toBe("node --import tsx scripts/assemble-hosting.ts --validate && node --import tsx scripts/prepare-export.ts && next build && node --import tsx scripts/assemble-hosting.ts");
     expect(commands["build:ci"]).toBe(commands.build);
     for (const name of ["results-sync", "predict-scheduler"]) expect(fs.readFileSync(`.github/workflows/${name}.yml`, "utf8")).toContain("run: npm run build");
+  });
+});
+
+describe("subpage export assembly", () => {
+  it("routes only the explicit application namespace and preserves every exported byte", () => {
+    const root = fixture(), before = files(root);
+    fs.writeFileSync(path.join(root, "config", "hosting-mode.json"), subpage);
+    assembleHostingExport(root);
+    expect(files(root)).toEqual(before);
+    const configuration = JSON.parse(fs.readFileSync(path.join(root, "firebase.json"), "utf8"));
+    expect(configuration.hosting.rewrites).toEqual([
+      { source: "/app", run: { serviceId: "example-app", region: "europe-west1" } },
+      { source: "/app/**", run: { serviceId: "example-app", region: "europe-west1" } },
+    ]);
+    expect(configuration.firestore).toEqual(JSON.parse(base).firestore);
+    expect(configuration.hosting.public).toBe("out");
+    expect(configuration.hosting.trailingSlash).toBe(true);
+    expect(configuration.hosting.ignore).toEqual(JSON.parse(base).hosting.ignore);
+    fs.writeFileSync(path.join(root, "config", "hosting-mode.json"), benchmark);
+    assembleHostingExport(root);
+    expect(files(root)).toEqual(before);
+    expect(fs.readFileSync(path.join(root, "firebase.json"), "utf8")).toBe(base);
+  });
+
+  it.each(["app", "app/index.html", "app/nested/index.txt", "app.html", "app.htm", "app.txt", "app.rsc", "app.unrecognized.txt"])("rejects static precedence collisions before any writes: %s", file => {
+    const root = fixture();
+    fs.writeFileSync(path.join(root, "config", "hosting-mode.json"), subpage);
+    const target = path.join(root, "out", file);
+    fs.mkdirSync(path.dirname(target), { recursive: true }); fs.writeFileSync(target, "collision");
+    const before = files(root), configuration = fs.readFileSync(path.join(root, "firebase.json"), "utf8");
+    expect(() => assembleHostingExport(root)).toThrow("Conflicting hosting export");
+    expect(files(root)).toEqual(before);
+    expect(fs.readFileSync(path.join(root, "firebase.json"), "utf8")).toBe(configuration);
+  });
+
+  it("rejects even an empty application directory but retains similarly named benchmark content", () => {
+    const root = fixture();
+    fs.writeFileSync(path.join(root, "config", "hosting-mode.json"), subpage);
+    for (const file of ["application.html", "appx.txt", "__next.unrecognized.txt", "index.rsc"]) fs.writeFileSync(path.join(root, "out", file), file);
+    const before = files(root);
+    assembleHostingExport(root);
+    expect(files(root)).toEqual(before);
+    fs.mkdirSync(path.join(root, "out", "app"));
+    const configuration = fs.readFileSync(path.join(root, "firebase.json"), "utf8");
+    expect(() => assembleHostingExport(root)).toThrow("Conflicting hosting export");
+    expect(files(root)).toEqual(before);
+    expect(fs.readFileSync(path.join(root, "firebase.json"), "utf8")).toBe(configuration);
+  });
+
+  it.each([undefined, "example-project.firebaseapp.com", "auth.example.com"])("isolates benchmark policies from application headers with authDomain %s", authDomain => {
+    const input = JSON.parse(subpage);
+    if (authDomain !== undefined) input.authDomain = authDomain;
+    const configuration = JSON.parse(renderHostingConfiguration(base, parseHostingMode(JSON.stringify(input))));
+    const original = JSON.parse(base).hosting.headers;
+    expect(configuration.hosting.headers.slice(0, original.length)).toEqual(original.map((entry: { source: string }) =>
+      entry.source === "**" ? { ...entry, source: "!/app{,/**}" } : entry));
+    expect(configuration.hosting.headers.filter((entry: { source: string }) => entry.source === "**")).toEqual([]);
+    for (const source of ["/app", "/app/**"]) {
+      const headers = configuration.hosting.headers.find((entry: { source: string }) => entry.source === source).headers;
+      expect(headers).toContainEqual({ key: "Cache-Control", value: "no-store" });
+      expect(headers).toContainEqual({ key: "Referrer-Policy", value: "no-referrer" });
+      expect(headers).toContainEqual({ key: "X-Content-Type-Options", value: "nosniff" });
+      expect(headers).toContainEqual({ key: "X-Frame-Options", value: "DENY" });
+      expect(headers).toContainEqual({ key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" });
+      expect(headers).toContainEqual({ key: "Cross-Origin-Opener-Policy", value: authDomain ? "same-origin-allow-popups" : "same-origin" });
+      const policy = headers.find((entry: { key: string }) => entry.key === "Content-Security-Policy").value;
+      expect(policy).toBe(authDomain
+        ? `default-src 'none'; script-src 'self' https://apis.google.com; style-src 'self'; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://${authDomain}; frame-src https://${authDomain}; img-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'`
+        : "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'");
+      expect(policy).not.toMatch(/unsafe-inline|unsafe-eval|\*/u);
+    }
+  });
+
+  it.each([
+    subpage.replace("punditbench-hosting.v2", "punditbench-hosting.v1"),
+    subpage.replace('"subpage"', '"product"'),
+    subpage.replace('"subpage"', '"benchmark"'),
+    subpage.replace('"example-app"', '"https://example.com"'),
+    subpage.replace('"europe-west1"', '"unknown"'),
+    subpage.replace('"mode":"subpage"', '"mode":"subpage","path":"/"'),
+    subpage.replace('"mode":"subpage"', '"mode":"subpage","mode":"subpage"'),
+    subpage.replace('"mode"', '"m\\u006fde"'),
+    ...["", "https://auth.example.com", "auth.example.com:443", "auth.example.com/path", "auth.example.com; script-src *", "*.example.com", "AUTH.example.com", "localhost", "127.0.0.1", "[::1]", "example.com.", "-auth.example.com", "auth..example.com", "a".repeat(64) + ".example.com", "a.".repeat(125) + "example.com", null, true].map(authDomain => JSON.stringify({ ...JSON.parse(subpage), authDomain })),
+  ])("rejects incompatible schema and unsafe configuration: %s", value => {
+    expect(() => parseHostingMode(value)).toThrow("Invalid hosting mode");
+  });
+
+  it("does not add authDomain support to either v1 mode", () => {
+    for (const value of [benchmark, product]) expect(() => parseHostingMode(JSON.stringify({ ...JSON.parse(value), authDomain: "auth.example.com" }))).toThrow("Invalid hosting mode");
   });
 });
