@@ -438,6 +438,12 @@
     "away_goals": 1
   },
   {
+    "match": 76,
+    "status": "final",
+    "home_goals": 3,
+    "away_goals": 3
+  },
+  {
     "match": 77,
     "status": "final",
     "home_goals": 3,
