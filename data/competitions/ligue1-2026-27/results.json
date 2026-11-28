@@ -580,5 +580,11 @@
     "status": "final",
     "home_goals": 1,
     "away_goals": 1
+  },
+  {
+    "match": 106,
+    "status": "final",
+    "home_goals": 1,
+    "away_goals": 0
   }
 ]
